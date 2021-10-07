@@ -57,4 +57,11 @@ public class retiredcode : MonoBehaviour
     //    }
     //    coiling = false; //testing - only do one rotation
     //}
+
+    //private Vector3 GetLastAngle(int index)
+    //{
+    //    if (index == 0) return new Vector3(0, 0, 0);
+    //    var last = relativeAngles.Take(index - 1).Last(x => Math.Abs(Math.Round(x.y, 0)) > 0);
+    //    return last;
+    //}
 }

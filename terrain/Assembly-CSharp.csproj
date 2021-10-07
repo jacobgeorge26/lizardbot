@@ -53,8 +53,9 @@
     <UnityVersion>2020.3.19f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\Move.cs" />
     <Compile Include="Assets\retiredcode.cs" />
+    <Compile Include="Assets\Move.cs" />
+    <Compile Include="Assets\JointSetup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
