@@ -13,17 +13,17 @@ public class Move : MonoBehaviour
     public GameObject Camera;
     bool coiling = true;
     bool uncoiling = true;
-    int testcount = 6;
     
     private Vector3[] relativeAngles;
-    private int iterations = 0;
+    private int iterations = 10;
 
-    //TO DO: convert to JointSetup when
+    //TO DO: convert to JointSetup where:
     private double coilAngle = 10;
     private readonly double maxAngle = 60;
     private bool[] Locked = { false, true, false, true };
 
     // Start is called before the first frame update
+    //TO DO: calculate centre of gravity
     void Start()
     {
     }
@@ -37,7 +37,6 @@ public class Move : MonoBehaviour
             coiling = true;
             uncoiling = true;
             iterations--;
-            testcount = 6;
         }
         if (coiling) Coil();
         else if (uncoiling) Uncoil();
@@ -50,11 +49,8 @@ public class Move : MonoBehaviour
     private void Coil()
     {
         relativeAngles = GetRelativeRotations();
-        Debug.Log("----Start Coil-------");
-        printRelativeAngles();
 
         ToggleBodyLock(0, true, LockOption.Backward);
-
 
         for (int index = 0; index < Joints.Count; index++)
         {
@@ -64,27 +60,26 @@ public class Move : MonoBehaviour
             {
                 double angle = index == 0 ? coilAngle : -1 * coilAngle;
                 joint.transform.localEulerAngles = new Vector3(0, joint.transform.localEulerAngles.y + (float)angle, 0);
-                System.Threading.Thread.Sleep(100);              
+                System.Threading.Thread.Sleep(25);              
             }  
         }
+
         ToggleBodyLock(0, false, LockOption.Backward);
 
         relativeAngles = GetRelativeRotations();
-        printRelativeAngles();
 
         coiling = Math.Abs(Math.Round(relativeAngles[0].y, 0)) < maxAngle;
+
         if (!coiling)
         {
             RecalibrateJoints();
         }
+
+
     }
 
     private void Uncoil()
     {     
-        relativeAngles = GetRelativeRotations();
-        Debug.Log("----Start Uncoil-------");
-        printRelativeAngles();
-
         ToggleBodyLock(Joints.Count - 1, true, LockOption.Forward);
 
         for (int index = Joints.Count - 1; index >= 0; index--)
@@ -94,29 +89,24 @@ public class Move : MonoBehaviour
             //TO DO: remove the index logic
             if(index % 2 == 0)
             {
-                if (index == 1 || index == 3)
-                {
-                    Debug.LogError("index is being rotated that shouldn't be");
-                }
                 double angle = index == 0 ?  coilAngle : -1 * coilAngle;
                 joint.transform.localEulerAngles = new Vector3(0, joint.transform.localEulerAngles.y + (float)angle, 0);
-                System.Threading.Thread.Sleep(100);
+                System.Threading.Thread.Sleep(25);
              
             }
 
         }
-        ToggleBodyLock(Joints.Count - 1, false, LockOption.Forward);
+        ToggleBodyLock(Joints.Count - 1, false, LockOption.Forward);     
 
         relativeAngles = GetRelativeRotations();
-        printRelativeAngles();
-        testcount--;
 
-        uncoiling = testcount > 0;
-        //uncoiling = Math.Abs(Math.Round(relativeAngles[1].y, 0)) - Math.Abs(Math.Round(relativeAngles[0].y, 0)) < 0;
+        uncoiling = relativeAngles.Any(j => Math.Round(j.y, 0) != 0);
+
         if (!uncoiling)
         {
             RecalibrateJoints();
         }
+
     }
 
     //TO DO: update for 3D recal
@@ -125,8 +115,19 @@ public class Move : MonoBehaviour
         for (int index = 0; index < Joints.Count; index++)
         {
             GameObject joint = Joints[index];
-            double recalAngle = 180 - relativeAngles[index].y;
-            recalAngle -= recalAngle > 180 ? 180 : 0;
+            double recalAngle = 0;        
+            if (!Locked[index])
+            {
+                if (uncoiling && !coiling)
+                {
+                    recalAngle = maxAngle; //turn again such that after the next turn it will be facing toward the coupled section
+                    recalAngle *= index == 0 ? -1 : 1; //which direction should it turn
+                }
+            }
+            else
+            {
+                recalAngle = Math.Round(relativeAngles[index].y, 0) > 0 ? 180 : -180;
+            }
             joint.transform.Rotate(0, (float)recalAngle, 0);
         }
     }
@@ -154,7 +155,8 @@ public class Move : MonoBehaviour
             if (!Locked[index]) //this joint is not locked and will be rotating
             {
                 rotations[index] = joint.transform.localRotation.eulerAngles;
-                rotations[index].y -= rotations[index].y > 180 ? 360 : 0;
+                //rotations[index].y -= Math.Round(rotations[index].y, 0) > 180 ? 360 : 0;
+                //rotations[index].y += Math.Round(rotations[index].y, 0) < -180 ? 360 : 0;
                 if (Math.Round(last.y, 0) != Math.Round(rotations[index].y, 0))
                 {
                     var temp = last; //need to store last as the eulerAngle not relative angle
