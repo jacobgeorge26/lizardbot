@@ -19,8 +19,8 @@ public class Move : MonoBehaviour
 
     //TO DO: convert to JointSetup where:
     private double coilAngle = 10;
-    private readonly double maxAngle = 45;
-    private bool[] Locked = { false, true, false, true };
+    private readonly double maxAngle = 60;
+    private bool[] Locked = { false, false, false, true };
 
     // Start is called before the first frame update
     //TO DO: calculate centre of gravity
@@ -56,7 +56,7 @@ public class Move : MonoBehaviour
         {
             GameObject joint = Joints[index];
 
-            if (index % 2 == 0)
+            if (!Locked[index])
             {
                 double angle = index == 0 ? coilAngle : -1 * coilAngle;
                 joint.transform.localEulerAngles = new Vector3(0, joint.transform.localEulerAngles.y + (float)angle, 0);
@@ -86,8 +86,7 @@ public class Move : MonoBehaviour
         {
             GameObject joint = Joints[index];
 
-            //TO DO: remove the index logic
-            if(index % 2 == 0)
+            if(!Locked[index])
             {
                 double angle = index == 0 ?  coilAngle : -1 * coilAngle;
                 joint.transform.localEulerAngles = new Vector3(0, joint.transform.localEulerAngles.y + (float)angle, 0);
@@ -99,8 +98,9 @@ public class Move : MonoBehaviour
         ToggleBodyLock(Joints.Count - 1, false, LockOption.Forward);     
 
         relativeAngles = GetRelativeRotations();
+        printRelativeAngles();
 
-        uncoiling = relativeAngles.Any(j => Math.Round(j.y, 0) != 0);
+        uncoiling = relativeAngles.Any(j => Math.Abs(Math.Round(j.y, 0)) >= coilAngle);
 
         if (!uncoiling)
         {
@@ -155,8 +155,8 @@ public class Move : MonoBehaviour
             if (!Locked[index]) //this joint is not locked and will be rotating
             {
                 rotations[index] = joint.transform.localRotation.eulerAngles;
-                //rotations[index].y -= Math.Round(rotations[index].y, 0) > 180 ? 360 : 0;
-                //rotations[index].y += Math.Round(rotations[index].y, 0) < -180 ? 360 : 0;
+                rotations[index].y -= Math.Round(rotations[index].y, 0) > 180 ? 360 : 0;
+                rotations[index].y += Math.Round(rotations[index].y, 0) < -180 ? 360 : 0;
                 if (Math.Round(last.y, 0) != Math.Round(rotations[index].y, 0))
                 {
                     var temp = last; //need to store last as the eulerAngle not relative angle
