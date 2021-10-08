@@ -19,7 +19,7 @@ public class Move : MonoBehaviour
 
     //TO DO: convert to JointSetup where:
     private double coilAngle = 10;
-    private readonly double maxAngle = 60;
+    private readonly double maxAngle = 45;
     private bool[] Locked = { false, true, false, true };
 
     // Start is called before the first frame update
