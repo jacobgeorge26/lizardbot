@@ -2188,11 +2188,10 @@ MonoBehaviour:
   - {fileID: 518859241}
   - {fileID: 863236805}
   - {fileID: 646385102}
-  Camera: {fileID: 963194225}
   coilAngle: 10
   maxAngle: 60
   Locked: 00010001
-  Direction: 00000000
+  Direction: 01000000
 --- !u!54 &2111029992
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -16,8 +16,6 @@ public class Move : MonoBehaviour
     private List<GameObject> Joints;
     [SerializeField]
     private List<GameObject> Sections;
-    [SerializeField]
-    private GameObject Camera;
  
    //Calculated
     private Vector3[] relativeAngles;
@@ -42,7 +40,7 @@ public class Move : MonoBehaviour
     //testing variables
     bool coiling = true;
     bool uncoiling = true;
-    int iterations = 1;
+    int iterations = 10;
     int sleeptime = 25;
 
 
@@ -137,6 +135,7 @@ public class Move : MonoBehaviour
         if (!uncoiling)
         {
             RecalibrateJoints();
+
             Debug.Log("-----Coiling-----");
         }
 
@@ -159,7 +158,7 @@ public class Move : MonoBehaviour
             }
             else
             {
-                recalAngle = Math.Round(relativeAngles[index].y, 0) > 0 ? 180 : -180;
+                recalAngle = Math.Round(relativeAngles[index].y, 0) > 0 ? relativeAngles[index].y * -1 : 0;
             }
             joint.transform.Rotate(0, (float)recalAngle, 0);
             System.Threading.Thread.Sleep(sleeptime);
@@ -194,12 +193,17 @@ public class Move : MonoBehaviour
 
     private void ToggleBodyLock(int bodyIndex, bool lockBody, LockOption direction)
     {
+        //validation
+        if (bodyIndex < 0 || bodyIndex >= Joints.Count)
+        {
+            Debug.LogError($"Index {bodyIndex} is out of range in ToggleBodyLock");
+        }
+
         if (direction == LockOption.Backward)
         {
             for (int index = bodyIndex; index < Joints.Count; index++)
             {
-                Joints[index].transform.parent = index == 0 && lockBody ? Head.transform : this.transform;
-                Joints[index].transform.parent = index > 0 && lockBody ? Sections[index - 1].transform : this.transform;
+                Joints[index].transform.parent = lockBody ? (index == 0 ? Head.transform : Sections[index - 1].transform) : this.transform;
                 Sections[index].transform.parent = lockBody ? Joints[index].transform : this.transform;
             }
         }
