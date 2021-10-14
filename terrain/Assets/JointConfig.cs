@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Body
+namespace Config
 {
     public class JointConfig : MonoBehaviour
     {
@@ -18,3 +18,4 @@ namespace Body
 
     }
 }
+
