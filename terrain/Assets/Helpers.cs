@@ -15,14 +15,19 @@ namespace Helpers
 
     public class BodyHelpers : BodyConfig
     {
-        public void printRelativeAngles(Vector3[] relativeAngles)
+        protected double AbsRnd(float angle)
+        {
+            return Math.Abs(Math.Round(angle, 0));
+        }
+
+        protected void printRelativeAngles(Vector3[] relativeAngles)
         {
             string message = "";
             relativeAngles.ToList().ForEach(j => message += $"{j.y.ToString("N0")};    ");
             Debug.Log(message);
         }
 
-        protected void ToggleBodyLock(int bodyIndex, bool lockBody, LockOption direction)
+        protected IEnumerator ToggleBodyLock(int bodyIndex, bool lockBody, LockOption direction)
         {
             //validation
             if (bodyIndex < 0 || bodyIndex >= Joints.Count)
@@ -47,6 +52,7 @@ namespace Helpers
                 }
                 Head.transform.parent = lockBody ? Joints[0].transform : this.transform;
             }
+            yield return null;
         }
 
         //MUST be locked to work
@@ -65,6 +71,16 @@ namespace Helpers
                 }
             }
             return rotations;
+        }
+
+
+        protected Vector3 GetAngle(GameObject joint)
+        {
+            Vector3 angle = new Vector3(0, 0, 0);
+                angle = joint.transform.localEulerAngles;
+                angle.y -= Math.Round(angle.y, 0) > 180 ? 360 : 0;
+                angle.y += Math.Round(angle.y, 0) < -180 ? 360 : 0;
+                return angle;
         }
 
 

@@ -8,7 +8,10 @@ public class CameraPosition : MonoBehaviour
     private Camera cam;
 
     [SerializeField]
-    private GameObject robot;
+    private GameObject head;
+
+    [SerializeField]
+    private GameObject tail;
 
     private float offset = 5;
 
@@ -20,7 +23,8 @@ public class CameraPosition : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 robotInfo = robot.transform.position;
-        cam.transform.position = new Vector3(0, robotInfo.y + offset, robotInfo.z);
+        Vector3 headInfo = head.transform.position;
+        Vector3 tailInfo = tail.transform.position;
+        cam.transform.position = new Vector3((headInfo.x + tailInfo.x)/2, (headInfo.y + tailInfo.y)/2 + offset, (headInfo.z + tailInfo.z)/2 - offset/2);
     }
 }
