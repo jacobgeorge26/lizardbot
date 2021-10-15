@@ -19,11 +19,6 @@ namespace Config
         //TO DO: convert to JointSetup where:
         [Header("Joint Setup")]
         [SerializeField]
-        [Range(5, 20)]
-        protected double coilAngle;
-
-        [SerializeField]
-
         [Range(5, 60)]
         protected double maxAngle;
 
@@ -37,7 +32,7 @@ namespace Config
         // Start is called before the first frame update
         void Start()
         {
-
+          
         }
 
         // Update is called once per frame

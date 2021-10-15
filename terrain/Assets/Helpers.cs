@@ -39,7 +39,8 @@ namespace Helpers
             {
                 for (int index = bodyIndex; index < Joints.Count; index++)
                 {
-                    Joints[index].transform.parent = lockBody ? (index == 0 ? Head.transform : Sections[index - 1].transform) : this.transform;
+                    Joints[index].transform.parent = (index == 0 ? Head.transform : Sections[index - 1].transform);
+                    //Joints[index].transform.parent = lockBody ? (index == 0 ? Head.transform : Sections[index - 1].transform) : this.transform;
                     Sections[index].transform.parent = lockBody ? Joints[index].transform : this.transform;
                 }
             }

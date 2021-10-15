@@ -6,15 +6,27 @@ namespace Config
 {
     public class JointConfig : MonoBehaviour
     {
-        public bool IsLocked { get; set; } = false;
-        public Vector3 RelativeAngle { get; set; }
-        public int MaxAngle { get; set; } = 45;
+        [Header("Game Objects")]
+        [SerializeField]
+        protected GameObject Joint;
 
-        public int CoilAngle { get; set; } = 10;
+        [SerializeField]
+        protected GameObject PreviousSection;
 
-        public GameObject PreviousSection { get; set; }
+        [SerializeField]
+        protected GameObject NextSection;
 
-        public GameObject NextSection { get; set; }
+        [Header("Joint Setup")]
+        [SerializeField]
+        protected bool IsLocked;
+
+        [SerializeField]
+        protected bool IsClockwise;
+
+        [SerializeField]
+        protected int MaxAngle;
+
+        protected Vector3 RelativeAngle;
 
     }
 }

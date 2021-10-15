@@ -55,10 +55,11 @@
   <ItemGroup>
     <Compile Include="Assets\BodyConfig.cs" />
     <Compile Include="Assets\retiredcode.cs" />
+    <Compile Include="Assets\JointConfig.cs" />
+    <Compile Include="Assets\Helpers.cs" />
     <Compile Include="Assets\CameraPosition.cs" />
     <Compile Include="Assets\Move.cs" />
-    <Compile Include="Assets\Helpers.cs" />
-    <Compile Include="Assets\JointConfig.cs" />
+    <Compile Include="Assets\MoveJoint.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
