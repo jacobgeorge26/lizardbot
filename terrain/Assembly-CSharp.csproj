@@ -53,14 +53,14 @@
     <UnityVersion>2020.3.19f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\BodyConfig.cs" />
-    <Compile Include="Assets\retiredcode.cs" />
-    <Compile Include="Assets\JointConfig.cs" />
-    <Compile Include="Assets\MoveJoint.cs" />
-    <Compile Include="Assets\Helpers.cs" />
-    <Compile Include="Assets\CameraPosition.cs" />
-    <Compile Include="Assets\Move.cs" />
-    <Compile Include="Assets\JointSetup.cs" />
+    <Compile Include="Assets\Scripts\BodyConfig.cs" />
+    <Compile Include="Assets\Scripts\JointSetup.cs" />
+    <Compile Include="Assets\Scripts\retiredcode.cs" />
+    <Compile Include="Assets\Scripts\JointConfig.cs" />
+    <Compile Include="Assets\Scripts\MoveJoint.cs" />
+    <Compile Include="Assets\Scripts\Helpers.cs" />
+    <Compile Include="Assets\Scripts\CameraPosition.cs" />
+    <Compile Include="Assets\Scripts\Move.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
