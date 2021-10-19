@@ -18,7 +18,6 @@ public class Move : BodyHelpers
     //testing variables
     bool coiling = true;
     MoveState state = MoveState.Lock;
-    int iterations = 0;
 
     private void Start()
     {
@@ -64,11 +63,10 @@ public class Move : BodyHelpers
 
             case MoveState.Recalibrate:
                 RecalibrateJoints();
-                //ToggleDirection();
+                if (coiling) ToggleDirection();                
 
                 state = MoveState.Lock;
                 coiling = !coiling;
-                iterations++;
                 break;
         }
     }
@@ -163,16 +161,11 @@ public class Move : BodyHelpers
     private IEnumerator RotateJoint(GameObject joint, double angle)
     {
         float moveSpeed = 0.0005f;
-        while ((angle > 0 && joint.transform.localEulerAngles.y < angle) || (angle < 0 && joint.transform.localEulerAngles.y > angle) || (angle == 0 && joint.transform.localEulerAngles.y != 0))
+        Vector3 currentAngle = GetAngle(joint);
+        while ((angle > 0 && currentAngle.y < angle) || (angle < 0 && currentAngle.y > angle) || (angle == 0 && currentAngle.y != 0))
         {
-            Quaternion deltaRotation = Quaternion.Euler(new Vector3(0, (float)angle, 0) * Time.fixedDeltaTime);
-            Rigidbody rigidbody = joint.GetComponent<Rigidbody>();
-            //rigidbody.MoveRotation(rigidbody.rotation * deltaRotation);
-            //joint.transform.rotation = rigidbody.rotation;
-
-            //rigidbody.transform.localRotation = Quaternion.Lerp(rigidbody.transform.localRotation, Quaternion.Euler(0, (float)angle, 0), moveSpeed);
-
             joint.transform.localRotation = Quaternion.Lerp(joint.transform.localRotation, Quaternion.Euler(0, (float)angle, 0), moveSpeed);
+
             yield return null;
             if (state != MoveState.Rotate) yield break;
         }
