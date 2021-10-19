@@ -24,48 +24,71 @@ public class MoveJoint : JointConfig
         switch (state)
         {
             case MoveState.Lock:
-                if (IsCoiling)
-                {
-                    StartCoroutine(ToggleJointLock(true, LockOption.Backward));
-                }
-                else
-                {
-                   StartCoroutine(ToggleJointLock(true, LockOption.Forward));
-                }
-                StoreAngle();
+                if (IsCoiling) StartCoroutine(ToggleJointLock(true, LockOption.Backward));
+                else StartCoroutine(ToggleJointLock(true, LockOption.Forward));
                 state = MoveState.Rotate;
                 break;
+
             case MoveState.Rotate:
-                Coil();
-                //state is updated in coil / uncoil
+                Coil(); //state is updated in coil / uncoil
                 break;
             case MoveState.Unlock:
-                StoreAngle();
-
+                if (IsCoiling) StartCoroutine(ToggleJointLock(false, LockOption.Backward));
+                else StartCoroutine(ToggleJointLock(false, LockOption.Forward));
+                state = MoveState.Recalibrate;
                 break;
             case MoveState.Recalibrate:
+                RecalibrateJoint();
+                IsClockwise = IsCoiling ? !IsClockwise : IsClockwise; //change direction next time
+                state = MoveState.Lock;
+                IsCoiling = !IsCoiling;
                 break;
         }
+    }
+
+    private void RecalibrateJoint()
+    {
+        double recalAngle = 0;
+        Vector3 currentAngle = GetRelativeAngle();
+
+        double rndAngle = Math.Round(currentAngle.y); //rnd version of currentAngle.y
+
+        //validation
+        //there's been a bug and this joint is rotated when it shouldn't be
+        if (IsLocked && rndAngle > 0) Debug.LogWarning($"Joint {Joint.name} was rotated when it is locked");
+        //there's been a bug and this joint isn't rotated as it should be
+        if (IsCoiling && !IsLocked && Math.Abs(rndAngle) - Math.Abs(MaxAngle) > 1) Debug.LogWarning($"Joint {Joint.name} has y rotation {rndAngle} after coiling when max angle is {MaxAngle}");
+
+        //return the angle to relative angle 0
+        //this will correspond to the angle * -1 when it locks the other way in a moment
+        recalAngle = currentAngle.y * -1;
+
+        //if locked then flip it round so that it faces the other section
+        //helps with debugging
+        recalAngle += IsLocked ? 180 : 0;
+
+        Joint.transform.Rotate(0, (float)recalAngle, 0);
     }
 
     private void Coil()
     {
         bool stillRotating = false;
-        double absrnd_y = AbsRnd(RelativeAngle.y);
+        Vector3 currentAngle = GetRelativeAngle(false, true); //rounded & !absolute
+        double absrndAngle = Math.Abs(currentAngle.y); //abs version of currentAngle
 
         //validation
-        if (IsLocked && absrnd_y != 0 && absrnd_y != 180) Debug.LogError($"Joint {Joint.name} is locked but has y rotation {Rnd(RelativeAngle.y)}");
-        if (!IsLocked && absrnd_y > MaxAngle) Debug.LogError($"Joint {Joint.name} has y rotation {Rnd(RelativeAngle.y)} while the max angle is {MaxAngle}");
+        if (IsLocked && absrndAngle != 0 && absrndAngle != 180) Debug.LogError($"Joint {Joint.name} is locked but has y rotation {currentAngle.y}");
+        if (!IsLocked && absrndAngle > MaxAngle) Debug.LogError($"Joint {Joint.name} has y rotation {currentAngle.y} while the max angle is {MaxAngle}");
 
         if (!IsLocked)
         {
-            if (IsCoiling && absrnd_y < MaxAngle) //joint needs coiling
+            if (IsCoiling && absrndAngle < MaxAngle) //joint needs coiling
             {
                 stillRotating = true;
                 double turnAngle = IsClockwise ? MaxAngle : MaxAngle * -1; //coiling clockwise or anticlockwise
                 StartCoroutine(RotateJoint(turnAngle));
             }
-            else if (!IsCoiling && absrnd_y > 0) //joint needs uncoiling
+            else if (!IsCoiling && absrndAngle > 0) //joint needs uncoiling
             {
                 stillRotating = true;
                 double turnAngle = 0;
@@ -75,13 +98,51 @@ public class MoveJoint : JointConfig
         state = stillRotating ? MoveState.Rotate : MoveState.Unlock;        
     }
 
-    //angle = final angle
-    private IEnumerator RotateJoint(double angle)
+    //return angle relative to body. Will be zero if locked
+    public Vector3 GetRelativeAngle(bool abs = false, bool round = false)
     {
-        float moveSpeed = 0.0005f;
-        while ((angle > 0 && Joint.transform.localEulerAngles.y < angle) || (angle < 0 && Joint.transform.localEulerAngles.y > angle) || (angle == 0 && Joint.transform.localEulerAngles.y != 0))
+        Vector3 angle = new Vector3(0, 0, 0);
+
+        //angle should remain 0 for relativity if locked
+        angle = IsLocked ? angle : Joint.transform.localEulerAngles;
+
+        //update for range -180 - 180
+        angle.x -= Math.Round(angle.x, 0) > 180 ? 360 : 0;
+        angle.y -= Math.Round(angle.y, 0) > 180 ? 360 : 0;
+        angle.z -= Math.Round(angle.z, 0) > 180 ? 360 : 0;
+
+        angle.x += Math.Round(angle.x, 0) < -180 ? 360 : 0;
+        angle.y += Math.Round(angle.y, 0) < -180 ? 360 : 0;
+        angle.z += Math.Round(angle.z, 0) < -180 ? 360 : 0;
+
+        //if opted to then absolute &| round the angles
+        angle = round ? new Vector3((float)Math.Round(angle.x, 0), (float)Math.Round(angle.y, 0), (float)Math.Round(angle.z, 0)) : angle;
+        angle = abs ? new Vector3((float)Math.Abs(angle.x), (float)Math.Abs(angle.y), (float)Math.Abs(angle.z)) : angle;
+
+        return angle;
+    }
+
+    //return actual angles - not relative to body
+    public Vector3 GetAngle(bool abs = false, bool round = false)
+    {
+        Vector3 angle = Joint.transform.localEulerAngles;
+
+        //if opted to then absolute &| round the angles
+        angle = round ? new Vector3((float)Math.Round(angle.x, 0), (float)Math.Round(angle.y, 0), (float)Math.Round(angle.z, 0)) : angle;
+        angle = abs ? new Vector3((float)Math.Abs(angle.x), (float)Math.Abs(angle.y), (float)Math.Abs(angle.z)) : angle;
+
+        return angle;
+    }
+
+    //use lerp to rotate joint to target angle 
+    //NOTE - uses relative angles!
+    private IEnumerator RotateJoint(double targetAngle)
+    {
+        float moveSpeed = 0.005f;
+        Vector3 currentAngle = GetRelativeAngle();
+        while ((targetAngle > 0 && currentAngle.y < targetAngle) || (targetAngle < 0 && currentAngle.y > targetAngle) || (targetAngle == 0 && currentAngle.y != 0))
         {
-            Joint.transform.localRotation = Quaternion.Lerp(Joint.transform.localRotation, Quaternion.Euler(0, (float)angle, 0), moveSpeed);
+            Joint.transform.localRotation = Quaternion.Lerp(Joint.transform.localRotation, Quaternion.Euler(0, (float)targetAngle, 0), moveSpeed);
             yield return null;
             if (state != MoveState.Rotate) yield break;
         }
@@ -114,27 +175,5 @@ public class MoveJoint : JointConfig
     {
         Forward = 0,
         Backward = 1
-    }
-
-    private double AbsRnd(float angle)
-    {
-        return Math.Abs(Math.Round(angle, 0));
-    }
-
-    private double Rnd(float angle)
-    {
-        return Math.Round(angle, 0);
-    }
-
-    private void StoreAngle()
-    {
-        RelativeAngle = new Vector3();
-        if (!IsLocked) //this joint is not locked and will be rotating
-        {
-            RelativeAngle = Joint.transform.localEulerAngles;
-            RelativeAngle.y -= Rnd(RelativeAngle.y) > 180 ? 360 : 0;
-            RelativeAngle.y += Rnd(RelativeAngle.y) < -180 ? 360 : 0;
-
-        }
     }
 }

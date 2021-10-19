@@ -160,7 +160,7 @@ public class Move : BodyHelpers
     //angle = final angle
     private IEnumerator RotateJoint(GameObject joint, double angle)
     {
-        float moveSpeed = 0.0005f;
+        float moveSpeed = 0.00005f;
         Vector3 currentAngle = GetAngle(joint);
         while ((angle > 0 && currentAngle.y < angle) || (angle < 0 && currentAngle.y > angle) || (angle == 0 && currentAngle.y != 0))
         {

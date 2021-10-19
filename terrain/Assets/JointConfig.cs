@@ -26,7 +26,6 @@ namespace Config
         [SerializeField]
         protected int MaxAngle;
 
-        protected Vector3 RelativeAngle;
 
     }
 }
