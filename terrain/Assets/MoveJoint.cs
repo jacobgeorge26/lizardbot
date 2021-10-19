@@ -7,18 +7,29 @@ using Config;
 
 public class MoveJoint : JointConfig
 {
+    //To Do: move to a BaseConfig / controller setup for parameters applicable to the whole robot
     //Parameters
     [SerializeField]
     private bool stepUncoil;
 
-    //testing variables
+    //variables that indicate which stage in coiling/uncoiling the joint is currently in
     private bool IsCoiling = true;
     private MoveState state = MoveState.Lock;
 
     void Start()
     {        
-    }
 
+    }
+    /* 
+    * The joint goes through stages whereby it is:
+    * Locking / unlocking the joints.
+    *       this determines which section it is locked in to - this will affect whether any rotation pulls or pushes the body forward
+    * Rotating.
+    *       this uses lerp to rotate the joint smoothly and will continue until the relative angle is at the max angle / back to zero
+    * Recalibrating
+    *       this accounts for the fact that the joint inverts when it locks the other way. 
+    *       It needs to flip 180 for locked joints or *-1 for those that need to uncoil    
+    */
     void FixedUpdate()
     {
         switch (state)
@@ -148,6 +159,7 @@ public class MoveJoint : JointConfig
         }
     }
 
+    //should the joint be locked into the section in front of or behind it
     private IEnumerator ToggleJointLock(bool lockBody, LockOption direction)
     {
         if (direction == LockOption.Backward)
