@@ -53,6 +53,7 @@
     <UnityVersion>2020.3.19f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\BodyConfig.cs" />
     <Compile Include="Assets\Scripts\EntireBodyConfig.cs" />
     <Compile Include="Assets\Scripts\JointSetup.cs" />
     <Compile Include="Assets\Scripts\retiredcode.cs" />
@@ -61,9 +62,8 @@
     <Compile Include="Assets\Scripts\MoveJoint.cs" />
     <Compile Include="Assets\Scripts\Helpers.cs" />
     <Compile Include="Assets\Scripts\CameraPosition.cs" />
-    <Compile Include="Assets\Scripts\Move.cs" />
     <Compile Include="Assets\Scripts\MoveBody.cs" />
-    <Compile Include="Assets\Scripts\BodyConfig.cs" />
+    <Compile Include="Assets\Scripts\Move.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\TestAssembly.asmdef" />
