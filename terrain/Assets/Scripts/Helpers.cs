@@ -13,7 +13,7 @@ namespace Helpers
         Backward = 1
     }
 
-    public class BodyHelpers : BodyConfig
+    public class BodyHelpers : EntireBodyConfig
     {
         protected double AbsRnd(float angle)
         {

@@ -655,9 +655,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="NewAssembly.csproj">
-      <Project>{DA472483-FD96-DBA2-30B5-D49CF99BFDB7}</Project>
-      <Name>NewAssembly</Name>
+    <ProjectReference Include="TestAssembly.csproj">
+      <Project>{57B856DB-BA43-9A04-EB61-C9F340ADE194}</Project>
+      <Name>TestAssembly</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

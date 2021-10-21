@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,42 +6,34 @@ namespace Config
 {
     public class BodyConfig : MonoBehaviour
     {
-        //Objects
-        [Header("Game Objects")]
+        //determines whether the joint will be rotating or not
+        [Header("Rotation Setup")]
 
         [SerializeField]
-        protected GameObject Head;
+        protected bool IsRotating;
+
+        //which direction will the joint be updating this iteration
         [SerializeField]
-        protected List<GameObject> Joints;
+        protected bool IsClockwise;
+
+        //what is the max angle of the joint
         [SerializeField]
-        protected List<GameObject> Sections;
+        [Range(0, 60)]
+        protected int MaxAngle;
 
-        //TO DO: convert to JointSetup where:
-        [Header("Joint Setup")]
+        //what is the velocity of the joint e.g. 100 deg/sec
         [SerializeField]
-        [Range(5, 60)]
-        protected double maxAngle;
+        [Range(60, 180)]
+        protected int TurnVelocity;
+
+        [Header("Drive Setup")]
 
         [SerializeField]
-        protected bool[] Locked;
+        protected bool IsDriving;
 
         [SerializeField]
-        protected bool[] Direction; //true = clockwise rotation when coiling
+        [Range(0.1f, 1f)]
+        protected float DriveVelocity;
 
-
-        // Start is called before the first frame update
-        void Start()
-        {
-          
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
     }
-
-
-
 }

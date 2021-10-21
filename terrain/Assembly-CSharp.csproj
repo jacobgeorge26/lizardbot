@@ -53,14 +53,8 @@
     <UnityVersion>2020.3.19f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\BodyConfig.cs" />
-    <Compile Include="Assets\Scripts\JointSetup.cs" />
-    <Compile Include="Assets\Scripts\retiredcode.cs" />
-    <Compile Include="Assets\Scripts\JointConfig.cs" />
-    <Compile Include="Assets\Scripts\MoveJoint.cs" />
-    <Compile Include="Assets\Scripts\Helpers.cs" />
-    <Compile Include="Assets\Scripts\CameraPosition.cs" />
-    <Compile Include="Assets\Scripts\Move.cs" />
+    <Compile Include="Assets\MoveBody.cs" />
+    <Compile Include="Assets\BodyConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -662,6 +656,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Tests.csproj">
+      <Project>{25CA3DCF-F32D-0DD5-98CE-BD3619C2E41E}</Project>
+      <Name>Tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="TestAssembly.csproj">
+      <Project>{57B856DB-BA43-9A04-EB61-C9F340ADE194}</Project>
+      <Name>TestAssembly</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
