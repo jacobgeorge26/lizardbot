@@ -40,6 +40,7 @@ public class MoveBody : BodyConfig
         Quaternion deltaRotation = Quaternion.Euler(angleVelocity * Time.fixedDeltaTime);
         //apply the vector to the body's space and rotate it
         body.MoveRotation(body.rotation * deltaRotation);
+        currentAngle = GetRelativeAngle();
     }
 
     //drive this body section forward
@@ -59,7 +60,7 @@ public class MoveBody : BodyConfig
     {
         Vector3 angle = new Vector3(0, 0, 0);
 
-        //angle should remain 0 for relativity if locked
+        //angle should remain 0 for relativity if not rotating
         angle = IsRotating ? this.transform.localRotation.eulerAngles : angle;
 
         //update for range -180 - 180
