@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8632302643106561851}
   - component: {fileID: 8632302643106561792}
   - component: {fileID: 8632302643106561793}
-  - component: {fileID: 8632302643106561850}
+  - component: {fileID: 6773350843710922880}
   m_Layer: 0
   m_Name: Section
   m_TagString: Untagged
@@ -126,7 +126,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0, z: 0.5}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: 0, z: 0.5}
+  m_ConnectedAnchor: {x: 0, y: -0.25, z: 0.5}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
@@ -210,7 +210,7 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
---- !u!114 &8632302643106561850
+--- !u!114 &6773350843710922880
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -223,8 +223,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsRotating: 0
-  IsClockwise: 0
-  MaxAngle: 30
-  TurnVelocity: 180
+  IsClockwise: 000000
   IsDriving: 0
-  DriveVelocity: 1

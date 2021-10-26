@@ -7,11 +7,8 @@ using Config;
 
 public class MoveBody : BodyConfig
 {
-    //TODO: move to a BaseConfig / controller setup for parameters applicable to the whole robot
-
     private Rigidbody body;
     private Vector3 direction;
-
 
     void Start()
     {        
@@ -22,7 +19,7 @@ public class MoveBody : BodyConfig
     //uses FixedUpdate as recommended for interaction with Unity's physics system
     //will drive and/or rotate as determined in BodyConfig
     void FixedUpdate()
-    {
+    {        
         if (IsDriving) Drive();
         if (IsRotating) Rotate();
     }
@@ -33,9 +30,16 @@ public class MoveBody : BodyConfig
     {
         Vector3 currentAngle = GetRelativeAngle(); //rounded
         //if it's reached the max angle (pos or neg) then reverse direction
-        IsClockwise = IsClockwise ? !(currentAngle.y >= MaxAngle) : currentAngle.y <= MaxAngle * -1; 
+        IsClockwise[0] = IsClockwise[0] ? !(currentAngle.x >= MaxAngle[0]) : currentAngle.x <= MaxAngle[0] * -1;
+        IsClockwise[1] = IsClockwise[1] ? !(currentAngle.y >= MaxAngle[1]) : currentAngle.y <= MaxAngle[1] * -1;
+        IsClockwise[2] = IsClockwise[2] ? !(currentAngle.z >= MaxAngle[2]) : currentAngle.z <= MaxAngle[2] * -1;
         //determine its velocity vector, TurnVelocity is deg/sec and is derived in BodyConfig
-        Vector3 angleVelocity = IsClockwise ? new Vector3(0, TurnVelocity, 0) : new Vector3(0, TurnVelocity * -1, 0);
+        Vector3 angleVelocity = new Vector3();
+        //angleVelocity.x = IsClockwise[0] ? TurnVelocity : TurnVelocity * -1;
+        angleVelocity.x = 0;
+        angleVelocity.y = IsClockwise[1] ? TurnVelocity : TurnVelocity * -1;
+        angleVelocity.z = 0;
+        //angleVelocity.z = IsClockwise[2] ? TurnVelocity : TurnVelocity * -1;
         //convert vector to a quaternion
         Quaternion deltaRotation = Quaternion.Euler(angleVelocity * Time.fixedDeltaTime);
         //apply the vector to the body's space and rotate it

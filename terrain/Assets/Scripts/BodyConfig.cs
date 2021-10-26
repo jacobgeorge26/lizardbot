@@ -15,27 +15,24 @@ namespace Config
 
         //which direction will the joint be updating this iteration
         [SerializeField]
-        public bool IsClockwise;
+        public bool[] IsClockwise;
 
-        //what is the max angle of the joint
-        //lower -> tighter coil
-        [SerializeField]
-        [Range(0, 60)]
-        public int MaxAngle;
-        /*
-         * if you change MaxAngle's limits then check for strange behaviour
-         * if too high it will break expected behvaiour from a physical robot
-         * if negative then just what
-         * if over 180 it will break GetRelativeAngle
-         * so just pls keep it 0 <= x <= 179 at the very least and have a weird robot
-         */
+        private int[] maxAngle;
+        [HideInInspector]
+        public int[] MaxAngle
+        {
+            get { return maxAngle; }
+            set { maxAngle = value; }
+        }
 
-        //what is the velocity of the turn e.g. 100 deg/sec
-        //lower -> tighter coil
-        [SerializeField]
-        [Range(0, 360)]
-        public int TurnVelocity;
-        /*Recommend a velocity around 180*/
+        
+        private int turnVelocity;
+        [HideInInspector]
+        public int TurnVelocity
+        {
+            get { return turnVelocity; }
+            set { turnVelocity = value; }
+        }
 
         /*-------------------------------------------------------------------------------------------------------*/
 
@@ -46,11 +43,13 @@ namespace Config
         [SerializeField]
         public bool IsDriving;
 
-        //how fast should the section move forward
-        //>1 is too fast and can be hard to follow / limit the effects of rotation as it's constantly just bouncing off the terrain
-        [SerializeField]
-        [Range(0f, 1f)]
-        public float DriveVelocity;
-
+        
+        private float driveVelocity;
+        [HideInInspector]
+        public float DriveVelocity
+        {
+            get { return driveVelocity; }
+            set { driveVelocity = value; }
+        }
     }
 }

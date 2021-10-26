@@ -290,8 +290,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsRotating: 1
-  IsClockwise: 1
-  MaxAngle: 30
-  TurnVelocity: 100
+  IsClockwise: 000100
   IsDriving: 1
-  DriveVelocity: 1
