@@ -9,6 +9,7 @@ public class RotateBodyTests
     private GameObject section;
     private MoveBody sectionMS;
     private BodyConfig sectionBC;
+    private GameObject env;
 
     [SetUp]
     public void Init()
@@ -20,7 +21,7 @@ public class RotateBodyTests
 
         sectionBC.MaxAngle = 60;
 
-        MonoBehaviour.Instantiate(Resources.Load<GameObject>("BaseEnv"));
+        env = MonoBehaviour.Instantiate(Resources.Load<GameObject>("BaseEnv"));
     }
 
     [TearDown]
@@ -30,6 +31,7 @@ public class RotateBodyTests
         GameObject.Destroy(section);
         GameObject.Destroy(sectionMS);
         GameObject.Destroy(sectionBC);
+        GameObject.Destroy(env);
     }
 
     //if rotating clockwise it should increase the angle

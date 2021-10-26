@@ -9,6 +9,7 @@ public class DriveBodyTests : MonoBehaviour
     private GameObject section;
     private MoveBody sectionMS;
     private BodyConfig sectionBC;
+    private GameObject env;
 
     [SetUp]
     public void Init()
@@ -18,7 +19,7 @@ public class DriveBodyTests : MonoBehaviour
         sectionMS = section.GetComponent<MoveBody>();
         sectionBC = section.GetComponent<BodyConfig>();
 
-        MonoBehaviour.Instantiate(Resources.Load<GameObject>("BaseEnv"));
+        env = MonoBehaviour.Instantiate(Resources.Load<GameObject>("BaseEnv"));
     }
 
     [TearDown]
@@ -28,6 +29,7 @@ public class DriveBodyTests : MonoBehaviour
         GameObject.Destroy(section);
         GameObject.Destroy(sectionMS);
         GameObject.Destroy(sectionBC);
+        GameObject.Destroy(env);
     }
 
     //if driving then should move forward
