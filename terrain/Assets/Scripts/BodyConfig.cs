@@ -10,29 +10,19 @@ namespace Config
         [Header("Rotation Setup")]
 
         //will this section be rotating (it can rotate AND drive if that is desirable)
-        [SerializeField]
         public bool IsRotating;
 
         //which direction will the joint be updating this iteration
-        [SerializeField]
         public bool[] IsClockwise;
 
-        private int[] maxAngle;
-        [HideInInspector]
-        public int[] MaxAngle
-        {
-            get { return maxAngle; }
-            set { maxAngle = value; }
-        }
+        [Tooltip("It is recommended that the max angle is in range 0 <= x <= 60")]
+        public int[] MaxAngle;
 
-        
-        private int turnVelocity;
-        [HideInInspector]
-        public int TurnVelocity
-        {
-            get { return turnVelocity; }
-            set { turnVelocity = value; }
-        }
+        [Tooltip("Range 0 <= x <= 1")]
+        public float[] TurnRatio;
+
+        [Range(0, 360)]
+        public int TurnVelocity;
 
         /*-------------------------------------------------------------------------------------------------------*/
 
@@ -40,16 +30,9 @@ namespace Config
         [Header("Drive Setup")]
 
         //will this section be driving (it can rotate AND drive if that is desirable)
-        [SerializeField]
         public bool IsDriving;
 
-        
-        private float driveVelocity;
-        [HideInInspector]
-        public float DriveVelocity
-        {
-            get { return driveVelocity; }
-            set { driveVelocity = value; }
-        }
+        [Range(0f, 1f)]
+        public float DriveVelocity;
     }
 }

@@ -35,11 +35,13 @@ public class MoveBody : BodyConfig
         IsClockwise[2] = IsClockwise[2] ? !(currentAngle.z >= MaxAngle[2]) : currentAngle.z <= MaxAngle[2] * -1;
         //determine its velocity vector, TurnVelocity is deg/sec and is derived in BodyConfig
         Vector3 angleVelocity = new Vector3();
-        //angleVelocity.x = IsClockwise[0] ? TurnVelocity : TurnVelocity * -1;
-        angleVelocity.x = 0;
+        angleVelocity.x = IsClockwise[0] ? TurnVelocity : TurnVelocity * -1;
         angleVelocity.y = IsClockwise[1] ? TurnVelocity : TurnVelocity * -1;
-        angleVelocity.z = 0;
-        //angleVelocity.z = IsClockwise[2] ? TurnVelocity : TurnVelocity * -1;
+        angleVelocity.z = IsClockwise[2] ? TurnVelocity : TurnVelocity * -1;
+        //apply power ratio to the angleVelocity
+        angleVelocity.x *= TurnRatio[0];
+        angleVelocity.y *= TurnRatio[1];
+        angleVelocity.z *= TurnRatio[2];
         //convert vector to a quaternion
         Quaternion deltaRotation = Quaternion.Euler(angleVelocity * Time.fixedDeltaTime);
         //apply the vector to the body's space and rotate it

@@ -191,7 +191,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7256667157510425408}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.94000006, z: 1.2}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4735589558046106187}
@@ -291,4 +291,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsRotating: 1
   IsClockwise: 000100
+  MaxAngle: 1e0000003c0000002d000000
+  TurnRatio:
+  - 0.5
+  - 1
+  - 0.5
+  TurnVelocity: 180
   IsDriving: 1
+  DriveVelocity: 1

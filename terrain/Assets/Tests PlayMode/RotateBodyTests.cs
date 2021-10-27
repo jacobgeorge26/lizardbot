@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Config;
 using NUnit.Framework;
@@ -15,14 +16,19 @@ public class RotateBodyTests
     public void Init()
     {
         //setup all objects that the tests will use
+        env = MonoBehaviour.Instantiate(Resources.Load<GameObject>("BaseEnv"));
+
         section = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Section"));
         sectionMS = section.GetComponent<MoveBody>();
         sectionBC = section.GetComponent<BodyConfig>();
 
         sectionBC.MaxAngle = new int [3]{ 0, 60, 0 };
         sectionBC.IsDriving = false;
+        sectionBC.IsClockwise = new bool[3] { false, true, false };
+        sectionBC.TurnVelocity = 180;
+        sectionBC.DriveVelocity = 1f;
 
-        env = MonoBehaviour.Instantiate(Resources.Load<GameObject>("BaseEnv"));
+        
     }
 
     [TearDown]
@@ -58,7 +64,6 @@ public class RotateBodyTests
 
         yield return new WaitForFixedUpdate(); //first one it won't move
         yield return new WaitForFixedUpdate();
-        Debug.Log(sectionMS.GetRelativeAngle());
         Assert.IsTrue(sectionMS.GetRelativeAngle().y < 0);
     }
 
@@ -112,7 +117,7 @@ public class RotateBodyTests
         Assert.IsTrue(sectionBC.IsClockwise[1]);
     }
 
-    //if MaxAngle is 0 then rotate should have no effect
+    //if MaxAngle is 0 then rotate should hover around zero
     [UnityTest]
     public IEnumerator Y_ZeroMaxAngle()
     {
@@ -120,9 +125,8 @@ public class RotateBodyTests
         sectionBC.IsRotating = true;
         sectionBC.MaxAngle = new int[3] { 0, 0, 0 };
 
-        yield return new WaitForFixedUpdate(); //first one it won't move
-        yield return new WaitForFixedUpdate();
-        Assert.AreEqual(sectionMS.GetRelativeAngle(), new Vector3(0, 0, 0));
+        yield return new WaitForSeconds(2); 
+        Assert.IsTrue(Math.Abs(sectionMS.GetRelativeAngle().y) < 5);
     }
 
     //if TurnVelocity is 0 then rotate should have no effect
@@ -135,7 +139,7 @@ public class RotateBodyTests
 
         yield return new WaitForFixedUpdate(); //first one it won't move
         yield return new WaitForFixedUpdate();
-        Assert.AreEqual(sectionMS.GetRelativeAngle(), new Vector3(0, 0, 0));
+        Assert.AreEqual(sectionMS.GetRelativeAngle().y, 0);
     }
 
     //if IsRotating is false then a frame update should have no effect

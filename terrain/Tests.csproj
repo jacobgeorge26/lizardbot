@@ -54,7 +54,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Assets\Tests EditMode\MoveBodyHelperMethodTests.cs" />
-    <Compile Include="Assets\Tests EditMode\MoveJointTests.cs" />
+    <Compile Include="Assets\Tests EditMode\CameraPosTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Tests EditMode\Tests.asmdef" />
