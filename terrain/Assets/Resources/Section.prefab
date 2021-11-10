@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8632302643106561851}
   - component: {fileID: 8632302643106561792}
   - component: {fileID: 8632302643106561793}
-  - component: {fileID: 8632302643106561850}
+  - component: {fileID: 6773350843710922880}
   m_Layer: 0
   m_Name: Section
   m_TagString: Untagged
@@ -30,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8632302643106561849}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.94000006, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -126,7 +126,7 @@ ConfigurableJoint:
   m_Anchor: {x: 0, y: 0, z: 0.5}
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: 0.94000006, z: 0.5}
+  m_ConnectedAnchor: {x: 0, y: 0, z: 0.5}
   serializedVersion: 2
   m_SecondaryAxis: {x: 0, y: 1, z: 0}
   m_XMotion: 0
@@ -134,7 +134,7 @@ ConfigurableJoint:
   m_ZMotion: 0
   m_AngularXMotion: 1
   m_AngularYMotion: 1
-  m_AngularZMotion: 0
+  m_AngularZMotion: 1
   m_LinearLimitSpring:
     spring: 0
     damper: 0
@@ -161,7 +161,7 @@ ConfigurableJoint:
     bounciness: 0
     contactDistance: 0
   m_AngularZLimit:
-    limit: 0
+    limit: 60
     bounciness: 0
     contactDistance: 0
   m_TargetPosition: {x: 0, y: 0, z: 0}
@@ -210,7 +210,7 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
---- !u!114 &8632302643106561850
+--- !u!114 &6773350843710922880
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -223,8 +223,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsRotating: 0
-  IsClockwise: 0
-  MaxAngle: 30
-  TurnVelocity: 100
+  IsClockwise: 000100
+  MaxAngle: 1e0000003c0000002d000000
+  TurnRatio:
+  - 0.5
+  - 1
+  - 0.5
+  TurnVelocity: 180
   IsDriving: 0
   DriveVelocity: 1

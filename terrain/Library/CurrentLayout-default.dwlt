@@ -19,9 +19,9 @@ MonoBehaviour:
     width: 1536
     height: 820.8
   m_ShowMode: 4
-  m_Title: Scene
+  m_Title: Recorder
   m_RootView: {fileID: 6}
-  m_MinSize: {x: 875, y: 542}
+  m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
   m_Maximized: 1
 --- !u!114 &2
@@ -45,10 +45,10 @@ MonoBehaviour:
     y: 30
     width: 1536
     height: 771
-  m_MinSize: {x: 679, y: 492}
+  m_MinSize: {x: 964, y: 492}
   m_MaxSize: {x: 14002, y: 14042}
   vertical: 0
-  controlID: 170
+  controlID: 108
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -59,21 +59,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: 
+  m_Name: RecorderWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 1056
+    x: 1040
     y: 0
-    width: 480
+    width: 496
     height: 771
-  m_MinSize: {x: 276, y: 71}
+  m_MinSize: {x: 561, y: 221}
   m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 14}
+  m_ActualView: {fileID: 12}
   m_Panes:
+  - {fileID: 16}
   - {fileID: 14}
-  m_Selected: 0
+  - {fileID: 13}
+  - {fileID: 12}
+  m_Selected: 3
   m_LastSelected: 0
 --- !u!114 &4
 MonoBehaviour:
@@ -92,13 +95,13 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 344.8
-    height: 446.4
+    width: 508.8
+    height: 490.4
   m_MinSize: {x: 201, y: 221}
   m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 15}
+  m_ActualView: {fileID: 17}
   m_Panes:
-  - {fileID: 15}
+  - {fileID: 17}
   m_Selected: 0
   m_LastSelected: 0
 --- !u!114 &5
@@ -117,15 +120,15 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 446.4
-    width: 1056
-    height: 324.6
+    y: 490.4
+    width: 1040
+    height: 280.6
   m_MinSize: {x: 231, y: 271}
   m_MaxSize: {x: 10001, y: 10021}
-  m_ActualView: {fileID: 13}
+  m_ActualView: {fileID: 15}
   m_Panes:
-  - {fileID: 13}
-  - {fileID: 18}
+  - {fileID: 15}
+  - {fileID: 20}
   m_Selected: 0
   m_LastSelected: 1
 --- !u!114 &6
@@ -178,8 +181,8 @@ MonoBehaviour:
   m_MinSize: {x: 0, y: 0}
   m_MaxSize: {x: 0, y: 0}
   m_LoadedToolbars:
-  - {fileID: 19}
-  m_MainToolbar: {fileID: 19}
+  - {fileID: 21}
+  m_MainToolbar: {fileID: 21}
   m_LastLoadedLayoutName: 
 --- !u!114 &8
 MonoBehaviour:
@@ -221,12 +224,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1056
+    width: 1040
     height: 771
   m_MinSize: {x: 403, y: 492}
   m_MaxSize: {x: 10001, y: 14042}
   vertical: 1
-  controlID: 171
+  controlID: 66
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -246,12 +249,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1056
-    height: 446.4
+    width: 1040
+    height: 490.4
   m_MinSize: {x: 403, y: 221}
   m_MaxSize: {x: 8003, y: 4021}
   vertical: 0
-  controlID: 52
+  controlID: 41
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -267,20 +270,69 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 344.8
+    x: 508.8
     y: 0
-    width: 711.2
-    height: 446.4
+    width: 531.2
+    height: 490.4
   m_MinSize: {x: 202, y: 221}
   m_MaxSize: {x: 4002, y: 4021}
-  m_ActualView: {fileID: 16}
+  m_ActualView: {fileID: 18}
   m_Panes:
-  - {fileID: 16}
-  - {fileID: 17}
-  - {fileID: 12}
+  - {fileID: 18}
+  - {fileID: 19}
   m_Selected: 0
   m_LastSelected: 1
 --- !u!114 &12
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c66a740a74845a08dc18bab7f2ffa03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MinSize: {x: 560, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_TitleContent:
+    m_Text: Recorder
+    m_Image: {fileID: 0}
+    m_Tooltip: 
+  m_Pos:
+    serializedVersion: 2
+    x: 1040
+    y: 73.6
+    width: 495
+    height: 750
+  m_ViewDataDictionary: {fileID: 0}
+--- !u!114 &13
+MonoBehaviour:
+  m_ObjectHideFlags: 52
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5115ff20f1ea204dac14fa49c0e8f69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MinSize: {x: 445, y: 385}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_TitleContent:
+    m_Text: Code Coverage
+    m_Image: {fileID: 0}
+    m_Tooltip: 
+  m_Pos:
+    serializedVersion: 2
+    x: 1056
+    y: 73.6
+    width: 479
+    height: 750
+  m_ViewDataDictionary: {fileID: 0}
+--- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -300,28 +352,28 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 344.80002
+    x: 1040
     y: 73.6
-    width: 709.2
-    height: 478.2
+    width: 495
+    height: 750
   m_ViewDataDictionary: {fileID: 0}
   m_Spl:
-    ID: 204
-    splitterInitialOffset: 0
+    ID: 230
+    splitterInitialOffset: 315
     currentActiveSplitter: -1
     realSizes:
-    - 305.6
-    - 102.399994
+    - 471.2
+    - 208.8
     relativeSizes:
-    - 0.75
-    - 0.25
+    - 0.69313055
+    - 0.30686945
     minSizes:
     - 32
     - 32
     maxSizes:
     - 0
     - 0
-    lastTotalSize: 408
+    lastTotalSize: 680
     splitSize: 6
     xOffset: 0
     m_Version: 1
@@ -329,17 +381,17 @@ MonoBehaviour:
     oldMinSizes: 
     oldMaxSizes: 
     oldSplitSize: 0
-  m_TestTypeToolbarIndex: 1
+  m_TestTypeToolbarIndex: 0
   m_PlayModeTestListGUI:
-    m_Window: {fileID: 12}
+    m_Window: {fileID: 14}
     m_NewResultList:
     - id: 1004
       uniqueId: '[terrain][suite]'
       name: terrain
       fullName: terrain
-      resultStatus: 0
-      duration: 0
-      messages: 
+      resultStatus: 2
+      duration: 56.605656
+      messages: One or more child tests had errors
       output: 
       stacktrace: 
       notRunnable: 0
@@ -349,13 +401,253 @@ MonoBehaviour:
       categories: []
       parentId: 
       parentUniqueId: 
-    m_ResultText: 
-    m_ResultStacktrace: 
+    - id: 1004
+      uniqueId: '[PlayModeTests][C:/Users/Molly/OneDrive/FYP/Robot/terrain/Library/ScriptAssemblies/PlayModeTests.dll][suite]'
+      name: PlayModeTests.dll
+      fullName: C:/Users/Molly/OneDrive/FYP/Robot/terrain/Library/ScriptAssemblies/PlayModeTests.dll
+      resultStatus: 2
+      duration: 56.50246
+      messages: One or more child tests had errors
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1000
+      parentUniqueId: '[terrain][suite]'
+    - id: 1001
+      uniqueId: PlayModeTests.dll/[PlayModeTests][DriveBodyTests][suite]
+      name: DriveBodyTests
+      fullName: DriveBodyTests
+      resultStatus: 1
+      duration: 0.0737913
+      messages: 
+      output: 'You are trying to create a MonoBehaviour using the ''new'' keyword. 
+        This is not allowed.  MonoBehaviours can only be added using AddComponent().
+        Alternatively, your script can inherit from ScriptableObject or no base class
+        at all
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1013
+      parentUniqueId: '[PlayModeTests][C:/Users/Molly/OneDrive/FYP/Robot/terrain/Library/ScriptAssemblies/PlayModeTests.dll][suite]'
+    - id: 1002
+      uniqueId: PlayModeTests.dll/DriveBodyTests/[PlayModeTests][DriveBodyTests.Drive]
+      name: Drive
+      fullName: DriveBodyTests.Drive
+      resultStatus: 1
+      duration: 0.0680923
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: PlayModeTests.dll/[PlayModeTests][DriveBodyTests][suite]
+    - id: 1003
+      uniqueId: PlayModeTests.dll/[PlayModeTests][RotateBodyTests][suite]
+      name: RotateBodyTests
+      fullName: RotateBodyTests
+      resultStatus: 2
+      duration: 2.8998506
+      messages: One or more child tests had errors
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1013
+      parentUniqueId: '[PlayModeTests][C:/Users/Molly/OneDrive/FYP/Robot/terrain/Library/ScriptAssemblies/PlayModeTests.dll][suite]'
+    - id: 1005
+      uniqueId: PlayModeTests.dll/RotateBodyTests/[PlayModeTests][RotateBodyTests.Y_Negative]
+      name: Y_Negative
+      fullName: RotateBodyTests.Y_Negative
+      resultStatus: 1
+      duration: 0.0974572
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1003
+      parentUniqueId: PlayModeTests.dll/[PlayModeTests][RotateBodyTests][suite]
+    - id: 1009
+      uniqueId: PlayModeTests.dll/RotateBodyTests/[PlayModeTests][RotateBodyTests.Y_NegativeHandleMaxAngleExceeded]
+      name: Y_NegativeHandleMaxAngleExceeded
+      fullName: RotateBodyTests.Y_NegativeHandleMaxAngleExceeded
+      resultStatus: 1
+      duration: 0.1138165
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1003
+      parentUniqueId: PlayModeTests.dll/[PlayModeTests][RotateBodyTests][suite]
+    - id: 1007
+      uniqueId: PlayModeTests.dll/RotateBodyTests/[PlayModeTests][RotateBodyTests.Y_NegativeReverseDirection]
+      name: Y_NegativeReverseDirection
+      fullName: RotateBodyTests.Y_NegativeReverseDirection
+      resultStatus: 1
+      duration: 0.0822295
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1003
+      parentUniqueId: PlayModeTests.dll/[PlayModeTests][RotateBodyTests][suite]
+    - id: 1012
+      uniqueId: PlayModeTests.dll/RotateBodyTests/[PlayModeTests][RotateBodyTests.Y_NotRotating]
+      name: Y_NotRotating
+      fullName: RotateBodyTests.Y_NotRotating
+      resultStatus: 1
+      duration: 0.1065866
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1003
+      parentUniqueId: PlayModeTests.dll/[PlayModeTests][RotateBodyTests][suite]
+    - id: 1004
+      uniqueId: PlayModeTests.dll/RotateBodyTests/[PlayModeTests][RotateBodyTests.Y_Positive]
+      name: Y_Positive
+      fullName: RotateBodyTests.Y_Positive
+      resultStatus: 1
+      duration: 0.0759476
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1003
+      parentUniqueId: PlayModeTests.dll/[PlayModeTests][RotateBodyTests][suite]
+    - id: 1008
+      uniqueId: PlayModeTests.dll/RotateBodyTests/[PlayModeTests][RotateBodyTests.Y_PositiveHandleMaxAngleExceeded]
+      name: Y_PositiveHandleMaxAngleExceeded
+      fullName: RotateBodyTests.Y_PositiveHandleMaxAngleExceeded
+      resultStatus: 1
+      duration: 0.1007528
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1003
+      parentUniqueId: PlayModeTests.dll/[PlayModeTests][RotateBodyTests][suite]
+    - id: 1006
+      uniqueId: PlayModeTests.dll/RotateBodyTests/[PlayModeTests][RotateBodyTests.Y_PositiveReverseDirection]
+      name: Y_PositiveReverseDirection
+      fullName: RotateBodyTests.Y_PositiveReverseDirection
+      resultStatus: 1
+      duration: 0.0824239
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1003
+      parentUniqueId: PlayModeTests.dll/[PlayModeTests][RotateBodyTests][suite]
+    - id: 1010
+      uniqueId: PlayModeTests.dll/RotateBodyTests/[PlayModeTests][RotateBodyTests.Y_ZeroMaxAngle]
+      name: Y_ZeroMaxAngle
+      fullName: RotateBodyTests.Y_ZeroMaxAngle
+      resultStatus: 2
+      duration: 2.0981293
+      messages: "  Expected: True\r\n  But was:  False\r\n"
+      output: 
+      stacktrace: 'at RotateBodyTests+<Y_ZeroMaxAngle>d__12.MoveNext () [0x00091]
+        in C:\Users\Molly\OneDrive\FYP\Robot\terrain\Assets\Tests PlayMode\RotateBodyTests.cs:129
+
+        at
+        UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0004e]
+        in C:\Users\Molly\OneDrive\FYP\Robot\terrain\Library\PackageCache\com.unity.test-framework@1.1.29\UnityEngine.TestRunner\NUnitExtensions\Attributes\TestEnumerator.cs:46
+
+'
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1003
+      parentUniqueId: PlayModeTests.dll/[PlayModeTests][RotateBodyTests][suite]
+    - id: 1011
+      uniqueId: PlayModeTests.dll/RotateBodyTests/[PlayModeTests][RotateBodyTests.Y_ZeroTurnVelocity]
+      name: Y_ZeroTurnVelocity
+      fullName: RotateBodyTests.Y_ZeroTurnVelocity
+      resultStatus: 1
+      duration: 0.1177874
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1003
+      parentUniqueId: PlayModeTests.dll/[PlayModeTests][RotateBodyTests][suite]
+    m_ResultText: "Y_ZeroMaxAngle (2.098s)\n---\nExpected: True\r\n  But was:  False\n---\nat
+      RotateBodyTests+<Y_ZeroMaxAngle>d__12.MoveNext () [0x00091] in C:\\Users\\Molly\\OneDrive\\FYP\\Robot\\terrain\\Assets\\Tests
+      PlayMode\\RotateBodyTests.cs:129\r\nat UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext
+      () [0x0004e] in C:\\Users\\Molly\\OneDrive\\FYP\\Robot\\terrain\\Library\\PackageCache\\com.unity.test-framework@1.1.29\\UnityEngine.TestRunner\\NUnitExtensions\\Attributes\\TestEnumerator.cs:46"
+    m_ResultStacktrace: 'at RotateBodyTests+<Y_ZeroMaxAngle>d__12.MoveNext () [0x00091]
+      in C:\Users\Molly\OneDrive\FYP\Robot\terrain\Assets\Tests PlayMode\RotateBodyTests.cs:129
+
+      at
+      UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0004e] in
+      C:\Users\Molly\OneDrive\FYP\Robot\terrain\Library\PackageCache\com.unity.test-framework@1.1.29\UnityEngine.TestRunner\NUnitExtensions\Attributes\TestEnumerator.cs:46
+
+'
     m_TestListState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: 394e1d71ffffff7f
+      m_SelectedIDs: f5348b44
+      m_LastClickedID: 1149973749
+      m_ExpandedIDs: 6dd4d8bf29d06635fd3ac53d394e1d71b951977cffffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -383,14 +675,14 @@ MonoBehaviour:
       - Uncategorized
     m_SelectedOption: 0
   m_EditModeTestListGUI:
-    m_Window: {fileID: 12}
+    m_Window: {fileID: 14}
     m_NewResultList:
     - id: 1000
       uniqueId: '[terrain][suite]'
       name: terrain
       fullName: terrain
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.2877766
       messages: 
       output: 
       stacktrace: 
@@ -405,8 +697,8 @@ MonoBehaviour:
       uniqueId: '[Tests][C:/Users/Molly/OneDrive/FYP/Robot/terrain/Library/ScriptAssemblies/Tests.dll][suite]'
       name: Tests.dll
       fullName: C:/Users/Molly/OneDrive/FYP/Robot/terrain/Library/ScriptAssemblies/Tests.dll
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.1125319
       messages: 
       output: 
       stacktrace: 
@@ -417,12 +709,50 @@ MonoBehaviour:
       categories: []
       parentId: 1000
       parentUniqueId: '[terrain][suite]'
-    - id: 1001
-      uniqueId: Tests.dll/[Tests][MoveJointTests][suite]
-      name: MoveJointTests
-      fullName: MoveJointTests
-      resultStatus: 0
-      duration: 0
+    - id: 1016
+      uniqueId: Tests.dll/[Tests][CameraPosTests][suite]
+      name: CameraPosTests
+      fullName: CameraPosTests
+      resultStatus: 1
+      duration: 0.1059599
+      messages: 
+      output: 'You are trying to create a MonoBehaviour using the ''new'' keyword. 
+        This is not allowed.  MonoBehaviours can only be added using AddComponent().
+        Alternatively, your script can inherit from ScriptableObject or no base class
+        at all
+
+'
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1034
+      parentUniqueId: '[Tests][C:/Users/Molly/OneDrive/FYP/Robot/terrain/Library/ScriptAssemblies/Tests.dll][suite]'
+    - id: 1017
+      uniqueId: Tests.dll/CameraPosTests/[Tests][CameraPosTests.CameraPosition]
+      name: CameraPosition
+      fullName: CameraPosTests.CameraPosition
+      resultStatus: 1
+      duration: 0.0413163
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1016
+      parentUniqueId: Tests.dll/[Tests][CameraPosTests][suite]
+    - id: 1011
+      uniqueId: Tests.dll/[Tests][MoveBodyHelperMethodTests][suite]
+      name: MoveBodyHelperMethodTests
+      fullName: MoveBodyHelperMethodTests
+      resultStatus: 1
+      duration: 0.0234701
       messages: 
       output: 
       stacktrace: 
@@ -431,14 +761,14 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1004
+      parentId: 1019
       parentUniqueId: '[Tests][C:/Users/Molly/OneDrive/FYP/Robot/terrain/Library/ScriptAssemblies/Tests.dll][suite]'
-    - id: 1002
-      uniqueId: Tests.dll/MoveJointTests/[Tests][MoveJointTests.GetAngleTest]
+    - id: 1012
+      uniqueId: Tests.dll/MoveBodyHelperMethodTests/[Tests][MoveBodyHelperMethodTests.GetAngleTest]
       name: GetAngleTest
-      fullName: MoveJointTests.GetAngleTest
-      resultStatus: 0
-      duration: 0
+      fullName: MoveBodyHelperMethodTests.GetAngleTest
+      resultStatus: 1
+      duration: 0.004444
       messages: 
       output: 
       stacktrace: 
@@ -448,14 +778,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
-      parentUniqueId: Tests.dll/[Tests][MoveJointTests][suite]
-    - id: 1003
-      uniqueId: Tests.dll/MoveJointTests/[Tests][MoveJointTests.NewTestScriptWithEnumeratorPasses]
-      name: NewTestScriptWithEnumeratorPasses
-      fullName: MoveJointTests.NewTestScriptWithEnumeratorPasses
-      resultStatus: 0
-      duration: 0
+      parentId: 1011
+      parentUniqueId: Tests.dll/[Tests][MoveBodyHelperMethodTests][suite]
+    - id: 1013
+      uniqueId: Tests.dll/MoveBodyHelperMethodTests/[Tests][MoveBodyHelperMethodTests.GetAngleTest_Rounded]
+      name: GetAngleTest_Rounded
+      fullName: MoveBodyHelperMethodTests.GetAngleTest_Rounded
+      resultStatus: 1
+      duration: 0.0009824
       messages: 
       output: 
       stacktrace: 
@@ -465,15 +795,100 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
-      parentUniqueId: Tests.dll/[Tests][MoveJointTests][suite]
-    m_ResultText: 
+      parentId: 1011
+      parentUniqueId: Tests.dll/[Tests][MoveBodyHelperMethodTests][suite]
+    - id: 1014
+      uniqueId: Tests.dll/MoveBodyHelperMethodTests/[Tests][MoveBodyHelperMethodTests.GetRelativeAngleTest]
+      name: GetRelativeAngleTest
+      fullName: MoveBodyHelperMethodTests.GetRelativeAngleTest
+      resultStatus: 1
+      duration: 0.0016512
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1011
+      parentUniqueId: Tests.dll/[Tests][MoveBodyHelperMethodTests][suite]
+    - id: 1017
+      uniqueId: Tests.dll/MoveBodyHelperMethodTests/[Tests][MoveBodyHelperMethodTests.GetRelativeAngleTest_NegativeRangeAdjustment]
+      name: GetRelativeAngleTest_NegativeRangeAdjustment
+      fullName: MoveBodyHelperMethodTests.GetRelativeAngleTest_NegativeRangeAdjustment
+      resultStatus: 1
+      duration: 0.0009936
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1011
+      parentUniqueId: Tests.dll/[Tests][MoveBodyHelperMethodTests][suite]
+    - id: 1015
+      uniqueId: Tests.dll/MoveBodyHelperMethodTests/[Tests][MoveBodyHelperMethodTests.GetRelativeAngleTest_NotRotating]
+      name: GetRelativeAngleTest_NotRotating
+      fullName: MoveBodyHelperMethodTests.GetRelativeAngleTest_NotRotating
+      resultStatus: 1
+      duration: 0.0007417
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1011
+      parentUniqueId: Tests.dll/[Tests][MoveBodyHelperMethodTests][suite]
+    - id: 1018
+      uniqueId: Tests.dll/MoveBodyHelperMethodTests/[Tests][MoveBodyHelperMethodTests.GetRelativeAngleTest_NotRounded]
+      name: GetRelativeAngleTest_NotRounded
+      fullName: MoveBodyHelperMethodTests.GetRelativeAngleTest_NotRounded
+      resultStatus: 1
+      duration: 0.0007491
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1011
+      parentUniqueId: Tests.dll/[Tests][MoveBodyHelperMethodTests][suite]
+    - id: 1016
+      uniqueId: Tests.dll/MoveBodyHelperMethodTests/[Tests][MoveBodyHelperMethodTests.GetRelativeAngleTest_PositiveRangeAdjustment]
+      name: GetRelativeAngleTest_PositiveRangeAdjustment
+      fullName: MoveBodyHelperMethodTests.GetRelativeAngleTest_PositiveRangeAdjustment
+      resultStatus: 1
+      duration: 0.0008455
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1011
+      parentUniqueId: Tests.dll/[Tests][MoveBodyHelperMethodTests][suite]
+    m_ResultText: CameraPosition (0.041s)
     m_ResultStacktrace: 
     m_TestListState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 994793dd
-      m_LastClickedID: -577550439
-      m_ExpandedIDs: 994793dd394e1d71ffffff7f
+      m_SelectedIDs: f4f74c37
+      m_LastClickedID: 927791092
+      m_ExpandedIDs: 37e00d91994793dd2df76c3e394e1d71ffffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -499,7 +914,7 @@ MonoBehaviour:
       selectedCategoryMask: 0
       availableCategories:
       - Uncategorized
---- !u!114 &13
+--- !u!114 &15
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -520,9 +935,9 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 520
-    width: 1055
-    height: 303.6
+    y: 564
+    width: 1039
+    height: 259.6
   m_ViewDataDictionary: {fileID: 0}
   m_SearchFilter:
     m_NameFilter: 
@@ -550,9 +965,9 @@ MonoBehaviour:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: ba410000
-    m_LastClickedID: 16826
-    m_ExpandedIDs: 00000000b2410000
+    m_SelectedIDs: 163f0000
+    m_LastClickedID: 16150
+    m_ExpandedIDs: 00000000083f0000143f0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -580,7 +995,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000
+    m_ExpandedIDs: 00000000083f0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -624,7 +1039,7 @@ MonoBehaviour:
       m_IsRenaming: 0
       m_OriginalEventType: 11
       m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 5}
+      m_ClientGUIView: {fileID: 11}
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
       m_InstanceID: 0
@@ -636,7 +1051,7 @@ MonoBehaviour:
     m_GridSize: 64
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 223
---- !u!114 &14
+--- !u!114 &16
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -656,9 +1071,9 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1056
+    x: 1040
     y: 73.6
-    width: 479
+    width: 495
     height: 750
   m_ViewDataDictionary: {fileID: 0}
   m_ObjectsLockedBeforeSerialization: []
@@ -673,7 +1088,7 @@ MonoBehaviour:
   m_LockTracker:
     m_IsLocked: 0
   m_PreviewWindow: {fileID: 0}
---- !u!114 &15
+--- !u!114 &17
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -695,15 +1110,15 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 73.6
-    width: 343.8
-    height: 425.4
+    width: 507.8
+    height: 469.4
   m_ViewDataDictionary: {fileID: 0}
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 2e96feff
-      m_LastClickedID: -92626
-      m_ExpandedIDs: 3296feff30c3feff401dffff4efbffffce3c0000
+      m_SelectedIDs: 
+      m_LastClickedID: 0
+      m_ExpandedIDs: 6059ffffe06effffe26effff0c6fffff2873ffff2276ffff4476ffff3677ffff1478ffff3678ffff3279ffff207bffff427bffff427cffff427effff647effff9c7fffff8280ffffa480ffffe681ffffcc83ffffee83ffff2885ffffbe95ffffe095ffff609affff38baffff5abaffff2abbffff1cbcffff3ebcffff18bdffffb0beffffd2beffffacbfffffa0c0ffffc2c0ffff92c1ffffe6c1ffff08c2ffffd8c2ffff26c3ffff48c3ffff18c4ffffbcc4ffffdec4ffffaec5fffff0c6ffff12c7ffffe2c7ffffd2c8fffff4c8ffffc4c9ffff82caffffa4caffff7ecbffff24ccffff46ccffff16cdffffb8cdffffdacdffffaacefffff8cfffff1ad0ffffead0ffff42d1ffff64d1ffff3ed2ffff92d2ffffb4d2ffff8ed3ffffeed3ffff10d4ffff8ad8ffff86d9ffffa8d9ffff22deffff6edeffff90deffff6adfffffb6dfffffd8dfffffa8e0ffffc2e8ffffe4e8ffffbee9ffffd4eafffff6eaffffc0ebffff54ecffff74ecffff9eecffffc0ecffff76edffffb6edffff28eeffff4aeeffff8cf0ffffaef0ffff88f1fffff8f1ffff1af2fffff4f2ffff5af3ffff7cf3ffff56f4ffffdaf4fffffcf4ffff86f9ffff52fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -727,7 +1142,7 @@ MonoBehaviour:
       m_IsLocked: 0
     m_CurrentSortingName: TransformSorting
   m_WindowGUID: debd960ee522e9941a26cdf390c54022
---- !u!114 &16
+--- !u!114 &18
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -747,10 +1162,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 344.80002
+    x: 508.80002
     y: 73.6
-    width: 709.2
-    height: 425.4
+    width: 529.2
+    height: 469.4
   m_ViewDataDictionary: {fileID: 0}
   m_ShowContextualTools: 0
   m_WindowGUID: 40c9b43471d16d74fbcce545effe85e5
@@ -763,9 +1178,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -6.7725563, y: -1.9597435, z: -8.959008}
+    m_Target: {x: -4.6231956, y: 3.6762352, z: 10.396507}
     speed: 2
-    m_Value: {x: -6.7725563, y: -1.9597435, z: -8.959008}
+    m_Value: {x: -4.6231956, y: 3.6762352, z: 10.396507}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -812,13 +1227,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.06399214, y: -0.8112319, z: 0.09041847, w: 0.5741371}
+    m_Target: {x: 0.14874643, y: -0.6219279, z: 0.12186792, w: 0.75909746}
     speed: 2
-    m_Value: {x: 0.063992105, y: -0.81123143, z: 0.09041842, w: 0.57413673}
+    m_Value: {x: 0.1487464, y: -0.6219278, z: 0.12186789, w: 0.7590973}
   m_Size:
-    m_Target: 10.859173
+    m_Target: 7.778418
     speed: 2
-    m_Value: 10.859173
+    m_Value: 7.778418
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -843,7 +1258,7 @@ MonoBehaviour:
   m_SceneVisActive: 1
   m_LastLockedObject: {fileID: 0}
   m_ViewIsLockedToObject: 0
---- !u!114 &17
+--- !u!114 &19
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -863,15 +1278,15 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 344.80002
+    x: 508.80002
     y: 73.6
-    width: 709.2
-    height: 425.4
+    width: 529.2
+    height: 469.4
   m_ViewDataDictionary: {fileID: 0}
   m_SerializedViewNames: []
   m_SerializedViewValues: []
   m_PlayModeViewName: GameView
-  m_ShowGizmos: 1
+  m_ShowGizmos: 0
   m_TargetDisplay: 0
   m_ClearColor: {r: 0, g: 0, b: 0, a: 0}
   m_TargetSize: {x: 1920, y: 1080}
@@ -881,7 +1296,7 @@ MonoBehaviour:
   m_MaximizeOnPlay: 0
   m_UseMipMap: 0
   m_VSyncEnabled: 0
-  m_Gizmos: 1
+  m_Gizmos: 0
   m_Stats: 0
   m_SelectedSizes: 03000000000000000000000000000000000000000000000000000000000000000000000000000000
   m_ZoomArea:
@@ -910,10 +1325,10 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 21
-      width: 709.2
-      height: 404.4
-    m_Scale: {x: 0.46171877, y: 0.46171877}
-    m_Translation: {x: 354.6, y: 202.2}
+      width: 529.2
+      height: 448.4
+    m_Scale: {x: 0.34453127, y: 0.34453127}
+    m_Translation: {x: 264.6, y: 224.2}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
@@ -921,18 +1336,18 @@ MonoBehaviour:
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
       x: -768
-      y: -437.92892
+      y: -650.7392
       width: 1536
-      height: 875.85785
+      height: 1301.4784
     m_MinimalGUI: 1
-  m_defaultScale: 0.46171877
-  m_LastWindowPixelSize: {x: 886.5, y: 531.75}
+  m_defaultScale: 0.34453127
+  m_LastWindowPixelSize: {x: 661.5, y: 586.75}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 00000000000000000000
   m_XRRenderMode: 0
   m_RenderTexture: {fileID: 0}
---- !u!114 &18
+--- !u!114 &20
 MonoBehaviour:
   m_ObjectHideFlags: 52
   m_CorrespondingSourceObject: {fileID: 0}
@@ -953,11 +1368,11 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 520
-    width: 1055
-    height: 303.6
+    y: 564
+    width: 1039
+    height: 259.6
   m_ViewDataDictionary: {fileID: 0}
---- !u!114 &19
+--- !u!114 &21
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

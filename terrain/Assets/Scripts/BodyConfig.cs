@@ -9,31 +9,30 @@ namespace Config
         //determines whether the joint will be rotating or not
         [Header("Rotation Setup")]
 
-        [SerializeField]
-        protected bool IsRotating;
+        //will this section be rotating (it can rotate AND drive if that is desirable)
+        public bool IsRotating;
 
         //which direction will the joint be updating this iteration
-        [SerializeField]
-        protected bool IsClockwise;
+        public bool[] IsClockwise;
 
-        //what is the max angle of the joint
-        [SerializeField]
-        [Range(0, 60)]
-        protected int MaxAngle;
+        [Tooltip("It is recommended that the max angle is in range 0 <= x <= 60")]
+        public int[] MaxAngle;
 
-        //what is the velocity of the joint e.g. 100 deg/sec
-        [SerializeField]
-        [Range(60, 180)]
-        protected int TurnVelocity;
+        [Tooltip("Range 0 <= x <= 1")]
+        public float[] TurnRatio;
+
+        [Range(0, 360)]
+        public int TurnVelocity;
+
+        /*-------------------------------------------------------------------------------------------------------*/
+
 
         [Header("Drive Setup")]
 
-        [SerializeField]
-        protected bool IsDriving;
+        //will this section be driving (it can rotate AND drive if that is desirable)
+        public bool IsDriving;
 
-        [SerializeField]
-        [Range(0.1f, 1f)]
-        protected float DriveVelocity;
-
+        [Range(0f, 1f)]
+        public float DriveVelocity;
     }
 }

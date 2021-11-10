@@ -7,72 +7,66 @@ using Config;
 
 public class MoveBody : BodyConfig
 {
-    //To Do: move to a BaseConfig / controller setup for parameters applicable to the whole robot
-
-    //variables that indicate which stage in coiling/uncoiling the joint is currently in
-    private bool IsCoiling = true;
-    private MoveState state = MoveState.Rotate;
     private Rigidbody body;
     private Vector3 direction;
-    bool done = false;
-
 
     void Start()
     {        
+        //get the rigidbody for this body section as this is how the rotation/position will be manipulated
         body = GetComponent<Rigidbody>();
     }
 
-    /* 
-    * The joint goes through stages whereby it is rotating or driving
-    */
+    //uses FixedUpdate as recommended for interaction with Unity's physics system
+    //will drive and/or rotate as determined in BodyConfig
     void FixedUpdate()
-    {
-        if (IsDriving)
-        {
-            Drive();
-        }
-        if (IsRotating)
-        {
-            Rotate();
-        }
+    {        
+        if (IsDriving) Drive();
+        if (IsRotating) Rotate();
     }
 
+    //TODO: update for 3D rotation
+    //rotate this body section
     private void Rotate()
     {
-        Vector3 currentAngle = GetRelativeAngle(false, true); //rounded & !absolute
-        double absrndAngle = Math.Abs(currentAngle.y); //abs version of currentAngle
-
-        //validation
-        //if (IsLocked && absrndAngle != 0 && absrndAngle != 180) Debug.LogError($"Joint {this.name} is locked but has y rotation {currentAngle.y}");
-        //if (!IsLocked && absrndAngle > MaxAngle) Debug.LogError($"Joint {this.name} has y rotation {currentAngle.y} while the max angle is {MaxAngle}");
-
-        IsClockwise = IsClockwise ? !(currentAngle.y >= MaxAngle) : currentAngle.y <= MaxAngle * -1;
-        Vector3 angleVelocity = IsClockwise ? new Vector3(0, TurnVelocity, 0) : new Vector3(0, TurnVelocity * -1, 0);
+        Vector3 currentAngle = GetRelativeAngle(); //rounded
+        //if it's reached the max angle (pos or neg) then reverse direction
+        IsClockwise[0] = IsClockwise[0] ? !(currentAngle.x >= MaxAngle[0]) : currentAngle.x <= MaxAngle[0] * -1;
+        IsClockwise[1] = IsClockwise[1] ? !(currentAngle.y >= MaxAngle[1]) : currentAngle.y <= MaxAngle[1] * -1;
+        IsClockwise[2] = IsClockwise[2] ? !(currentAngle.z >= MaxAngle[2]) : currentAngle.z <= MaxAngle[2] * -1;
+        //determine its velocity vector, TurnVelocity is deg/sec and is derived in BodyConfig
+        Vector3 angleVelocity = new Vector3();
+        angleVelocity.x = IsClockwise[0] ? TurnVelocity : TurnVelocity * -1;
+        angleVelocity.y = IsClockwise[1] ? TurnVelocity : TurnVelocity * -1;
+        angleVelocity.z = IsClockwise[2] ? TurnVelocity : TurnVelocity * -1;
+        //apply power ratio to the angleVelocity
+        angleVelocity.x *= TurnRatio[0];
+        angleVelocity.y *= TurnRatio[1];
+        angleVelocity.z *= TurnRatio[2];
+        //convert vector to a quaternion
         Quaternion deltaRotation = Quaternion.Euler(angleVelocity * Time.fixedDeltaTime);
+        //apply the vector to the body's space and rotate it
         body.MoveRotation(body.rotation * deltaRotation);
-        currentAngle = GetRelativeAngle(false, true); //rounded & !absolute
-
-        //Debug.Log($"Rotating: {IsClockwise};     {currentAngle.y}");
+        currentAngle = GetRelativeAngle();
     }
 
+    //drive this body section forward
     private void Drive()
     {
-        Vector3 currentAngle = GetRelativeAngle(false, true); //rounded & !absolute
-        double absrndAngle = Math.Abs(currentAngle.y); //abs version of currentAngle
-
+        //get the current trajectory of the body section
         direction = this.transform.forward;
+        //move it forward at a speed derived in BodyConfig
         body.MovePosition(body.position + direction * DriveVelocity * Time.fixedDeltaTime);
-
-        //Debug.Log($"Driving: {this.transform.localPosition.z}");
     }
 
 
-    //return angle relative to body. Will be zero if locked
-    public Vector3 GetRelativeAngle(bool abs = false, bool round = false)
+    //return angle relative to body within range -180 -> 180. 
+    //rounds to int by default as common use of this method is validation about whether to continue turning. 
+    //If within a degree of maxangle should reverse direction
+    public Vector3 GetRelativeAngle(bool round = true)
     {
         Vector3 angle = new Vector3(0, 0, 0);
 
-        //angle should remain 0 for relativity if locked
+        //angle should remain 0 for relativity if not rotating
         angle = IsRotating ? this.transform.localRotation.eulerAngles : angle;
 
         //update for range -180 - 180
@@ -84,36 +78,21 @@ public class MoveBody : BodyConfig
         angle.y += Math.Round(angle.y, 0) < -180 ? 360 : 0;
         angle.z += Math.Round(angle.z, 0) < -180 ? 360 : 0;
 
-        //if opted to then absolute &| round the angles
+        //if opted to then round the angles
         angle = round ? new Vector3((float)Math.Round(angle.x, 0), (float)Math.Round(angle.y, 0), (float)Math.Round(angle.z, 0)) : angle;
-        angle = abs ? new Vector3((float)Math.Abs(angle.x), (float)Math.Abs(angle.y), (float)Math.Abs(angle.z)) : angle;
 
         return angle;
     }
 
     //return actual angles - not relative to body
-    public Vector3 GetAngle(bool abs = false, bool round = false)
+    //has option to get rounded to int but won't by default
+    public Vector3 GetAngle(bool round = false)
     {
         Vector3 angle = this.transform.localEulerAngles;
 
-        //if opted to then absolute &| round the angles
+        //if opted to then round the angles
         angle = round ? new Vector3((float)Math.Round(angle.x, 0), (float)Math.Round(angle.y, 0), (float)Math.Round(angle.z, 0)) : angle;
-        angle = abs ? new Vector3((float)Math.Abs(angle.x), (float)Math.Abs(angle.y), (float)Math.Abs(angle.z)) : angle;
 
         return angle;
-    }
-
-
-    private enum MoveState
-    {
-        Rotate = 0,
-        Drive = 1,
-        Complete = 2
-    }
-
-    private enum LockOption
-    {
-        Forward = 0,
-        Backward = 1
     }
 }

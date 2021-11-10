@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CoverageReport scope="Summary">
+  <Summary>
+    <Generatedon>26/10/2021 - 10:10:43</Generatedon>
+    <Parser>MultiReportParser (3x OpenCoverParser)</Parser>
+    <Assemblies>1</Assemblies>
+    <Classes>2</Classes>
+    <Files>2</Files>
+    <Coveredlines>50</Coveredlines>
+    <Uncoveredlines>6</Uncoveredlines>
+    <Coverablelines>56</Coverablelines>
+    <Totallines>122</Totallines>
+    <Linecoverage>89.2</Linecoverage>
+    <Coveredbranches>0</Coveredbranches>
+    <Totalbranches>0</Totalbranches>
+  </Summary>
+  <Coverage>
+    <Assembly name="TestAssembly" classes="2" coverage="89.2" coveredlines="50" coverablelines="56" totallines="122" branchcoverage="" coveredbranches="0" totalbranches="0">
+      <Class name="CameraPosition" coverage="100" coveredlines="8" coverablelines="8" totallines="30" branchcoverage="" coveredbranches="0" totalbranches="0" />
+      <Class name="MoveBody" coverage="87.5" coveredlines="42" coverablelines="48" totallines="92" branchcoverage="" coveredbranches="0" totalbranches="0" />
+    </Assembly>
+  </Coverage>
+</CoverageReport>

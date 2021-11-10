@@ -53,17 +53,21 @@
     <UnityVersion>2020.3.19f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\EntireBodyConfig.cs" />
-    <Compile Include="Assets\Scripts\JointSetup.cs" />
-    <Compile Include="Assets\Scripts\retiredcode.cs" />
-    <Compile Include="Assets\Scripts\JointConfig.cs" />
-    <Compile Include="Assets\Scripts\TestJointSetup.cs" />
-    <Compile Include="Assets\Scripts\MoveJoint.cs" />
-    <Compile Include="Assets\Scripts\Helpers.cs" />
-    <Compile Include="Assets\Scripts\CameraPosition.cs" />
-    <Compile Include="Assets\Scripts\Move.cs" />
-    <Compile Include="Assets\Scripts\MoveBody.cs" />
     <Compile Include="Assets\Scripts\BodyConfig.cs" />
+    <Compile Include="Assets\Scripts\retired\EntireBodyConfig.cs" />
+    <Compile Include="Assets\Scripts\JointSetup.cs" />
+    <Compile Include="Assets\Scripts\retired\retiredcode.cs" />
+    <Compile Include="Assets\Scripts\retired\JointConfig.cs" />
+    <Compile Include="Assets\Scripts\retired\TestJointSetup.cs" />
+    <Compile Include="Assets\Scripts\BaseConfig.cs" />
+    <Compile Include="Assets\Scripts\retired\MoveJoint.cs" />
+    <Compile Include="Assets\Scripts\JointConfig.cs" />
+    <Compile Include="Assets\Scripts\retired\Helpers.cs" />
+    <Compile Include="Assets\Scripts\MoveJoint.cs" />
+    <Compile Include="Assets\Scripts\Move.cs" />
+    <Compile Include="Assets\Scripts\CameraPosition.cs" />
+    <Compile Include="Assets\Scripts\MoveBody.cs" />
+    <Compile Include="Assets\Scripts\retired\Move.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\TestAssembly.asmdef" />
@@ -308,6 +312,9 @@
     </Reference>
     <Reference Include="log4netPlastic">
       <HintPath>Library\PackageCache\com.unity.collab-proxy@1.9.0\Lib\Editor\PlasticSCM\log4netPlastic.dll</HintPath>
+    </Reference>
+    <Reference Include="ReportGeneratorMerged">
+      <HintPath>Library\PackageCache\com.unity.testtools.codecoverage@1.1.0\lib\ReportGenerator\ReportGeneratorMerged.dll</HintPath>
     </Reference>
     <Reference Include="unityplastic">
       <HintPath>Library\PackageCache\com.unity.collab-proxy@1.9.0\Lib\Editor\PlasticSCM\unityplastic.dll</HintPath>
