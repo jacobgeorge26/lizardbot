@@ -53,6 +53,7 @@
     <UnityVersion>2020.3.19f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Assets\Tests PlayMode\CameraPosTests.cs" />
     <Compile Include="Assets\Tests PlayMode\RotateBodyTests.cs" />
     <Compile Include="Assets\Tests PlayMode\DriveBodyTests.cs" />
   </ItemGroup>

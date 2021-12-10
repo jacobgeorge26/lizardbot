@@ -60,6 +60,7 @@
     <Compile Include="Assets\Scripts\retired\JointConfig.cs" />
     <Compile Include="Assets\Scripts\retired\TestJointSetup.cs" />
     <Compile Include="Assets\Scripts\BaseConfig.cs" />
+    <Compile Include="Assets\Scripts\EditorAttributes.cs" />
     <Compile Include="Assets\Scripts\retired\MoveJoint.cs" />
     <Compile Include="Assets\Scripts\JointConfig.cs" />
     <Compile Include="Assets\Scripts\retired\Helpers.cs" />
