@@ -60,9 +60,10 @@
     <Compile Include="Assets\Scripts\retired\retiredcode.cs" />
     <Compile Include="Assets\Scripts\retired\JointConfig.cs" />
     <Compile Include="Assets\Scripts\retired\TestJointSetup.cs" />
-    <Compile Include="Assets\Scripts\BaseConfig.cs" />
+    <Compile Include="Assets\Scripts\BaseConfig_.cs" />
     <Compile Include="Assets\Scripts\retired\MoveJoint.cs" />
     <Compile Include="Assets\Scripts\JointConfig.cs" />
+    <Compile Include="Assets\Scripts\Settings.cs" />
     <Compile Include="Assets\Scripts\retired\Helpers.cs" />
     <Compile Include="Assets\Scripts\retired\MoveJointLerp.cs" />
     <Compile Include="Assets\Scripts\retired\MoveLerp.cs" />

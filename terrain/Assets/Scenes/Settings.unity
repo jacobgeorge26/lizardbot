@@ -869,6 +869,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d859b2e2cddd4a44785c550c21191f2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  config: {fileID: 1416785848}
 --- !u!1 &612473146
 GameObject:
   m_ObjectHideFlags: 0
@@ -1266,6 +1267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 510dd189cefb7cf44aad735beba66581, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDefault: 1
   NoSections: 0
   RotatingSections: 
   DrivingSections: 

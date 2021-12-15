@@ -4,20 +4,21 @@ using UnityEngine;
 using Config;
 using System;
 
-public class GenerateRobot : BaseConfig
+public class GenerateRobot : MonoBehaviour
 {
-    [SerializeField]
-    [InspectorName("Use Default Configuration")]
-    protected bool isDefault;
-
     void Start()
+    {
+        Generate();
+    }
+
+    private void Generate()
     {
         //setup overall robot
         GameObject robot = new GameObject();
         robot.name = "robot";
         robot.transform.position = new Vector3(0, 3, -8);
 
-        if (isDefault) DefaultParams();
+        if (BaseConfig.isDefault) DefaultParams();
         else if (!ValidateParams()) return;
 
         SetupBody(robot);
@@ -29,42 +30,42 @@ public class GenerateRobot : BaseConfig
 
     private void DefaultParams()
     {
-        NoSections = 5;
-        DrivingSections = new bool[5] { true, true, true, true, true };
-        RotatingSections = new bool[5] { true, false, true, false, true };
-        TurnVelocity = 180;
-        DriveVelocity = 1f;
-        MaxAngle = new int[3] { 30, 60, 45 };
+        BaseConfig.NoSections = 5;
+        BaseConfig.DrivingSections = new bool[5] { true, true, true, true, true };
+        BaseConfig.RotatingSections = new bool[5] { true, false, true, false, true };
+        BaseConfig.TurnVelocity = 180;
+        BaseConfig.DriveVelocity = 1f;
+        BaseConfig.MaxAngle = new int[3] { 30, 60, 45 };
     }
 
     private bool ValidateParams()
     {
-        if(NoSections < 1)
+        if(BaseConfig.NoSections < 1)
         {
             Debug.LogError("The minimum number of body sections is 1");
             return false;
         }
-        if (RotatingSections.Length != NoSections)
+        if (BaseConfig.RotatingSections.Length != BaseConfig.NoSections)
         {
             Debug.LogError("The number of rotating sections must equal the number of sections");
             return false;
         }
-        if(DrivingSections.Length != NoSections)
+        if(BaseConfig.DrivingSections.Length != BaseConfig.NoSections)
         {
             Debug.LogError("The number of driving sections must equal the number of sections");
             return false;
         }
         //TODO: update once individual customisation is setup - will need to look at each one - drive & turn
-        if(TurnVelocity < 1)
+        if(BaseConfig.TurnVelocity < 1)
         {
             Debug.LogWarning("The rotating sections will not rotate due to the turn velocity");
         }
-        if(DriveVelocity < 0.1f)
+        if(BaseConfig.DriveVelocity < 0.1f)
         {
             Debug.LogWarning("The driving sections will not rotate due to the drive velocity");
         }
         //TODO: add more info about which section and angle it is
-        foreach(int angle in MaxAngle)
+        foreach(int angle in BaseConfig.MaxAngle)
         {
             if(angle > 60)
             {
@@ -76,30 +77,30 @@ public class GenerateRobot : BaseConfig
 
     private void SetupBody(GameObject robot)
     {
-        for (int i = 0; i < NoSections; i++)
+        for (int i = 0; i < BaseConfig.NoSections; i++)
         {
             GameObject section = i == 0
                 ? MonoBehaviour.Instantiate(Resources.Load<GameObject>("Head"))
                 : MonoBehaviour.Instantiate(Resources.Load<GameObject>("Section"));
             section.name = i == 0 ? "head" : $"section{i}";
-            Sections.Add(section);
+            BaseConfig.Sections.Add(section);
             section.transform.parent = robot.transform;
             section.transform.localPosition = new Vector3(0, 0, (float)(i * -1.1));
 
             //setup BodyConfig for MoveBody script
             BodyConfig config = section.GetComponent<BodyConfig>();
-            config.IsRotating = RotatingSections[i];
+            config.IsRotating = BaseConfig.RotatingSections[i];
             config.IsClockwise = new bool[3] { false, true, false }; //TODO: make this dynamic
-            config.MaxAngle = MaxAngle;
-            config.TurnVelocity = TurnVelocity;
-            config.IsDriving = DrivingSections[i];
-            config.DriveVelocity = DriveVelocity;
+            config.MaxAngle = BaseConfig.MaxAngle;
+            config.TurnVelocity = BaseConfig.TurnVelocity;
+            config.IsDriving = BaseConfig.DrivingSections[i];
+            config.DriveVelocity = BaseConfig.DriveVelocity;
 
             //setup configurable joints
             if (i > 0)
             {
                 ConfigurableJoint joint = section.GetComponent<ConfigurableJoint>(); //TODO: make the angle constraints dynamic
-                joint.connectedBody = Sections[i - 1].GetComponent<Rigidbody>();
+                joint.connectedBody = BaseConfig.Sections[i - 1].GetComponent<Rigidbody>();
             }
         }
     }
@@ -110,7 +111,8 @@ public class GenerateRobot : BaseConfig
         cam.name = "camera";
         cam.transform.parent = robot.transform;
         CameraPosition camPos = cam.GetComponent<CameraPosition>();
-        camPos.Head = Sections[0];
-        camPos.Tail = Sections[Sections.Count - 1];
+        camPos.Head = BaseConfig.Sections[0];
+        camPos.Tail = BaseConfig.Sections[BaseConfig.Sections.Count - 1];
     }
+
 }

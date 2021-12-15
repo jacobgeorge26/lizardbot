@@ -196,7 +196,7 @@ GameObject:
   - component: {fileID: 1370049162}
   m_Layer: 0
   m_Name: Controller
-  m_TagString: Untagged
+  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -227,6 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9be8d49bd3e717c448a45a4c3b3c362e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDefault: 0
   NoSections: 3
   RotatingSections: 010001
   DrivingSections: 010000
@@ -235,7 +236,6 @@ MonoBehaviour:
   X_MaxAngle: 0
   Y_MaxAngle: 60
   Z_MaxAngle: 0
-  isDefault: 0
 --- !u!1 &533390574558926955
 GameObject:
   m_ObjectHideFlags: 0
