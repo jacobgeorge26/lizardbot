@@ -22,11 +22,36 @@ public class Settings : MonoBehaviour
     [SerializeField]
     private GameObject configObject;
 
+    [SerializeField]
+    private Button[] bodyPartButtons = new Button[3];
+
     private int bodyConfigIndex = -1;
 
     void Start()
     {
-        UpdateNoSections();
+        //TODO: legs/tail update when implemented
+        bodyPartButtons[1].interactable = false;
+        bodyPartButtons[2].interactable = false;
+        //default to body settings
+        bodyPartButtons[0].Select();
+        ShowRelevantSettings(0);
+    }
+
+    public void ShowRelevantSettings(int bodyPart)
+    {
+
+        switch ((BodyPart)bodyPart)
+        {
+            case BodyPart.Body:              
+                ChangeNoSections();
+                break;
+            case BodyPart.Legs:
+
+                break;
+            case BodyPart.Tail:
+
+                break;
+        }
     }
 
     //when the generate robot button has been clicked 
@@ -38,7 +63,7 @@ public class Settings : MonoBehaviour
         SceneManager.LoadScene(terrainIndex);
     }
 
-    public void UpdateNoSections()
+    public void ChangeNoSections()
     {
         BaseConfig.NoSections = (int) sectionsSlider.value;
         if(BaseConfig.SectionConfigs.Count < BaseConfig.NoSections)
@@ -55,8 +80,8 @@ public class Settings : MonoBehaviour
                 BaseConfig.SectionConfigs.RemoveAt(BaseConfig.SectionConfigs.Count - 1);
             }
         }
-        UpdateSectionsOutput();
-        UpdateHiddenSettings();
+        UIUpdateSectionsOutput();
+        UIUpdateHiddenSettings();
     }
 
     private BodyConfig GenerateDefaultSectionConfig()
@@ -67,25 +92,25 @@ public class Settings : MonoBehaviour
         return newConfig;
     }
 
-    public void UpdateSectionsOutput()
+    public void UIUpdateSectionsOutput()
     {
         sectionsOutput.text = sectionsSlider.value.ToString();
     }
 
-    public void UpdateDefault()
+    public void ToggleDefault()
     {
         BaseConfig.isDefault = defaultToggle.isOn;
-        UpdateHiddenSettings();
+        UIUpdateHiddenSettings();
     }
 
-    public void UpdateHiddenSettings()
+    public void UIUpdateHiddenSettings()
     {
         try
         {
             for(int i = 0; i < selections.Length; i++)
             {
                 bool showButton = defaultToggle.isOn || (!defaultToggle.isOn && i + 1 > BaseConfig.NoSections) ? false : true;
-                selections[i].gameObject.SetActive(showButton);
+                selections[i].interactable = showButton;
             }
             //update which one is selected
             if (!defaultToggle.isOn)
@@ -94,7 +119,7 @@ public class Settings : MonoBehaviour
                 bodyConfigIndex = bodyConfigIndex == -1 ? 1 : 
                     bodyConfigIndex > BaseConfig.NoSections ? 1 : bodyConfigIndex; //is the selected one now hidden (reducing number of sections)
                 selections[bodyConfigIndex - 1].Select();
-                UpdateSelectedSection(bodyConfigIndex);
+                SelectSection(bodyConfigIndex);
             }
             //show section settings
             configObject.SetActive(!defaultToggle.isOn);
@@ -105,17 +130,22 @@ public class Settings : MonoBehaviour
         }
     }
 
-    public void UpdateSelectedSection(int index)
+    public void SelectSection(int index)
     {
         bodyConfigIndex = index;
-        UpdateRDToggles();
+        UIUpdateRDToggles();
     }
 
-    private void UpdateRDToggles()
+    private void UIUpdateRDToggles()
     {
         BodyConfig config = BaseConfig.SectionConfigs[bodyConfigIndex - 1];
         SectionSettingsUI objects = configObject.GetComponent<SectionSettingsUI>();
         objects.RotateToggle.isOn = config.IsRotating;
         objects.DriveToggle.isOn = config.IsDriving;
+    }
+
+    public void ToggleRotate()
+    {
+
     }
 }
