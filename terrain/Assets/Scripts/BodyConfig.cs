@@ -25,7 +25,7 @@ namespace Config
         //what is the max angle of the joint
         //lower -> tighter coil
         [Tooltip("It is recommended that the max angle is in range 0 <= x <= 60")]
-        public int[] MaxAngle = new int[3] { 30, 60, 45 };
+        public int[] MaxAngle = new int[3] { 30, 45, 45 };
 
         [Tooltip("Range 0 <= x <= 1")]
         public float[] TurnRatio = new float[3] { 0.5f, 1f, 0.5f };

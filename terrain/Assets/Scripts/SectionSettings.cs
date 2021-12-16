@@ -31,21 +31,33 @@ internal class SectionSettings : MonoBehaviour
     [SerializeField]
     private Text turnVelocityOutput;
 
+    [SerializeField]
+    private Slider[] maxAngleSliders = new Slider[3];
+
+    [SerializeField]
+    private Text[] maxAngleOutputs = new Text[3];
+
+    [SerializeField]
+    private Slider[] turnRatioSliders = new Slider[3];
+
+    [SerializeField]
+    private Text[] turnRatioOutputs = new Text[3];
+
     private int sectionIndex = -1;
 
     private BodyConfig config;
 
+
     void Start()
     {
         GenerateDefaultParams();
-        //driveVelocityOutput.text = config != null && config.DriveVelocity >= 0 ? config.DriveVelocity.ToString("N2") : driveVelocitySlider.value.ToString("N2");
-        //turnVelocityOutput.text = config != null && config.TurnVelocity >= 0 ? config.TurnVelocity.ToString() : turnVelocitySlider.value.ToString();
     }
 
     public void UpdateIndex(int index)
     {
         sectionIndex = index;
         config = BaseConfig.SectionConfigs[sectionIndex - 1];
+        GenerateDefaultParams();
     }
     private void GenerateDefaultParams()
     {
@@ -68,6 +80,20 @@ internal class SectionSettings : MonoBehaviour
         //drive velocity
         driveVelocitySlider.value = config.DriveVelocity;
         ChangeDriveVelocity();
+
+        //max angle
+        for (int i = 0; i < maxAngleOutputs.Length; i++)
+        {
+            maxAngleSliders[i].value = config.MaxAngle[i];
+            ChangeMaxAngle(i);
+        }
+
+        //turn ratio
+        for (int i = 0; i < turnRatioOutputs.Length; i++)
+        {
+            turnRatioSliders[i].value = config.TurnRatio[i];
+            ChangeTurnRatio(i);
+        }
     }
 
     public void ToggleRotate()
@@ -94,6 +120,18 @@ internal class SectionSettings : MonoBehaviour
     {
         turnVelocityOutput.text = turnVelocitySlider.value.ToString();
         config.TurnVelocity = (int)turnVelocitySlider.value;
+    }
+
+    public void ChangeMaxAngle(int index)
+    {
+        maxAngleOutputs[index].text = maxAngleSliders[index].value.ToString();
+        config.MaxAngle[index] = (int)maxAngleSliders[index].value;
+    }
+
+    public void ChangeTurnRatio(int index)
+    {
+        turnRatioOutputs[index].text = turnRatioSliders[index].value.ToString();
+        config.TurnRatio[index] = turnRatioSliders[index].value;
     }
 
 

@@ -12,6 +12,7 @@ public class Settings : MonoBehaviour
 
     void Start()
     {
+        Cursor.visible = true;
         //TODO: legs/tail update when implemented
         bodyPartButtons[1].interactable = false;
         bodyPartButtons[2].interactable = false;
