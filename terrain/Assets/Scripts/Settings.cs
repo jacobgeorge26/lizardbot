@@ -11,9 +11,17 @@ public class Settings : MonoBehaviour
     [SerializeField]
     private Slider sectionsSlider;
 
+    [SerializeField]
+    private Toggle defaultToggle;
+
+    [SerializeField]
+    private Button[] selections = new Button[10];
+
     void Start()
     {
-        sectionsOutput.text = sectionsSlider.value.ToString();
+        BaseConfig.NoSections = (int)sectionsSlider.value;
+        UpdateSectionsOutput();
+        UpdateSelectionButtons();
     }
 
     //when the generate robot button has been clicked 
@@ -25,15 +33,38 @@ public class Settings : MonoBehaviour
         SceneManager.LoadScene(terrainIndex);
     }
 
-    public void UpdateNoSections(Slider slider)
+    public void UpdateNoSections()
     {
-        BaseConfig.NoSections = (int) slider.value;
-        sectionsOutput.text = slider.value.ToString();
+        BaseConfig.NoSections = (int) sectionsSlider.value;
+        UpdateSectionsOutput();
+        UpdateSelectionButtons();
     }
 
-    public void UpdateDefault(Toggle toggle)
+    public void UpdateSectionsOutput()
     {
-        BaseConfig.isDefault = toggle.isOn;
+        sectionsOutput.text = sectionsSlider.value.ToString();
+    }
+
+    public void UpdateDefault()
+    {
+        BaseConfig.isDefault = defaultToggle.isOn;
+        UpdateSelectionButtons();
+    }
+
+    public void UpdateSelectionButtons()
+    {
+        try
+        {
+            for(int i = 0; i < selections.Length; i++)
+            {
+                bool showButton = defaultToggle.isOn || (!defaultToggle.isOn && i + 1 > BaseConfig.NoSections) ? false : true;
+                selections[i].gameObject.SetActive(showButton);
+            }
+        }
+        catch (System.Exception)
+        {
+            Debug.LogError("The selection buttons have been set up incorrectly");
+        }
     }
 
 
