@@ -40,7 +40,6 @@ public class CameraPosTests : MonoBehaviour
         GameObject.Destroy(tail);
         GameObject.Destroy(cam);
         GameObject.Destroy(env);
-        Debug.Log("test");
     }
 
     //check that the camera is following the 
