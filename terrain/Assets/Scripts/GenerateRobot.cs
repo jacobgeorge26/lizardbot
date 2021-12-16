@@ -27,16 +27,22 @@ public class GenerateRobot : MonoBehaviour
     private void DefaultParams()
     {
         BaseConfig.NoSections = BaseConfig.NoSections == -1 ? BaseConfig.DefaultNoSections : BaseConfig.NoSections;
-        BaseConfig.DrivingSections = new bool[BaseConfig.NoSections];
-        BaseConfig.RotatingSections = new bool[BaseConfig.NoSections];
         for (int i = 0; i < BaseConfig.NoSections; i++)
         {
-            BaseConfig.DrivingSections[i] = true;
-            BaseConfig.RotatingSections[i] = i % 2 == 0 ? true : false;
+            BodyConfig config = new BodyConfig();
+            //rotation defaults
+            config.IsRotating = i % 2 == 0 ? true : false;
+            //TODO: CPG - update this
+            config.IsClockwise = new bool[3] { false, (i % 2 == 0 ? true : false), false };
+            config.MaxAngle = new int[3] { 30, 60, 45 };
+            config.TurnRatio = new float[3] { 0.5f, 1f, 0.5f };
+            config.TurnVelocity = 180;
+            //driving defaults
+            config.IsDriving = true;
+            config.DriveVelocity = 1f;
+            
+            BaseConfig.SectionConfigs.Add(config);
         }
-        BaseConfig.TurnVelocity = 180;
-        BaseConfig.DriveVelocity = 1f;
-        BaseConfig.MaxAngle = new int[3] { 30, 60, 45 };
     }
 
     private bool ValidateParams()
@@ -46,31 +52,35 @@ public class GenerateRobot : MonoBehaviour
             Debug.LogError("The minimum number of body sections is 1");
             return false;
         }
-        if (BaseConfig.RotatingSections.Length != BaseConfig.NoSections)
+        if (BaseConfig.SectionConfigs.Count != BaseConfig.NoSections)
         {
-            Debug.LogError("The number of rotating sections must equal the number of sections");
+            Debug.LogError("The number of section configs in BaseConfig must equal the number of sections");
             return false;
         }
-        if(BaseConfig.DrivingSections.Length != BaseConfig.NoSections)
+        for (int i = 0; i < BaseConfig.SectionConfigs.Count; i++)
         {
-            Debug.LogError("The number of driving sections must equal the number of sections");
-            return false;
-        }
-        //TODO: update once individual customisation is setup - will need to look at each one - drive & turn
-        if(BaseConfig.TurnVelocity < 1)
-        {
-            Debug.LogWarning("The rotating sections will not rotate due to the turn velocity");
-        }
-        if(BaseConfig.DriveVelocity < 0.1f)
-        {
-            Debug.LogWarning("The driving sections will not rotate due to the drive velocity");
-        }
-        //TODO: add more info about which section and angle it is
-        foreach(int angle in BaseConfig.MaxAngle)
-        {
-            if(angle > 60)
+            BodyConfig config = BaseConfig.SectionConfigs[i];
+            if (config.TurnVelocity < 1)
             {
-                Debug.LogWarning("A maximum angle is >60 which may produce unstable results");
+                Debug.LogWarning($"Section {i + 1} will not rotate due to a turn velocity of {config.TurnVelocity}");
+            }
+            if (config.DriveVelocity < 0.1f)
+            {
+                Debug.LogWarning($"Section {i + 1} will not drive due to a drive velocity of {config.DriveVelocity}");
+            }
+            for (int a = 0; a < config.MaxAngle.Length; a++)
+            {
+                string angle = a switch
+                {
+                    0 => "x",
+                    1 => "y",
+                    2 => "z",
+                    _ => "unknown"
+                };
+                if(config.MaxAngle[a] > 60)
+                {
+                    Debug.LogWarning($"The {angle} max angle of section {i + 1} is {config.MaxAngle[a]} which may produce unstable results. An angle <60 is recommended");
+                }
             }
         }
         return true;
@@ -90,13 +100,7 @@ public class GenerateRobot : MonoBehaviour
 
             //setup BodyConfig for MoveBody script
             BodyConfig config = section.GetComponent<BodyConfig>();
-            config.IsRotating = BaseConfig.RotatingSections[i];
-            config.IsClockwise = new bool[3] { false, true, false }; //TODO: make this dynamic
-            config.MaxAngle = BaseConfig.MaxAngle;
-            config.TurnVelocity = BaseConfig.TurnVelocity;
-            config.IsDriving = BaseConfig.DrivingSections[i];
-            config.DriveVelocity = BaseConfig.DriveVelocity;
-
+            config = BaseConfig.SectionConfigs[i];
             //setup configurable joints
             if (i > 0)
             {

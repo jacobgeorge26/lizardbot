@@ -70,6 +70,7 @@
     <Compile Include="Assets\Scripts\CameraPosition.cs" />
     <Compile Include="Assets\Scripts\MoveBody.cs" />
     <Compile Include="Assets\Scripts\retired\Move.cs" />
+    <Compile Include="Assets\Scripts\SectionSettingsUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\TestAssembly.asmdef" />
