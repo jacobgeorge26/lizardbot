@@ -21,7 +21,7 @@ public class BodySettings : MonoBehaviour
     [SerializeField]
     private GameObject configObject;
 
-    private int bodyConfigIndex = -1;
+    public int bodyConfigIndex = -1;
 
     public void ChangeNoSections()
     {
@@ -30,7 +30,8 @@ public class BodySettings : MonoBehaviour
         {
             for (int i = BaseConfig.SectionConfigs.Count; i < BaseConfig.NoSections; i++)
             {
-                BaseConfig.SectionConfigs.Add(GenerateDefaultSectionConfig());
+                //BodyConfig is initialised with default params
+                BaseConfig.SectionConfigs.Add(new BodyConfig());
             }
         }
         else if (BaseConfig.SectionConfigs.Count > BaseConfig.NoSections)
@@ -42,14 +43,6 @@ public class BodySettings : MonoBehaviour
         }
         UIUpdateSectionsOutput();
         UIUpdateHiddenSettings();
-    }
-
-    private BodyConfig GenerateDefaultSectionConfig()
-    {
-        BodyConfig newConfig = new BodyConfig();
-        newConfig.IsDriving = true;
-        newConfig.IsRotating = false;
-        return newConfig;
     }
 
     public void UIUpdateSectionsOutput()
@@ -93,19 +86,23 @@ public class BodySettings : MonoBehaviour
     public void SelectSection(int index)
     {
         bodyConfigIndex = index;
+        for (int i = 0; i < selections.Length; i++)
+        {
+            ColorBlock cb = selections[i].colors;
+            cb.normalColor = index == i + 1 ? Color.black : Color.white;
+            selections[i].GetComponent<Image>().color = index == i + 1 ? Color.black : Color.white;
+            selections[i].colors = cb;
+        }
         UIUpdateRDToggles();
+        configObject.GetComponent<SectionSettings>().UpdateIndex(index);
     }
 
     private void UIUpdateRDToggles()
     {
         BodyConfig config = BaseConfig.SectionConfigs[bodyConfigIndex - 1];
-        SectionSettingsUI objects = configObject.GetComponent<SectionSettingsUI>();
-        objects.RotateToggle.isOn = config.IsRotating;
-        objects.DriveToggle.isOn = config.IsDriving;
-    }
-
-    public void ToggleRotate()
-    {
-
+        SectionSettings objects = configObject.GetComponent<SectionSettings>();
+        //have to use SetIsOnWithoutNotify because IsOn = fails when assigned false
+        objects.RotateToggle.SetIsOnWithoutNotify(config.IsRotating);
+        objects.DriveToggle.SetIsOnWithoutNotify(config.IsDriving);
     }
 }
