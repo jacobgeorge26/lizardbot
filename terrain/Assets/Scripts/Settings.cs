@@ -56,7 +56,7 @@ public class Settings : MonoBehaviour
             }
         }
         UpdateSectionsOutput();
-        UpdateSelectionButtons();
+        UpdateHiddenSettings();
     }
 
     private BodyConfig GenerateDefaultSectionConfig()
@@ -75,10 +75,10 @@ public class Settings : MonoBehaviour
     public void UpdateDefault()
     {
         BaseConfig.isDefault = defaultToggle.isOn;
-        UpdateSelectionButtons();
+        UpdateHiddenSettings();
     }
 
-    public void UpdateSelectionButtons()
+    public void UpdateHiddenSettings()
     {
         try
         {
@@ -96,6 +96,8 @@ public class Settings : MonoBehaviour
                 selections[bodyConfigIndex - 1].Select();
                 UpdateSelectedSection(bodyConfigIndex);
             }
+            //show section settings
+            configObject.SetActive(!defaultToggle.isOn);
         }
         catch (System.Exception)
         {

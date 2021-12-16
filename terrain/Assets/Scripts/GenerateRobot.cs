@@ -100,7 +100,17 @@ public class GenerateRobot : MonoBehaviour
 
             //setup BodyConfig for MoveBody script
             BodyConfig config = section.GetComponent<BodyConfig>();
-            config = BaseConfig.SectionConfigs[i];
+            BodyConfig newConfig = BaseConfig.SectionConfigs[i];
+            //driving
+            config.IsDriving = newConfig.IsDriving;
+            config.DriveVelocity = newConfig.DriveVelocity;
+            //rotating
+            config.IsRotating = newConfig.IsRotating;
+            config.IsClockwise = newConfig.IsClockwise;
+            config.MaxAngle = newConfig.MaxAngle;
+            config.TurnRatio = newConfig.TurnRatio;
+            config.TurnVelocity = newConfig.TurnVelocity;
+            
             //setup configurable joints
             if (i > 0)
             {
