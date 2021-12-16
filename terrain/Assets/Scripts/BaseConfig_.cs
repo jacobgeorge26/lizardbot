@@ -8,7 +8,9 @@ namespace Config
     {
         public static bool isDefault { get; set; } = true;
 
-        public static int NoSections { get; set; }
+        public static int NoSections { get; set; } = -1;
+
+        public static int DefaultNoSections { get; set; } = 5;
 
         public static List<GameObject> Sections { get; set; } = new List<GameObject>();
 

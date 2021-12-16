@@ -16,7 +16,7 @@ public class GenerateRobot : MonoBehaviour
         //setup overall robot
         GameObject robot = new GameObject();
         robot.name = "robot";
-        robot.transform.position = new Vector3(0, 3, -8);
+        robot.transform.position = new Vector3(0, 3, 0);
 
         if (BaseConfig.isDefault) DefaultParams();
         else if (!ValidateParams()) return;
@@ -30,9 +30,14 @@ public class GenerateRobot : MonoBehaviour
 
     private void DefaultParams()
     {
-        BaseConfig.NoSections = 5;
-        BaseConfig.DrivingSections = new bool[5] { true, true, true, true, true };
-        BaseConfig.RotatingSections = new bool[5] { true, false, true, false, true };
+        BaseConfig.NoSections = BaseConfig.NoSections == -1 ? BaseConfig.DefaultNoSections : BaseConfig.NoSections;
+        BaseConfig.DrivingSections = new bool[BaseConfig.NoSections];
+        BaseConfig.RotatingSections = new bool[BaseConfig.NoSections];
+        for (int i = 0; i < BaseConfig.NoSections; i++)
+        {
+            BaseConfig.DrivingSections[i] = true;
+            BaseConfig.RotatingSections[i] = i % 2 == 0 ? true : false;
+        }
         BaseConfig.TurnVelocity = 180;
         BaseConfig.DriveVelocity = 1f;
         BaseConfig.MaxAngle = new int[3] { 30, 60, 45 };
