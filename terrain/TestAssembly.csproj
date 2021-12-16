@@ -56,6 +56,7 @@
     <Compile Include="Assets\Scripts\GenerateRobot.cs" />
     <Compile Include="Assets\Scripts\BodyConfig.cs" />
     <Compile Include="Assets\Scripts\retired\EntireBodyConfig.cs" />
+    <Compile Include="Assets\Scripts\Enums\BodyPart.cs" />
     <Compile Include="Assets\Scripts\SectionSettingsUI.cs" />
     <Compile Include="Assets\Scripts\retired\JointSetup.cs" />
     <Compile Include="Assets\Scripts\retired\retiredcode.cs" />
@@ -71,7 +72,7 @@
     <Compile Include="Assets\Scripts\CameraPosition.cs" />
     <Compile Include="Assets\Scripts\MoveBody.cs" />
     <Compile Include="Assets\Scripts\retired\Move.cs" />
-    <Compile Include="Assets\Scripts\Enums\BodyPart.cs" />
+    <Compile Include="Assets\Scripts\BodySettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\TestAssembly.asmdef" />

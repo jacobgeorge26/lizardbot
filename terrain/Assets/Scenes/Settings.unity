@@ -895,8 +895,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 611102455}
-        m_TargetAssemblyTypeName: Settings, TestAssembly
+      - m_Target: {fileID: 611102456}
+        m_TargetAssemblyTypeName: BodySettings, TestAssembly
         m_MethodName: ToggleDefault
         m_Mode: 1
         m_Arguments:
@@ -1750,8 +1750,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 611102455}
-        m_TargetAssemblyTypeName: Settings, TestAssembly
+      - m_Target: {fileID: 611102456}
+        m_TargetAssemblyTypeName: BodySettings, TestAssembly
         m_MethodName: SelectSection
         m_Mode: 3
         m_Arguments:
@@ -2237,8 +2237,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 611102455}
-        m_TargetAssemblyTypeName: Settings, TestAssembly
+      - m_Target: {fileID: 611102456}
+        m_TargetAssemblyTypeName: BodySettings, TestAssembly
         m_MethodName: ChangeNoSections
         m_Mode: 1
         m_Arguments:
@@ -2530,6 +2530,7 @@ GameObject:
   - component: {fileID: 611102452}
   - component: {fileID: 611102451}
   - component: {fileID: 611102455}
+  - component: {fileID: 611102456}
   m_Layer: 5
   m_Name: Menu
   m_TagString: Untagged
@@ -2633,6 +2634,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d859b2e2cddd4a44785c550c21191f2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bodyPartButtons:
+  - {fileID: 184965089}
+  - {fileID: 1213648811}
+  - {fileID: 1790551767}
+--- !u!114 &611102456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 611102450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 045443fc08e9c274badc40d419fc760c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   sectionsOutput: {fileID: 715141484}
   sectionsSlider: {fileID: 556957566}
   defaultToggle: {fileID: 223866830}
@@ -2648,10 +2665,6 @@ MonoBehaviour:
   - {fileID: 1459214746}
   - {fileID: 823700685}
   configObject: {fileID: 1552840791}
-  bodyPartButtons:
-  - {fileID: 184965089}
-  - {fileID: 1213648811}
-  - {fileID: 1790551767}
 --- !u!1 &612473146
 GameObject:
   m_ObjectHideFlags: 0
@@ -3236,8 +3249,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 611102455}
-        m_TargetAssemblyTypeName: Settings, TestAssembly
+      - m_Target: {fileID: 611102456}
+        m_TargetAssemblyTypeName: BodySettings, TestAssembly
         m_MethodName: SelectSection
         m_Mode: 3
         m_Arguments:
@@ -3369,8 +3382,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 611102455}
-        m_TargetAssemblyTypeName: Settings, TestAssembly
+      - m_Target: {fileID: 611102456}
+        m_TargetAssemblyTypeName: BodySettings, TestAssembly
         m_MethodName: SelectSection
         m_Mode: 3
         m_Arguments:
@@ -3622,8 +3635,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 611102455}
-        m_TargetAssemblyTypeName: Settings, TestAssembly
+      - m_Target: {fileID: 611102456}
+        m_TargetAssemblyTypeName: BodySettings, TestAssembly
         m_MethodName: SelectSection
         m_Mode: 3
         m_Arguments:
@@ -3755,8 +3768,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 611102455}
-        m_TargetAssemblyTypeName: Settings, TestAssembly
+      - m_Target: {fileID: 611102456}
+        m_TargetAssemblyTypeName: BodySettings, TestAssembly
         m_MethodName: SelectSection
         m_Mode: 3
         m_Arguments:
@@ -4126,8 +4139,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 611102455}
-        m_TargetAssemblyTypeName: Settings, TestAssembly
+      - m_Target: {fileID: 611102456}
+        m_TargetAssemblyTypeName: BodySettings, TestAssembly
         m_MethodName: SelectSection
         m_Mode: 3
         m_Arguments:
@@ -4392,8 +4405,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 611102455}
-        m_TargetAssemblyTypeName: Settings, TestAssembly
+      - m_Target: {fileID: 611102456}
+        m_TargetAssemblyTypeName: BodySettings, TestAssembly
         m_MethodName: SelectSection
         m_Mode: 3
         m_Arguments:
@@ -4904,8 +4917,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 611102455}
-        m_TargetAssemblyTypeName: Settings, TestAssembly
+      - m_Target: {fileID: 611102456}
+        m_TargetAssemblyTypeName: BodySettings, TestAssembly
         m_MethodName: SelectSection
         m_Mode: 3
         m_Arguments:
@@ -5123,8 +5136,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 611102455}
-        m_TargetAssemblyTypeName: Settings, TestAssembly
+      - m_Target: {fileID: 611102456}
+        m_TargetAssemblyTypeName: BodySettings, TestAssembly
         m_MethodName: SelectSection
         m_Mode: 3
         m_Arguments:
@@ -6274,8 +6287,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 611102455}
-        m_TargetAssemblyTypeName: Settings, TestAssembly
+      - m_Target: {fileID: 611102456}
+        m_TargetAssemblyTypeName: BodySettings, TestAssembly
         m_MethodName: SelectSection
         m_Mode: 3
         m_Arguments:

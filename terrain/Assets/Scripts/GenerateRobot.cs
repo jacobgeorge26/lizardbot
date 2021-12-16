@@ -26,6 +26,7 @@ public class GenerateRobot : MonoBehaviour
 
     private void DefaultParams()
     {
+        BaseConfig.SectionConfigs.Clear();
         BaseConfig.NoSections = BaseConfig.NoSections == -1 ? BaseConfig.DefaultNoSections : BaseConfig.NoSections;
         for (int i = 0; i < BaseConfig.NoSections; i++)
         {
