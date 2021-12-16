@@ -21,7 +21,6 @@ public class Settings : MonoBehaviour
     //if default then move to the terrain scene
     public void GenerateRobot()
     {
-        BaseConfig.isDefault = true;
         int terrainIndex = SceneManager.GetActiveScene().buildIndex + 1;
         SceneManager.LoadScene(terrainIndex);
     }
@@ -30,6 +29,11 @@ public class Settings : MonoBehaviour
     {
         BaseConfig.NoSections = (int) slider.value;
         sectionsOutput.text = slider.value.ToString();
+    }
+
+    public void UpdateDefault(Toggle toggle)
+    {
+        BaseConfig.isDefault = toggle.isOn;
     }
 
 

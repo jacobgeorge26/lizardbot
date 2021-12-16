@@ -8,11 +8,6 @@ public class GenerateRobot : MonoBehaviour
 {
     void Start()
     {
-        Generate();
-    }
-
-    private void Generate()
-    {
         //setup overall robot
         GameObject robot = new GameObject();
         robot.name = "robot";
@@ -27,6 +22,7 @@ public class GenerateRobot : MonoBehaviour
 
         SetupCam(robot);
     }
+
 
     private void DefaultParams()
     {
