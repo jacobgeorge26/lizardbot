@@ -46,8 +46,8 @@ namespace Config
 
         //how fast should the section move forward
         //>1 is too fast and can be hard to follow / limit the effects of rotation as it's constantly just bouncing off the terrain
-        [Range(0f, 1f)]
-        public float DriveVelocity = 1f;
+        [Range(0f, 3f)]
+        public float DriveVelocity = 2f;
 
     }
 }

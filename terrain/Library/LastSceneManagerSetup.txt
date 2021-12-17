@@ -1,9 +1,9 @@
 sceneSetups:
-- path: Assets/Scenes/RobotTerrain.unity
+- path: Assets/Scenes/Settings.unity
   isLoaded: 0
   isActive: 0
   isSubScene: 0
-- path: Assets/Scenes/Settings.unity
+- path: Assets/Scenes/RobotTerrain.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
