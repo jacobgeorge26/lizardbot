@@ -8,7 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Settings.unity
     guid: 9386e38d830ac124895e4095456b36bf
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/RobotTerrain.unity
-    guid: a53235852c36d414a83793b96aca263c
+    path: Assets/Scenes/Terrain.unity
+    guid: e78a2dd744dd4f64983fea4178fdb8ba
   m_configObjects: {}

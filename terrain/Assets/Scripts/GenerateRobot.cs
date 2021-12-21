@@ -6,14 +6,15 @@ using System;
 
 public class GenerateRobot : MonoBehaviour
 {
+    public GameObject robot;
     void Start()
     {
         //setup overall robot
-        GameObject robot = new GameObject();
+        robot = new GameObject();
         robot.name = "robot";
-        robot.transform.position = new Vector3(0, 3, 0);
+        robot.transform.position = new Vector3(0, 10, 0);
 
-        if (BaseConfig.isDefault) DefaultParams();
+        if (BaseConfig.IsDefault) DefaultParams();
         else if (!ValidateParams()) return;
 
         SetupBody(robot);
@@ -30,17 +31,12 @@ public class GenerateRobot : MonoBehaviour
         BaseConfig.NoSections = BaseConfig.NoSections == -1 ? BaseConfig.DefaultNoSections : BaseConfig.NoSections;
         for (int i = 0; i < BaseConfig.NoSections; i++)
         {
+            //BodyConfig comes with default params - exceptions are shown below - change from default every other section
             BodyConfig config = new BodyConfig();
-            //rotation defaults
+            ////rotation defaults
             config.IsRotating = i % 2 == 0 ? true : false;
-            //TODO: CPG - update this
+            ////TODO: CPG - update this
             config.IsClockwise = new bool[3] { false, (i % 2 == 0 ? true : false), false };
-            config.MaxAngle = new int[3] { 30, 60, 45 };
-            config.TurnRatio = new float[3] { 0.5f, 1f, 0.5f };
-            config.TurnVelocity = 180;
-            //driving defaults
-            config.IsDriving = true;
-            config.DriveVelocity = 1f;
             
             BaseConfig.SectionConfigs.Add(config);
         }
