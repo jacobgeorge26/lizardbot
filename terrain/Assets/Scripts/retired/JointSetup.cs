@@ -8,7 +8,7 @@
 //    {
 //        public bool IsLocked { get; set; } = false;
 //        public Vector3 RelativeAngle { get; set; }
-//        public int MaxAngle { get; set; } = 45;
+//        public int AngleConstraint { get; set; } = 45;
 
 //        public int CoilAngle { get; set; } = 10;
 

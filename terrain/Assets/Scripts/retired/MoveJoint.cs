@@ -75,7 +75,7 @@
 //        //there's been a bug and this joint is rotated when it shouldn't be
 //        if (IsLocked && rndAngle > 0) Debug.LogWarning($"Joint {Joint.name} was rotated when it is locked");
 //        //there's been a bug and this joint isn't rotated as it should be
-//        if (IsCoiling && !IsLocked && Math.Abs(rndAngle) - Math.Abs(MaxAngle) > 1) Debug.LogWarning($"Joint {Joint.name} has y rotation {rndAngle} after coiling when max angle is {MaxAngle}");
+//        if (IsCoiling && !IsLocked && Math.Abs(rndAngle) - Math.Abs(AngleConstraint) > 1) Debug.LogWarning($"Joint {Joint.name} has y rotation {rndAngle} after coiling when max angle is {AngleConstraint}");
 
 //        //return the angle to relative angle 0
 //        //this will correspond to the angle * -1 when it locks the other way in a moment
@@ -96,14 +96,14 @@
 
 //        //validation
 //        if (IsLocked && absrndAngle != 0 && absrndAngle != 180) Debug.LogError($"Joint {Joint.name} is locked but has y rotation {currentAngle.y}");
-//        if (!IsLocked && absrndAngle > MaxAngle) Debug.LogError($"Joint {Joint.name} has y rotation {currentAngle.y} while the max angle is {MaxAngle}");
+//        if (!IsLocked && absrndAngle > AngleConstraint) Debug.LogError($"Joint {Joint.name} has y rotation {currentAngle.y} while the max angle is {AngleConstraint}");
 
 //        if (!IsLocked)
 //        {
-//            if (IsCoiling && absrndAngle < MaxAngle) //joint needs coiling
+//            if (IsCoiling && absrndAngle < AngleConstraint) //joint needs coiling
 //            {
 //                stillRotating = true;
-//                double turnAngle = IsClockwise ? MaxAngle : MaxAngle * -1; //coiling clockwise or anticlockwise
+//                double turnAngle = IsClockwise ? AngleConstraint : AngleConstraint * -1; //coiling clockwise or anticlockwise
 //                StartCoroutine(RotateJoint(turnAngle));
 //            }
 //            else if (!IsCoiling && absrndAngle > 0) //joint needs uncoiling

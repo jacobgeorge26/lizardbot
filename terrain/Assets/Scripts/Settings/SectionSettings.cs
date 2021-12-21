@@ -24,13 +24,6 @@ internal class SectionSettings : MonoBehaviour
     [SerializeField]
     private Text driveVelocityOutput;
 
-    //turn velocity
-    [SerializeField]
-    private Slider turnVelocitySlider;
-
-    [SerializeField]
-    private Text turnVelocityOutput;
-
     [SerializeField]
     private Slider[] maxAngleSliders = new Slider[3];
 
@@ -73,10 +66,6 @@ internal class SectionSettings : MonoBehaviour
         DriveToggle.isOn = config.IsDriving;
         ToggleDrive();
 
-        //turn velocity
-        turnVelocitySlider.value = config.TurnVelocity;
-        ChangeTurnVelocity();
-
         //drive velocity
         driveVelocitySlider.value = config.DriveVelocity;
         ChangeDriveVelocity();
@@ -84,14 +73,14 @@ internal class SectionSettings : MonoBehaviour
         //max angle
         for (int i = 0; i < maxAngleOutputs.Length; i++)
         {
-            maxAngleSliders[i].value = config.MaxAngle[i];
+            maxAngleSliders[i].value = config.AngleConstraint[i];
             ChangeMaxAngle(i);
         }
 
         //turn ratio
         for (int i = 0; i < turnRatioOutputs.Length; i++)
         {
-            turnRatioSliders[i].value = config.TurnRatio[i];
+            turnRatioSliders[i].value = config.RotationMultiplier[i];
             ChangeTurnRatio(i);
         }
     }
@@ -116,22 +105,16 @@ internal class SectionSettings : MonoBehaviour
         config.DriveVelocity = driveVelocitySlider.value;
     }
 
-    public void ChangeTurnVelocity()
-    {
-        turnVelocityOutput.text = turnVelocitySlider.value.ToString();
-        config.TurnVelocity = (int)turnVelocitySlider.value;
-    }
-
     public void ChangeMaxAngle(int index)
     {
         maxAngleOutputs[index].text = maxAngleSliders[index].value.ToString();
-        config.MaxAngle[index] = (int)maxAngleSliders[index].value;
+        config.AngleConstraint[index] = (int)maxAngleSliders[index].value;
     }
 
     public void ChangeTurnRatio(int index)
     {
         turnRatioOutputs[index].text = turnRatioSliders[index].value.ToString();
-        config.TurnRatio[index] = turnRatioSliders[index].value;
+        config.RotationMultiplier[index] = turnRatioSliders[index].value;
     }
 
 

@@ -35,12 +35,12 @@ namespace ProceduralToolkit.Samples
                 case Surface.Smooth:
                     height = 5;
                     config.noiseFrequency = width * 0.04f;
-                    config.gradient = ColorE.Gradient(darkYellow, lightYellow);
+                    config.gradient = ColorE.Gradient(lightYellow, darkYellow);
                     break;
                 case Surface.Uneven:
                     height = 7.5f;
                     config.noiseFrequency = width * 0.06f;
-                    config.gradient = ColorE.Gradient(darkBrown, darkGreen);
+                    config.gradient = ColorE.Gradient(darkGreen, darkBrown);
                     break;
                 case Surface.Rough:
                     height = 10;
