@@ -28,7 +28,7 @@ public class BodySettings : MonoBehaviour
         sectionsSlider.value = BaseConfig.DefaultNoSections;
         ChangeNoSections();
 
-        defaultToggle.SetIsOnWithoutNotify(BaseConfig.isDefault);
+        defaultToggle.SetIsOnWithoutNotify(BaseConfig.IsDefault);
         ToggleDefault();
     }
 
@@ -61,7 +61,7 @@ public class BodySettings : MonoBehaviour
 
     public void ToggleDefault()
     {
-        BaseConfig.isDefault = defaultToggle.isOn;
+        BaseConfig.IsDefault = defaultToggle.isOn;
         UIUpdateHiddenSettings();
     }
 

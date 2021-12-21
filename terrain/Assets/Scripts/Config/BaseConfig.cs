@@ -6,7 +6,7 @@ namespace Config
 {
     public static class BaseConfig : object
     {
-        public static bool isDefault { get; set; } = true;
+        public static bool IsDefault { get; set; } = true;
 
         public static int NoSections { get; set; } = -1;
 
@@ -16,7 +16,7 @@ namespace Config
 
         public static List<BodyConfig> SectionConfigs { get; set; } = new List<BodyConfig>();
 
-        public static Surface SurfaceType { get; set; } = Surface.Smooth;
+        public static Surface SurfaceType { get; set; } = Surface.Uneven;
     }
 }
 

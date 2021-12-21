@@ -14,19 +14,13 @@ namespace ProceduralToolkit.Samples
         public LowPolyTerrainGenerator.Config config = new LowPolyTerrainGenerator.Config();
 
         private Mesh terrainMesh;
-
+        private int count = 0;
+        private bool uneven = false, smooth = false;
         private void Awake()
         {
             LowPolyTerrainGenerator.SetupParams(config);
             Generate();
             SetupSkyboxAndPalette();
-        }
-
-        private void Update()
-        {
-            LowPolyTerrainGenerator.SetupParams(config);
-            Generate();
-            UpdateSkybox();
         }
 
         public void Generate(bool randomizeConfig = false)

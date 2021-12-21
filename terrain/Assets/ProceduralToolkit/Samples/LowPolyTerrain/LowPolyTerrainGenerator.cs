@@ -13,41 +13,39 @@ namespace ProceduralToolkit.Samples
     /// </summary>
     public static class LowPolyTerrainGenerator
     {
-        [Serializable]
         public class Config
         {
             public Vector3 terrainSize;
-            public float cellSize = 0.2f;
+            public float cellSize = 0.5f;
             public float noiseFrequency;
-            public Gradient gradient = ColorE.Gradient(Color.black, Color.white);
-            public Surface surface;
+            public Gradient gradient;
         }
 
         public static void SetupParams(Config config)
         {
             Color darkGreen = new Color(0.027f, 0.368f, 0.076f, 1f);
             Color darkBrown = new Color(0.3647f, 0.2275f, 0.102f, 1f);
-            Color darkGrey = new Color(0.355f, 0.355f, 0.355f, 1f);
-            Color lightGrey = new Color(0.705f, 0.705f, 0.705f, 1f);
-            Color darkYellow = new Color(0.953f, 0.69f, 0.349f, 1f);
-            Color lightYellow = new Color(0.984f, 0.776f, 0.463f, 1f);
-            int width = 100, height = 0;
-            switch (config.surface)
+            Color lightGrey = new Color(0.690f, 0.714f, 0.745f, 1f);
+            Color darkYellow = new Color(0.952f, 0.69f, 0.349f, 1f);
+            Color lightYellow = new Color(0.283f, 0.069f, 0.036f, 1f);
+            float width = 100, height = 0;
+            //tailor terrain for surface type (including different gradient colours)
+            switch (BaseConfig.SurfaceType)
             {
                 case Surface.Smooth:
-                    height = 4;
-                    config.noiseFrequency = 4;
-                    config.gradient = ColorE.Gradient(lightYellow, darkYellow);
+                    height = 5;
+                    config.noiseFrequency = width * 0.04f;
+                    config.gradient = ColorE.Gradient(darkYellow, lightYellow);
                     break;
                 case Surface.Uneven:
-                    height = 6;
-                    config.noiseFrequency = 6;
+                    height = 7.5f;
+                    config.noiseFrequency = width * 0.06f;
                     config.gradient = ColorE.Gradient(darkBrown, darkGreen);
                     break;
                 case Surface.Rough:
-                    height = 8;
-                    config.noiseFrequency = 8;
-                    config.gradient = ColorE.Gradient(darkGrey, lightGrey);
+                    height = 10;
+                    config.noiseFrequency = width * 0.08f;
+                    config.gradient = ColorE.Gradient(lightGrey, Color.black);
                     break;
 
             }

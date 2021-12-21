@@ -6,14 +6,15 @@ using System;
 
 public class GenerateRobot : MonoBehaviour
 {
+    public GameObject robot;
     void Start()
     {
         //setup overall robot
-        GameObject robot = new GameObject();
+        robot = new GameObject();
         robot.name = "robot";
-        robot.transform.position = new Vector3(0, 5, 0);
+        robot.transform.position = new Vector3(0, 10, 0);
 
-        if (BaseConfig.isDefault) DefaultParams();
+        if (BaseConfig.IsDefault) DefaultParams();
         else if (!ValidateParams()) return;
 
         SetupBody(robot);
