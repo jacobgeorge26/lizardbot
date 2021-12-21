@@ -5,9 +5,10 @@ using System.Linq;
 using UnityEngine;
 using Config;
 
-public class MoveBody : BodyConfig
+public class MoveBody : MonoBehaviour
 {
     private Rigidbody body;
+    private BodyConfig config = new BodyConfig();
     private Vector3 direction;
 
     void Start()
@@ -20,8 +21,13 @@ public class MoveBody : BodyConfig
     //will drive and/or rotate as determined in BodyConfig
     void FixedUpdate()
     {        
-        if (IsDriving) Drive();
-        if (IsRotating) Rotate();
+        if (config.IsDriving) Drive();
+        if (config.IsRotating) Rotate();
+    }
+
+    public BodyConfig GetBodyConfig()
+    {
+        return config;
     }
 
     //TODO: update for 3D rotation
@@ -32,20 +38,30 @@ public class MoveBody : BodyConfig
         Vector3 angleVelocity = new Vector3();
         Vector3 prevSecAngle = new Vector3();
 
-
+        List<BodyConfig> RotatingSections = BaseConfig.SectionConfigs.Where(s => s.IsRotating && s.Index < config.Index).ToList();
         for (int i = 0; i < 3; i++)
-        {
+        {          
             //determine initial velocity
-            if (Index > 0)
+            if (RotatingSections.Count > 0)
             {
-                GameObject previousSection = BaseConfig.Sections[Index - 1];
-                MoveBody prevSecMoveBody = previousSection.GetComponent<MoveBody>();
+                BodyConfig previousSection = RotatingSections.Last();
+                MoveBody prevSecMoveBody = BaseConfig.Sections[previousSection.Index].GetComponent<MoveBody>();
                 prevSecAngle = prevSecMoveBody.GetRelativeAngle();
                 angleVelocity[i] = prevSecMoveBody.GetVelocity()[i];
             }
-            angleVelocity[i] += 0.5f * ((float)Math.Cos(prevSecAngle[i]) + (float)Math.Cos(currentAngle[i])); //TODO: get diameter instead of assuming it
+            //TODO: get diameter instead of assuming it
+            if (config.UseSin)
+            {
+                float test = body.transform.localScale.magnitude;
+
+                angleVelocity[i] += 0.5f * ((float)Math.Sin(prevSecAngle[i]) + (float)Math.Sin(currentAngle[i]));
+            }
+            else
+            {
+                angleVelocity[i] += 0.5f * ((float)Math.Cos(prevSecAngle[i]) + (float)Math.Cos(currentAngle[i]));
+            }       
             //adjust for rotation multiplier
-            angleVelocity[i] *= RotationMultiplier[i];
+            angleVelocity[i] *= config.RotationMultiplier[i];
         }
 
         //convert vector to a quaternion
@@ -66,7 +82,7 @@ public class MoveBody : BodyConfig
         //get the current trajectory of the body section
         direction = this.transform.forward;
         //move it forward at a speed derived in BodyConfig
-        body.MovePosition(body.position + direction * DriveVelocity * Time.fixedDeltaTime);
+        body.MovePosition(body.position + direction * config.DriveVelocity * Time.fixedDeltaTime);
     }
 
 
@@ -77,7 +93,7 @@ public class MoveBody : BodyConfig
         Vector3 angle = new Vector3(0, 0, 0);
 
         //angle should remain 0 for relativity if not rotating
-        angle = IsRotating ? this.transform.localRotation.eulerAngles : angle;
+        angle = config.IsRotating ? this.transform.localRotation.eulerAngles : angle;
 
         //update for range -180 - 180
         angle.x -= Math.Round(angle.x, 0) > 180 ? 360 : 0;

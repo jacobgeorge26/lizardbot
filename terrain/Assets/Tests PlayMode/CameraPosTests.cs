@@ -18,13 +18,14 @@ public class CameraPosTests : MonoBehaviour
 
         head = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Section"));
         MoveBody headScript = head.GetComponent<MoveBody>();
-        headScript.IsDriving = false;
-        headScript.IsRotating = false;
+        BodyConfig config = headScript.GetBodyConfig();
+        config.IsDriving = false;
+        config.IsRotating = false;
 
         tail = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Section"));
         MoveBody tailScript = tail.GetComponent<MoveBody>();
-        tailScript.IsDriving = false;
-        tailScript.IsRotating = false;
+        config.IsDriving = false;
+        config.IsRotating = false;
 
         cam = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Robot Camera"));
         CameraPosition camScript = cam.GetComponent<CameraPosition>();

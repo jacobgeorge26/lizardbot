@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Config;
 using System;
+using System.Linq;
 
 public class GenerateRobot : MonoBehaviour
 {
@@ -32,10 +33,18 @@ public class GenerateRobot : MonoBehaviour
         {
             //BodyConfig comes with default params - exceptions are shown below - change from default every other section
             BodyConfig config = new BodyConfig();
-            ////rotation defaults
+            //rotation defaults
+            config.Index = i;
             config.IsRotating = i % 2 == 0 ? true : false;
             
             BaseConfig.SectionConfigs.Add(config);
+        }
+
+        //alternate betwwen sin and cos
+        List<BodyConfig> rotatingSections = BaseConfig.SectionConfigs.Where(s => s.IsRotating).ToList();
+        for (int i = 0; i < rotatingSections.Count; i++)
+        {
+            rotatingSections[i].UseSin = i % 2 == 0 ? true : false;
         }
     }
 
@@ -96,18 +105,11 @@ public class GenerateRobot : MonoBehaviour
             section.transform.parent = robot.transform;
             section.transform.localPosition = new Vector3(0, 0, (float)(i * -1.1));
 
-            //setup BodyConfig for MoveBody script
-            BodyConfig config = section.GetComponent<BodyConfig>();
-            BodyConfig newConfig = BaseConfig.SectionConfigs[i];
+            //setup BodyConfig for MoveBody script - needs to have the baseconfig variables copied to it
+            BodyConfig config = section.GetComponent<MoveBody>().GetBodyConfig();
+            BodyConfig.Copy(config, BaseConfig.SectionConfigs[i]);
             //index
             config.Index = i;
-            //driving
-            config.IsDriving = newConfig.IsDriving;
-            config.DriveVelocity = newConfig.DriveVelocity;
-            //rotating
-            config.IsRotating = newConfig.IsRotating;
-            config.AngleConstraint = newConfig.AngleConstraint;
-            config.RotationMultiplier = newConfig.RotationMultiplier;
             
             //setup configurable joints
             if (i > 0)

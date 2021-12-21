@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,10 +26,13 @@ namespace Config
         //what is the angle constraint of the joint
         //lower -> tighter coil
         [Tooltip("It is recommended that the angle constraint is in range 30 <= x <= 120")]
-        public int[] AngleConstraint = new int[3] { 30, 30, 30 };
+        public int[] AngleConstraint = new int[3] { 120, 120, 120 };
 
         [Tooltip("Range 0 <= x <= 1")]
         public float[] RotationMultiplier = new float[3] { 0.5f, 1, 0.5f };
+
+        [HideInInspector]
+        public bool UseSin = true;
 
         /*-------------------------------------------------------------------------------------------------------*/
 
@@ -43,5 +47,15 @@ namespace Config
         [Range(0f, 3f)]
         public float DriveVelocity = 2f;
 
+        internal static void Copy(BodyConfig copyTo, BodyConfig copyFrom)
+        {
+            copyTo.Index = copyFrom.Index;
+            copyTo.IsRotating = copyFrom.IsRotating;
+            copyTo.AngleConstraint = copyFrom.AngleConstraint;
+            copyTo.RotationMultiplier = copyFrom.RotationMultiplier;
+            copyTo.UseSin = copyFrom.UseSin;
+            copyTo.IsDriving = copyFrom.IsDriving;
+            copyTo.DriveVelocity = copyFrom.DriveVelocity;
+        }
     }
 }
