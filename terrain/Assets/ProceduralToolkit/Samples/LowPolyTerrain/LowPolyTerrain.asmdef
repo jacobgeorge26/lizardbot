@@ -1,0 +1,20 @@
+{
+    "name": "LowPolyTerrain",
+    "rootNamespace": "",
+    "references": [
+        "GUID:561cd3090aa423b4584912885a62ef6f",
+        "GUID:97ec812b2c74f6c44882da9cd3f1170f",
+        "GUID:13ff5b25c53f2e54e8c2110962313afe",
+        "GUID:6780ef107b1e13c43aba3f074716af3e",
+        "GUID:6f4dc609dcfbe5a43ba1d244660c8892"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

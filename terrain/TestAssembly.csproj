@@ -59,6 +59,7 @@
     <Compile Include="Assets\Scripts\Enums\BodyPart.cs" />
     <Compile Include="Assets\Scripts\Settings\SectionSettings.cs" />
     <Compile Include="Assets\Scripts\retired\JointSetup.cs" />
+    <Compile Include="Assets\Scripts\Config\TerrainConfig.cs" />
     <Compile Include="Assets\Scripts\Settings\BodySettings.cs" />
     <Compile Include="Assets\Scripts\retired\retiredcode.cs" />
     <Compile Include="Assets\Scripts\retired\JointConfig.cs" />
@@ -74,7 +75,6 @@
     <Compile Include="Assets\Scripts\CameraPosition.cs" />
     <Compile Include="Assets\Scripts\MoveBody.cs" />
     <Compile Include="Assets\Scripts\retired\Move.cs" />
-    <Compile Include="Assets\Scripts\Config\TerrainConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\TestAssembly.asmdef" />
