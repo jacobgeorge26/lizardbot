@@ -22,10 +22,9 @@ public class RotateBodyTests
         sectionMS = section.GetComponent<MoveBody>();
         sectionBC = section.GetComponent<BodyConfig>();
 
-        sectionBC.MaxAngle = new int [3]{ 0, 60, 0 };
+        sectionBC.AngleConstraint = new int [3]{ 0, 60, 0 };
         sectionBC.IsDriving = false;
-        sectionBC.IsClockwise = new bool[3] { false, true, false };
-        sectionBC.TurnVelocity = 180;
+        sectionBC.RotationMultiplier = new float[3] { 1, 1, 1};
         sectionBC.DriveVelocity = 1f;
 
         
@@ -43,31 +42,18 @@ public class RotateBodyTests
 
     //if rotating clockwise it should increase the angle
     [UnityTest]
-    public IEnumerator Y_Positive()
+    public IEnumerator Y_RotatesClockwiseOnInit()
     {
-        section.transform.localEulerAngles = new Vector3(0, 0, 0);
+        section.GetComponent<Rigidbody>().rotation = Quaternion.Euler(0, 0, 0);
+        section.GetComponent<Rigidbody>().velocity = new Vector3();
         sectionBC.IsRotating = true;
-        sectionBC.IsClockwise = new bool[3]{false, true, false};
 
-        yield return new WaitForFixedUpdate(); //first one it won't move
-        yield return new WaitForFixedUpdate();
+        yield return new WaitForSeconds(3);
         Assert.IsTrue(sectionMS.GetRelativeAngle().y > 0);
     }
 
-    //if rotating anticlockwise it should decrease the angle
-    [UnityTest]
-    public IEnumerator Y_Negative()
-    {
-        section.transform.localEulerAngles = new Vector3(0, 0, 0);       
-        sectionBC.IsRotating = true;
-        sectionBC.IsClockwise = new bool[3] { false, false, false };
 
-        yield return new WaitForFixedUpdate(); //first one it won't move
-        yield return new WaitForFixedUpdate();
-        Assert.IsTrue(sectionMS.GetRelativeAngle().y < 0);
-    }
-
-    //check that Rotate is reversing direction at MaxAngle
+    //check that Rotate is reversing direction at AngleConstraint
     [UnityTest]
     public IEnumerator Y_PositiveReverseDirection()
     {
@@ -79,7 +65,7 @@ public class RotateBodyTests
         Assert.IsTrue(sectionMS.GetRelativeAngle().y < 60);
     }
 
-    //check that Rotate is reversing direction at MaxAngle * -1
+    //check that Rotate is reversing direction at AngleConstraint * -1
     [UnityTest]
     public IEnumerator Y_NegativeReverseDirection()
     {
@@ -91,51 +77,26 @@ public class RotateBodyTests
         Assert.IsTrue(sectionMS.GetRelativeAngle().y > -60);
     }
 
-    //check that IsClockwise will reverse if bug and angle > MaxAngle
-    [UnityTest]
-    public IEnumerator Y_PositiveHandleMaxAngleExceeded()
-    {
-        section.transform.localEulerAngles = new Vector3(0, 80, 0);
-        sectionBC.IsRotating = true;
-        sectionBC.IsClockwise = new bool[3] { false, true, false };
 
-        yield return new WaitForFixedUpdate(); //first one it won't move
-        yield return new WaitForFixedUpdate();
-        Assert.IsFalse(sectionBC.IsClockwise[1]);
-    }
-
-    //check that IsClockwise will reverse if bug and angle < MaxAngle * -1
-    [UnityTest]
-    public IEnumerator Y_NegativeHandleMaxAngleExceeded()
-    {
-        section.transform.localEulerAngles = new Vector3(0, -80, 0);
-        sectionBC.IsRotating = true;
-        sectionBC.IsClockwise = new bool[3] { false, false, false };
-
-        yield return new WaitForFixedUpdate(); //first one it won't move
-        yield return new WaitForFixedUpdate();
-        Assert.IsTrue(sectionBC.IsClockwise[1]);
-    }
-
-    //if MaxAngle is 0 then rotate should hover around zero
+    //if AngleConstraint is 0 then rotate should hover around zero
     [UnityTest]
     public IEnumerator Y_ZeroMaxAngle()
     {
         section.transform.localEulerAngles = new Vector3(0, 0, 0);
         sectionBC.IsRotating = true;
-        sectionBC.MaxAngle = new int[3] { 0, 0, 0 };
+        sectionBC.AngleConstraint = new int[3] { 0, 0, 0 };
 
         yield return new WaitForSeconds(2); 
         Assert.IsTrue(Math.Abs(sectionMS.GetRelativeAngle().y) < 5);
     }
 
-    //if TurnVelocity is 0 then rotate should have no effect
+    //if RotationMultiplier is 0 then rotate should have no effect
     [UnityTest]
-    public IEnumerator Y_ZeroTurnVelocity()
+    public IEnumerator Y_ZeroTurnRatio()
     {
         section.transform.localEulerAngles = new Vector3(0, 0, 0);
         sectionBC.IsRotating = true;
-        sectionBC.TurnVelocity = 0;
+        sectionBC.RotationMultiplier = new float[3] { 0, 0, 0 };
 
         yield return new WaitForFixedUpdate(); //first one it won't move
         yield return new WaitForFixedUpdate();

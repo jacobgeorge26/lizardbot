@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Config;
 using System;
+using System.Linq;
 
 public class GenerateRobot : MonoBehaviour
 {
-    public GameObject robot;
     void Start()
     {
         //setup overall robot
-        robot = new GameObject();
+        GameObject robot = new GameObject();
         robot.name = "robot";
         robot.transform.position = new Vector3(0, 10, 0);
 
@@ -33,12 +33,18 @@ public class GenerateRobot : MonoBehaviour
         {
             //BodyConfig comes with default params - exceptions are shown below - change from default every other section
             BodyConfig config = new BodyConfig();
-            ////rotation defaults
+            //rotation defaults
+            config.Index = i;
             config.IsRotating = i % 2 == 0 ? true : false;
-            ////TODO: CPG - update this
-            config.IsClockwise = new bool[3] { false, (i % 2 == 0 ? true : false), false };
             
             BaseConfig.SectionConfigs.Add(config);
+        }
+
+        //alternate betwwen sin and cos
+        List<BodyConfig> rotatingSections = BaseConfig.SectionConfigs.Where(s => s.IsRotating).ToList();
+        for (int i = 0; i < rotatingSections.Count; i++)
+        {
+            rotatingSections[i].UseSin = i % 2 == 0 ? true : false;
         }
     }
 
@@ -57,15 +63,11 @@ public class GenerateRobot : MonoBehaviour
         for (int i = 0; i < BaseConfig.SectionConfigs.Count; i++)
         {
             BodyConfig config = BaseConfig.SectionConfigs[i];
-            if (config.TurnVelocity < 1)
-            {
-                Debug.LogWarning($"Section {i + 1} will not rotate due to a turn velocity of {config.TurnVelocity}");
-            }
             if (config.DriveVelocity < 0.1f)
             {
                 Debug.LogWarning($"Section {i + 1} will not drive due to a drive velocity of {config.DriveVelocity}");
             }
-            for (int a = 0; a < config.MaxAngle.Length; a++)
+            for (int a = 0; a < config.AngleConstraint.Length; a++)
             {
                 string angle = a switch
                 {
@@ -74,9 +76,17 @@ public class GenerateRobot : MonoBehaviour
                     2 => "z",
                     _ => "unknown"
                 };
-                if(config.MaxAngle[a] > 60)
+                if(config.RotationMultiplier[a] < 0.1)
                 {
-                    Debug.LogWarning($"The {angle} max angle of section {i + 1} is {config.MaxAngle[a]} which may produce unstable results. An angle <60 is recommended");
+                    Debug.LogWarning($"The {angle} turn ration of section {i + 1} will not rotate due to a turn ratio of {config.RotationMultiplier[a]}");
+                }
+                if(config.AngleConstraint[a] < 30)
+                {
+                    Debug.LogWarning($"The {angle} angle constraint of section {i + 1} is {config.AngleConstraint[a]} which may produce unstable results. An angle >30 is recommended");
+                }
+                if(config.AngleConstraint[a] > 120)
+                {
+                    Debug.LogWarning($"The {angle} angle constraint of section {i + 1} is {config.AngleConstraint[a]} which may produce unstable results. An angle <120 is recommended");
                 }
             }
         }
@@ -95,23 +105,20 @@ public class GenerateRobot : MonoBehaviour
             section.transform.parent = robot.transform;
             section.transform.localPosition = new Vector3(0, 0, (float)(i * -1.1));
 
-            //setup BodyConfig for MoveBody script
-            BodyConfig config = section.GetComponent<BodyConfig>();
-            BodyConfig newConfig = BaseConfig.SectionConfigs[i];
-            //driving
-            config.IsDriving = newConfig.IsDriving;
-            config.DriveVelocity = newConfig.DriveVelocity;
-            //rotating
-            config.IsRotating = newConfig.IsRotating;
-            config.IsClockwise = newConfig.IsClockwise;
-            config.MaxAngle = newConfig.MaxAngle;
-            config.TurnRatio = newConfig.TurnRatio;
-            config.TurnVelocity = newConfig.TurnVelocity;
+            //setup BodyConfig for MoveBody script - needs to have the baseconfig variables copied to it
+            BodyConfig config = section.GetComponent<MoveBody>().GetBodyConfig();
+            BodyConfig.Copy(config, BaseConfig.SectionConfigs[i]);
+            //index
+            config.Index = i;
             
             //setup configurable joints
             if (i > 0)
             {
                 ConfigurableJoint joint = section.GetComponent<ConfigurableJoint>(); //TODO: make the angle constraints dynamic
+                joint.lowAngularXLimit = new SoftJointLimit() { limit = -1 * config.AngleConstraint[0] / 2 };
+                joint.highAngularXLimit = new SoftJointLimit() { limit = config.AngleConstraint[0] / 2 };
+                joint.angularYLimit = new SoftJointLimit() { limit = config.AngleConstraint[1] / 2 };
+                joint.angularZLimit = new SoftJointLimit() { limit = config.AngleConstraint[2] / 2 };
                 joint.connectedBody = BaseConfig.Sections[i - 1].GetComponent<Rigidbody>();
             }
         }

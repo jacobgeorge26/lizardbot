@@ -5,9 +5,10 @@ using System.Linq;
 using UnityEngine;
 using Config;
 
-public class MoveBody : BodyConfig
+public class MoveBody : MonoBehaviour
 {
     private Rigidbody body;
+    private BodyConfig config = new BodyConfig();
     private Vector3 direction;
 
     void Start()
@@ -20,8 +21,13 @@ public class MoveBody : BodyConfig
     //will drive and/or rotate as determined in BodyConfig
     void FixedUpdate()
     {        
-        if (IsDriving) Drive();
-        if (IsRotating) Rotate();
+        if (config.IsDriving) Drive();
+        if (config.IsRotating) Rotate();
+    }
+
+    public BodyConfig GetBodyConfig()
+    {
+        return config;
     }
 
     //TODO: update for 3D rotation
@@ -29,24 +35,45 @@ public class MoveBody : BodyConfig
     private void Rotate()
     {
         Vector3 currentAngle = GetRelativeAngle(); //rounded
-        //if it's reached the max angle (pos or neg) then reverse direction
-        IsClockwise[0] = IsClockwise[0] ? !(currentAngle.x >= MaxAngle[0]) : currentAngle.x <= MaxAngle[0] * -1;
-        IsClockwise[1] = IsClockwise[1] ? !(currentAngle.y >= MaxAngle[1]) : currentAngle.y <= MaxAngle[1] * -1;
-        IsClockwise[2] = IsClockwise[2] ? !(currentAngle.z >= MaxAngle[2]) : currentAngle.z <= MaxAngle[2] * -1;
-        //determine its velocity vector, TurnVelocity is deg/sec and is derived in BodyConfig
         Vector3 angleVelocity = new Vector3();
-        angleVelocity.x = IsClockwise[0] ? TurnVelocity : TurnVelocity * -1;
-        angleVelocity.y = IsClockwise[1] ? TurnVelocity : TurnVelocity * -1;
-        angleVelocity.z = IsClockwise[2] ? TurnVelocity : TurnVelocity * -1;
-        //apply power ratio to the angleVelocity
-        angleVelocity.x *= TurnRatio[0];
-        angleVelocity.y *= TurnRatio[1];
-        angleVelocity.z *= TurnRatio[2];
+        Vector3 prevSecAngle = new Vector3();
+
+        List<BodyConfig> RotatingSections = BaseConfig.SectionConfigs.Where(s => s.IsRotating && s.Index < config.Index).ToList();
+        for (int i = 0; i < 3; i++)
+        {          
+            //determine initial velocity
+            if (RotatingSections.Count > 0)
+            {
+                BodyConfig previousSection = RotatingSections.Last();
+                MoveBody prevSecMoveBody = BaseConfig.Sections[previousSection.Index].GetComponent<MoveBody>();
+                prevSecAngle = prevSecMoveBody.GetRelativeAngle();
+                angleVelocity[i] = prevSecMoveBody.GetVelocity()[i];
+            }
+            //TODO: get diameter instead of assuming it
+            if (config.UseSin)
+            {
+                float test = body.transform.localScale.magnitude;
+
+                angleVelocity[i] += 0.5f * ((float)Math.Sin(prevSecAngle[i]) + (float)Math.Sin(currentAngle[i]));
+            }
+            else
+            {
+                angleVelocity[i] += 0.5f * ((float)Math.Cos(prevSecAngle[i]) + (float)Math.Cos(currentAngle[i]));
+            }       
+            //adjust for rotation multiplier
+            angleVelocity[i] *= config.RotationMultiplier[i];
+        }
+
         //convert vector to a quaternion
         Quaternion deltaRotation = Quaternion.Euler(angleVelocity * Time.fixedDeltaTime);
         //apply the vector to the body's space and rotate it
         body.MoveRotation(body.rotation * deltaRotation);
         currentAngle = GetRelativeAngle();
+    }
+
+    private Vector3 GetVelocity()
+    {
+        return body.velocity;
     }
 
     //drive this body section forward
@@ -55,19 +82,18 @@ public class MoveBody : BodyConfig
         //get the current trajectory of the body section
         direction = this.transform.forward;
         //move it forward at a speed derived in BodyConfig
-        body.MovePosition(body.position + direction * DriveVelocity * Time.fixedDeltaTime);
+        body.MovePosition(body.position + direction * config.DriveVelocity * Time.fixedDeltaTime);
     }
 
 
     //return angle relative to body within range -180 -> 180. 
     //rounds to int by default as common use of this method is validation about whether to continue turning. 
-    //If within a degree of maxangle should reverse direction
     public Vector3 GetRelativeAngle(bool round = true)
     {
         Vector3 angle = new Vector3(0, 0, 0);
 
         //angle should remain 0 for relativity if not rotating
-        angle = IsRotating ? this.transform.localRotation.eulerAngles : angle;
+        angle = config.IsRotating ? this.transform.localRotation.eulerAngles : angle;
 
         //update for range -180 - 180
         angle.x -= Math.Round(angle.x, 0) > 180 ? 360 : 0;

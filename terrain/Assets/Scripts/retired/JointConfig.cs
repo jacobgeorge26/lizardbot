@@ -36,7 +36,7 @@
 //        //what is the max angle of the joint
 //        [SerializeField]
 //        [Range(0, 60)]
-//        protected int MaxAngle;
+//        protected int AngleConstraint;
 
 
 //    }

@@ -16,7 +16,7 @@ namespace Config
 
         public static List<BodyConfig> SectionConfigs { get; set; } = new List<BodyConfig>();
 
-        public static Surface SurfaceType { get; set; } = Surface.Uneven;
+        public static Surface SurfaceType { get; set; } = Surface.Rough;
     }
 }
 
