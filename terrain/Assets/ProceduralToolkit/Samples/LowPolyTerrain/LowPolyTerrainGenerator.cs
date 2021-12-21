@@ -25,23 +25,29 @@ namespace ProceduralToolkit.Samples
 
         public static void SetupParams(Config config)
         {
+            Color darkGreen = new Color(0.027f, 0.368f, 0.076f, 1f);
+            Color darkBrown = new Color(0.3647f, 0.2275f, 0.102f, 1f);
+            Color darkGrey = new Color(0.355f, 0.355f, 0.355f, 1f);
+            Color lightGrey = new Color(0.705f, 0.705f, 0.705f, 1f);
+            Color darkYellow = new Color(0.953f, 0.69f, 0.349f, 1f);
+            Color lightYellow = new Color(0.984f, 0.776f, 0.463f, 1f);
             int width = 100, height = 0;
             switch (config.surface)
             {
                 case Surface.Smooth:
                     height = 4;
                     config.noiseFrequency = 4;
-                    config.gradient = ColorE.Gradient(new Color(0.027f, 0.368f, 0.076f, 1f), new Color(0.3647f, 0.2275f, 0.102f, 1f));
+                    config.gradient = ColorE.Gradient(lightYellow, darkYellow);
                     break;
                 case Surface.Uneven:
                     height = 6;
                     config.noiseFrequency = 6;
-                    //config.gradient = ColorE.Gradient(new Color32(10, 87, 17, 255), new Color(73, 18, 10));
+                    config.gradient = ColorE.Gradient(darkBrown, darkGreen);
                     break;
                 case Surface.Rough:
                     height = 8;
                     config.noiseFrequency = 8;
-                    //config.gradient = ColorE.Gradient(new Color32(10, 87, 17, 255), new Color(73, 18, 10));
+                    config.gradient = ColorE.Gradient(darkGrey, lightGrey);
                     break;
 
             }

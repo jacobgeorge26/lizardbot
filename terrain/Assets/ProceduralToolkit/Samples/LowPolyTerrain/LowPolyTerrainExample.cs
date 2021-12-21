@@ -13,9 +13,6 @@ namespace ProceduralToolkit.Samples
         private bool constantSeed = true;
         public LowPolyTerrainGenerator.Config config = new LowPolyTerrainGenerator.Config();
 
-        public Gradient gradient = ColorE.Gradient(Color.black, Color.white);
-
-
         private Mesh terrainMesh;
 
         private void Awake()
