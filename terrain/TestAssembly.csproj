@@ -54,19 +54,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\GenerateRobot.cs" />
-    <Compile Include="Assets\Scripts\Config\BodyConfig.cs" />
     <Compile Include="Assets\Scripts\retired\EntireBodyConfig.cs" />
-    <Compile Include="Assets\Scripts\Enums\BodyPart.cs" />
     <Compile Include="Assets\Scripts\Settings\SectionSettings.cs" />
     <Compile Include="Assets\Scripts\retired\JointSetup.cs" />
-    <Compile Include="Assets\Scripts\Config\TerrainConfig.cs" />
     <Compile Include="Assets\Scripts\Settings\BodySettings.cs" />
     <Compile Include="Assets\Scripts\retired\retiredcode.cs" />
     <Compile Include="Assets\Scripts\retired\JointConfig.cs" />
-    <Compile Include="Assets\Scripts\TerrainGeneration.cs" />
+    <Compile Include="Assets\Scripts\retired\TerrainGeneration.cs" />
     <Compile Include="Assets\Scripts\retired\TestJointSetup.cs" />
-    <Compile Include="Assets\Scripts\Config\BaseConfig.cs" />
-    <Compile Include="Assets\Scripts\Enums\Surface.cs" />
     <Compile Include="Assets\Scripts\retired\MoveJoint.cs" />
     <Compile Include="Assets\Scripts\Settings\Settings.cs" />
     <Compile Include="Assets\Scripts\retired\Helpers.cs" />
@@ -75,9 +70,10 @@
     <Compile Include="Assets\Scripts\CameraPosition.cs" />
     <Compile Include="Assets\Scripts\MoveBody.cs" />
     <Compile Include="Assets\Scripts\retired\Move.cs" />
+    <Compile Include="Assets\Scripts\SuccessorFunction.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Scripts\TestAssembly.asmdef" />
+    <None Include="Assets\Scripts\Scripts.asmdef" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -679,6 +675,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Config.csproj">
+      <Project>{D8035A92-9622-3790-F6FE-9CEC5BA4467C}</Project>
+      <Name>Config</Name>
+    </ProjectReference>
+    <ProjectReference Include="Enums.csproj">
+      <Project>{D6203855-9430-02BE-DD31-671065C7472E}</Project>
+      <Name>Enums</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

@@ -1,3 +1,4 @@
+using Config;
 using ProceduralToolkit.Samples.UI;
 using UnityEngine;
 
@@ -11,14 +12,12 @@ namespace ProceduralToolkit.Samples
         public MeshFilter terrainMeshFilter;
         public MeshCollider terrainMeshCollider;
         private bool constantSeed = true;
-        public LowPolyTerrainGenerator.Config config = new LowPolyTerrainGenerator.Config();
 
         private Mesh terrainMesh;
         private int count = 0;
         private bool uneven = false, smooth = false;
         private void Awake()
         {
-            LowPolyTerrainGenerator.SetupParams(config);
             Generate();
             SetupSkyboxAndPalette();
         }
@@ -33,12 +32,10 @@ namespace ProceduralToolkit.Samples
             if (randomizeConfig)
             {
                 GeneratePalette();
-
-                config.gradient = ColorE.Gradient(from: GetMainColorHSV(), to: GetSecondaryColorHSV());
             }
 
-            var draft = LowPolyTerrainGenerator.TerrainDraft(config);
-            draft.Move(Vector3.left*config.terrainSize.x/2 + Vector3.back*config.terrainSize.z/2);
+            var draft = LowPolyTerrainGenerator.TerrainDraft();
+            draft.Move(Vector3.left*TerrainConfig.GetTerrainSize().x/2 + Vector3.back*TerrainConfig.GetTerrainSize().z/2);
             AssignDraftToMeshFilter(draft, terrainMeshFilter, ref terrainMesh);
             terrainMeshCollider.sharedMesh = terrainMesh;
         }

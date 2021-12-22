@@ -13,58 +13,28 @@ namespace ProceduralToolkit.Samples
     /// </summary>
     public static class LowPolyTerrainGenerator
     {
-        public class Config
+        public static void SetupParams()
         {
-            public Vector3 terrainSize;
-            public float cellSize = 0.5f;
-            public float noiseFrequency;
-            public Gradient gradient;
-        }
 
-        public static void SetupParams(Config config)
-        {
-            Color darkGreen = new Color(0.027f, 0.368f, 0.076f, 1f);
-            Color darkBrown = new Color(0.3647f, 0.2275f, 0.102f, 1f);
-            Color lightGrey = new Color(0.690f, 0.714f, 0.745f, 1f);
-            Color darkYellow = new Color(0.952f, 0.69f, 0.349f, 1f);
-            Color lightYellow = new Color(0.283f, 0.069f, 0.036f, 1f);
             float width = 100, height = 0;
             //tailor terrain for surface type (including different gradient colours)
-            switch (BaseConfig.SurfaceType)
-            {
-                case Surface.Smooth:
-                    height = 5;
-                    config.noiseFrequency = width * 0.04f;
-                    config.gradient = ColorE.Gradient(lightYellow, darkYellow);
-                    break;
-                case Surface.Uneven:
-                    height = 7.5f;
-                    config.noiseFrequency = width * 0.06f;
-                    config.gradient = ColorE.Gradient(darkGreen, darkBrown);
-                    break;
-                case Surface.Rough:
-                    height = 10;
-                    config.noiseFrequency = width * 0.08f;
-                    config.gradient = ColorE.Gradient(lightGrey, Color.black);
-                    break;
 
-            }
-            config.terrainSize = new Vector3(width, height, width);
         }
 
-        public static MeshDraft TerrainDraft(Config config)
+        public static MeshDraft TerrainDraft()
         {
-            Assert.IsTrue(config.terrainSize.x > 0);
-            Assert.IsTrue(config.terrainSize.z > 0);
-            Assert.IsTrue(config.cellSize > 0);
+            Vector3 terrainSize = TerrainConfig.GetTerrainSize();
+            Assert.IsTrue(terrainSize.x > 0);
+            Assert.IsTrue(terrainSize.z > 0);
+            Assert.IsTrue(TerrainConfig.CellSize > 0);
 
             var noiseOffset = new Vector2(Random.Range(0f, 100f), Random.Range(0f, 100f));
 
-            int xSegments = Mathf.FloorToInt(config.terrainSize.x/config.cellSize);
-            int zSegments = Mathf.FloorToInt(config.terrainSize.z/config.cellSize);
+            int xSegments = Mathf.FloorToInt(terrainSize.x/TerrainConfig.CellSize);
+            int zSegments = Mathf.FloorToInt(terrainSize.z/TerrainConfig.CellSize);
 
-            float xStep = config.terrainSize.x/xSegments;
-            float zStep = config.terrainSize.z/zSegments;
+            float xStep = terrainSize.x/xSegments;
+            float zStep = terrainSize.z/zSegments;
             int vertexCount = 6*xSegments*zSegments;
             var draft = new MeshDraft
             {
@@ -85,7 +55,7 @@ namespace ProceduralToolkit.Samples
 
             var noise = new FastNoise();
             noise.SetNoiseType(FastNoise.NoiseType.SimplexFractal);
-            noise.SetFrequency(config.noiseFrequency);
+            noise.SetFrequency(TerrainConfig.GetNoiseFrequency());
 
             for (int x = 0; x < xSegments; x++)
             {
@@ -103,10 +73,10 @@ namespace ProceduralToolkit.Samples
                     float height10 = GetHeight(x + 1, z + 0, xSegments, zSegments, noiseOffset, noise);
                     float height11 = GetHeight(x + 1, z + 1, xSegments, zSegments, noiseOffset, noise);
 
-                    var vertex00 = new Vector3((x + 0)*xStep, height00*config.terrainSize.y, (z + 0)*zStep);
-                    var vertex01 = new Vector3((x + 0)*xStep, height01*config.terrainSize.y, (z + 1)*zStep);
-                    var vertex10 = new Vector3((x + 1)*xStep, height10*config.terrainSize.y, (z + 0)*zStep);
-                    var vertex11 = new Vector3((x + 1)*xStep, height11*config.terrainSize.y, (z + 1)*zStep);
+                    var vertex00 = new Vector3((x + 0)*xStep, height00*terrainSize.y, (z + 0)*zStep);
+                    var vertex01 = new Vector3((x + 0)*xStep, height01*terrainSize.y, (z + 1)*zStep);
+                    var vertex10 = new Vector3((x + 1)*xStep, height10*terrainSize.y, (z + 0)*zStep);
+                    var vertex11 = new Vector3((x + 1)*xStep, height11*terrainSize.y, (z + 1)*zStep);
 
                     draft.vertices[index0] = vertex00;
                     draft.vertices[index1] = vertex01;
@@ -115,12 +85,13 @@ namespace ProceduralToolkit.Samples
                     draft.vertices[index4] = vertex11;
                     draft.vertices[index5] = vertex10;
 
-                    draft.colors[index0] = config.gradient.Evaluate(height00);
-                    draft.colors[index1] = config.gradient.Evaluate(height01);
-                    draft.colors[index2] = config.gradient.Evaluate(height11);
-                    draft.colors[index3] = config.gradient.Evaluate(height00);
-                    draft.colors[index4] = config.gradient.Evaluate(height11);
-                    draft.colors[index5] = config.gradient.Evaluate(height10);
+                    Gradient gradient = TerrainConfig.GetGradient();
+                    draft.colors[index0] = gradient.Evaluate(height00);
+                    draft.colors[index1] = gradient.Evaluate(height01);
+                    draft.colors[index2] = gradient.Evaluate(height11);
+                    draft.colors[index3] = gradient.Evaluate(height00);
+                    draft.colors[index4] = gradient.Evaluate(height11);
+                    draft.colors[index5] = gradient.Evaluate(height10);
 
                     Vector3 normal000111 = Vector3.Cross(vertex01 - vertex00, vertex11 - vertex00).normalized;
                     Vector3 normal001011 = Vector3.Cross(vertex11 - vertex00, vertex10 - vertex00).normalized;

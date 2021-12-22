@@ -176,6 +176,7 @@ GameObject:
   - component: {fileID: 7256667157510425410}
   - component: {fileID: 7256667157510425409}
   - component: {fileID: 7256667157510425415}
+  - component: {fileID: -2804406947049718368}
   m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
@@ -289,13 +290,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 715e3810cda8f2044bd9366d26724720, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsRotating: 1
-  IsClockwise: 000100
-  MaxAngle: 1e0000003c0000002d000000
-  TurnRatio:
-  - 0.5
-  - 1
-  - 0.5
-  TurnVelocity: 180
-  IsDriving: 1
-  DriveVelocity: 1
+--- !u!114 &-2804406947049718368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7256667157510425408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f5562102a6d12c4fb8aa86a8322c6a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

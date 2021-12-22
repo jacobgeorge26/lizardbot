@@ -47,7 +47,7 @@ namespace Config
         [Range(0f, 3f)]
         public float DriveVelocity = 2f;
 
-        internal static void Copy(BodyConfig copyTo, BodyConfig copyFrom)
+        public static void Copy(BodyConfig copyTo, BodyConfig copyFrom)
         {
             copyTo.Index = copyFrom.Index;
             copyTo.IsRotating = copyFrom.IsRotating;
