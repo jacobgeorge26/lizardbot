@@ -14,10 +14,10 @@ public class GenerateRobot : MonoBehaviour
         robot.name = "robot";
         robot.transform.position = new Vector3(0, 10, 0);
 
+        SetupBody(robot);
+
         if (BaseConfig.IsDefault) DefaultParams();
         else if (!ValidateParams()) return;
-
-        SetupBody(robot);
 
         //TODO: setup legs
 
@@ -28,11 +28,10 @@ public class GenerateRobot : MonoBehaviour
     private void DefaultParams()
     {
         BaseConfig.SectionConfigs.Clear();
-        BaseConfig.NoSections = BaseConfig.NoSections == -1 ? BaseConfig.DefaultNoSections : BaseConfig.NoSections;
         for (int i = 0; i < BaseConfig.NoSections; i++)
         {
             //BodyConfig comes with default params - exceptions are shown below - change from default every other section
-            BodyConfig config = new BodyConfig();
+            BodyConfig config = BaseConfig.Sections[i].GetComponent<MoveBody>().GetBodyConfig(); ;
             //rotation defaults
             config.Index = i;
             config.IsRotating = i % 2 == 0 ? true : false;
@@ -95,6 +94,7 @@ public class GenerateRobot : MonoBehaviour
 
     private void SetupBody(GameObject robot)
     {
+        BaseConfig.NoSections = BaseConfig.NoSections == -1 ? BaseConfig.DefaultNoSections : BaseConfig.NoSections;
         for (int i = 0; i < BaseConfig.NoSections; i++)
         {
             GameObject section = i == 0
@@ -107,7 +107,7 @@ public class GenerateRobot : MonoBehaviour
 
             //setup BodyConfig for MoveBody script - needs to have the baseconfig variables copied to it
             BodyConfig config = section.GetComponent<MoveBody>().GetBodyConfig();
-            BodyConfig.Copy(config, BaseConfig.SectionConfigs[i]);
+            if(BaseConfig.SectionConfigs.Count > 0) BodyConfig.Copy(config, BaseConfig.SectionConfigs[i]);
             //index
             config.Index = i;
             
