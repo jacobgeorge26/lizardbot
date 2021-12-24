@@ -41,7 +41,7 @@ public class SuccessorFunction : MonoBehaviour
             Debug.LogError("Robot Stuck");
         }
     }
-
+    
     private int GetLocationsLimit()
     {
         //the number of samples collected is based on the frame rate - to roughly equate to the number of seconds. 
@@ -49,7 +49,7 @@ public class SuccessorFunction : MonoBehaviour
         //2 values are added to locations each sample
         //the max size of locations should be 12
         //the minimum value will always be 10 to accomodate lower frame ratee
-        return Math.Max((int)(frameRate / 50 * 2), 10);
+        return Math.Max((int)(frameRate / 50 * 2 * AIConfig.SearchLength), 10);
     }
 
     private void UpdateLocations()
