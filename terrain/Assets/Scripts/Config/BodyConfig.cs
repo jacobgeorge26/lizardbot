@@ -43,7 +43,8 @@ namespace Config
         public bool IsDriving = true;
 
         //how fast should the section move forward
-        //>1 is too fast and can be hard to follow / limit the effects of rotation as it's constantly just bouncing off the terrain
+        //>3 is too fast and can be hard to follow / limit the effects of rotation as it's constantly just bouncing off the terrain
+        //<1 is too slow and will trigger the robot being stuck more easily - especially in the rough terrain
         [Range(0f, 3f)]
         public float DriveVelocity = 2f;
 

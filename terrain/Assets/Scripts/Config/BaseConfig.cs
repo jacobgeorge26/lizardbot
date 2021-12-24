@@ -10,7 +10,7 @@ namespace Config
 
         public static int NoSections { get; set; } = -1;
 
-        public static int DefaultNoSections { get; set; } = 2;
+        public static int DefaultNoSections { get; set; } = 5;
 
         public static List<GameObject> Sections { get; set; } = new List<GameObject>();
 
