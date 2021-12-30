@@ -19,7 +19,9 @@ public class SuccessorFunction : MonoBehaviour
         //the larger the noise the rougher the terrain
         //this is multiplied here and then inversed - so the limit will be smaller on rougher terrain
         //when 'craters' are created in the terrain this equates to 'is the robot stuck within a quarter of this crater?'
-        limit = 1 / (TerrainConfig.GetNoiseFrequency() * 4);
+        limit = 1 / (TerrainConfig.GetNoiseFrequency() * 2);
+        //TODO: explore what value should be used for the limit
+        limit = 0.05f;
     }
 
     void Update()
@@ -49,7 +51,7 @@ public class SuccessorFunction : MonoBehaviour
         //2 values are added to locations each sample
         //the max size of locations should be 12
         //the minimum value will always be 10 to accomodate lower frame ratee
-        return Math.Max((int)(frameRate / 50 * 2 * AIConfig.SearchLength), 10);
+        return Math.Max((int)((frameRate * 2 * AIConfig.SearchLength) / AIConfig.SampleSize), 10);
     }
 
     private void UpdateLocations()
@@ -60,7 +62,7 @@ public class SuccessorFunction : MonoBehaviour
         float magnitude3D = Mathf.Sqrt(magnitude2D + (currentLocation.y * currentLocation.y));
         //add this to the current sample being collected
         tempLocations.Enqueue(magnitude3D);
-        if(tempLocations.Count >= 50)
+        if(tempLocations.Count >= AIConfig.SampleSize)
         {
             //this sample is complete - store the max and min of this sample in locations
             locations.Enqueue(tempLocations.Max());

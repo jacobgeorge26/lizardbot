@@ -22,5 +22,7 @@ namespace Config
                     _searchLength = value;
             }
         }
+
+        public static int SampleSize = 50;
     }
 }
