@@ -90,9 +90,6 @@ public class MoveBody : MonoBehaviour
     {
         Vector3 angle = new Vector3(0, 0, 0);
 
-        //angle should remain 0 for relativity if not rotating
-        angle = config.IsRotating ? this.transform.localRotation.eulerAngles : angle;
-
         //update for range -180 - 180
         angle.x -= Math.Round(angle.x, 0) > 180 ? 360 : 0;
         angle.y -= Math.Round(angle.y, 0) > 180 ? 360 : 0;

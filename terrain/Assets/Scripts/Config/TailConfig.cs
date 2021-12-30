@@ -6,7 +6,7 @@ namespace Config
 {
     public class TailConfig : JointConfig
     {
-        
+        public Vector3 PositionOffset = new Vector3(30, 0, 0);
     }
 }
 

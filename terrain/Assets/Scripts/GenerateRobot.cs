@@ -21,7 +21,7 @@ public class GenerateRobot : MonoBehaviour
 
         //TODO: setup legs
 
-        SetupTail(robot);
+        if(BaseConfig.IsTailEnabled) SetupTail(robot);
 
         SetupCam(robot);
     }
@@ -35,8 +35,7 @@ public class GenerateRobot : MonoBehaviour
             BodyConfig config = BaseConfig.Sections[i].GetComponent<MoveBody>().GetBodyConfig(); ;
             //rotation defaults
             config.Index = i;
-            //////////////////////////////////////////config.IsRotating = i % 2 == 0 ? true : false;
-            config.IsRotating = false;
+            config.IsRotating = i % 2 == 0 ? true : false;
             
             BaseConfig.SectionConfigs.Add(config);
         }
@@ -162,7 +161,7 @@ public class GenerateRobot : MonoBehaviour
         cam.transform.parent = robot.transform;
         CameraPosition camPos = cam.GetComponent<CameraPosition>();
         camPos.Head = BaseConfig.Sections[0];
-        camPos.Tail = BaseConfig.Sections[BaseConfig.Sections.Count - 1];
+        camPos.Tail = BaseConfig.IsTailEnabled ? BaseConfig.Tail : BaseConfig.Sections[BaseConfig.Sections.Count - 1];
     }
 
     private Vector3 GetInitCOG()
