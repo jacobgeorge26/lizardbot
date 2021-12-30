@@ -103,7 +103,9 @@ public class GenerateRobot : MonoBehaviour
             section.name = i == 0 ? "head" : $"section{i}";
             BaseConfig.Sections.Add(section);
             section.transform.parent = robot.transform;
-            section.transform.localPosition = new Vector3(0, 0, (float)(i * -1.1));
+            float zPos = i == 0 ? 0 : BaseConfig.Sections[i - 1].transform.position.z;
+            zPos += -1 * (section.transform.localScale.z + 0.1f);
+            section.transform.localPosition = new Vector3(0, 0, zPos);
 
             //setup BodyConfig for MoveBody script - needs to have the baseconfig variables copied to it
             BodyConfig config = section.GetComponent<MoveBody>().GetBodyConfig();
