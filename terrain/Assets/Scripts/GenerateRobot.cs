@@ -103,9 +103,7 @@ public class GenerateRobot : MonoBehaviour
             section.name = i == 0 ? "head" : $"section{i}";
             BaseConfig.Sections.Add(section);
             section.transform.parent = robot.transform;
-            float zPos = i == 0 ? 0 : BaseConfig.Sections[i - 1].transform.position.z;
-            zPos += -1 * (section.transform.localScale.z + 0.1f);
-            section.transform.localPosition = new Vector3(0, 0, zPos);
+            section.transform.localPosition = new Vector3(0, 0, GetZPos(i == 0 ? new GameObject() : BaseConfig.Sections[i - 1], section));
 
             //setup BodyConfig for MoveBody script - needs to have the baseconfig variables copied to it
             BodyConfig config = section.GetComponent<MoveBody>().GetBodyConfig();
@@ -124,6 +122,14 @@ public class GenerateRobot : MonoBehaviour
                 joint.connectedBody = BaseConfig.Sections[i - 1].GetComponent<Rigidbody>();
             }
         }
+    }
+
+    private float GetZPos(GameObject prevObject, GameObject thisObject)
+    {
+        //determine the position of this section by the location of the prev section, and size of both
+        float zPos = prevObject.transform.position.z;
+        zPos += -1 * (prevObject.transform.localScale.z / 2 + thisObject.transform.localScale.z / 2 + 0.1f);
+        return zPos;
     }
 
     private void SetupCam(GameObject robot)
