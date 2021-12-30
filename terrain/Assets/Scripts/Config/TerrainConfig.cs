@@ -21,6 +21,8 @@ namespace Config
 
         private static float GetTerrainHeight()
         {
+            ///////////////
+            return 0;
             return (int)SurfaceType * 4f;
         }
 

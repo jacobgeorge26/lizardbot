@@ -31,7 +31,6 @@ public class MoveBody : MonoBehaviour
         return config;
     }
 
-    //TODO: update for 3D rotation
     //rotate this body section
     private void Rotate()
     {
@@ -50,16 +49,15 @@ public class MoveBody : MonoBehaviour
                 prevSecAngle = prevSecMoveBody.GetRelativeAngle();
                 angleVelocity[i] = prevSecMoveBody.GetVelocity()[i];
             }
-            //TODO: get diameter instead of assuming it
             if (config.UseSin)
             {
                 float test = body.transform.localScale.magnitude;
 
-                angleVelocity[i] += 0.5f * ((float)Math.Sin(prevSecAngle[i]) + (float)Math.Sin(currentAngle[i]));
+                angleVelocity[i] += body.transform.localScale[i] * 0.5f * ((float)Math.Sin(prevSecAngle[i]) + (float)Math.Sin(currentAngle[i]));
             }
             else
             {
-                angleVelocity[i] += 0.5f * ((float)Math.Cos(prevSecAngle[i]) + (float)Math.Cos(currentAngle[i]));
+                angleVelocity[i] += body.transform.localScale[i] * 0.5f * ((float)Math.Cos(prevSecAngle[i]) + (float)Math.Cos(currentAngle[i]));
             }       
             //adjust for rotation multiplier
             angleVelocity[i] *= config.RotationMultiplier[i];
@@ -69,7 +67,6 @@ public class MoveBody : MonoBehaviour
         Quaternion deltaRotation = Quaternion.Euler(angleVelocity * Time.fixedDeltaTime);
         //apply the vector to the body's space and rotate it
         body.MoveRotation(body.rotation * deltaRotation);
-        currentAngle = GetRelativeAngle();
     }
 
     private Vector3 GetVelocity()

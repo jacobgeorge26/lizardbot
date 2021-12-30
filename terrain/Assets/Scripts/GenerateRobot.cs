@@ -19,9 +19,9 @@ public class GenerateRobot : MonoBehaviour
         if (BaseConfig.IsDefault) DefaultParams();
         else if (!ValidateParams()) return;
 
-        SetupTail(robot);
-
         //TODO: setup legs
+
+        SetupTail(robot);
 
         SetupCam(robot);
     }
@@ -35,7 +35,8 @@ public class GenerateRobot : MonoBehaviour
             BodyConfig config = BaseConfig.Sections[i].GetComponent<MoveBody>().GetBodyConfig(); ;
             //rotation defaults
             config.Index = i;
-            config.IsRotating = i % 2 == 0 ? true : false;
+            //////////////////////////////////////////config.IsRotating = i % 2 == 0 ? true : false;
+            config.IsRotating = false;
             
             BaseConfig.SectionConfigs.Add(config);
         }
@@ -104,7 +105,7 @@ public class GenerateRobot : MonoBehaviour
             section.name = i == 0 ? "head" : $"section{i}";
             BaseConfig.Sections.Add(section);
             section.transform.parent = robot.transform;
-            section.transform.localPosition = new Vector3(0, 0, GetZPos(i == 0 ? new GameObject() : BaseConfig.Sections[i - 1], section));
+            section.transform.localPosition = new Vector3(0, 0, GetZPos(i == 0 ? null : BaseConfig.Sections[i - 1], section));
 
             //setup BodyConfig for MoveBody script - needs to have the baseconfig variables copied to it
             BodyConfig config = section.GetComponent<MoveBody>().GetBodyConfig();
@@ -128,11 +129,16 @@ public class GenerateRobot : MonoBehaviour
         tail.transform.parent = robot.transform;
         tail.transform.localPosition = new Vector3(0, 0, GetZPos(BaseConfig.Sections.Last(), tail));
         TailConfig config = tail.GetComponent<TailConfig>();
+        //apply equal force to each axis
+        config.RotationMultiplier = new Vector3(1, 1, 1);
         SetupConfigurableJoint(tail, config, BaseConfig.Sections.Last());
+        //pass MoveTail the initial centre of gravity (defaulting to zero for some axis)
+        tail.GetComponent<MoveTail>().SetInitCOG(GetInitCOG());
     }
 
     private float GetZPos(GameObject prevObject, GameObject thisObject)
     {
+        if(prevObject == null) return 0;
         //determine the position of this section by the location of the prev section, and size of both
         float zPos = prevObject.transform.position.z;
         zPos += -1 * (prevObject.transform.localScale.z / 2 + thisObject.transform.localScale.z / 2 + 0.1f);
@@ -157,6 +163,21 @@ public class GenerateRobot : MonoBehaviour
         CameraPosition camPos = cam.GetComponent<CameraPosition>();
         camPos.Head = BaseConfig.Sections[0];
         camPos.Tail = BaseConfig.Sections[BaseConfig.Sections.Count - 1];
+    }
+
+    private Vector3 GetInitCOG()
+    {
+        Vector3 sumMassByPos = new Vector3();
+        float sumMass = 0;
+        //iterate objects, get sum of (mass * axis coordinate), divide by sum of all masses
+        foreach (GameObject section in BaseConfig.Sections)
+        {
+            float mass = section.GetComponent<Rigidbody>().mass;
+            sumMass += mass;
+            //x & y default to 0, z needs calculating
+            sumMassByPos.z += mass * section.transform.position.z;
+        }
+        return sumMassByPos / sumMass;
     }
 
 }
