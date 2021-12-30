@@ -76,17 +76,17 @@ public class GenerateRobot : MonoBehaviour
                     2 => "z",
                     _ => "unknown"
                 };
-                if(config.RotationMultiplier[a] < 0.1)
+                if(config.JointConfig.RotationMultiplier[a] < 0.1)
                 {
-                    Debug.LogWarning($"The {angle} turn ration of section {i + 1} will not rotate due to a turn ratio of {config.RotationMultiplier[a]}");
+                    Debug.LogWarning($"The {angle} turn ration of section {i + 1} will not rotate due to a turn ratio of {config.JointConfig.RotationMultiplier[a]}");
                 }
-                if(config.AngleConstraint[a] < 30)
+                if(config.JointConfig.AngleConstraint[a] < 30)
                 {
-                    Debug.LogWarning($"The {angle} angle constraint of section {i + 1} is {config.AngleConstraint[a]} which may produce unstable results. An angle >30 is recommended");
+                    Debug.LogWarning($"The {angle} angle constraint of section {i + 1} is {config.JointConfig.AngleConstraint[a]} which may produce unstable results. An angle >30 is recommended");
                 }
-                if(config.AngleConstraint[a] > 120)
+                if(config.JointConfig.AngleConstraint[a] > 120)
                 {
-                    Debug.LogWarning($"The {angle} angle constraint of section {i + 1} is {config.AngleConstraint[a]} which may produce unstable results. An angle <120 is recommended");
+                    Debug.LogWarning($"The {angle} angle constraint of section {i + 1} is {config.JointConfig.AngleConstraint[a]} which may produce unstable results. An angle <120 is recommended");
                 }
             }
         }
@@ -115,7 +115,7 @@ public class GenerateRobot : MonoBehaviour
             //setup configurable joints
             if (i > 0)
             {
-                SetupConfigurableJoint(section, config, BaseConfig.Sections[i - 1]);
+                SetupConfigurableJoint(section, config.JointConfig, BaseConfig.Sections[i - 1]);
             }
         }
     }
@@ -127,12 +127,22 @@ public class GenerateRobot : MonoBehaviour
         BaseConfig.Tail = tail;
         tail.transform.parent = robot.transform;
         tail.transform.localPosition = new Vector3(0, 0, GetZPos(BaseConfig.Sections.Last(), tail));
-        TailConfig config = tail.GetComponent<TailConfig>();
-        //apply equal force to each axis
-        config.RotationMultiplier = new Vector3(1, 1, 1);
-        SetupConfigurableJoint(tail, config, BaseConfig.Sections.Last());
+        //set mass to be equal to rest of body
+        tail.GetComponent<Rigidbody>().mass = GetTotalMass() * BaseConfig.TailMassMultiplier;
+        SetupConfigurableJoint(tail, TailConfig.JointConfig, BaseConfig.Sections.Last());
         //pass MoveTail the initial centre of gravity (defaulting to zero for some axis)
         tail.GetComponent<MoveTail>().SetInitCOG(GetInitCOG());
+    }
+
+    private float GetTotalMass()
+    {
+        float sumMass = 0;
+        //iterate objects, get sum of (mass * axis coordinate), divide by sum of all masses
+        foreach (GameObject section in BaseConfig.Sections)
+        {
+            sumMass += section.GetComponent<Rigidbody>().mass;
+        }
+        return sumMass;
     }
 
     private float GetZPos(GameObject prevObject, GameObject thisObject)

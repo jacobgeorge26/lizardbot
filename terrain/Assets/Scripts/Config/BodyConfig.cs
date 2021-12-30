@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Config
 {
-    public class BodyConfig : JointConfig
+    public class BodyConfig : MonoBehaviour
     {
         [HideInInspector]
         public int Index = 0;
@@ -19,6 +19,8 @@ namespace Config
         //will this section use sin or cos in the oscillation?
         [HideInInspector]
         public bool UseSin = true;
+
+        public JointConfig JointConfig = new JointConfig(null, null);
 
         /*-------------------------------------------------------------------------------------------------------*/
 
@@ -52,8 +54,8 @@ namespace Config
         {
             copyTo.Index = copyFrom.Index;
             copyTo.IsRotating = copyFrom.IsRotating;
-            copyTo.AngleConstraint = copyFrom.AngleConstraint;
-            copyTo.RotationMultiplier = copyFrom.RotationMultiplier;
+            copyTo.JointConfig.AngleConstraint = copyFrom.JointConfig.AngleConstraint;
+            copyTo.JointConfig.RotationMultiplier = copyFrom.JointConfig.RotationMultiplier;
             copyTo.UseSin = copyFrom.UseSin;
             copyTo.IsDriving = copyFrom.IsDriving;
             copyTo.DriveVelocity = copyFrom.DriveVelocity;

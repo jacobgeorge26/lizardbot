@@ -5,8 +5,14 @@ using UnityEngine;
 
 namespace Config
 {
-    public class JointConfig : MonoBehaviour
+    public class JointConfig : object
     {
+        public JointConfig(Vector3? angleConstraint, Vector3? rotationMultiplier ) 
+        {
+            _angleConstraint = angleConstraint.HasValue ? angleConstraint.Value : new Vector3(120, 120, 120);
+            _rotationMultiplier = rotationMultiplier.HasValue ? rotationMultiplier.Value : new Vector3(0.5f, 1f, 0.5f);
+        }
+
         /* if you change AngleConstraint's limits then check for strange behaviour
         * if too high it will break expected behvaiour from a physical robot
         * if negative then just what
@@ -16,7 +22,7 @@ namespace Config
         //what is the angle constraint of the joint
         //lower -> tighter coil
         [Tooltip("It is recommended that the angle constraint is in range 30 <= x <= 120")]
-        private Vector3 _angleConstraint = new Vector3(120, 120, 120);
+        private Vector3 _angleConstraint;
 
         private int angleMin = 0, angleMax = 180;
         public Vector3 AngleConstraint
@@ -39,9 +45,10 @@ namespace Config
         //when rotating how much force should each axis have applied to it?
         //e.g. 0.5, 1, 0.5 makes y the primary axis
         [Tooltip("Range 0 <= x <= 1")]
-        private Vector3 _rotationMultiplier = new Vector3(0.5f, 1, 0.5f);
+        private Vector3 _rotationMultiplier;
 
         private float rmMin = 0, rmMax = 1;
+
         public Vector3 RotationMultiplier
         {
             get => _rotationMultiplier;

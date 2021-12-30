@@ -10,7 +10,7 @@ namespace Config
 
         public static int NoSections { get; set; } = -1;
 
-        public static int DefaultNoSections { get; set; } = 3;
+        public static int DefaultNoSections { get; set; } = 5;
 
         public static List<GameObject> Sections { get; set; } = new List<GameObject>();
 
@@ -18,6 +18,8 @@ namespace Config
 
         public static bool IsTailEnabled { get; set; } = true;
         public static GameObject Tail { get; set; }
+
+        public static float TailMassMultiplier { get; set; } = 0.1f;
     }
 }
 

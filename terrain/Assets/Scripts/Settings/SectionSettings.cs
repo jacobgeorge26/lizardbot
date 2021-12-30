@@ -73,14 +73,14 @@ internal class SectionSettings : MonoBehaviour
         //max angle
         for (int i = 0; i < angleConstraintOutput.Length; i++)
         {
-            angleConstraintSliders[i].value = config.AngleConstraint[i];
+            angleConstraintSliders[i].value = config.JointConfig.AngleConstraint[i];
             ChangeAngleConstraint(i);
         }
 
         //turn ratio
         for (int i = 0; i < turnRatioOutputs.Length; i++)
         {
-            turnRatioSliders[i].value = config.RotationMultiplier[i];
+            turnRatioSliders[i].value = config.JointConfig.RotationMultiplier[i];
             ChangeTurnRatio(i);
         }
     }
@@ -108,17 +108,17 @@ internal class SectionSettings : MonoBehaviour
     public void ChangeAngleConstraint(int index)
     {
         angleConstraintOutput[index].text = angleConstraintSliders[index].value.ToString();
-        Vector3 newAngleConstraint = config.AngleConstraint;
+        Vector3 newAngleConstraint = config.JointConfig.AngleConstraint;
         newAngleConstraint[index] = angleConstraintSliders[index].value;
-        config.AngleConstraint = newAngleConstraint;      
+        config.JointConfig.AngleConstraint = newAngleConstraint;      
     }
 
     public void ChangeTurnRatio(int index)
     {
         turnRatioOutputs[index].text = turnRatioSliders[index].value.ToString();
-        Vector3 newTurnRatio = config.RotationMultiplier;
+        Vector3 newTurnRatio = config.JointConfig.RotationMultiplier;
         newTurnRatio[index] = turnRatioSliders[index].value;
-        config.RotationMultiplier = newTurnRatio;
+        config.JointConfig.RotationMultiplier = newTurnRatio;
     }
 
 

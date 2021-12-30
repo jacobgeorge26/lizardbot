@@ -8,13 +8,11 @@ using Config;
 public class MoveTail : MonoBehaviour
 {
     private Rigidbody tail;
-    private TailConfig config;
     private Vector3 initCOG;
     // Start is called before the first frame update
     void Awake()
     {
         tail = GetComponent<Rigidbody>();
-        config = GetComponent<TailConfig>();
     }
 
     // Update is called once per frame
@@ -26,10 +24,10 @@ public class MoveTail : MonoBehaviour
         for (int i = 0; i < 2; i++)
         {
             //adjust for rotation multiplier
-            angleVelocity[i] *= config.RotationMultiplier[i];
+            angleVelocity[i] *= TailConfig.JointConfig.RotationMultiplier[i];
         }
         //convert vector to a quaternion
-        Quaternion deltaRotation = Quaternion.Euler(angleVelocity * Time.fixedDeltaTime);
+        Quaternion deltaRotation = Quaternion.Euler(angleVelocity);
         //apply the vector to the body's space and rotate it
         tail.MoveRotation(tail.rotation * deltaRotation);
     }
@@ -46,12 +44,11 @@ public class MoveTail : MonoBehaviour
         }
         Vector3 bodyRotation = sum / BaseConfig.NoSections;
         //reverse the x & y axis
-        bodyRotation.x *= -1;
+        //TODO: when implementing jumping - have it so that the tail flicks up/down sharply
+        //bodyRotation.x *= -1;
         bodyRotation.y *= -1;
-        //get the vector from the tail's current rotation to the average
-        Vector3 tailVector = bodyRotation - GetRelativeAngle(tail.gameObject);
-        tailVector += config.PositionOffset;
-        return tailVector;
+        //current tail rotation doesn't need to be considered as it the force is applied to the tail's space rather than directly set
+        return bodyRotation;
     }
 
     public void SetInitCOG(Vector3 _initCOG)

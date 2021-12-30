@@ -60,11 +60,11 @@ public class MoveBody : MonoBehaviour
                 angleVelocity[i] += body.transform.localScale[i] * 0.5f * ((float)Math.Cos(prevSecAngle[i]) + (float)Math.Cos(currentAngle[i]));
             }       
             //adjust for rotation multiplier
-            angleVelocity[i] *= config.RotationMultiplier[i];
+            angleVelocity[i] *= config.JointConfig.RotationMultiplier[i];
         }
 
         //convert vector to a quaternion
-        Quaternion deltaRotation = Quaternion.Euler(angleVelocity * Time.fixedDeltaTime);
+        Quaternion deltaRotation = new Quaternion(angleVelocity.x, angleVelocity.y, angleVelocity.z, 1);
         //apply the vector to the body's space and rotate it
         body.MoveRotation(body.rotation * deltaRotation);
     }
