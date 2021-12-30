@@ -8,13 +8,14 @@ using Config;
 public class MoveBody : MonoBehaviour
 {
     private Rigidbody body;
-    private BodyConfig config = new BodyConfig();
+    private BodyConfig config;
     private Vector3 direction;
 
-    void Start()
+    void Awake()
     {        
         //get the rigidbody for this body section as this is how the rotation/position will be manipulated
         body = GetComponent<Rigidbody>();
+        config = this.gameObject.AddComponent<BodyConfig>();
     }
 
     //uses FixedUpdate as recommended for interaction with Unity's physics system

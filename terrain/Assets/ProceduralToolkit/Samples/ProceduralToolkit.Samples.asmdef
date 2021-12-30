@@ -1,5 +1,6 @@
 {
     "name": "ProceduralToolkit.Samples",
+    "rootNamespace": "",
     "references": [
         "GUID:561cd3090aa423b4584912885a62ef6f",
         "GUID:7e6803b5127cb5a45a5400e9fcdfa294",
@@ -13,5 +14,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": []
+    "versionDefines": [],
+    "noEngineReferences": false
 }

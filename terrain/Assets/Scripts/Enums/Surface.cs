@@ -1,4 +1,4 @@
 public enum Surface
 {
-    Smooth = 0, Uneven = 1, Rough = 2
+    Smooth = 1, Uneven = 2, Rough = 3
 }

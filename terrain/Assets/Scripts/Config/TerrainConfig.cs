@@ -1,12 +1,53 @@
+using ProceduralToolkit;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TerrainConfig : MonoBehaviour
+namespace Config
 {
-    public Material SmoothTexture; //1
+    public static class TerrainConfig : object
+    {
+        public static Surface SurfaceType { get; set; } = Surface.Rough;
 
-    public Material UnevenTexture; //3
+        public static float CellSize = 0.5f;
 
-    public Material RoughTexture; //10
+        private static int TerrainWidth = 100;
+
+        public static Vector3 GetTerrainSize()
+        {
+            return new Vector3(TerrainWidth, GetTerrainHeight(), TerrainWidth);
+        }
+
+        private static float GetTerrainHeight()
+        {
+            return (int)SurfaceType * 4f;
+        }
+
+        public static float GetNoiseFrequency()
+        {
+            return ((int)SurfaceType * TerrainWidth * 0.02f) + 0.04f;
+        }
+
+        public static Gradient GetGradient()
+        {
+            Color darkGreen = new Color(0.027f, 0.368f, 0.076f, 1f);
+            Color darkBrown = new Color(0.3647f, 0.2275f, 0.102f, 1f);
+            Color lightGrey = new Color(0.690f, 0.714f, 0.745f, 1f);
+            Color darkYellow = new Color(0.952f, 0.69f, 0.349f, 1f);
+            Color lightYellow = new Color(0.283f, 0.069f, 0.036f, 1f);
+            switch (SurfaceType)
+            {
+                case Surface.Smooth:
+                    return ColorE.Gradient(lightYellow, darkYellow);
+                case Surface.Uneven:
+                    return ColorE.Gradient(darkGreen, darkBrown);
+                case Surface.Rough:
+                    return ColorE.Gradient(lightGrey, Color.black);
+                default:
+                    return ColorE.Gradient(Color.black, Color.white);
+            }
+        }
+    }
 }
+

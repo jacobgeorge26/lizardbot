@@ -53,30 +53,44 @@
     <UnityVersion>2020.3.19f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\TerrainConfig.cs" />
+    <Compile Include="Assets\SuccessorFunction.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
+    <None Include="Assets\ProceduralToolkit\Shaders\VertexColor\Standard Vertex Color.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
+    <None Include="Assets\ProceduralToolkit\Shaders\Common.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
+    <None Include="Assets\ProceduralToolkit\Shaders\VertexColor\Specular Vertex Color.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
+    <None Include="Assets\ProceduralToolkit\Shaders\Easing.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
+    <None Include="Assets\ProceduralToolkit\Shaders\VertexColor\Unlit Vertex Color.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
+    <None Include="Assets\ProceduralToolkit\Shaders\Debug\Debug UV1.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
+    <None Include="Assets\ProceduralToolkit\Shaders\Debug\Debug Tangents.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
+    <None Include="Assets\ProceduralToolkit\Shaders\SDF.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+    <None Include="Assets\ProceduralToolkit\Shaders\Gradient Skybox.shader" />
+    <None Include="Assets\ProceduralToolkit\Shaders\Debug\Debug Bitangents.shader" />
+    <None Include="Assets\ProceduralToolkit\Shaders\Debug\Debug UV2.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
+    <None Include="Assets\ProceduralToolkit\Shaders\VertexColor\Diffuse Vertex Color.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
+    <None Include="Assets\ProceduralToolkit\Shaders\Debug\Debug Normals.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
+    <None Include="Assets\ProceduralToolkit\Shaders\Transitions.cginc" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -670,11 +684,11 @@
     <Reference Include="Unity.Timeline">
       <HintPath>Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.VisualStudio.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.TextMeshPro">
       <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.VisualStudio.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection">
       <HintPath>Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection.dll</HintPath>
@@ -699,13 +713,49 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Tests.csproj">
-      <Project>{25CA3DCF-F32D-0DD5-98CE-BD3619C2E41E}</Project>
-      <Name>Tests</Name>
+    <ProjectReference Include="ProceduralToolkit.Editor.csproj">
+      <Project>{AF23C36D-B464-4862-07FE-CB5CBE9B4D2B}</Project>
+      <Name>ProceduralToolkit.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="ProceduralToolkit.csproj">
+      <Project>{84D98F9F-0B27-2035-F980-FBE56A8EE66E}</Project>
+      <Name>ProceduralToolkit</Name>
+    </ProjectReference>
+    <ProjectReference Include="ProceduralToolkit.FastNoiseLib.csproj">
+      <Project>{F60FA557-4A30-B694-1F87-F224DD6ED463}</Project>
+      <Name>ProceduralToolkit.FastNoiseLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="LowPolyTerrain.csproj">
+      <Project>{0E609A9B-5A5C-3484-1B40-72E31FA7A82A}</Project>
+      <Name>LowPolyTerrain</Name>
+    </ProjectReference>
+    <ProjectReference Include="ProceduralToolkit.Samples.csproj">
+      <Project>{44D1C77B-16D9-3566-2693-868E63A5A513}</Project>
+      <Name>ProceduralToolkit.Samples</Name>
+    </ProjectReference>
+    <ProjectReference Include="ProceduralToolkit.LibTessDotNet.csproj">
+      <Project>{351DE337-5674-FA51-EE7E-748702B77FC5}</Project>
+      <Name>ProceduralToolkit.LibTessDotNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="EditMode Tests.csproj">
+      <Project>{5A7A288C-2183-5267-0A25-B4521F00E3D8}</Project>
+      <Name>EditMode Tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="ProceduralToolkit.Samples.Chairs.Editor.csproj">
+      <Project>{B4860750-250F-03ED-5E28-135D559BDE09}</Project>
+      <Name>ProceduralToolkit.Samples.Chairs.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="ProceduralToolkit.Samples.Buildings.Editor.csproj">
+      <Project>{B5266214-BBEB-6D5D-2DF6-09D4DBA444B5}</Project>
+      <Name>ProceduralToolkit.Samples.Buildings.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="TestAssembly.csproj">
       <Project>{57B856DB-BA43-9A04-EB61-C9F340ADE194}</Project>
       <Name>TestAssembly</Name>
+    </ProjectReference>
+    <ProjectReference Include="ProceduralToolkit.ClipperLib.csproj">
+      <Project>{6A7A4159-A5AB-F496-85D9-1C5D94F1D6CF}</Project>
+      <Name>ProceduralToolkit.ClipperLib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
