@@ -67,7 +67,7 @@ public class GenerateRobot : MonoBehaviour
             {
                 Debug.LogWarning($"Section {i + 1} will not drive due to a drive velocity of {config.DriveVelocity}");
             }
-            for (int a = 0; a < config.AngleConstraint.Length; a++)
+            for (int a = 0; a < 2; a++)
             {
                 string angle = a switch
                 {

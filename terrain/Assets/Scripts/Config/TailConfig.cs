@@ -6,7 +6,7 @@ namespace Config
 {
     public class TailConfig : JointConfig
     {
-
+        
     }
 }
 

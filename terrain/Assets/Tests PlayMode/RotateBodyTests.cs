@@ -22,9 +22,9 @@ public class RotateBodyTests
         sectionMS = section.GetComponent<MoveBody>();
         sectionBC = section.GetComponent<BodyConfig>();
 
-        sectionBC.AngleConstraint = new int [3]{ 0, 60, 0 };
+        sectionBC.AngleConstraint = new Vector3(0, 60, 0);
         sectionBC.IsDriving = false;
-        sectionBC.RotationMultiplier = new float[3] { 1, 1, 1};
+        sectionBC.RotationMultiplier = new Vector3(1, 1, 1);
         sectionBC.DriveVelocity = 1f;
 
         
@@ -82,9 +82,9 @@ public class RotateBodyTests
     [UnityTest]
     public IEnumerator Y_ZeroMaxAngle()
     {
-        section.transform.localEulerAngles = new Vector3(0, 0, 0);
+        section.transform.localEulerAngles = new Vector3();
         sectionBC.IsRotating = true;
-        sectionBC.AngleConstraint = new int[3] { 0, 0, 0 };
+        sectionBC.AngleConstraint = new Vector3();
 
         yield return new WaitForSeconds(2); 
         Assert.IsTrue(Math.Abs(sectionMS.GetRelativeAngle().y) < 5);
@@ -94,9 +94,9 @@ public class RotateBodyTests
     [UnityTest]
     public IEnumerator Y_ZeroTurnRatio()
     {
-        section.transform.localEulerAngles = new Vector3(0, 0, 0);
+        section.transform.localEulerAngles = new Vector3();
         sectionBC.IsRotating = true;
-        sectionBC.RotationMultiplier = new float[3] { 0, 0, 0 };
+        sectionBC.RotationMultiplier = new Vector3();
 
         yield return new WaitForFixedUpdate(); //first one it won't move
         yield return new WaitForFixedUpdate();
@@ -107,12 +107,12 @@ public class RotateBodyTests
     [UnityTest]
     public IEnumerator Y_NotRotating()
     {
-        section.transform.localEulerAngles = new Vector3(0, 0, 0);
+        section.transform.localEulerAngles = new Vector3();
         sectionBC.IsRotating = false;
 
         yield return new WaitForFixedUpdate(); //first one it won't move
         yield return new WaitForFixedUpdate();
-        Assert.AreEqual(sectionMS.GetRelativeAngle(), new Vector3(0, 0, 0));
+        Assert.AreEqual(sectionMS.GetRelativeAngle(), new Vector3());
     }
 
 }

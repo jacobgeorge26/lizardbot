@@ -25,10 +25,10 @@ internal class SectionSettings : MonoBehaviour
     private Text driveVelocityOutput;
 
     [SerializeField]
-    private Slider[] maxAngleSliders = new Slider[3];
+    private Slider[] angleConstraintSliders = new Slider[3];
 
     [SerializeField]
-    private Text[] maxAngleOutputs = new Text[3];
+    private Text[] angleConstraintOutput = new Text[3];
 
     [SerializeField]
     private Slider[] turnRatioSliders = new Slider[3];
@@ -71,10 +71,10 @@ internal class SectionSettings : MonoBehaviour
         ChangeDriveVelocity();
 
         //max angle
-        for (int i = 0; i < maxAngleOutputs.Length; i++)
+        for (int i = 0; i < angleConstraintOutput.Length; i++)
         {
-            maxAngleSliders[i].value = config.AngleConstraint[i];
-            ChangeMaxAngle(i);
+            angleConstraintSliders[i].value = config.AngleConstraint[i];
+            ChangeAngleConstraint(i);
         }
 
         //turn ratio
@@ -105,16 +105,20 @@ internal class SectionSettings : MonoBehaviour
         config.DriveVelocity = driveVelocitySlider.value;
     }
 
-    public void ChangeMaxAngle(int index)
+    public void ChangeAngleConstraint(int index)
     {
-        maxAngleOutputs[index].text = maxAngleSliders[index].value.ToString();
-        config.AngleConstraint[index] = (int)maxAngleSliders[index].value;
+        angleConstraintOutput[index].text = angleConstraintSliders[index].value.ToString();
+        Vector3 newAngleConstraint = config.AngleConstraint;
+        newAngleConstraint[index] = angleConstraintSliders[index].value;
+        config.AngleConstraint = newAngleConstraint;      
     }
 
     public void ChangeTurnRatio(int index)
     {
         turnRatioOutputs[index].text = turnRatioSliders[index].value.ToString();
-        config.RotationMultiplier[index] = turnRatioSliders[index].value;
+        Vector3 newTurnRatio = config.RotationMultiplier;
+        newTurnRatio[index] = turnRatioSliders[index].value;
+        config.RotationMultiplier = newTurnRatio;
     }
 
 

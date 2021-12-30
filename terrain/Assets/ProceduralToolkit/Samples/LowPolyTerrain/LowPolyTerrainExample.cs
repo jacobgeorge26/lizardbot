@@ -14,8 +14,6 @@ namespace ProceduralToolkit.Samples
         private bool constantSeed = true;
 
         private Mesh terrainMesh;
-        private int count = 0;
-        private bool uneven = false, smooth = false;
         private void Awake()
         {
             Generate();

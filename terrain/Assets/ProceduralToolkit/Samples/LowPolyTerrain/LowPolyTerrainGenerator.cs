@@ -13,14 +13,6 @@ namespace ProceduralToolkit.Samples
     /// </summary>
     public static class LowPolyTerrainGenerator
     {
-        public static void SetupParams()
-        {
-
-            float width = 100, height = 0;
-            //tailor terrain for surface type (including different gradient colours)
-
-        }
-
         public static MeshDraft TerrainDraft()
         {
             Vector3 terrainSize = TerrainConfig.GetTerrainSize();

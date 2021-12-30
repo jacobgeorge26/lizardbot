@@ -16,10 +16,10 @@ namespace Config
         //what is the angle constraint of the joint
         //lower -> tighter coil
         [Tooltip("It is recommended that the angle constraint is in range 30 <= x <= 120")]
-        private int[] _angleConstraint = new int[3] { 120, 120, 120 };
+        private Vector3 _angleConstraint = new Vector3(120, 120, 120);
 
         private int angleMin = 0, angleMax = 180;
-        public int[] AngleConstraint
+        public Vector3 AngleConstraint
         {
             get => _angleConstraint;
             set
@@ -39,10 +39,10 @@ namespace Config
         //when rotating how much force should each axis have applied to it?
         //e.g. 0.5, 1, 0.5 makes y the primary axis
         [Tooltip("Range 0 <= x <= 1")]
-        private float[] _rotationMultiplier = new float[3] { 0.5f, 1, 0.5f };
+        private Vector3 _rotationMultiplier = new Vector3(0.5f, 1, 0.5f);
 
         private float rmMin = 0, rmMax = 1;
-        public float[] RotationMultiplier
+        public Vector3 RotationMultiplier
         {
             get => _rotationMultiplier;
             set
