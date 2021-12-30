@@ -19,11 +19,12 @@ public class GenerateRobot : MonoBehaviour
         if (BaseConfig.IsDefault) DefaultParams();
         else if (!ValidateParams()) return;
 
+        SetupTail(robot);
+
         //TODO: setup legs
 
         SetupCam(robot);
     }
-
 
     private void DefaultParams()
     {
@@ -114,14 +115,20 @@ public class GenerateRobot : MonoBehaviour
             //setup configurable joints
             if (i > 0)
             {
-                ConfigurableJoint joint = section.GetComponent<ConfigurableJoint>(); //TODO: make the angle constraints dynamic
-                joint.lowAngularXLimit = new SoftJointLimit() { limit = -1 * config.AngleConstraint[0] / 2 };
-                joint.highAngularXLimit = new SoftJointLimit() { limit = config.AngleConstraint[0] / 2 };
-                joint.angularYLimit = new SoftJointLimit() { limit = config.AngleConstraint[1] / 2 };
-                joint.angularZLimit = new SoftJointLimit() { limit = config.AngleConstraint[2] / 2 };
-                joint.connectedBody = BaseConfig.Sections[i - 1].GetComponent<Rigidbody>();
+                SetupConfigurableJoint(section, config, BaseConfig.Sections[i - 1]);
             }
         }
+    }
+
+    private void SetupTail(GameObject robot)
+    {
+        GameObject tail = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Tail"));
+        tail.name = "tail";
+        BaseConfig.Tail = tail;
+        tail.transform.parent = robot.transform;
+        tail.transform.localPosition = new Vector3(0, 0, GetZPos(BaseConfig.Sections.Last(), tail));
+        TailConfig config = tail.GetComponent<TailConfig>();
+        SetupConfigurableJoint(tail, config, BaseConfig.Sections.Last());
     }
 
     private float GetZPos(GameObject prevObject, GameObject thisObject)
@@ -130,6 +137,16 @@ public class GenerateRobot : MonoBehaviour
         float zPos = prevObject.transform.position.z;
         zPos += -1 * (prevObject.transform.localScale.z / 2 + thisObject.transform.localScale.z / 2 + 0.1f);
         return zPos;
+    }
+
+    private void SetupConfigurableJoint(GameObject section, JointConfig config, GameObject prevObject)
+    {
+        ConfigurableJoint joint = section.GetComponent<ConfigurableJoint>();
+        joint.lowAngularXLimit = new SoftJointLimit() { limit = -1 * config.AngleConstraint[0] / 2 };
+        joint.highAngularXLimit = new SoftJointLimit() { limit = config.AngleConstraint[0] / 2 };
+        joint.angularYLimit = new SoftJointLimit() { limit = config.AngleConstraint[1] / 2 };
+        joint.angularZLimit = new SoftJointLimit() { limit = config.AngleConstraint[2] / 2 };
+        joint.connectedBody = prevObject.GetComponent<Rigidbody>();
     }
 
     private void SetupCam(GameObject robot)

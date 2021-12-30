@@ -15,6 +15,8 @@ namespace Config
         public static List<GameObject> Sections { get; set; } = new List<GameObject>();
 
         public static List<BodyConfig> SectionConfigs { get; set; } = new List<BodyConfig>();
+
+        public static GameObject Tail { get; set; }
     }
 }
 
