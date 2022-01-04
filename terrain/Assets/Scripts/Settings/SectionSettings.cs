@@ -67,7 +67,7 @@ internal class SectionSettings : MonoBehaviour
         ToggleDrive();
 
         //drive velocity
-        driveVelocitySlider.value = config.DriveVelocity;
+        driveVelocitySlider.value = config.DriveVelocity.Value;
         ChangeDriveVelocity();
 
         //max angle
@@ -102,7 +102,7 @@ internal class SectionSettings : MonoBehaviour
     public void ChangeDriveVelocity()
     {
         driveVelocityOutput.text = driveVelocitySlider.value.ToString("N2");
-        config.DriveVelocity = driveVelocitySlider.value;
+        config.DriveVelocity.Value = driveVelocitySlider.value;
     }
 
     public void ChangeAngleConstraint(int index)

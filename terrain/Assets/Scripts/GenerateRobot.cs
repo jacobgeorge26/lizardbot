@@ -63,7 +63,7 @@ public class GenerateRobot : MonoBehaviour
         for (int i = 0; i < BaseConfig.SectionConfigs.Count; i++)
         {
             BodyConfig config = BaseConfig.SectionConfigs[i];
-            if (config.DriveVelocity < 0.1f)
+            if (config.DriveVelocity.Value < 0.1f)
             {
                 Debug.LogWarning($"Section {i + 1} will not drive due to a drive velocity of {config.DriveVelocity}");
             }

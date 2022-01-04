@@ -40,7 +40,7 @@ public class DriveBodyTests : MonoBehaviour
         section.transform.rotation = Quaternion.Euler(0, 0, 0);
         sectionBC.IsDriving = true;
         sectionBC.IsRotating = false;
-        sectionBC.DriveVelocity = 1f;
+        sectionBC.DriveVelocity.Value = 1f;
 
         yield return new WaitForFixedUpdate(); //first one it won't move
         yield return new WaitForFixedUpdate();
@@ -54,7 +54,7 @@ public class DriveBodyTests : MonoBehaviour
         section.transform.rotation = Quaternion.Euler(0, 0, 0);
         sectionBC.IsDriving = true;
         sectionBC.IsRotating = false;
-        sectionBC.DriveVelocity = 0;
+        sectionBC.DriveVelocity.Value = 0;
 
         yield return new WaitForFixedUpdate(); //first one it won't move
         yield return new WaitForFixedUpdate();

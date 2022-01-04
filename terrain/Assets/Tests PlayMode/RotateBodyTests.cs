@@ -25,7 +25,7 @@ public class RotateBodyTests
         sectionBC.JointConfig.AngleConstraint = new Vector3(0, 60, 0);
         sectionBC.IsDriving = false;
         sectionBC.JointConfig.RotationMultiplier = new Vector3(1, 1, 1);
-        sectionBC.DriveVelocity = 1f;
+        sectionBC.DriveVelocity.Value = 1f;
 
         
     }

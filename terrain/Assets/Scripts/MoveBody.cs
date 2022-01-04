@@ -12,7 +12,13 @@ public class MoveBody : MonoBehaviour
     private Vector3 direction;
 
     void Awake()
-    {        
+    {
+        InitSetup();
+    }
+
+    //public for tests to call
+    public void InitSetup()
+    {
         //get the rigidbody for this body section as this is how the rotation/position will be manipulated
         body = GetComponent<Rigidbody>();
         config = this.gameObject.AddComponent<BodyConfig>();
@@ -26,6 +32,7 @@ public class MoveBody : MonoBehaviour
         if (config.IsRotating) Rotate();
     }
 
+    //TODO: change config setup - this is stupid
     public BodyConfig GetBodyConfig()
     {
         return config;
@@ -80,7 +87,7 @@ public class MoveBody : MonoBehaviour
         //get the current trajectory of the body section
         direction = this.transform.forward;
         //move it forward at a speed derived in BodyConfig
-        body.MovePosition(body.position + direction * config.DriveVelocity * Time.fixedDeltaTime);
+        body.MovePosition(body.position + direction * config.DriveVelocity.Value * Time.fixedDeltaTime);
     }
 
 
@@ -88,7 +95,7 @@ public class MoveBody : MonoBehaviour
     //rounds to int by default as common use of this method is validation about whether to continue turning. 
     public Vector3 GetRelativeAngle(bool round = true)
     {
-        Vector3 angle = new Vector3(0, 0, 0);
+        Vector3 angle = body.rotation.eulerAngles;
 
         //update for range -180 - 180
         angle.x -= Math.Round(angle.x, 0) > 180 ? 360 : 0;
@@ -109,7 +116,7 @@ public class MoveBody : MonoBehaviour
     //has option to get rounded to int but won't by default
     public Vector3 GetAngle(bool round = false)
     {
-        Vector3 angle = this.transform.localEulerAngles;
+        Vector3 angle = body.rotation.eulerAngles;
 
         //if opted to then round the angles
         angle = round ? new Vector3((float)Math.Round(angle.x, 0), (float)Math.Round(angle.y, 0), (float)Math.Round(angle.z, 0)) : angle;

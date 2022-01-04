@@ -34,21 +34,8 @@ namespace Config
         //>3 is too fast and can be hard to follow / limit the effects of rotation as it's constantly just bouncing off the terrain
         //<1 is too slow and will trigger the robot being stuck more easily - especially in the rough terrain
         [Range(0, 3)]
-        private float _driveVelocity = 2f;
-        private float driveMin = 0, driveMax = 3;
-        public float DriveVelocity
-        {
-            get => _driveVelocity;
-            set
-            {
-                if (value < driveMin)
-                    _driveVelocity = driveMin;
-                else if (value > driveMax)
-                    _driveVelocity = driveMax;
-                else
-                    _driveVelocity = value;
-            }
-        }
+        private static float defaultDriveVelocity = 2f;
+        public RangedVariable DriveVelocity = new RangedVariable(defaultDriveVelocity, 0f, 3f);
 
         public static void Copy(BodyConfig copyTo, BodyConfig copyFrom)
         {
