@@ -38,8 +38,8 @@ public class DriveBodyTests : MonoBehaviour
     {
         section.transform.position = new Vector3(0, 0, 0);
         section.transform.rotation = Quaternion.Euler(0, 0, 0);
-        sectionBC.IsDriving = true;
-        sectionBC.IsRotating = false;
+        sectionBC.IsDriving.Value = true;
+        sectionBC.IsRotating.Value = false;
         sectionBC.DriveVelocity.Value = 1f;
 
         yield return new WaitForFixedUpdate(); //first one it won't move
@@ -52,8 +52,8 @@ public class DriveBodyTests : MonoBehaviour
     {
         section.transform.position = new Vector3(0, 0, 0);
         section.transform.rotation = Quaternion.Euler(0, 0, 0);
-        sectionBC.IsDriving = true;
-        sectionBC.IsRotating = false;
+        sectionBC.IsDriving.Value = true;
+        sectionBC.IsRotating.Value = false;
         sectionBC.DriveVelocity.Value = 0;
 
         yield return new WaitForFixedUpdate(); //first one it won't move

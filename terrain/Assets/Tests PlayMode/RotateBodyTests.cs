@@ -22,9 +22,9 @@ public class RotateBodyTests
         sectionMS = section.GetComponent<MoveBody>();
         sectionBC = section.GetComponent<BodyConfig>();
 
-        sectionBC.JointConfig.AngleConstraint = new Vector3(0, 60, 0);
-        sectionBC.IsDriving = false;
-        sectionBC.JointConfig.RotationMultiplier = new Vector3(1, 1, 1);
+        sectionBC.JointConfig.AngleConstraint.Value = new Vector3(0, 60, 0);
+        sectionBC.IsDriving.Value = false;
+        sectionBC.JointConfig.RotationMultiplier.Value = new Vector3(1, 1, 1);
         sectionBC.DriveVelocity.Value = 1f;
 
         
@@ -46,7 +46,7 @@ public class RotateBodyTests
     {
         section.GetComponent<Rigidbody>().rotation = Quaternion.Euler(0, 0, 0);
         section.GetComponent<Rigidbody>().velocity = new Vector3();
-        sectionBC.IsRotating = true;
+        sectionBC.IsRotating.Value = true;
 
         yield return new WaitForSeconds(3);
         Assert.IsTrue(sectionMS.GetRelativeAngle().y > 0);
@@ -58,7 +58,7 @@ public class RotateBodyTests
     public IEnumerator Y_PositiveReverseDirection()
     {
         section.transform.localEulerAngles = new Vector3(0, 60, 0);
-        sectionBC.IsRotating = true;
+        sectionBC.IsRotating.Value = true;
 
         yield return new WaitForFixedUpdate(); //first one it won't move
         yield return new WaitForFixedUpdate();
@@ -70,7 +70,7 @@ public class RotateBodyTests
     public IEnumerator Y_NegativeReverseDirection()
     {
         section.transform.localEulerAngles = new Vector3(0, -60, 0);
-        sectionBC.IsRotating = true;
+        sectionBC.IsRotating.Value = true;
 
         yield return new WaitForFixedUpdate(); //first one it won't move
         yield return new WaitForFixedUpdate();
@@ -83,8 +83,8 @@ public class RotateBodyTests
     public IEnumerator Y_ZeroMaxAngle()
     {
         section.transform.localEulerAngles = new Vector3();
-        sectionBC.IsRotating = true;
-        sectionBC.JointConfig.AngleConstraint = new Vector3();
+        sectionBC.IsRotating.Value = true;
+        sectionBC.JointConfig.AngleConstraint.Value = new Vector3();
 
         yield return new WaitForSeconds(2); 
         Assert.IsTrue(Math.Abs(sectionMS.GetRelativeAngle().y) < 5);
@@ -95,8 +95,8 @@ public class RotateBodyTests
     public IEnumerator Y_ZeroTurnRatio()
     {
         section.transform.localEulerAngles = new Vector3();
-        sectionBC.IsRotating = true;
-        sectionBC.JointConfig.RotationMultiplier = new Vector3();
+        sectionBC.IsRotating.Value = true;
+        sectionBC.JointConfig.RotationMultiplier.Value = new Vector3();
 
         yield return new WaitForFixedUpdate(); //first one it won't move
         yield return new WaitForFixedUpdate();
@@ -108,7 +108,7 @@ public class RotateBodyTests
     public IEnumerator Y_NotRotating()
     {
         section.transform.localEulerAngles = new Vector3();
-        sectionBC.IsRotating = false;
+        sectionBC.IsRotating.Value = false;
 
         yield return new WaitForFixedUpdate(); //first one it won't move
         yield return new WaitForFixedUpdate();

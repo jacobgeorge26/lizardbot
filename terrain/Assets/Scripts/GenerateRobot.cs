@@ -21,7 +21,7 @@ public class GenerateRobot : MonoBehaviour
 
         //TODO: setup legs
 
-        if(BaseConfig.IsTailEnabled) SetupTail(robot);
+        if(BaseConfig.IsTailEnabled.Value) SetupTail(robot);
 
         SetupCam(robot);
     }
@@ -29,33 +29,33 @@ public class GenerateRobot : MonoBehaviour
     private void DefaultParams()
     {
         BaseConfig.SectionConfigs.Clear();
-        for (int i = 0; i < BaseConfig.NoSections; i++)
+        for (int i = 0; i < BaseConfig.NoSections.Value; i++)
         {
             //BodyConfig comes with default params - exceptions are shown below - change from default every other section
             BodyConfig config = BaseConfig.Sections[i].GetComponent<MoveBody>().GetBodyConfig(); ;
             //rotation defaults
             config.Index = i;
-            config.IsRotating = i % 2 == 0 ? true : false;
+            config.IsRotating.Value = i % 2 == 0 ? true : false;
             
             BaseConfig.SectionConfigs.Add(config);
         }
 
         //alternate betwwen sin and cos
-        List<BodyConfig> rotatingSections = BaseConfig.SectionConfigs.Where(s => s.IsRotating).ToList();
+        List<BodyConfig> rotatingSections = BaseConfig.SectionConfigs.Where(s => s.IsRotating.Value).ToList();
         for (int i = 0; i < rotatingSections.Count; i++)
         {
-            rotatingSections[i].UseSin = i % 2 == 0 ? true : false;
+            rotatingSections[i].UseSin.Value = i % 2 == 0 ? true : false;
         }
     }
 
     private bool ValidateParams()
     {
-        if(BaseConfig.NoSections < 1)
+        if(BaseConfig.NoSections.Value < 1)
         {
             Debug.LogError("The minimum number of body sections is 1");
             return false;
         }
-        if (BaseConfig.SectionConfigs.Count != BaseConfig.NoSections)
+        if (BaseConfig.SectionConfigs.Count != BaseConfig.NoSections.Value)
         {
             Debug.LogError("The number of section configs in BaseConfig must equal the number of sections");
             return false;
@@ -76,17 +76,17 @@ public class GenerateRobot : MonoBehaviour
                     2 => "z",
                     _ => "unknown"
                 };
-                if(config.JointConfig.RotationMultiplier[a] < 0.1)
+                if(config.JointConfig.RotationMultiplier.Value[a] < 0.1)
                 {
-                    Debug.LogWarning($"The {angle} turn ration of section {i + 1} will not rotate due to a turn ratio of {config.JointConfig.RotationMultiplier[a]}");
+                    Debug.LogWarning($"The {angle} turn ration of section {i + 1} will not rotate due to a turn ratio of {config.JointConfig.RotationMultiplier.Value[a]}");
                 }
-                if(config.JointConfig.AngleConstraint[a] < 30)
+                if(config.JointConfig.AngleConstraint.Value[a] < 30)
                 {
-                    Debug.LogWarning($"The {angle} angle constraint of section {i + 1} is {config.JointConfig.AngleConstraint[a]} which may produce unstable results. An angle >30 is recommended");
+                    Debug.LogWarning($"The {angle} angle constraint of section {i + 1} is {config.JointConfig.AngleConstraint.Value[a]} which may produce unstable results. An angle >30 is recommended");
                 }
-                if(config.JointConfig.AngleConstraint[a] > 120)
+                if(config.JointConfig.AngleConstraint.Value[a] > 120)
                 {
-                    Debug.LogWarning($"The {angle} angle constraint of section {i + 1} is {config.JointConfig.AngleConstraint[a]} which may produce unstable results. An angle <120 is recommended");
+                    Debug.LogWarning($"The {angle} angle constraint of section {i + 1} is {config.JointConfig.AngleConstraint.Value[a]} which may produce unstable results. An angle <120 is recommended");
                 }
             }
         }
@@ -95,8 +95,7 @@ public class GenerateRobot : MonoBehaviour
 
     private void SetupBody(GameObject robot)
     {
-        BaseConfig.NoSections = BaseConfig.NoSections == -1 ? BaseConfig.DefaultNoSections : BaseConfig.NoSections;
-        for (int i = 0; i < BaseConfig.NoSections; i++)
+        for (int i = 0; i < BaseConfig.NoSections.Value; i++)
         {
             GameObject section = i == 0
                 ? MonoBehaviour.Instantiate(Resources.Load<GameObject>("Head"))
@@ -128,7 +127,7 @@ public class GenerateRobot : MonoBehaviour
         tail.transform.parent = robot.transform;
         tail.transform.localPosition = new Vector3(0, 0, GetZPos(BaseConfig.Sections.Last(), tail));
         //set mass to be equal to rest of body
-        tail.GetComponent<Rigidbody>().mass = GetTotalMass() * BaseConfig.TailMassMultiplier;
+        tail.GetComponent<Rigidbody>().mass = GetTotalMass() * BaseConfig.TailMassMultiplier.Value;
         SetupConfigurableJoint(tail, TailConfig.JointConfig, BaseConfig.Sections.Last());
         //pass MoveTail the initial centre of gravity (defaulting to zero for some axis)
         tail.GetComponent<MoveTail>().SetInitCOG(GetInitCOG());
@@ -157,10 +156,10 @@ public class GenerateRobot : MonoBehaviour
     private void SetupConfigurableJoint(GameObject section, JointConfig config, GameObject prevObject)
     {
         ConfigurableJoint joint = section.GetComponent<ConfigurableJoint>();
-        joint.lowAngularXLimit = new SoftJointLimit() { limit = -1 * config.AngleConstraint[0] / 2 };
-        joint.highAngularXLimit = new SoftJointLimit() { limit = config.AngleConstraint[0] / 2 };
-        joint.angularYLimit = new SoftJointLimit() { limit = config.AngleConstraint[1] / 2 };
-        joint.angularZLimit = new SoftJointLimit() { limit = config.AngleConstraint[2] / 2 };
+        joint.lowAngularXLimit = new SoftJointLimit() { limit = -1 * config.AngleConstraint.Value[0] / 2 };
+        joint.highAngularXLimit = new SoftJointLimit() { limit = config.AngleConstraint.Value[0] / 2 };
+        joint.angularYLimit = new SoftJointLimit() { limit = config.AngleConstraint.Value[1] / 2 };
+        joint.angularZLimit = new SoftJointLimit() { limit = config.AngleConstraint.Value[2] / 2 };
         joint.connectedBody = prevObject.GetComponent<Rigidbody>();
     }
 
@@ -171,7 +170,7 @@ public class GenerateRobot : MonoBehaviour
         cam.transform.parent = robot.transform;
         CameraPosition camPos = cam.GetComponent<CameraPosition>();
         camPos.Head = BaseConfig.Sections[0];
-        camPos.Tail = BaseConfig.IsTailEnabled ? BaseConfig.Tail : BaseConfig.Sections[BaseConfig.Sections.Count - 1];
+        camPos.Tail = BaseConfig.IsTailEnabled.Value ? BaseConfig.Tail : BaseConfig.Sections[BaseConfig.Sections.Count - 1];
     }
 
     private Vector3 GetInitCOG()

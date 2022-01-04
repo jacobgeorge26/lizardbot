@@ -24,7 +24,7 @@ public class MoveTail : MonoBehaviour
         for (int i = 0; i < 2; i++)
         {
             //adjust for rotation multiplier
-            angleVelocity[i] *= TailConfig.JointConfig.RotationMultiplier[i];
+            angleVelocity[i] *= TailConfig.JointConfig.RotationMultiplier.Value[i];
         }
         //convert vector to a quaternion
         Quaternion deltaRotation = Quaternion.Euler(angleVelocity);
@@ -36,13 +36,13 @@ public class MoveTail : MonoBehaviour
     {
         //get the average vector between each section
         Vector3 sum = new Vector3();
-        for (int i = 1; i < BaseConfig.NoSections; i++)
+        for (int i = 1; i < BaseConfig.NoSections.Value; i++)
         {
             GameObject prevSection = BaseConfig.Sections[i - 1];
             GameObject section = BaseConfig.Sections[i];
             sum += GetRelativeAngle(prevSection) - GetRelativeAngle(section);
         }
-        Vector3 bodyRotation = sum / BaseConfig.NoSections;
+        Vector3 bodyRotation = sum / BaseConfig.NoSections.Value;
         //reverse the x & y axis
         //TODO: when implementing jumping - have it so that the tail flicks up/down sharply
         //bodyRotation.x *= -1;

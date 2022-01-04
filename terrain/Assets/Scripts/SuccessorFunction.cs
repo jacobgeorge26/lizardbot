@@ -51,7 +51,7 @@ public class SuccessorFunction : MonoBehaviour
         //2 values are added to locations each sample
         //the max size of locations should be 12
         //the minimum value will always be 10 to accomodate lower frame ratee
-        return Math.Max((int)((frameRate * 2 * AIConfig.SearchLength) / AIConfig.SampleSize), 10);
+        return Math.Max((int)((frameRate * 2 * AIConfig.SearchLength.Value) / AIConfig.SampleSize), 10);
     }
 
     private void UpdateLocations()

@@ -28,8 +28,8 @@ public class MoveBody : MonoBehaviour
     //will drive and/or rotate as determined in BodyConfig
     void FixedUpdate()
     {        
-        if (config.IsDriving) Drive();
-        if (config.IsRotating) Rotate();
+        if (config.IsDriving.Value) Drive();
+        if (config.IsRotating.Value) Rotate();
     }
 
     //TODO: change config setup - this is stupid
@@ -41,11 +41,11 @@ public class MoveBody : MonoBehaviour
     //rotate this body section
     private void Rotate()
     {
-        Vector3 currentAngle = GetRelativeAngle(); //rounded
+        Vector3 currentAngle = GetRelativeAngle(false);
         Vector3 angleVelocity = new Vector3();
         Vector3 prevSecAngle = new Vector3();
 
-        List<BodyConfig> RotatingSections = BaseConfig.SectionConfigs.Where(s => s.IsRotating && s.Index < config.Index).ToList();
+        List<BodyConfig> RotatingSections = BaseConfig.SectionConfigs.Where(s => s.IsRotating.Value && s.Index < config.Index).ToList();
         for (int i = 0; i < 3; i++)
         {          
             //determine initial velocity
@@ -56,24 +56,26 @@ public class MoveBody : MonoBehaviour
                 prevSecAngle = prevSecMoveBody.GetRelativeAngle();
                 angleVelocity[i] = prevSecMoveBody.GetVelocity()[i];
             }
-            if (config.UseSin)
+            //sin & cos use radians, convert angles from degrees to radians for these
+            float radiansPrevAngle = (float)(Math.PI / 180f * prevSecAngle[i]);
+            float radiansCurrAngle = (float)(Math.PI / 180f * currentAngle[i]);
+            //use CPG equation to get the velocity that each axis should have
+            if (config.UseSin.Value)
             {
-                float test = body.transform.localScale.magnitude;
-
-                angleVelocity[i] += body.transform.localScale[i] * 0.5f * ((float)Math.Sin(prevSecAngle[i]) + (float)Math.Sin(currentAngle[i]));
+                angleVelocity[i] += body.transform.localScale[i] * 0.5f * ((float)Math.Sin(radiansPrevAngle) + (float)Math.Sin(radiansCurrAngle));
             }
             else
             {
-                angleVelocity[i] += body.transform.localScale[i] * 0.5f * ((float)Math.Cos(prevSecAngle[i]) + (float)Math.Cos(currentAngle[i]));
+                angleVelocity[i] += body.transform.localScale[i] * 0.5f * ((float)Math.Cos(radiansPrevAngle) + (float)Math.Cos(radiansCurrAngle));
             }       
             //adjust for rotation multiplier
-            angleVelocity[i] *= config.JointConfig.RotationMultiplier[i];
+            angleVelocity[i] *= config.JointConfig.RotationMultiplier.Value[i];
         }
-
-        //convert vector to a quaternion
-        Quaternion deltaRotation = new Quaternion(angleVelocity.x, angleVelocity.y, angleVelocity.z, 1);
-        //apply the vector to the body's space and rotate it
-        body.MoveRotation(body.rotation * deltaRotation);
+        //apply force
+        //relative force uses local space vs world space
+        //force mode is set to velocity change as this is what the equation is looking at
+        //admittedly, each of these details has negligible differences in behaviour vs AddForce and ForceMode.Force
+        body.AddRelativeForce(angleVelocity * 0.1f, ForceMode.VelocityChange);
     }
 
     private Vector3 GetVelocity()

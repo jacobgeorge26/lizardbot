@@ -7,12 +7,6 @@ namespace Config
 {
     public class JointConfig : object
     {
-        public JointConfig(Vector3? angleConstraint, Vector3? rotationMultiplier ) 
-        {
-            _angleConstraint = angleConstraint.HasValue ? angleConstraint.Value : new Vector3(120, 120, 120);
-            _rotationMultiplier = rotationMultiplier.HasValue ? rotationMultiplier.Value : new Vector3(0.5f, 1f, 0.5f);
-        }
-
         /* if you change AngleConstraint's limits then check for strange behaviour
         * if too high it will break expected behvaiour from a physical robot
         * if negative then just what
@@ -22,48 +16,18 @@ namespace Config
         //what is the angle constraint of the joint
         //lower -> tighter coil
         [Tooltip("It is recommended that the angle constraint is in range 30 <= x <= 120")]
-        private Vector3 _angleConstraint;
-
-        private int angleMin = 0, angleMax = 180;
-        public Vector3 AngleConstraint
-        {
-            get => _angleConstraint;
-            set
-            {
-                for (int i = 0; i < 3; i++)
-                {
-                    if (value[i] < angleMin)
-                        _angleConstraint[i] = angleMin;
-                    else if (value[i] > angleMax)
-                        _angleConstraint[i] = angleMax;
-                    else
-                        _angleConstraint = value;
-                }
-            }
-        }
+        public RangedVariable AngleConstraint = new RangedVariable(new Vector3(120, 120, 120), 0, 180);
 
         //when rotating how much force should each axis have applied to it?
         //e.g. 0.5, 1, 0.5 makes y the primary axis
         [Tooltip("Range 0 <= x <= 1")]
-        private Vector3 _rotationMultiplier;
+        public RangedVariable RotationMultiplier = new RangedVariable(new Vector3(0.5f, 1f, 0.5f), 0f, 1f);
 
-        private float rmMin = 0, rmMax = 1;
-
-        public Vector3 RotationMultiplier
+        public JointConfig(Vector3? angleConstraint, Vector3? rotationMultiplier ) 
         {
-            get => _rotationMultiplier;
-            set
-            {
-                for (int i = 0; i < 3; i++)
-                {
-                    if (value[i] < rmMin)
-                        _rotationMultiplier[i] = rmMin;
-                    else if (value[i] > rmMax)
-                        _rotationMultiplier[i] = rmMax;
-                    else
-                        _rotationMultiplier = value;
-                }
-            }
+            AngleConstraint.Value = angleConstraint.HasValue ? angleConstraint.Value : AngleConstraint.Value;
+            RotationMultiplier.Value = rotationMultiplier.HasValue ? rotationMultiplier.Value : RotationMultiplier.Value;
         }
+
     }
 }

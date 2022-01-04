@@ -8,18 +8,16 @@ namespace Config
     {
         public static bool IsDefault { get; set; } = true;
 
-        public static int NoSections { get; set; } = -1;
-
-        public static int DefaultNoSections { get; set; } = 5;
+        public static RangedVariable NoSections = new RangedVariable(5, 1, 10);
 
         public static List<GameObject> Sections { get; set; } = new List<GameObject>();
 
         public static List<BodyConfig> SectionConfigs { get; set; } = new List<BodyConfig>();
 
-        public static bool IsTailEnabled { get; set; } = true;
+        public static BaseVariable IsTailEnabled = new BaseVariable(false);
         public static GameObject Tail { get; set; }
 
-        public static float TailMassMultiplier { get; set; } = 0.1f;
+        public static RangedVariable TailMassMultiplier = new RangedVariable(0.1f, 0.1f, 1.5f);
     }
 }
 

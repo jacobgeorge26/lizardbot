@@ -25,7 +25,7 @@ public class BodySettings : MonoBehaviour
 
     void Start()
     {
-        sectionsSlider.value = BaseConfig.DefaultNoSections;
+        sectionsSlider.value = BaseConfig.NoSections.Value;
         ChangeNoSections();
 
         defaultToggle.SetIsOnWithoutNotify(BaseConfig.IsDefault);
@@ -34,18 +34,18 @@ public class BodySettings : MonoBehaviour
 
     public void ChangeNoSections()
     {
-        BaseConfig.NoSections = (int)sectionsSlider.value;
-        if (BaseConfig.SectionConfigs.Count < BaseConfig.NoSections)
+        BaseConfig.NoSections.Value = (int)sectionsSlider.value;
+        if (BaseConfig.SectionConfigs.Count < BaseConfig.NoSections.Value)
         {
-            for (int i = BaseConfig.SectionConfigs.Count; i < BaseConfig.NoSections; i++)
+            for (int i = BaseConfig.SectionConfigs.Count; i < BaseConfig.NoSections.Value; i++)
             {
                 //BodyConfig is initialised with default params
                 BaseConfig.SectionConfigs.Add(new BodyConfig());
             }
         }
-        else if (BaseConfig.SectionConfigs.Count > BaseConfig.NoSections)
+        else if (BaseConfig.SectionConfigs.Count > BaseConfig.NoSections.Value)
         {
-            for (int i = 0; i < BaseConfig.SectionConfigs.Count - BaseConfig.NoSections; i++)
+            for (int i = 0; i < BaseConfig.SectionConfigs.Count - BaseConfig.NoSections.Value; i++)
             {
                 BaseConfig.SectionConfigs.RemoveAt(BaseConfig.SectionConfigs.Count - 1);
             }
@@ -71,7 +71,7 @@ public class BodySettings : MonoBehaviour
         {
             for (int i = 0; i < selections.Length; i++)
             {
-                bool showButton = defaultToggle.isOn || (!defaultToggle.isOn && i + 1 > BaseConfig.NoSections) ? false : true;
+                bool showButton = defaultToggle.isOn || (!defaultToggle.isOn && i + 1 > BaseConfig.NoSections.Value) ? false : true;
                 selections[i].interactable = showButton;
             }
             //update which one is selected
@@ -79,7 +79,7 @@ public class BodySettings : MonoBehaviour
             {
                 //is one already selected? default to number 1
                 bodyConfigIndex = bodyConfigIndex == -1 ? 1 :
-                    bodyConfigIndex > BaseConfig.NoSections ? 1 : bodyConfigIndex; //is the selected one now hidden (reducing number of sections)
+                    bodyConfigIndex > BaseConfig.NoSections.Value ? 1 : bodyConfigIndex; //is the selected one now hidden (reducing number of sections)
                 selections[bodyConfigIndex - 1].Select();
                 SelectSection(bodyConfigIndex);
             }
@@ -111,7 +111,7 @@ public class BodySettings : MonoBehaviour
         BodyConfig config = BaseConfig.SectionConfigs[bodyConfigIndex - 1];
         SectionSettings objects = configObject.GetComponent<SectionSettings>();
         //have to use SetIsOnWithoutNotify because IsOn = fails when assigned false
-        objects.RotateToggle.SetIsOnWithoutNotify(config.IsRotating);
-        objects.DriveToggle.SetIsOnWithoutNotify(config.IsDriving);
+        objects.RotateToggle.SetIsOnWithoutNotify(config.IsRotating.Value);
+        objects.DriveToggle.SetIsOnWithoutNotify(config.IsDriving.Value);
     }
 }

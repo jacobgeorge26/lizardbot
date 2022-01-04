@@ -59,11 +59,11 @@ internal class SectionSettings : MonoBehaviour
         //however calling the methods is a simple way to ensure every component is updated correctly - changes to the code won't lead to some things being missed
 
         //isRotating
-        RotateToggle.isOn = config.IsRotating;
+        RotateToggle.isOn = config.IsRotating.Value;
         ToggleRotate();
 
         //isDriving
-        DriveToggle.isOn = config.IsDriving;
+        DriveToggle.isOn = config.IsDriving.Value;
         ToggleDrive();
 
         //drive velocity
@@ -73,14 +73,14 @@ internal class SectionSettings : MonoBehaviour
         //max angle
         for (int i = 0; i < angleConstraintOutput.Length; i++)
         {
-            angleConstraintSliders[i].value = config.JointConfig.AngleConstraint[i];
+            angleConstraintSliders[i].value = config.JointConfig.AngleConstraint.Value[i];
             ChangeAngleConstraint(i);
         }
 
         //turn ratio
         for (int i = 0; i < turnRatioOutputs.Length; i++)
         {
-            turnRatioSliders[i].value = config.JointConfig.RotationMultiplier[i];
+            turnRatioSliders[i].value = config.JointConfig.RotationMultiplier.Value[i];
             ChangeTurnRatio(i);
         }
     }
@@ -88,14 +88,14 @@ internal class SectionSettings : MonoBehaviour
     public void ToggleRotate()
     {
         rotateSettings.gameObject.SetActive(RotateToggle.isOn);
-        config.IsRotating = RotateToggle.isOn;
+        config.IsRotating.Value = RotateToggle.isOn;
     }
 
 
     public void ToggleDrive()
     {
         driveSettings.gameObject.SetActive(DriveToggle.isOn);
-        config.IsDriving = DriveToggle.isOn;
+        config.IsDriving.Value = DriveToggle.isOn;
     }
 
 
@@ -108,17 +108,17 @@ internal class SectionSettings : MonoBehaviour
     public void ChangeAngleConstraint(int index)
     {
         angleConstraintOutput[index].text = angleConstraintSliders[index].value.ToString();
-        Vector3 newAngleConstraint = config.JointConfig.AngleConstraint;
+        Vector3 newAngleConstraint = config.JointConfig.AngleConstraint.Value;
         newAngleConstraint[index] = angleConstraintSliders[index].value;
-        config.JointConfig.AngleConstraint = newAngleConstraint;      
+        config.JointConfig.AngleConstraint.Value = newAngleConstraint;      
     }
 
     public void ChangeTurnRatio(int index)
     {
         turnRatioOutputs[index].text = turnRatioSliders[index].value.ToString();
-        Vector3 newTurnRatio = config.JointConfig.RotationMultiplier;
+        Vector3 newTurnRatio = config.JointConfig.RotationMultiplier.Value;
         newTurnRatio[index] = turnRatioSliders[index].value;
-        config.JointConfig.RotationMultiplier = newTurnRatio;
+        config.JointConfig.RotationMultiplier.Value = newTurnRatio;
     }
 
 
