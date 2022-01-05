@@ -687,6 +687,10 @@
       <Project>{D6203855-9430-02BE-DD31-671065C7472E}</Project>
       <Name>Enums</Name>
     </ProjectReference>
+    <ProjectReference Include="Grapher.csproj">
+      <Project>{1E4203AB-7F81-1C6A-C02E-D06CD9BD6DE4}</Project>
+      <Name>Grapher</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

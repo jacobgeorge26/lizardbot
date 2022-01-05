@@ -11,6 +11,7 @@ public class SuccessorFunction : MonoBehaviour
     private Queue<float> tempLocations = new Queue<float>();
     private int frameRate;
     private float limit;
+    float t = 0;
 
     void Start()
     {
@@ -28,10 +29,35 @@ public class SuccessorFunction : MonoBehaviour
     {
         frameRate = ((int)(1.0f / Time.deltaTime));
         UpdateLocations();
-        if (locations.Count == GetLocationsLimit())
+        float variance = GetVariance();
+        if (variance > 0)
         {
-            DetermineRobotStuck();
+            //t += Time.deltaTime;
+            t += 1;
+            float cos1 = Mathf.Cos(t * 2f);
+
+            // ********** Overloads **********
+
+            // User defined color.
+            Grapher.Log(variance, 0);
+            //Debug.Log(variance);
         }
+        //if (locations.Count == GetLocationsLimit())
+        //{
+        //    DetermineRobotStuck();
+        //}
+    }
+
+    private float GetVariance()
+    {
+        float mean = locations.Sum() / locations.Count();
+        float[] squareMeanDiff = new float[locations.Count];
+        for (int i = 0; i < locations.Count; i++)
+        {
+            float subMean = locations.ElementAt(i) - mean;
+            squareMeanDiff[i] = subMean * subMean;
+        }
+        return squareMeanDiff.Sum() / squareMeanDiff.Count();
     }
 
     private void DetermineRobotStuck()

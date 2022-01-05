@@ -75,6 +75,7 @@ public class MoveBody : MonoBehaviour
         //relative force uses local space vs world space
         //force mode is set to velocity change as this is what the equation is looking at
         //admittedly, each of these details has negligible differences in behaviour vs AddForce and ForceMode.Force
+        //0.1 is used to bring the force to a level that it won't cause it to self-destruct, the RotationMultiplier can be used to adjust the force applied in each axis if desired
         body.AddRelativeForce(angleVelocity * 0.1f, ForceMode.VelocityChange);
     }
 
