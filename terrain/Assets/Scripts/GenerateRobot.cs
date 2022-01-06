@@ -12,7 +12,7 @@ public class GenerateRobot : MonoBehaviour
         //setup overall robot
         GameObject robot = new GameObject();
         robot.name = "robot";
-        robot.transform.position = new Vector3(0, 10, 0);
+        robot.transform.position = new Vector3(0, TerrainConfig.GetTerrainHeight() + 1f, 0);
 
         SetupBody(robot);
 

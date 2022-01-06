@@ -39,7 +39,7 @@ namespace NWH
         {
             get
             {
-                return EditorPrefs.GetFloat("GrapherHorizontalResolution", 8);
+                return EditorPrefs.GetFloat("GrapherHorizontalResolution", 60);
             }
             set
             {

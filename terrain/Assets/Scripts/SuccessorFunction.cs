@@ -9,43 +9,45 @@ public class SuccessorFunction : MonoBehaviour
 {
     private Queue<float> locations = new Queue<float>();
     private Queue<float> tempLocations = new Queue<float>();
+
     private int frameRate;
+    private int sampleSize = 50;
+    private float searchSize = 3f;
     private float limit;
-    float t = 0;
+    private bool IsEnabled = false;
+    private bool CountIsStuck = false;
 
     void Start()
     {
-        //the limit is the float that, if max - min of locations falls under will determine that the robot is stuck
-        //it uses the noise frequency of the terrain - which is calculated using the terrain type and terrain size
-        //the larger the noise the rougher the terrain
-        //this is multiplied here and then inversed - so the limit will be smaller on rougher terrain
-        //when 'craters' are created in the terrain this equates to 'is the robot stuck within a quarter of this crater?'
-        limit = 1 / (TerrainConfig.GetNoiseFrequency() * 2);
-        //TODO: explore what value should be used for the limit
-        limit = 0.05f;
+        //the limit is used to determine when the robot is stuck
+        //if the variance dips below the limit then the robot is classed as stuck
+        //this can be due to many different behaviours:
+        //hitting a wall
+        //circling
+        //remaining in the same general area for too long
+        //bouncing between the same locations
+        //this was based on data collection - see data collection folder for the actual data
+        limit = TerrainConfig.SurfaceType switch
+        {
+            Surface.Smooth => 0.062f,
+            Surface.Uneven => 0.023f,
+            Surface.Rough => 0.432f,
+            _ => throw new NotImplementedException()
+        };
     }
 
     void Update()
     {
-        frameRate = ((int)(1.0f / Time.deltaTime));
-        UpdateLocations();
-        float variance = GetVariance();
-        if (variance > 0)
+        if(IsEnabled)
         {
-            //t += Time.deltaTime;
-            t += 1;
-            float cos1 = Mathf.Cos(t * 2f);
-
-            // ********** Overloads **********
-
-            // User defined color.
-            Grapher.Log(variance, 0);
-            //Debug.Log(variance);
+            frameRate = ((int)(1.0f / Time.deltaTime));
+            UpdateLocations();
         }
-        //if (locations.Count == GetLocationsLimit())
-        //{
-        //    DetermineRobotStuck();
-        //}
+    }
+
+    internal void Enable()
+    {
+        IsEnabled = true;
     }
 
     private float GetVariance()
@@ -57,17 +59,9 @@ public class SuccessorFunction : MonoBehaviour
             float subMean = locations.ElementAt(i) - mean;
             squareMeanDiff[i] = subMean * subMean;
         }
-        return squareMeanDiff.Sum() / squareMeanDiff.Count();
-    }
-
-    private void DetermineRobotStuck()
-    {
-        //if the average from the last x frames is under the limit then the robot is bouncing and is stuck
-        if(locations.Max() - locations.Min() < limit)
-        {
-            //TODO: when the AI is setup make this respawn
-            Debug.LogError("Robot Stuck");
-        }
+        float variance = squareMeanDiff.Sum() / squareMeanDiff.Count();
+        return variance;
+        //variance on init can take a few frames to start returning a result
     }
     
     private int GetLocationsLimit()
@@ -76,8 +70,9 @@ public class SuccessorFunction : MonoBehaviour
         //e.g. we want the last ~second to be analysed and the framerate is 300. 1 sample = 50 frames. 
         //2 values are added to locations each sample
         //the max size of locations should be 12
-        //the minimum value will always be 10 to accomodate lower frame ratee
-        return Math.Max((int)((frameRate * 2 * AIConfig.SearchLength.Value) / AIConfig.SampleSize), 10);
+        //the minimum value will always be 10 to accomodate lower frame rate
+        return 15;
+        return Math.Max((int)((frameRate * 2 * searchSize) / sampleSize), 15);
     }
 
     private void UpdateLocations()
@@ -88,7 +83,11 @@ public class SuccessorFunction : MonoBehaviour
         float magnitude3D = Mathf.Sqrt(magnitude2D + (currentLocation.y * currentLocation.y));
         //add this to the current sample being collected
         tempLocations.Enqueue(magnitude3D);
-        if(tempLocations.Count >= AIConfig.SampleSize)
+        ///////////testing
+        Grapher.Log(magnitude3D, "Location", Color.red);
+        //GameObject locPoint = MonoBehaviour.Instantiate(Resources.Load<GameObject>("LocationPoint"));
+        //locPoint.transform.position = currentLocation;
+        if (tempLocations.Count >= sampleSize)
         {
             //this sample is complete - store the max and min of this sample in locations
             locations.Enqueue(tempLocations.Max());
@@ -101,6 +100,24 @@ public class SuccessorFunction : MonoBehaviour
         {
             count--;
             locations.Dequeue();
+        }
+        //if locations is full then determine the variance and compare it to the threshold
+        //determine if robot is stuck
+        if (locations.Count == GetLocationsLimit())
+        {
+            float variance = GetVariance();
+            Grapher.Log(variance, "variance", Color.white);
+            if (variance < limit)
+            {
+                if (!CountIsStuck)
+                {
+                    CountIsStuck = true;
+                }
+                else
+                {
+                    Debug.LogError("Robot stuck");
+                }
+            }
         }
     }
 }

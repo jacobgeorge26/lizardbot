@@ -72,8 +72,12 @@
     <Compile Include="Assets\Scripts\CameraPosition.cs" />
     <Compile Include="Assets\Scripts\MoveBody.cs" />
     <Compile Include="Assets\Scripts\retired\Move.cs" />
+    <Compile Include="Assets\Scripts\Collisions.cs" />
+    <Compile Include="Assets\Scripts\TerrainGeneration.cs" />
+    <Compile Include="Assets\Scripts\testVariable.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Scripts\TestAssembly.asmdef" />
     <None Include="Assets\Scripts\Scripts.asmdef" />
   </ItemGroup>
   <ItemGroup>

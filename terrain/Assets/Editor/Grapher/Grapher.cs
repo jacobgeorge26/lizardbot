@@ -338,6 +338,12 @@ public partial class Grapher : EditorWindow
         Log(value, name);
     }
 
+    public static void Log(object value, int id, Color color)
+    {
+        string name = "Var " + id;
+        Log(value, name, color);
+    }
+
     /// <summary>
     /// Called when Editor Application is stopped.
     /// </summary>

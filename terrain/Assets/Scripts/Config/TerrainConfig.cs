@@ -8,7 +8,7 @@ namespace Config
 {
     public static class TerrainConfig : object
     {
-        public static Surface SurfaceType { get; set; } = Surface.Rough;
+        public static Surface SurfaceType { get; set; } = Surface.Smooth;
 
         public static float CellSize = 0.5f;
 
@@ -19,9 +19,9 @@ namespace Config
             return new Vector3(TerrainWidth, GetTerrainHeight(), TerrainWidth);
         }
 
-        private static float GetTerrainHeight()
+        public static float GetTerrainHeight()
         {
-            return (int)SurfaceType * 4f;
+            return (int)SurfaceType * 8f;
         }
 
         public static float GetNoiseFrequency()
