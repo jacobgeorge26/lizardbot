@@ -14,7 +14,7 @@ namespace Config
         [Header("Rotation Setup")]
 
         //will this section be rotating (it can rotate AND drive if that is desirable)
-        public BaseVariable IsRotating = new BaseVariable(true);
+        public BaseVariable IsRotating = new BaseVariable(false);
 
         //will this section use sin or cos in the oscillation?
         [HideInInspector]

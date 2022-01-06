@@ -8,7 +8,7 @@ namespace Config
     {
         public static bool IsDefault { get; set; } = true;
 
-        public static RangedVariable NoSections = new RangedVariable(5, 1, 10);
+        public static RangedVariable NoSections = new RangedVariable(1, 1, 10);
 
         public static List<GameObject> Sections { get; set; } = new List<GameObject>();
 

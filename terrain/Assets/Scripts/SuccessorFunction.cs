@@ -9,38 +9,39 @@ public class SuccessorFunction : MonoBehaviour
 {
     private Queue<float> locations = new Queue<float>();
     private Queue<float> tempLocations = new Queue<float>();
+    private Queue<float> variances = new Queue<float>();
 
-    private int frameRate;
+    //these are used to determine how many frames are analysed
+    //2 values are added to locations per sample
+    //For a sample size of 50 and locationSize of 20 then 500 frames would be analysed
     private int sampleSize = 50;
-    private float searchSize = 3f;
-    private float limit;
+    private int locationsSize = 100; 
+    //this determines how far back the gradient is looking at. >2 is recommended as this leads to a lot of false positives
+    private int variancesSize = 2;
+    //these are used to prevent data being collected too soon 
+    //the robot needs time to hit the terrain and react
     private bool IsEnabled = false;
-    private bool CountIsStuck = false;
+    private int IsStuckBuffer = 300;
 
-    void Start()
+    private GameObject pointsContainer;
+
+    private void Start()
     {
-        //the limit is used to determine when the robot is stuck
-        //if the variance dips below the limit then the robot is classed as stuck
-        //this can be due to many different behaviours:
-        //hitting a wall
-        //circling
-        //remaining in the same general area for too long
-        //bouncing between the same locations
-        //this was based on data collection - see data collection folder for the actual data
-        limit = TerrainConfig.SurfaceType switch
-        {
-            Surface.Smooth => 0.062f,
-            Surface.Uneven => 0.023f,
-            Surface.Rough => 0.432f,
-            _ => throw new NotImplementedException()
-        };
+        pointsContainer = new GameObject();
     }
 
+    //if the gradient of the variance of the magnitude of the coordinates dips below the limit then the robot is classed as stuck
+    //this can be due to many different behaviours:
+    //hitting a wall
+    //circling
+    //remaining in the same general area for too long
+    //bouncing between the same locations
     void Update()
     {
-        if(IsEnabled)
+        //variance on init can take a few frames to start returning a proper result
+        IsStuckBuffer -= IsEnabled ? 1 : 0;
+        if(IsStuckBuffer <= 0)
         {
-            frameRate = ((int)(1.0f / Time.deltaTime));
             UpdateLocations();
         }
     }
@@ -61,18 +62,6 @@ public class SuccessorFunction : MonoBehaviour
         }
         float variance = squareMeanDiff.Sum() / squareMeanDiff.Count();
         return variance;
-        //variance on init can take a few frames to start returning a result
-    }
-    
-    private int GetLocationsLimit()
-    {
-        //the number of samples collected is based on the frame rate - to roughly equate to the number of seconds. 
-        //e.g. we want the last ~second to be analysed and the framerate is 300. 1 sample = 50 frames. 
-        //2 values are added to locations each sample
-        //the max size of locations should be 12
-        //the minimum value will always be 10 to accomodate lower frame rate
-        return 15;
-        return Math.Max((int)((frameRate * 2 * searchSize) / sampleSize), 15);
     }
 
     private void UpdateLocations()
@@ -83,41 +72,52 @@ public class SuccessorFunction : MonoBehaviour
         float magnitude3D = Mathf.Sqrt(magnitude2D + (currentLocation.y * currentLocation.y));
         //add this to the current sample being collected
         tempLocations.Enqueue(magnitude3D);
-        ///////////testing
-        Grapher.Log(magnitude3D, "Location", Color.red);
-        //GameObject locPoint = MonoBehaviour.Instantiate(Resources.Load<GameObject>("LocationPoint"));
-        //locPoint.transform.position = currentLocation;
         if (tempLocations.Count >= sampleSize)
         {
             //this sample is complete - store the max and min of this sample in locations
             locations.Enqueue(tempLocations.Max());
             locations.Enqueue(tempLocations.Min());
             tempLocations.Clear();
-        }
-        int count = 100;
-        //only store as many samples in locations as determined in AI config
-        while(locations.Count > GetLocationsLimit() && count > 0)
-        {
-            count--;
-            locations.Dequeue();
-        }
-        //if locations is full then determine the variance and compare it to the threshold
-        //determine if robot is stuck
-        if (locations.Count == GetLocationsLimit())
-        {
-            float variance = GetVariance();
-            Grapher.Log(variance, "variance", Color.white);
-            if (variance < limit)
+
+            //locations is full, bring back to size then check if robot is stuck
+            if(locations.Count > locationsSize)
             {
-                if (!CountIsStuck)
+                int count = 100;
+                //only store as many samples in locations as determined in AI config
+                while (locations.Count > locationsSize && count > 0)
                 {
-                    CountIsStuck = true;
+                    count--;
+                    locations.Dequeue();
                 }
-                else
+
+                //get the variance of locations
+                float variance = GetVariance();
+                variances.Enqueue(variance);
+                if (variances.Count > variancesSize)
                 {
-                    Debug.LogError("Robot stuck");
+                    variances.Dequeue();
+                }
+                if (variances.Count == variancesSize)
+                {
+                    //get the gradient - the limit for what counts as low variance is variable between the terrains
+                    //the gradient of the variance graph is not
+                    float gradient = (variances.Last() - variances.First()) / variancesSize;
+                    if (Math.Abs(gradient) < 0.00002)
+                    {
+                        GameObject p = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Stuck"));
+                        p.transform.position = currentLocation;
+                        p.transform.parent = pointsContainer.transform;
+
+                    }
+                    else
+                    {
+                        GameObject p = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Point"));
+                        p.transform.position = currentLocation;
+                        p.transform.parent = pointsContainer.transform;
+                    }
                 }
             }
+
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Config
 {
     public static class TerrainConfig : object
     {
-        public static Surface SurfaceType { get; set; } = Surface.Smooth;
+        public static Surface SurfaceType { get; set; } = Surface.Uneven;
 
         public static float CellSize = 0.5f;
 
@@ -21,6 +21,7 @@ namespace Config
 
         public static float GetTerrainHeight()
         {
+            return 0f;
             return (int)SurfaceType * 8f;
         }
 
