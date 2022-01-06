@@ -35,11 +35,10 @@ public class GenerateRobot : MonoBehaviour
             BodyConfig config = BaseConfig.Sections[i].GetComponent<MoveBody>().GetBodyConfig(); ;
             //rotation defaults
             config.Index = i;
-            //config.IsRotating.Value = i % 2 == 0 ? true : false;
+            config.IsRotating.Value = i % 2 == 0 ? true : false;
             
             BaseConfig.SectionConfigs.Add(config);
         }
-        BaseConfig.SectionConfigs[0].IsDriving.Value = true;
 
         //alternate betwwen sin and cos
         List<BodyConfig> rotatingSections = BaseConfig.SectionConfigs.Where(s => s.IsRotating.Value).ToList();

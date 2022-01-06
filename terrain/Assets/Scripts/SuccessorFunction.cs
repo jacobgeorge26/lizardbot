@@ -7,27 +7,22 @@ using System.Linq;
 
 public class SuccessorFunction : MonoBehaviour
 {
-    private Queue<float> locations = new Queue<float>();
-    private Queue<float> tempLocations = new Queue<float>();
-    private Queue<float> variances = new Queue<float>();
+    private Queue<Vector3> locations = new Queue<Vector3>();
+    private Queue<float> volumes = new Queue<float>();
 
-    //these are used to determine how many frames are analysed
-    //2 values are added to locations per sample
-    //For a sample size of 50 and locationSize of 20 then 500 frames would be analysed
-    private int sampleSize = 50;
-    private int locationsSize = 100; 
-    //this determines how far back the gradient is looking at. >2 is recommended as this leads to a lot of false positives
-    private int variancesSize = 2;
+    //these are used to determine how many frames pass before the location is analysed
+    private int sampleCount = 0; //starts at 0, will be assigned framerate / 2
+    private int locationsSize = 20; 
     //these are used to prevent data being collected too soon 
     //the robot needs time to hit the terrain and react
     private bool IsEnabled = false;
-    private int IsStuckBuffer = 300;
+    private int IsStuckBuffer = 100;
 
     private GameObject pointsContainer;
 
     private void Start()
     {
-        pointsContainer = new GameObject();
+        pointsContainer = new GameObject();  
     }
 
     //if the gradient of the variance of the magnitude of the coordinates dips below the limit then the robot is classed as stuck
@@ -42,82 +37,104 @@ public class SuccessorFunction : MonoBehaviour
         IsStuckBuffer -= IsEnabled ? 1 : 0;
         if(IsStuckBuffer <= 0)
         {
-            UpdateLocations();
+            if(sampleCount <= 0)
+            {
+                float framerate = 1.0f / Time.deltaTime;
+                sampleCount = (int)framerate / 2;
+                UpdateLocations();
+            }
+            else
+            {
+                sampleCount--;
+            }
+            
         }
-    }
-
-    internal void Enable()
-    {
-        IsEnabled = true;
-    }
-
-    private float GetVariance()
-    {
-        float mean = locations.Sum() / locations.Count();
-        float[] squareMeanDiff = new float[locations.Count];
-        for (int i = 0; i < locations.Count; i++)
-        {
-            float subMean = locations.ElementAt(i) - mean;
-            squareMeanDiff[i] = subMean * subMean;
-        }
-        float variance = squareMeanDiff.Sum() / squareMeanDiff.Count();
-        return variance;
     }
 
     private void UpdateLocations()
     {
         //get 3D pythagoras of how far from the origin the robot has travelled
         Vector3 currentLocation = GetComponent<Transform>().position;
-        float magnitude2D = Mathf.Sqrt((currentLocation.x * currentLocation.x) + (currentLocation.z * currentLocation.z));
-        float magnitude3D = Mathf.Sqrt(magnitude2D + (currentLocation.y * currentLocation.y));
-        //add this to the current sample being collected
-        tempLocations.Enqueue(magnitude3D);
-        if (tempLocations.Count >= sampleSize)
+        //add this to locations
+        locations.Enqueue(currentLocation);
+        //locations is full, bring back to size then check if robot is stuck
+        if (locations.Count > locationsSize)
         {
-            //this sample is complete - store the max and min of this sample in locations
-            locations.Enqueue(tempLocations.Max());
-            locations.Enqueue(tempLocations.Min());
-            tempLocations.Clear();
-
-            //locations is full, bring back to size then check if robot is stuck
-            if(locations.Count > locationsSize)
+            int count = 100;
+            //only store as many samples in locations as determined in AI config
+            while (locations.Count > locationsSize && count > 0)
             {
-                int count = 100;
-                //only store as many samples in locations as determined in AI config
-                while (locations.Count > locationsSize && count > 0)
-                {
-                    count--;
-                    locations.Dequeue();
-                }
-
-                //get the variance of locations
-                float variance = GetVariance();
-                variances.Enqueue(variance);
-                if (variances.Count > variancesSize)
-                {
-                    variances.Dequeue();
-                }
-                if (variances.Count == variancesSize)
-                {
-                    //get the gradient - the limit for what counts as low variance is variable between the terrains
-                    //the gradient of the variance graph is not
-                    float gradient = (variances.Last() - variances.First()) / variancesSize;
-                    if (Math.Abs(gradient) < 0.00002)
-                    {
-                        GameObject p = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Stuck"));
-                        p.transform.position = currentLocation;
-                        p.transform.parent = pointsContainer.transform;
-
-                    }
-                    else
-                    {
-                        GameObject p = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Point"));
-                        p.transform.position = currentLocation;
-                        p.transform.parent = pointsContainer.transform;
-                    }
-                }
+                count--;
+                locations.Dequeue();
             }
+        }
+        if(locations.Count == locationsSize)
+        {
+            float volume = GetVolume();
+            volumes.Enqueue(volume);
+            if(volumes.Count > locationsSize)
+            {
+                volumes.Dequeue();
+            }
+            if(volumes.Count == locationsSize)
+            {
+                float variance = GetVariance();
+
+                if (Math.Round(variance) == 0)
+                {
+                    GameObject p = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Stuck"));
+                    p.transform.position = currentLocation;
+                    p.transform.parent = pointsContainer.transform;
+
+                }
+                else
+                {
+                    GameObject p = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Point"));
+                    p.transform.position = currentLocation;
+                    p.transform.parent = pointsContainer.transform;
+                }
+            }              
 
         }
+    }
+
+    private float GetVolume()
+    {
+        Vector3 min = locations.ElementAt(0), max = locations.ElementAt(0);
+        for (int i = 0; i < locations.Count; i++)
+        {
+            Vector3 loc = locations.ElementAt(i);
+            for (int axis = 0; axis < 3; axis++)
+            {
+                if (loc[axis] < min[axis]) min[axis] = loc[axis];
+                if (loc[axis] > max[axis]) max[axis] = loc[axis];
+            }
+        }
+        float largestDistance = 0;
+        for (int axis = 0; axis < 3; axis++)
+        {
+            float distance = max[axis] - min[axis];
+            largestDistance = distance > largestDistance ? distance : largestDistance;
+        }
+        return largestDistance * largestDistance * largestDistance;
+    }
+
+    private float GetVariance()
+    {
+        float mean = volumes.Sum() / volumes.Count();
+        float[] squareMeanDiff = new float[volumes.Count];
+        for (int i = 0; i < volumes.Count; i++)
+        {
+            //the division is just to avoid stupidly big numbers once squared
+            float subMean = (volumes.ElementAt(i) - mean) / 100;
+            squareMeanDiff[i] = subMean * subMean;
+        }
+        float variance = squareMeanDiff.Sum() / squareMeanDiff.Count();
+        return variance;
+    }
+
+    internal void Enable()
+    {
+        IsEnabled = true;
     }
 }

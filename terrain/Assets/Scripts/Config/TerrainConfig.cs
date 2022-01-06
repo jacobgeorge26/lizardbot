@@ -21,7 +21,6 @@ namespace Config
 
         public static float GetTerrainHeight()
         {
-            return 0f;
             return (int)SurfaceType * 8f;
         }
 
@@ -36,6 +35,8 @@ namespace Config
             Color darkBrown = new Color(0.3647f, 0.2275f, 0.102f, 1f);
             Color lightGrey = new Color(0.690f, 0.714f, 0.745f, 1f);
             Color darkYellow = new Color(0.952f, 0.69f, 0.349f, 1f);
+            Color sandyRed = new Color(0.867f, 0.389f, 0.314f, 1f);
+            Color lightRed = new Color(1f, 0.58f, 0.46f, 1f);
             Color lightYellow = new Color(0.283f, 0.069f, 0.036f, 1f);
             switch (SurfaceType)
             {
