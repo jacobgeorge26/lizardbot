@@ -54,7 +54,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Config\BodyConfig.cs" />
-    <Compile Include="Assets\Scripts\Config\TailConfig_.cs" />
+    <Compile Include="Assets\Scripts\Config\TailConfig.cs" />
     <Compile Include="Assets\Scripts\Config\JointConfig.cs" />
     <Compile Include="Assets\Scripts\Config\TerrainConfig.cs" />
     <Compile Include="Assets\Scripts\Config\BaseConfig.cs" />

@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class Collisions : MonoBehaviour
 {
+    private bool trappedAlgorithmTriggered = false;
     void OnTriggerEnter(Collider collider)
     {
-        if(collider.tag == "Terrain")
+        if(!trappedAlgorithmTriggered && collider.tag == "Terrain")
         {
-            FindObjectOfType<SuccessorFunction>().Enable();
+            trappedAlgorithmTriggered = true;
+            FindObjectOfType<TrappedAlgorithm>().Enable();
         }
     }
 }

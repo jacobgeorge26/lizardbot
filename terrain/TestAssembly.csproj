@@ -67,7 +67,7 @@
     <Compile Include="Assets\Scripts\Collisions.cs" />
     <Compile Include="Assets\Scripts\Settings\Settings.cs" />
     <Compile Include="Assets\Scripts\retired\Helpers.cs" />
-    <Compile Include="Assets\Scripts\SuccessorFunction.cs" />
+    <Compile Include="Assets\Scripts\TrappedAlgorithm.cs" />
     <Compile Include="Assets\Scripts\retired\MoveJointLerp.cs" />
     <Compile Include="Assets\Scripts\retired\MoveLerp.cs" />
     <Compile Include="Assets\Scripts\CameraPosition.cs" />
