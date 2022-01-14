@@ -72,6 +72,7 @@ public class TrappedAlgorithm : MonoBehaviour
         if(locations.Count == locationsSize)
         {
             float volume = GetVolume();
+            //Grapher.Log(volume, "Volume", Color.white);
             volumes.Enqueue(volume);
             if(volumes.Count > locationsSize)
             {
@@ -80,7 +81,7 @@ public class TrappedAlgorithm : MonoBehaviour
             if(volumes.Count == locationsSize)
             {
                 float variance = GetVariance();
-
+                //Grapher.Log(variance, "Variance", Color.red);
                 if (Math.Round(variance) == 0)
                 {
                     GameObject p = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Stuck"));
