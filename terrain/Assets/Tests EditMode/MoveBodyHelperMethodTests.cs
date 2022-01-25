@@ -6,9 +6,8 @@ using UnityEngine.TestTools;
 
 public class MoveBodyHelperMethodTests
 {
-    private GameObject section, section2;
-    private MoveBody sectionMS, section2_MS;
-    private BodyConfig sectionBC, section2_BC;
+    private GameObject section;
+    private MoveBody sectionMS;
 
     [SetUp]
     public void Init()
@@ -16,13 +15,7 @@ public class MoveBodyHelperMethodTests
         //setup all objects that the tests will use
         section = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Section"));
         sectionMS = section.GetComponent<MoveBody>();
-        sectionMS.InitSetup();
-        sectionBC = section.GetComponent<BodyConfig>();
-
-        section2 = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Section"));
-        section2_MS = section2.GetComponent<MoveBody>();
-        section2_MS.InitSetup();
-        section2_BC = section2.GetComponent<BodyConfig>();
+        sectionMS.EditModeTestInit();
     }
 
     //GetAngle should return an unrounded vector as is (transform.localEulerAngles)

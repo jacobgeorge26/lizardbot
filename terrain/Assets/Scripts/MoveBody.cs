@@ -18,18 +18,13 @@ public class MoveBody : MonoBehaviour
 
     void Start()
     {
-        SetupVariables();
-    }
-
-
-    private void SetupVariables()
-    {
         //get the rigidbody for this body section as this is how the rotation/position will be manipulated
         body = GetComponent<Rigidbody>();
         config = this.gameObject.GetComponent<BodyConfig>();
         objectConfig = this.gameObject.GetComponent<ObjectConfig>();
-        robotConfig = AIConfig.RobotConfigs.Where(c => c.RobotIndex == objectConfig.RobotIndex).First();
+        robotConfig = AIConfig.RobotConfigs.Where(c => c.RobotIndex.Equals(objectConfig.RobotIndex)).First();
     }
+
 
     private void SetupRotatingSections()
     {
@@ -44,12 +39,10 @@ public class MoveBody : MonoBehaviour
         }
     }
 
-
-    //public for tests to call
-    public void InitSetup()
+    //public for tests to call - limited setup
+    public void EditModeTestInit()
     {
-        SetupVariables();
-        SetupRotatingSections();
+        body = GetComponent<Rigidbody>();
     }
 
 
@@ -150,7 +143,7 @@ public class MoveBody : MonoBehaviour
         return angle;
     }
 
-    internal void Enable()
+    public void Enable()
     {
         SetupRotatingSections();
         IsEnabled = true;

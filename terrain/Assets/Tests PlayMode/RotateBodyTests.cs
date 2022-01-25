@@ -7,7 +7,9 @@ using UnityEngine.TestTools;
 
 public class RotateBodyTests
 {
+    private GameObject robot;
     private GameObject section;
+    private Rigidbody body;
     private MoveBody sectionMS;
     private BodyConfig sectionBC;
     private GameObject env;
@@ -15,12 +17,21 @@ public class RotateBodyTests
     [SetUp]
     public void Init()
     {
+        robot = new GameObject();
+        RobotConfig robotConfig = robot.AddComponent<RobotConfig>();
+        robotConfig.RobotIndex = 1;
+        AIConfig.RobotConfigs.Add(robotConfig);
+
         //setup all objects that the tests will use
         env = MonoBehaviour.Instantiate(Resources.Load<GameObject>("BaseEnv"));
 
         section = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Section"));
         sectionMS = section.GetComponent<MoveBody>();
         sectionBC = section.GetComponent<BodyConfig>();
+        ObjectConfig HObjConfig = section.GetComponent<ObjectConfig>();
+        HObjConfig.Init(0, BodyPart.Body, section, 1);
+        body = section.GetComponent<Rigidbody>();
+        body.useGravity = false;
 
         sectionBC.AngleConstraint.Value = new Vector3(0, 60, 0);
         sectionBC.IsDriving.Value = false;
@@ -34,9 +45,8 @@ public class RotateBodyTests
     public void CleanUp()
     {
         //destroy all objects used
+        GameObject.Destroy(robot);
         GameObject.Destroy(section);
-        GameObject.Destroy(sectionMS);
-        GameObject.Destroy(sectionBC);
         GameObject.Destroy(env);
     }
 
@@ -44,8 +54,8 @@ public class RotateBodyTests
     [UnityTest]
     public IEnumerator Y_RotatesClockwiseOnInit()
     {
-        section.GetComponent<Rigidbody>().rotation = Quaternion.Euler(0, 0, 0);
-        section.GetComponent<Rigidbody>().velocity = new Vector3();
+        body.rotation = Quaternion.Euler(0, 0, 0);
+        sectionMS.Enable();
         sectionBC.IsRotating.Value = true;
 
         yield return new WaitForSeconds(3);
@@ -53,40 +63,17 @@ public class RotateBodyTests
     }
 
 
-    //check that Rotate is reversing direction at AngleConstraint
-    [UnityTest]
-    public IEnumerator Y_PositiveReverseDirection()
-    {
-        section.transform.localEulerAngles = new Vector3(0, 60, 0);
-        sectionBC.IsRotating.Value = true;
-
-        yield return new WaitForFixedUpdate(); //first one it won't move
-        yield return new WaitForFixedUpdate();
-        Assert.IsTrue(sectionMS.GetRelativeAngle().y < 60);
-    }
-
-    //check that Rotate is reversing direction at AngleConstraint * -1
-    [UnityTest]
-    public IEnumerator Y_NegativeReverseDirection()
-    {
-        section.transform.localEulerAngles = new Vector3(0, -60, 0);
-        sectionBC.IsRotating.Value = true;
-
-        yield return new WaitForFixedUpdate(); //first one it won't move
-        yield return new WaitForFixedUpdate();
-        Assert.IsTrue(sectionMS.GetRelativeAngle().y > -60);
-    }
-
-
     //if AngleConstraint is 0 then rotate should hover around zero
     [UnityTest]
     public IEnumerator Y_ZeroMaxAngle()
     {
-        section.transform.localEulerAngles = new Vector3();
+        body.rotation = Quaternion.Euler(0, 0, 0);
+        body.velocity = new Vector3();
         sectionBC.IsRotating.Value = true;
         sectionBC.AngleConstraint.Value = new Vector3();
 
-        yield return new WaitForSeconds(2); 
+        yield return new WaitForFixedUpdate(); //first one it won't move
+        yield return new WaitForSeconds(5); 
         Assert.IsTrue(Math.Abs(sectionMS.GetRelativeAngle().y) < 5);
     }
 
@@ -94,25 +81,27 @@ public class RotateBodyTests
     [UnityTest]
     public IEnumerator Y_ZeroTurnRatio()
     {
-        section.transform.localEulerAngles = new Vector3();
+        body.rotation = Quaternion.Euler(0, 0, 0);
+        body.velocity = new Vector3();
         sectionBC.IsRotating.Value = true;
         sectionBC.RotationMultiplier.Value = new Vector3();
 
         yield return new WaitForFixedUpdate(); //first one it won't move
         yield return new WaitForFixedUpdate();
-        Assert.AreEqual(sectionMS.GetRelativeAngle().y, 0);
+        Assert.AreEqual(0, sectionMS.GetRelativeAngle().y);
     }
 
     //if IsRotating is false then a frame update should have no effect
     [UnityTest]
     public IEnumerator Y_NotRotating()
     {
-        section.transform.localEulerAngles = new Vector3();
+        body.rotation = Quaternion.Euler(0, 0, 0);
+        body.velocity = new Vector3();
         sectionBC.IsRotating.Value = false;
 
         yield return new WaitForFixedUpdate(); //first one it won't move
         yield return new WaitForFixedUpdate();
-        Assert.AreEqual(sectionMS.GetRelativeAngle(), new Vector3());
+        Assert.AreEqual(0, sectionMS.GetRelativeAngle().y);
     }
 
 }

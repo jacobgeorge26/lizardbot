@@ -6,6 +6,7 @@ using UnityEngine.TestTools;
 
 public class DriveBodyTests : MonoBehaviour
 {
+    private GameObject robot;
     private GameObject section;
     private MoveBody sectionMS;
     private BodyConfig sectionBC;
@@ -14,10 +15,17 @@ public class DriveBodyTests : MonoBehaviour
     [SetUp]
     public void Init()
     {
+        robot = new GameObject();
+        RobotConfig robotConfig = robot.AddComponent<RobotConfig>();
+        robotConfig.RobotIndex = 1;
+        AIConfig.RobotConfigs.Add(robotConfig);
+
         //setup all objects that the tests will use
         section = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Section"));
         sectionMS = section.GetComponent<MoveBody>();
         sectionBC = section.GetComponent<BodyConfig>();
+        ObjectConfig HObjConfig = section.GetComponent<ObjectConfig>();
+        HObjConfig.Init(0, BodyPart.Body, section, 1);
 
         env = MonoBehaviour.Instantiate(Resources.Load<GameObject>("BaseEnv"));
     }
@@ -26,9 +34,8 @@ public class DriveBodyTests : MonoBehaviour
     public void CleanUp()
     {
         //destroy all objects used
+        GameObject.Destroy(robot);
         GameObject.Destroy(section);
-        GameObject.Destroy(sectionMS);
-        GameObject.Destroy(sectionBC);
         GameObject.Destroy(env);
     }
 
