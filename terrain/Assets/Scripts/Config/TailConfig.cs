@@ -4,13 +4,10 @@ using UnityEngine;
 
 namespace Config
 {
-    public static class TailConfig : object
+    public class TailConfig : MonoBehaviour
     {
-        private static Vector3 _angleConstraint = new Vector3(60, 60, 60);
+        public RangedVariable TailMassMultiplier = new RangedVariable(0.1f, 0.1f, 1.5f);
 
-        private static Vector3 _rotationMultiplier = new Vector3(0.1f, 0.2f, 0.1f);
-
-        public static JointConfig JointConfig = new JointConfig(_angleConstraint, _rotationMultiplier);
     }
 }
 

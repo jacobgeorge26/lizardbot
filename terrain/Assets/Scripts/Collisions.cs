@@ -11,6 +11,16 @@ public class Collisions : MonoBehaviour
         {
             trappedAlgorithmTriggered = true;
             FindObjectOfType<TrappedAlgorithm>().Enable();
+            MoveTail[] tails = FindObjectsOfType<MoveTail>();
+            for (int i = 0; i < tails.Length; i++)
+            {
+                tails[i].Enable();
+            }
+            MoveBody[] sections = FindObjectsOfType<MoveBody>();
+            for (int i = 0; i < sections.Length; i++)
+            {
+                sections[i].Enable();
+            }
         }
     }
 }

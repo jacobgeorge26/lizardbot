@@ -7,9 +7,6 @@ namespace Config
 {
     public class BodyConfig : MonoBehaviour
     {
-        [HideInInspector]
-        public int Index = 0;
-
         //determines whether the joint will be rotating or not
         [Header("Rotation Setup")]
 
@@ -19,8 +16,6 @@ namespace Config
         //will this section use sin or cos in the oscillation?
         [HideInInspector]
         public BaseVariable UseSin = new BaseVariable(true);
-
-        public JointConfig JointConfig = new JointConfig(null, null);
 
         /*-------------------------------------------------------------------------------------------------------*/
 
@@ -36,15 +31,5 @@ namespace Config
         [Range(0, 3)]
         public RangedVariable DriveVelocity = new RangedVariable(2f, 0f, 3f);
 
-        public static void Copy(BodyConfig copyTo, BodyConfig copyFrom)
-        {
-            copyTo.Index = copyFrom.Index;
-            copyTo.IsRotating = copyFrom.IsRotating;
-            copyTo.JointConfig.AngleConstraint = copyFrom.JointConfig.AngleConstraint;
-            copyTo.JointConfig.RotationMultiplier = copyFrom.JointConfig.RotationMultiplier;
-            copyTo.UseSin = copyFrom.UseSin;
-            copyTo.IsDriving = copyFrom.IsDriving;
-            copyTo.DriveVelocity = copyFrom.DriveVelocity;
-        }
     }
 }

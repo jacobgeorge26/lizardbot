@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8632302643106561792}
   - component: {fileID: 8632302643106561793}
   - component: {fileID: 6773350843710922880}
+  - component: {fileID: 652946593714867575}
   m_Layer: 0
   m_Name: Section
   m_TagString: Untagged
@@ -55,6 +56,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -222,13 +224,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 715e3810cda8f2044bd9366d26724720, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsRotating: 0
-  IsClockwise: 000100
-  MaxAngle: 1e0000003c0000002d000000
-  TurnRatio:
-  - 0.5
-  - 1
-  - 0.5
-  TurnVelocity: 180
-  IsDriving: 0
-  DriveVelocity: 1
+--- !u!114 &652946593714867575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8632302643106561849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b1637a582f8c8645816a40366871a97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Index: 0

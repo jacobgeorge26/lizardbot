@@ -6,6 +6,6 @@ namespace Config
 {
     public static class AIConfig : object
     {
-
+        public static List<RobotConfig> RobotConfigs = new List<RobotConfig>();
     }
 }

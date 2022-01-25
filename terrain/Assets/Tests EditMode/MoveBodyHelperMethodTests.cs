@@ -17,12 +17,12 @@ public class MoveBodyHelperMethodTests
         section = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Section"));
         sectionMS = section.GetComponent<MoveBody>();
         sectionMS.InitSetup();
-        sectionBC = sectionMS.GetBodyConfig();
+        sectionBC = section.GetComponent<BodyConfig>();
 
         section2 = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Section"));
         section2_MS = section2.GetComponent<MoveBody>();
         section2_MS.InitSetup();
-        section2_BC = section2_MS.GetBodyConfig();
+        section2_BC = section2.GetComponent<BodyConfig>();
     }
 
     //GetAngle should return an unrounded vector as is (transform.localEulerAngles)

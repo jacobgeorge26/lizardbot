@@ -18,7 +18,7 @@ public class CameraPosTests : MonoBehaviour
 
         head = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Section"));
         MoveBody headScript = head.GetComponent<MoveBody>();
-        BodyConfig config = headScript.GetBodyConfig();
+        BodyConfig config = head.GetComponent<BodyConfig>();
         config.IsDriving.Value = false;
         config.IsRotating.Value = false;
 

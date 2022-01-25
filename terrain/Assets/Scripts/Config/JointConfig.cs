@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Config
 {
-    public class JointConfig : object
+    public class JointConfig : MonoBehaviour
     {
         /* if you change AngleConstraint's limits then check for strange behaviour
         * if too high it will break expected behvaiour from a physical robot
@@ -22,12 +22,6 @@ namespace Config
         //e.g. 0.5, 1, 0.5 makes y the primary axis
         [Tooltip("Range 0 <= x <= 1")]
         public RangedVariable RotationMultiplier = new RangedVariable(new Vector3(0.5f, 1f, 0.5f), 0f, 1f);
-
-        public JointConfig(Vector3? angleConstraint, Vector3? rotationMultiplier ) 
-        {
-            AngleConstraint.Value = angleConstraint.HasValue ? angleConstraint.Value : AngleConstraint.Value;
-            RotationMultiplier.Value = rotationMultiplier.HasValue ? rotationMultiplier.Value : RotationMultiplier.Value;
-        }
 
     }
 }

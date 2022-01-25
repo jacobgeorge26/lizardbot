@@ -7,35 +7,58 @@ using Config;
 
 public class MoveBody : MonoBehaviour
 {
+    private RobotConfig robotConfig;
     private Rigidbody body;
     private BodyConfig config;
+    private ObjectConfig objectConfig;  
     private Vector3 direction;
+    private bool IsEnabled = false;
 
-    void Awake()
+    private List<ObjectConfig> RotatingConfigs = new List<ObjectConfig>();
+
+    void Start()
     {
-        InitSetup();
+        SetupVariables();
     }
+
+
+    private void SetupVariables()
+    {
+        //get the rigidbody for this body section as this is how the rotation/position will be manipulated
+        body = GetComponent<Rigidbody>();
+        config = this.gameObject.GetComponent<BodyConfig>();
+        objectConfig = this.gameObject.GetComponent<ObjectConfig>();
+        robotConfig = AIConfig.RobotConfigs.Where(c => c.RobotIndex == objectConfig.RobotIndex).First();
+    }
+
+    private void SetupRotatingSections()
+    {
+        foreach (ObjectConfig objConfig in robotConfig.Configs.Where(o => o.Type == BodyPart.Body))
+        {
+            GameObject obj = objConfig.Object;
+            BodyConfig bodyConfig = obj.GetComponent<BodyConfig>();
+            if (bodyConfig.IsRotating.Value)
+            {
+                RotatingConfigs.Add(objConfig);
+            }
+        }
+    }
+
 
     //public for tests to call
     public void InitSetup()
     {
-        //get the rigidbody for this body section as this is how the rotation/position will be manipulated
-        body = GetComponent<Rigidbody>();
-        config = this.gameObject.AddComponent<BodyConfig>();
+        SetupVariables();
+        SetupRotatingSections();
     }
+
 
     //uses FixedUpdate as recommended for interaction with Unity's physics system
     //will drive and/or rotate as determined in BodyConfig
     void FixedUpdate()
     {        
-        if (config.IsDriving.Value) Drive();
-        if (config.IsRotating.Value) Rotate();
-    }
-
-    //TODO: change config setup - this is stupid
-    public BodyConfig GetBodyConfig()
-    {
-        return config;
+        if (config.IsDriving.Value && IsEnabled) Drive();
+        if (config.IsRotating.Value && IsEnabled) Rotate();
     }
 
     //rotate this body section
@@ -44,18 +67,18 @@ public class MoveBody : MonoBehaviour
         Vector3 currentAngle = GetRelativeAngle(false);
         Vector3 angleVelocity = new Vector3();
         Vector3 prevSecAngle = new Vector3();
+        //determine initial velocity
+        List<ObjectConfig> prevRotating = RotatingConfigs.Where(o => o.Index < objectConfig.Index).ToList();
+        if(prevRotating.Count > 0)
+        {
+            GameObject previousSection = prevRotating.Last().Object;
+            MoveBody prevSecMoveBody = previousSection.GetComponent<MoveBody>();
+            prevSecAngle = prevSecMoveBody.GetRelativeAngle();
+            angleVelocity = prevSecMoveBody.GetVelocity();
+        }
 
-        List<BodyConfig> RotatingSections = BaseConfig.SectionConfigs.Where(s => s.IsRotating.Value && s.Index < config.Index).ToList();
         for (int i = 0; i < 3; i++)
         {          
-            //determine initial velocity
-            if (RotatingSections.Count > 0)
-            {
-                BodyConfig previousSection = RotatingSections.Last();
-                MoveBody prevSecMoveBody = BaseConfig.Sections[previousSection.Index].GetComponent<MoveBody>();
-                prevSecAngle = prevSecMoveBody.GetRelativeAngle();
-                angleVelocity[i] = prevSecMoveBody.GetVelocity()[i];
-            }
             //sin & cos use radians, convert angles from degrees to radians for these
             float radiansPrevAngle = (float)(Math.PI / 180f * prevSecAngle[i]);
             float radiansCurrAngle = (float)(Math.PI / 180f * currentAngle[i]);
@@ -69,7 +92,7 @@ public class MoveBody : MonoBehaviour
                 angleVelocity[i] += body.transform.localScale[i] * 0.5f * ((float)Math.Cos(radiansPrevAngle) + (float)Math.Cos(radiansCurrAngle));
             }       
             //adjust for rotation multiplier
-            angleVelocity[i] *= config.JointConfig.RotationMultiplier.Value[i];
+            angleVelocity[i] *= objectConfig.RotationMultiplier.Value[i];
         }
         //apply force
         //relative force uses local space vs world space
@@ -126,4 +149,11 @@ public class MoveBody : MonoBehaviour
 
         return angle;
     }
+
+    internal void Enable()
+    {
+        SetupRotatingSections();
+        IsEnabled = true;
+    }
+
 }
