@@ -26,10 +26,9 @@ public class MoveTail : MonoBehaviour
             //adjust for rotation multiplier
             angleVelocity[i] *= TailConfig.JointConfig.RotationMultiplier.Value[i];
         }
-        //convert vector to a quaternion
-        Quaternion deltaRotation = Quaternion.Euler(angleVelocity);
-        //apply the vector to the body's space and rotate it
-        tail.MoveRotation(tail.rotation * deltaRotation);
+        angleVelocity.x *= -1;
+        angleVelocity.y *= -1;
+        tail.AddRelativeForce(angleVelocity * 0.1f, ForceMode.Force);
     }
 
     private Vector3 GetTailVector()

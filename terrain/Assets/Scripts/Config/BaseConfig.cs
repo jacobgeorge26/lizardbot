@@ -14,7 +14,7 @@ namespace Config
 
         public static List<BodyConfig> SectionConfigs { get; set; } = new List<BodyConfig>();
 
-        public static BaseVariable IsTailEnabled = new BaseVariable(false);
+        public static BaseVariable IsTailEnabled = new BaseVariable(true);
         public static GameObject Tail { get; set; }
 
         public static RangedVariable TailMassMultiplier = new RangedVariable(0.1f, 0.1f, 1.5f);

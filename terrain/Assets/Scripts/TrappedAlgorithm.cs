@@ -23,7 +23,8 @@ public class TrappedAlgorithm : MonoBehaviour
 
     private void Start()
     {
-        pointsContainer = new GameObject();  
+        pointsContainer = new GameObject();
+        pointsContainer.name = "Stuck Points";
     }
 
     //if the gradient of the variance of the magnitude of the coordinates dips below the limit then the robot is classed as stuck
