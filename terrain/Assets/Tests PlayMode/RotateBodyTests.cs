@@ -10,7 +10,6 @@ public class RotateBodyTests
     private GameObject section;
     private MoveBody sectionMS;
     private BodyConfig sectionBC;
-    private ObjectConfig sectionOC;
     private GameObject env;
 
     [SetUp]
@@ -22,11 +21,10 @@ public class RotateBodyTests
         section = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Section"));
         sectionMS = section.GetComponent<MoveBody>();
         sectionBC = section.GetComponent<BodyConfig>();
-        sectionOC = section.GetComponent<ObjectConfig>();
 
-        sectionOC.AngleConstraint.Value = new Vector3(0, 60, 0);
+        sectionBC.AngleConstraint.Value = new Vector3(0, 60, 0);
         sectionBC.IsDriving.Value = false;
-        sectionOC.RotationMultiplier.Value = new Vector3(1, 1, 1);
+        sectionBC.RotationMultiplier.Value = new Vector3(1, 1, 1);
         sectionBC.DriveVelocity.Value = 1f;
 
         
@@ -86,7 +84,7 @@ public class RotateBodyTests
     {
         section.transform.localEulerAngles = new Vector3();
         sectionBC.IsRotating.Value = true;
-        sectionOC.AngleConstraint.Value = new Vector3();
+        sectionBC.AngleConstraint.Value = new Vector3();
 
         yield return new WaitForSeconds(2); 
         Assert.IsTrue(Math.Abs(sectionMS.GetRelativeAngle().y) < 5);
@@ -98,7 +96,7 @@ public class RotateBodyTests
     {
         section.transform.localEulerAngles = new Vector3();
         sectionBC.IsRotating.Value = true;
-        sectionOC.RotationMultiplier.Value = new Vector3();
+        sectionBC.RotationMultiplier.Value = new Vector3();
 
         yield return new WaitForFixedUpdate(); //first one it won't move
         yield return new WaitForFixedUpdate();

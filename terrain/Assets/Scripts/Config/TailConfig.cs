@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Config
 {
-    public class TailConfig : MonoBehaviour
+    public class TailConfig : JointConfig
     {
         public RangedVariable TailMassMultiplier = new RangedVariable(0.1f, 0.1f, 1.5f);
 

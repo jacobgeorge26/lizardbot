@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Config
 {
-    public class ObjectConfig : JointConfig
+    public class ObjectConfig : MonoBehaviour
     {
         [HideInInspector]
         public BodyPart Type;

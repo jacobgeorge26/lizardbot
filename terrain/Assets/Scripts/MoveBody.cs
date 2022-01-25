@@ -92,7 +92,7 @@ public class MoveBody : MonoBehaviour
                 angleVelocity[i] += body.transform.localScale[i] * 0.5f * ((float)Math.Cos(radiansPrevAngle) + (float)Math.Cos(radiansCurrAngle));
             }       
             //adjust for rotation multiplier
-            angleVelocity[i] *= objectConfig.RotationMultiplier.Value[i];
+            angleVelocity[i] *= config.RotationMultiplier.Value[i];
         }
         //apply force
         //relative force uses local space vs world space

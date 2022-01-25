@@ -9,12 +9,14 @@ public class MoveTail : MonoBehaviour
 {
     private RobotConfig robotConfig;
     private Rigidbody tail;
+    private TailConfig config;
     private ObjectConfig objectConfig;
     private bool IsEnabled = false;
     // Start is called before the first frame update
     void Start()
     {
         tail = GetComponent<Rigidbody>();
+        config = this.gameObject.GetComponent<TailConfig>();
         objectConfig = this.gameObject.GetComponent<ObjectConfig>();
         robotConfig = AIConfig.RobotConfigs.Where(c => c.RobotIndex == objectConfig.RobotIndex).First();
     }
@@ -39,6 +41,8 @@ public class MoveTail : MonoBehaviour
 
             float targetVelocity = bodyMomentum[i] / (r * tail.mass * -1);
             addVelocity[i] = targetVelocity - tail.velocity[i];
+            //adjust for rotation multiplier
+            addVelocity[i] *= config.RotationMultiplier.Value[i];
         }
         tail.AddForce(addVelocity, ForceMode.VelocityChange);
     }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Config
 {
-    public class BodyConfig : MonoBehaviour
+    public class BodyConfig : JointConfig
     {
         //determines whether the joint will be rotating or not
         [Header("Rotation Setup")]

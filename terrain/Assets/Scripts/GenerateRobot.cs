@@ -60,7 +60,7 @@ public class GenerateRobot : MonoBehaviour
             //setup configurable joints
             if (i > 0)
             {
-                SetupConfigurableJoint(section, objConfig, prevSection);
+                SetupConfigurableJoint(section, config, prevSection);
             }
         }
         //alternate betwwen sin and cos for rotating sections
@@ -80,21 +80,23 @@ public class GenerateRobot : MonoBehaviour
 
         TailConfig config = tail.GetComponent<TailConfig>();
         if (config == null) config = tail.AddComponent<TailConfig>();
+        //setup config
+        config.AngleConstraint = new RangedVariable(new Vector3(60, 60, 60), 0, 180);
+        config.RotationMultiplier = new RangedVariable(new Vector3(1f, 1f, 1f), 0.5f, 1f);
+
         //set mass to be equal to rest of body
         tail.GetComponent<Rigidbody>().mass = GetTotalMass() * config.TailMassMultiplier.Value; 
 
         ObjectConfig objConfig = tail.GetComponent<ObjectConfig>();
         if (objConfig == null) objConfig = tail.AddComponent<ObjectConfig>();
-        //setup objConfig
-        objConfig.AngleConstraint = new RangedVariable(new Vector3(60, 60, 60), 0, 180);
-        objConfig.RotationMultiplier = new RangedVariable(new Vector3(1f, 1f, 1f), 0.5f, 1f);
+
 
         //important!!
         objConfig.Init(0, BodyPart.Tail, tail, robotConfig.RobotIndex);
         robotConfig.Configs.Add(objConfig);
 
         //setup joint
-        SetupConfigurableJoint(tail, objConfig, lastSection);
+        SetupConfigurableJoint(tail, config, lastSection);
     }
 
 
@@ -118,7 +120,7 @@ public class GenerateRobot : MonoBehaviour
         return sumMass;
     }
 
-    private void SetupConfigurableJoint(GameObject section, ObjectConfig config, GameObject prevObject)
+    private void SetupConfigurableJoint(GameObject section, JointConfig config, GameObject prevObject)
     {
         ConfigurableJoint joint = section.GetComponent<ConfigurableJoint>();
         joint.lowAngularXLimit = new SoftJointLimit() { limit = -1 * config.AngleConstraint.Value[0] / 2 };
