@@ -10,7 +10,7 @@ public class MoveBody : MonoBehaviour
     private RobotConfig robotConfig;
     private Rigidbody body;
     private BodyConfig config;
-    private ObjectConfig objectConfig;  
+    private ObjectConfig objectConfig;
     private Vector3 direction;
     private bool IsEnabled = false;
 
@@ -49,7 +49,7 @@ public class MoveBody : MonoBehaviour
     //uses FixedUpdate as recommended for interaction with Unity's physics system
     //will drive and/or rotate as determined in BodyConfig
     void FixedUpdate()
-    {        
+    {
         if (config.IsDriving.Value && IsEnabled) Drive();
         if (config.IsRotating.Value && IsEnabled) Rotate();
     }
@@ -62,7 +62,7 @@ public class MoveBody : MonoBehaviour
         Vector3 prevSecAngle = new Vector3();
         //determine initial velocity
         List<ObjectConfig> prevRotating = RotatingConfigs.Where(o => o.Index < objectConfig.Index).ToList();
-        if(prevRotating.Count > 0)
+        if (prevRotating.Count > 0)
         {
             GameObject previousSection = prevRotating.Last().Object;
             MoveBody prevSecMoveBody = previousSection.GetComponent<MoveBody>();
@@ -71,7 +71,7 @@ public class MoveBody : MonoBehaviour
         }
 
         for (int i = 0; i < 3; i++)
-        {          
+        {
             //sin & cos use radians, convert angles from degrees to radians for these
             float radiansPrevAngle = (float)(Math.PI / 180f * prevSecAngle[i]);
             float radiansCurrAngle = (float)(Math.PI / 180f * currentAngle[i]);
@@ -83,7 +83,7 @@ public class MoveBody : MonoBehaviour
             else
             {
                 angleVelocity[i] += body.transform.localScale[i] * 0.5f * ((float)Math.Cos(radiansPrevAngle) + (float)Math.Cos(radiansCurrAngle));
-            }       
+            }
             //adjust for rotation multiplier
             angleVelocity[i] *= config.RotationMultiplier.Value[i];
         }
