@@ -38,7 +38,6 @@ public class MoveTail : MonoBehaviour
         Vector3 addVelocity = new Vector3();
         for (int i = 0; i < 3; i++)
         {
-
             float targetVelocity = bodyMomentum[i] / (r * tail.mass * -1);
             addVelocity[i] = targetVelocity - tail.velocity[i];
             //adjust for rotation multiplier
@@ -78,7 +77,7 @@ public class MoveTail : MonoBehaviour
             Vector3 position = obj.transform.position + sectionRigidBody.centerOfMass;
             float mass = sectionRigidBody.mass;
             sumMass += mass;
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 3; i++)
             {
                 sumMassByPos[i] += mass * position[i];
             }

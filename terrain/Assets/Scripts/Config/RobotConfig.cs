@@ -10,7 +10,7 @@ namespace Config
 
         public RangedVariable NoSections = new RangedVariable(5, 1, 10);
 
-        public BaseVariable IsTailEnabled = new BaseVariable(false);
+        public BaseVariable IsTailEnabled = new BaseVariable(true);
 
         public List<ObjectConfig> Configs { get; set; } = new List<ObjectConfig>();
     }
