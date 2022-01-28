@@ -1,3 +1,3 @@
 # lizardbot
 
-Using Unity version 2020.3.19f1 available [here](https://unity3d.com/unity/whats-new/2020.3.19)
+Using Unity version 2021.1.10f1 available [here](https://unity3d.com/unity/whats-new/2021.1.10)
