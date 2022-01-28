@@ -4,7 +4,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-public class CameraPosTests : MonoBehaviour
+public class CameraPosTests
 {
     private GameObject head = new GameObject();
     private GameObject tail = new GameObject();

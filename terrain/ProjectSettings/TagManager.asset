@@ -4,12 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - hello
+  - Terrain
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Testing
   - Water
   - UI
   - 

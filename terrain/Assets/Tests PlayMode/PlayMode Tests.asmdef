@@ -5,7 +5,8 @@
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "TestAssembly",
-        "Config"
+        "Config",
+        "Enums"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

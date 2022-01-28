@@ -6,6 +6,7 @@ using UnityEngine.TestTools;
 
 public class DriveBodyTests : MonoBehaviour
 {
+    private GameObject robot;
     private GameObject section;
     private MoveBody sectionMS;
     private BodyConfig sectionBC;
@@ -14,10 +15,17 @@ public class DriveBodyTests : MonoBehaviour
     [SetUp]
     public void Init()
     {
+        robot = new GameObject();
+        RobotConfig robotConfig = robot.AddComponent<RobotConfig>();
+        robotConfig.RobotIndex = 1;
+        AIConfig.RobotConfigs.Add(robotConfig);
+
         //setup all objects that the tests will use
         section = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Section"));
         sectionMS = section.GetComponent<MoveBody>();
         sectionBC = section.GetComponent<BodyConfig>();
+        ObjectConfig HObjConfig = section.GetComponent<ObjectConfig>();
+        HObjConfig.Init(0, BodyPart.Body, section, 1);
 
         env = MonoBehaviour.Instantiate(Resources.Load<GameObject>("BaseEnv"));
     }
@@ -26,9 +34,8 @@ public class DriveBodyTests : MonoBehaviour
     public void CleanUp()
     {
         //destroy all objects used
+        GameObject.Destroy(robot);
         GameObject.Destroy(section);
-        GameObject.Destroy(sectionMS);
-        GameObject.Destroy(sectionBC);
         GameObject.Destroy(env);
     }
 
@@ -38,9 +45,9 @@ public class DriveBodyTests : MonoBehaviour
     {
         section.transform.position = new Vector3(0, 0, 0);
         section.transform.rotation = Quaternion.Euler(0, 0, 0);
-        sectionBC.IsDriving = true;
-        sectionBC.IsRotating = false;
-        sectionBC.DriveVelocity = 1f;
+        sectionBC.IsDriving.Value = true;
+        sectionBC.IsRotating.Value = false;
+        sectionBC.DriveVelocity.Value = 1f;
 
         yield return new WaitForFixedUpdate(); //first one it won't move
         yield return new WaitForFixedUpdate();
@@ -52,9 +59,9 @@ public class DriveBodyTests : MonoBehaviour
     {
         section.transform.position = new Vector3(0, 0, 0);
         section.transform.rotation = Quaternion.Euler(0, 0, 0);
-        sectionBC.IsDriving = true;
-        sectionBC.IsRotating = false;
-        sectionBC.DriveVelocity = 0;
+        sectionBC.IsDriving.Value = true;
+        sectionBC.IsRotating.Value = false;
+        sectionBC.DriveVelocity.Value = 0;
 
         yield return new WaitForFixedUpdate(); //first one it won't move
         yield return new WaitForFixedUpdate();

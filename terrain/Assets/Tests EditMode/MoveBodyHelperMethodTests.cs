@@ -6,9 +6,8 @@ using UnityEngine.TestTools;
 
 public class MoveBodyHelperMethodTests
 {
-    private GameObject section, section2;
-    private MoveBody sectionMS, section2_MS;
-    private BodyConfig sectionBC, section2_BC;
+    private GameObject section;
+    private MoveBody sectionMS;
 
     [SetUp]
     public void Init()
@@ -16,11 +15,7 @@ public class MoveBodyHelperMethodTests
         //setup all objects that the tests will use
         section = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Section"));
         sectionMS = section.GetComponent<MoveBody>();
-        sectionBC = section.GetComponent<BodyConfig>();
-
-        section2 = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Section"));
-        section2_MS = section2.GetComponent<MoveBody>();
-        section2_BC = section2.GetComponent<BodyConfig>();
+        sectionMS.EditModeTestInit();
     }
 
     //GetAngle should return an unrounded vector as is (transform.localEulerAngles)
@@ -28,7 +23,8 @@ public class MoveBodyHelperMethodTests
     public void GetAngleTest()
     {
         Vector3 angle = new Vector3(1.5f, 2.5f, 3.5f);
-        section.transform.localEulerAngles = angle;
+        Quaternion rotation = Quaternion.Euler(angle);
+        sectionMS.GetComponent<Rigidbody>().rotation = rotation;
         Assert.IsTrue(sectionMS.GetAngle() == angle);        
     }
 
@@ -36,39 +32,17 @@ public class MoveBodyHelperMethodTests
     [Test]
     public void GetAngleTest_Rounded()
     {
-        sectionMS.transform.localEulerAngles = new Vector3(1.5f, 2.5f, 3.5f);
+        Quaternion rotation = Quaternion.Euler(1.5f, 2.5f, 3.5f);
+        sectionMS.GetComponent<Rigidbody>().rotation = rotation;
         Assert.AreEqual(sectionMS.GetAngle(true), new Vector3(2f, 3f, 4f));
-    }
-
-    //GetRelativeAngle should return angle relative to parent and adjusted (see further tests)
-    [Test]
-    public void GetRelativeAngleTest()
-    {
-        section.transform.localEulerAngles = new Vector3(0, 30, 0);
-
-        section2.transform.localEulerAngles = new Vector3(0, -30, 0);
-        section2.transform.parent = section.transform;
-
-        section2_BC.IsRotating = true;
-
-        Assert.AreEqual(section2_MS.GetRelativeAngle(), new Vector3(0, -60, 0));
-    }
-
-    //if section is 'locked' then it's relative rotation should be 0 to suggest no change from parent
-    [Test]
-    public void GetRelativeAngleTest_NotRotating()
-    {
-        section.transform.localEulerAngles = new Vector3(1.5f, 2.5f, 3.5f);
-        sectionBC.IsRotating = false;
-        Assert.AreEqual(sectionMS.GetRelativeAngle(), new Vector3(0, 0, 0));
     }
 
     //if angle is >180 then it should be adjusted (-360) to get it into range -180 < x <= 0
     [Test]
     public void GetRelativeAngleTest_PositiveRangeAdjustment()
     {
-        section.transform.localEulerAngles = new Vector3(60, 200, 180);
-        sectionBC.IsRotating = true;
+        Quaternion rotation = Quaternion.Euler(60, 200, 180);
+        sectionMS.GetComponent<Rigidbody>().rotation = rotation;
         Assert.AreEqual(sectionMS.GetRelativeAngle(), new Vector3(60, -160, 180));
     }
 
@@ -76,8 +50,8 @@ public class MoveBodyHelperMethodTests
     [Test]
     public void GetRelativeAngleTest_NegativeRangeAdjustment()
     {
-        section.transform.localEulerAngles = new Vector3(-60, -200, -180);
-        sectionBC.IsRotating = true;
+        Quaternion rotation = Quaternion.Euler(-60, -200, -180);
+        sectionMS.GetComponent<Rigidbody>().rotation = rotation;
         Assert.AreEqual(sectionMS.GetRelativeAngle(), new Vector3(-60, 160, 180));
     }
 
@@ -86,8 +60,8 @@ public class MoveBodyHelperMethodTests
     public void GetRelativeAngleTest_NotRounded()
     {
         Vector3 angle = new Vector3(1.5f, 2.5f, 3.5f);
-        section.transform.localEulerAngles = angle;
-        sectionBC.IsRotating = true;
+        Quaternion rotation = Quaternion.Euler(angle);
+        sectionMS.GetComponent<Rigidbody>().rotation = rotation;
         Assert.IsTrue(sectionMS.GetAngle() == angle);
     }
 }
