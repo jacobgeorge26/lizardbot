@@ -34,12 +34,13 @@ public class MoveTail : MonoBehaviour
     {
         Vector3 cog = GetCOG();
         Vector3 bodyMomentum = GetMomentum(cog);
-        float r = (tail.transform.position - cog).magnitude;
+        float r = (tail.transform.position + tail.centerOfMass - cog).magnitude;
         Vector3 addVelocity = new Vector3();
+        Vector3 targetVelocity = new Vector3();
         for (int i = 0; i < 3; i++)
-        {
-            float targetVelocity = bodyMomentum[i] / (r * tail.mass * -1);
-            addVelocity[i] = targetVelocity - tail.velocity[i];
+        {          
+            targetVelocity[i] = bodyMomentum[i] / (r * tail.mass * -1);
+            addVelocity[i] = targetVelocity[i] - tail.velocity[i];
             //adjust for rotation multiplier
             addVelocity[i] *= config.RotationMultiplier.Value[i];
         }
@@ -50,16 +51,18 @@ public class MoveTail : MonoBehaviour
     {
         Vector3 momentum = new Vector3();
         //l = rmv
-        foreach (ObjectConfig objConfig in robotConfig.Configs.Where(o => o.Type != BodyPart.Tail))
+        foreach (ObjectConfig objConfig in robotConfig.Configs)
         {
             GameObject obj = objConfig.Object;
             Rigidbody objRigidBody = obj.GetComponent<Rigidbody>();
             float m = objRigidBody.mass;
-            float r = (obj.transform.position - cog).magnitude;
+            float r = (obj.transform.position + objRigidBody.centerOfMass - cog).magnitude;
             Vector3 v = objRigidBody.velocity;
+            Vector3 p = new Vector3();
             for (int i = 0; i < 3; i++)
             {
-                momentum[i] += r * m * v[i];
+                p[i] = r * m * v[i];
+                momentum[i] += p[i];
             }
         }
         return momentum;
