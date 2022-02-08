@@ -7,5 +7,7 @@ namespace Config
     public static class AIConfig : object
     {
         public static List<RobotConfig> RobotConfigs = new List<RobotConfig>();
+
+        public static RangedVariable PopulationSize = new RangedVariable(2, 1, 10);
     }
 }

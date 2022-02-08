@@ -21,6 +21,7 @@ public class Collisions : MonoBehaviour
             {
                 sections[i].Enable();
             }
+            Destroy(this);
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Linq;
 public class GenerateRobot : MonoBehaviour
 {
     private RobotConfig robotConfig;
+    private int layer;
 
     void Start()
     {
@@ -18,9 +19,12 @@ public class GenerateRobot : MonoBehaviour
         AIConfig.RobotConfigs.Add(robotConfig);
 
         //setup overall robot
-        GameObject robot = new GameObject();
+        GameObject robot = this.gameObject;
         robot.name = $"robot{robotConfig.RobotIndex + 1}";
         robot.transform.position = new Vector3(0, TerrainConfig.GetTerrainHeight() + 1f, 0);
+
+        //get layer for this robot
+        layer = LayerMask.NameToLayer($"Robot{robotConfig.RobotIndex + 1}");
 
         SetupBody(robot);
 
@@ -28,7 +32,7 @@ public class GenerateRobot : MonoBehaviour
 
         if(robotConfig.IsTailEnabled.Value) SetupTail(robot);
 
-        SetupCam(robot);
+        if(robotConfig.RobotIndex == 0) SetupCam(robot);
     }  
 
     private void SetupBody(GameObject robot)
@@ -43,6 +47,9 @@ public class GenerateRobot : MonoBehaviour
             section.name = i == 0 ? "head" : $"section{i}";
             section.transform.parent = robot.transform;
             section.transform.localPosition = new Vector3(0, 0, GetZPos(i == 0 ? null : prevSection, section));
+
+            //set layer
+            section.layer = layer;
 
             //setup BodyConfig for MoveBody script
             BodyConfig config = section.GetComponent<BodyConfig>();
@@ -77,6 +84,9 @@ public class GenerateRobot : MonoBehaviour
         tail.transform.parent = robot.transform;
         GameObject lastSection = robotConfig.Configs.Where(o => o.Type == BodyPart.Body && o.Index == robotConfig.NoSections.Value - 1).First().Object;
         tail.transform.localPosition = new Vector3(0, 0, GetZPos(lastSection, tail));
+
+        //set layer
+        tail.layer = layer;
 
         TailConfig config = tail.GetComponent<TailConfig>();
         if (config == null) config = tail.AddComponent<TailConfig>();
@@ -137,7 +147,7 @@ public class GenerateRobot : MonoBehaviour
         cam.transform.parent = robot.transform;
         CameraPosition camPos = cam.GetComponent<CameraPosition>();
         //validate objects have been organised correctly
-        GameObject head, tail = new GameObject(), back;
+        GameObject head, tail = robot, back;
         //all body parts
         List<ObjectConfig> Sections = robotConfig.Configs.Where(o => o.Type == BodyPart.Body).ToList();
         if (Sections.Count != robotConfig.NoSections.Value) throw new Exception($"There are {Sections.Count} sections set up where there should be {robotConfig.NoSections.Value}.");
