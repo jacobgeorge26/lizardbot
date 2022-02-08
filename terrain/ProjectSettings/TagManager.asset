@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Terrain
+  - Robot
   layers:
   - Default
   - TransparentFX
@@ -14,29 +15,29 @@ TagManager:
   - UI
   - Robot1
   - Robot2
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Robot3
+  - Robot4
+  - Robot5
+  - Robot6
+  - Robot7
+  - Robot8
+  - Robot9
+  - Robot10
+  - Robot11
+  - Robot12
+  - Robot13
+  - Robot14
+  - Robot15
+  - Robot16
+  - Robot17
+  - Robot18
+  - Robot19
+  - Robot20
+  - Robot21
+  - Robot22
+  - Robot23
+  - Robot24
+  - Robot25
   - 
   m_SortingLayers:
   - name: Default

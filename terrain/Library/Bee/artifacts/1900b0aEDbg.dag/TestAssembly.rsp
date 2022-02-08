@@ -330,6 +330,7 @@
 "Assets/Scripts/retired/retiredcode.cs"
 "Assets/Scripts/retired/TerrainGeneration.cs"
 "Assets/Scripts/retired/TestJointSetup.cs"
+"Assets/Scripts/RobotDetection.cs"
 "Assets/Scripts/TrappedAlgorithm.cs"
 -langversion:8.0
 

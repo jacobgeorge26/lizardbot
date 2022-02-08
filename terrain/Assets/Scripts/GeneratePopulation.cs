@@ -37,16 +37,6 @@ public class GeneratePopulation : MonoBehaviour
         GameObject robot = new GameObject();
         int thisLayer = LayerMask.NameToLayer($"Robot{RobotsGenerated + 1}");
         robot.layer = thisLayer;
-        //for (int i = 0; i < AIConfig.PopulationSize.Value; i++)
-        //{
-        //    if(i != RobotsGenerated)
-        //    {
-        //        int ignoreLayer = LayerMask.NameToLayer($"Robot{i + 1}");
-        //        Physics.IgnoreLayerCollision(thisLayer, ignoreLayer);
-        //        Debug.Log($"Layer {LayerMask.LayerToName(thisLayer)} ignoring layer {LayerMask.LayerToName(ignoreLayer)}");
-        //    }
-            
-        //}
         robot.AddComponent<GenerateRobot>();
         RobotsGenerated++;
     }
