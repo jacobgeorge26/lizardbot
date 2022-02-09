@@ -9,13 +9,15 @@ public class TrappedAlgorithm : MonoBehaviour
 {
     private Queue<Vector3> locations = new Queue<Vector3>();
     private Queue<float> volumes = new Queue<float>();
+    private GeneticAlgorithm AIScript;
 
-    //these are used to determine how many frames pass before the location is analysed
+    //how many locations are analysed (2 per second)
     private int locationsSize = 20; 
     //these are used to prevent data being collected too soon 
     //the robot needs time to hit the terrain and react
     private bool IsEnabled = false;
     private bool ShowTrail = false;
+    private bool ShowStuckPoints = false;
 
     private GameObject pointsContainer;
 
@@ -30,6 +32,9 @@ public class TrappedAlgorithm : MonoBehaviour
         pointsContainer = new GameObject();
         pointsContainer.name = "Stuck Points";
         pointsContainer.transform.parent = GetComponent<Transform>().parent;
+
+        AIScript = FindObjectOfType<GeneticAlgorithm>();
+
         while (true)
         {
             yield return new WaitForSeconds(0.5f);
@@ -69,9 +74,13 @@ public class TrappedAlgorithm : MonoBehaviour
                 //Grapher.Log(variance, "Variance", Color.red);
                 if (Math.Round(variance) == 0)
                 {
-                    GameObject p = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Stuck"));
-                    p.transform.position = currentLocation;
-                    p.transform.parent = pointsContainer.transform;
+                    if (ShowStuckPoints)
+                    {
+                        GameObject p = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Stuck"));
+                        p.transform.position = currentLocation;
+                        p.transform.parent = pointsContainer.transform;
+                    }
+                    AIScript.RobotIsStuck(this.transform.parent.gameObject.GetComponent<RobotConfig>());
 
                 }
                 else if(ShowTrail)

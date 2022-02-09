@@ -12,15 +12,20 @@ public class GenerateRobot : MonoBehaviour
 
     void Start()
     {
+        CreateRobot();
+    }
+
+    public void CreateRobot()
+    {
         //setup robot config
         robotConfig = this.gameObject.GetComponent<RobotConfig>();
         if (robotConfig == null) robotConfig = this.gameObject.AddComponent<RobotConfig>();
-        robotConfig.RobotIndex = AIConfig.RobotConfigs.Count;
-        AIConfig.RobotConfigs.Add(robotConfig);
+        if (robotConfig.Version == 0) robotConfig.RobotIndex = AIConfig.RobotConfigs.Count;
+        if (robotConfig.Version == 0) AIConfig.RobotConfigs.Add(robotConfig);
 
         //setup overall robot
         GameObject robot = this.gameObject;
-        robot.name = $"robot{robotConfig.RobotIndex + 1}";
+        robot.name = $"robot{robotConfig.RobotIndex + 1}_{robotConfig.Version}";
         robot.transform.position = new Vector3(0, TerrainConfig.GetTerrainHeight() + 1f, 0);
 
         //get layer for this robot
@@ -30,10 +35,11 @@ public class GenerateRobot : MonoBehaviour
 
         //TODO: setup legs
 
-        if(robotConfig.IsTailEnabled.Value) SetupTail(robot);
+        if (robotConfig.IsTailEnabled.Value) SetupTail(robot);
 
-        if(robotConfig.RobotIndex == 0) SetupCam(robot);
-    }  
+        if (robotConfig.RobotIndex == 0) SetupCam(robot);
+
+    }
 
     private void SetupBody(GameObject robot)
     {
@@ -67,14 +73,18 @@ public class GenerateRobot : MonoBehaviour
             BodyConfig config = section.GetComponent<BodyConfig>();
             if (config == null) config = section.AddComponent<BodyConfig>();
             //setup how rotation will work for this section
-            config.IsRotating.Value = i % 2 == 0 ? true : false;
+            if(robotConfig.Version == 0) config.IsRotating.Value = i % 2 == 0 ? true : false;
+            //TODO: do we want to maintain the serpentine motion or are we instead going to allow toggle off/on?
             if (config.IsRotating.Value) rotatingSections.Add(config);
 
             ObjectConfig objConfig = section.GetComponent<ObjectConfig>();
             if (objConfig == null) objConfig = section.AddComponent<ObjectConfig>();
             //important!!
             objConfig.Init(i, BodyPart.Body, section, robotConfig.RobotIndex);
-            robotConfig.Configs.Add(objConfig);
+            List<ObjectConfig> existingObjConfigs = robotConfig.Configs.Where(c => c.Type == BodyPart.Body && c.Index == objConfig.Index).ToList();
+            if (existingObjConfigs.Count > 1) throw new Exception($"More than one object config exists for section {objConfig.Index} of robot {robotConfig.RobotIndex}");
+            else if (existingObjConfigs.Count == 0) robotConfig.Configs.Add(objConfig);
+            else objConfig.Copy(existingObjConfigs.First());
             
             //setup configurable joints
             if (i > 0)
@@ -103,8 +113,8 @@ public class GenerateRobot : MonoBehaviour
         TailConfig config = tail.GetComponent<TailConfig>();
         if (config == null) config = tail.AddComponent<TailConfig>();
         //setup config
-        config.AngleConstraint = new RangedVariable(new Vector3(60, 60, 60), 0, 180);
-        config.RotationMultiplier = new RangedVariable(new Vector3(1f, 1f, 1f), 0.5f, 1f);
+        if(robotConfig.Version == 0) config.AngleConstraint = new RangedVariable(new Vector3(60, 60, 60), 0, 180);
+        if (robotConfig.Version == 0) config.RotationMultiplier = new RangedVariable(new Vector3(1f, 1f, 1f), 0.5f, 1f);
 
         //set mass to be equal to rest of body
         tail.GetComponent<Rigidbody>().mass = GetTotalMass() * config.TailMassMultiplier.Value; 
@@ -115,7 +125,10 @@ public class GenerateRobot : MonoBehaviour
 
         //important!!
         objConfig.Init(0, BodyPart.Tail, tail, robotConfig.RobotIndex);
-        robotConfig.Configs.Add(objConfig);
+        List<ObjectConfig> existingObjConfigs = robotConfig.Configs.Where(c => c.Type == BodyPart.Tail && c.Index == objConfig.Index).ToList();
+        if (existingObjConfigs.Count > 1) throw new Exception($"More than one object config exists for the tail of robot {robotConfig.RobotIndex}");
+        else if (existingObjConfigs.Count == 0) robotConfig.Configs.Add(objConfig);
+        else objConfig.Copy(existingObjConfigs.First());
 
         //setup joint
         SetupConfigurableJoint(tail, config, lastSection);
