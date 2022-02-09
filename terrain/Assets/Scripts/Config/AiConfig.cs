@@ -8,7 +8,9 @@ namespace Config
     {
         public static List<RobotConfig> RobotConfigs = new List<RobotConfig>();
 
-        //25 is a hard limit as it is based on the number of layers
-        public static RangedVariable PopulationSize = new RangedVariable(2, 1, 25);
+        //there is a hard limit of 25 layers available
+        //RobotDetection works to prevent robots in the same area being in the same layer
+        //population can be >25, but in rougher terrain where the robot isn't making progress, expect some warnings and interaction between them
+        public static RangedVariable PopulationSize = new RangedVariable(10, 1, 100);
     }
 }

@@ -11,22 +11,13 @@ public class TrappedAlgorithm : MonoBehaviour
     private Queue<float> volumes = new Queue<float>();
 
     //these are used to determine how many frames pass before the location is analysed
-    private int sampleCount = 0; //starts at 0, will be assigned framerate / 2
     private int locationsSize = 20; 
     //these are used to prevent data being collected too soon 
     //the robot needs time to hit the terrain and react
     private bool IsEnabled = false;
-    private int StartBuffer = 100;
     private bool ShowTrail = false;
 
     private GameObject pointsContainer;
-
-    private void Start()
-    {
-        pointsContainer = new GameObject();
-        pointsContainer.name = "Stuck Points";
-        pointsContainer.transform.parent = GetComponent<Transform>().parent;
-    }
 
     //if the gradient of the variance of the magnitude of the coordinates dips below the limit then the robot is classed as stuck
     //this can be due to many different behaviours:
@@ -34,23 +25,15 @@ public class TrappedAlgorithm : MonoBehaviour
     //circling
     //remaining in the same general area for too long
     //bouncing between the same locations
-    void Update()
+    IEnumerator Start()
     {
-        //variance on init can take a few frames to start returning a proper result
-        StartBuffer -= IsEnabled ? 1 : 0;
-        if(StartBuffer <= 0)
+        pointsContainer = new GameObject();
+        pointsContainer.name = "Stuck Points";
+        pointsContainer.transform.parent = GetComponent<Transform>().parent;
+        while (true)
         {
-            if(sampleCount <= 0)
-            {
-                float framerate = 1.0f / Time.deltaTime;
-                sampleCount = (int)framerate / 2;
-                UpdateLocations();
-            }
-            else
-            {
-                sampleCount--;
-            }
-            
+            yield return new WaitForSeconds(0.5f);
+            if(IsEnabled) UpdateLocations();
         }
     }
 

@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\GenerateRobot.cs" />
     <Compile Include="Assets\Scripts\retired\EntireBodyConfig.cs" />
+    <Compile Include="Assets\Scripts\RobotDetection.cs" />
     <Compile Include="Assets\Scripts\retired\JointSetup.cs" />
     <Compile Include="Assets\Scripts\retired\retiredcode.cs" />
     <Compile Include="Assets\Scripts\MoveTail.cs" />
@@ -74,7 +75,6 @@
     <Compile Include="Assets\Scripts\CameraPosition.cs" />
     <Compile Include="Assets\Scripts\MoveBody.cs" />
     <Compile Include="Assets\Scripts\retired\Move.cs" />
-    <Compile Include="Assets\Scripts\RobotDetection.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\Scripts.asmdef" />

@@ -25,22 +25,55 @@ public class RobotDetection : MonoBehaviour
     void Update()
     {
         Collider[] potential = Physics.OverlapSphere(this.transform.position, 10);
+        //if there is another robot in the area
         if(potential.Length > expectedColliders)
         {
             List<GameObject> incoming = new List<GameObject>();
-            //shoddy but faster than other methods and these are static values due to number of layers available
+            //list of possible layers, remove current and any layers being used by those in the area
             List<int> layers = Enumerable.Range(6, 25).ToList();
             layers.Remove(gameObject.layer);
+            //get all objects in the area
             foreach (var item in potential)
             {
+                //only interested in the heads - as these are tagged
                 if(item.gameObject.tag == "Robot" && item.gameObject.GetComponent<ObjectConfig>().RobotIndex != robotConfig.RobotIndex)
                 {
                     //there is another robot in the area
-                    incoming.Add(item.gameObject);
-                    layers.Remove(item.gameObject.layer);
+                    if (item.gameObject.layer == gameObject.layer)
+                    {
+                        //layer needs to be changed
+                        incoming.Add(item.gameObject);
+                        layers.Remove(item.gameObject.layer);
+                    }
                 }
             }
-            Debug.Log(incoming.Count);
+            //if there are no layers available then alert that there is a chance the robots will interact
+            if(incoming.Count > 0 && layers.Count == 0)
+            {
+                Debug.LogWarning("There are no available layers in a busy area, there is a chance that there will be interaction between the robots.");
+            }
+            else if(incoming.Count > 0)
+            {
+                //there are layers available, replace the layer of this robot (all objects) with a randomly selected new layer
+                int oldLayer = gameObject.layer;
+                int newLayer = layers[Random.Range(0, layers.Count)];
+                gameObject.layer = newLayer;
+                foreach (Transform child in gameObject.transform.parent.transform)
+                {
+                    GameObject childObject = child.gameObject;
+                    childObject.layer = newLayer;
+                }
+                //also update the sphere attached to the head to enable collision detection without impacting the behaviour of the robot
+                foreach (Transform child in gameObject.transform)
+                {
+                    if (child.GetComponent<Rigidbody>() != null)
+                    {
+                        //this is the sphere we're looking for
+                        child.gameObject.layer = newLayer;
+                    }
+                }
+                //Debug.Log($"Moving {gameObject.name} from layer {LayerMask.LayerToName(oldLayer)} to layer {LayerMask.LayerToName(newLayer)}");
+            }
         }
 
     }

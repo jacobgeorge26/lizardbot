@@ -6,38 +6,20 @@ using UnityEngine;
 
 public class GeneratePopulation : MonoBehaviour
 {
-    private int HoldForFrames = 1000;
-    private int delay = 0;
-    private int RobotsGenerated = 0;
     // Start is called before the first frame update
     void Start()
     {
+        StartCoroutine(GenerateRobots());
     }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator GenerateRobots()
     {
-        if(RobotsGenerated < AIConfig.PopulationSize.Value)
+        for (int i = 0; i < AIConfig.PopulationSize.Value; i++)
         {
-            delay--;
-            if (delay == 0)
-            {
-                GenerateRobot();
-            }
-            delay = delay < 0 ? HoldForFrames : delay;
+            GameObject robot = new GameObject();
+            robot.AddComponent<GenerateRobot>();
+            yield return new WaitForSeconds(1f);
         }
-        else
-        {
-            GameObject.Destroy(this.gameObject);
-        }
-    }
 
-    private void GenerateRobot()
-    {
-        GameObject robot = new GameObject();
-        int thisLayer = LayerMask.NameToLayer($"Robot{RobotsGenerated + 1}");
-        robot.layer = thisLayer;
-        robot.AddComponent<GenerateRobot>();
-        RobotsGenerated++;
     }
 }

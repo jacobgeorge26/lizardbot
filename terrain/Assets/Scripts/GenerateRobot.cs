@@ -24,7 +24,7 @@ public class GenerateRobot : MonoBehaviour
         robot.transform.position = new Vector3(0, TerrainConfig.GetTerrainHeight() + 1f, 0);
 
         //get layer for this robot
-        layer = LayerMask.NameToLayer($"Robot{robotConfig.RobotIndex + 1}");
+        layer = LayerMask.NameToLayer($"Robot{(robotConfig.RobotIndex % 25) + 1}");
 
         SetupBody(robot);
 
@@ -50,6 +50,18 @@ public class GenerateRobot : MonoBehaviour
 
             //set layer
             section.layer = layer;
+            //also update the sphere attached to the head to enable collision detection without impacting the behaviour of the robot
+            if (i == 0)
+            {
+                foreach (Transform child in section.transform)
+                {
+                    if(child.GetComponent<Rigidbody>() != null)
+                    {
+                        //this is the sphere we're looking for
+                        child.gameObject.layer = layer;
+                    }
+                }
+            }
 
             //setup BodyConfig for MoveBody script
             BodyConfig config = section.GetComponent<BodyConfig>();
