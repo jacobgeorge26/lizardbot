@@ -20,8 +20,8 @@ public class GenerateRobot : MonoBehaviour
 
         //setup overall robot
         GameObject robot = this.gameObject;
-        robot.name = $"robot{robotConfig.RobotIndex + 1}_{robotConfig.Version}";
-        robot.transform.position = new Vector3(0, GetYPos(), 0);
+        robot.name = $"Robot {robotConfig.RobotIndex + 1} V {robotConfig.Version}";
+        robot.transform.position = new Vector3(0, robotConfig.GetYPos(), 0);
 
         //get layer for this robot
         layer = LayerMask.NameToLayer($"Robot{(robotConfig.RobotIndex % 25) + 1}");
@@ -33,6 +33,9 @@ public class GenerateRobot : MonoBehaviour
         if (robotConfig.IsTailEnabled.Value) SetupTail(robot);
 
         if (robotConfig.RobotIndex == 0) SetupCam(robot);
+
+        //destroy GenerateRobot so that a duplicate clone isn't created when this robot is cloned
+        Destroy(this);
     }
 
     private void SetupBody(GameObject robot)
@@ -46,7 +49,7 @@ public class GenerateRobot : MonoBehaviour
             GameObject prevSection = i == 0 ? null : robotConfig.Configs.Where(o => o.Type == BodyPart.Body && o.Index == i - 1).First().Object;
             section.name = i == 0 ? "head" : $"section{i}";
             section.transform.parent = robot.transform;
-            section.transform.localPosition = new Vector3(0, 0, GetZPos(i == 0 ? null : prevSection, section));
+            section.transform.localPosition = new Vector3(0, 0, robotConfig.GetZPos(i == 0 ? null : prevSection, section));
 
             //set layer
             section.layer = layer;
@@ -95,7 +98,7 @@ public class GenerateRobot : MonoBehaviour
         tail.name = "tail";
         tail.transform.parent = robot.transform;
         GameObject lastSection = robotConfig.Configs.Where(o => o.Type == BodyPart.Body && o.Index == robotConfig.NoSections.Value - 1).First().Object;
-        tail.transform.localPosition = new Vector3(0, 0, GetZPos(lastSection, tail));
+        tail.transform.localPosition = new Vector3(0, 0, robotConfig.GetZPos(lastSection, tail));
 
         //set layer
         tail.layer = layer;
@@ -119,22 +122,6 @@ public class GenerateRobot : MonoBehaviour
 
         //setup joint
         SetupConfigurableJoint(tail, config, lastSection);
-    }
-
-    //accessed by GeneticAlgorithm when respawning
-    public float GetYPos()
-    {
-        return TerrainConfig.GetTerrainHeight() + 1f;
-    }
-
-    //accessed by GeneticAlgorithm when respawning
-    public float GetZPos(GameObject prevObject, GameObject thisObject)
-    {
-        if (prevObject == null) return 0;
-        //determine the position of this section by the location of the prev section, and size of both
-        float zPos = prevObject.transform.position.z;
-        zPos += -1 * (prevObject.transform.localScale.z / 2 + thisObject.transform.localScale.z / 2 + 0.1f);
-        return zPos;
     }
 
     private float GetTotalMass()

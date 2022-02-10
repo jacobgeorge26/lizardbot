@@ -17,7 +17,10 @@ public class GeneratePopulation : MonoBehaviour
         for (int i = 0; i < AIConfig.PopulationSize; i++)
         {
             GameObject robot = new GameObject();
-            robot.AddComponent<GenerateRobot>();
+            robot.name = $"Robot {i + 1}";
+            GameObject version = new GameObject();
+            version.transform.parent = robot.transform;
+            version.AddComponent<GenerateRobot>();
             yield return new WaitForSeconds(1f);
         }
 

@@ -19,6 +19,8 @@ public class TrappedAlgorithm : MonoBehaviour
     private bool ShowTrail = false;
     private bool ShowStuckPoints = false;
 
+    private bool IsEnabled = true;
+
     private GameObject pointsContainer;
 
     //if the gradient of the variance of the magnitude of the coordinates dips below the limit then the robot is classed as stuck
@@ -27,19 +29,33 @@ public class TrappedAlgorithm : MonoBehaviour
     //circling
     //remaining in the same general area for too long
     //bouncing between the same locations
-    IEnumerator Start()
+    void Start()
     {
-        pointsContainer = new GameObject();
-        pointsContainer.name = "Stuck Points";
-        pointsContainer.transform.parent = GetComponent<Transform>().parent;
+        if(pointsContainer == null)
+        {
+            pointsContainer = new GameObject();
+            pointsContainer.name = "Stuck Points";
+            pointsContainer.transform.parent = GetComponent<Transform>().parent;
 
-        AIScript = FindObjectOfType<GeneticAlgorithm>();
-        robotConfig = transform.parent.gameObject.GetComponent<RobotConfig>();
+            AIScript = FindObjectOfType<GeneticAlgorithm>();
+            robotConfig = transform.parent.gameObject.GetComponent<RobotConfig>();
+        }
 
-        while (true)
+        StartCoroutine(IsTrapped());
+    }
+
+    internal void Reset()
+    {
+        IsEnabled = true;
+        StartCoroutine(IsTrapped());
+    }
+
+    private IEnumerator IsTrapped()
+    {
+        while (IsEnabled)
         {
             yield return new WaitForSeconds(0.5f);
-            if(robotConfig.IsEnabled) UpdateLocations();
+            if (robotConfig.IsEnabled) UpdateLocations();
         }
     }
 
@@ -81,8 +97,8 @@ public class TrappedAlgorithm : MonoBehaviour
                         p.transform.position = currentLocation;
                         p.transform.parent = pointsContainer.transform;
                     }
-                    AIScript.RobotIsStuck(this.transform.parent.gameObject.GetComponent<RobotConfig>());
-
+                    IsEnabled = false;
+                    AIScript.RobotIsStuck(this.transform.parent.gameObject.GetComponent<RobotConfig>());        
                 }
                 else if(ShowTrail)
                 {
