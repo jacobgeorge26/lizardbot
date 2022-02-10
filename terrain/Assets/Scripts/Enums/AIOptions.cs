@@ -1,0 +1,17 @@
+//selection type
+public enum sType
+{
+    Performance = 0, Mutation = 1
+}
+
+//recombination type
+public enum rType
+{
+    PhysicalLikeness = 0, MovementLikeness = 1, Triad = 2, Lizard = 3, Random = 4, Any = 5
+}
+
+//mutation type
+public enum mType
+{
+    Physical = 0, Movement = 1, Both = 2, Any = 3
+}

@@ -119,7 +119,7 @@ MonoBehaviour:
   m_MinSize: {x: 679, y: 342}
   m_MaxSize: {x: 12004, y: 8042}
   vertical: 0
-  controlID: 21
+  controlID: 86
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_MinSize: {x: 403, y: 342}
   m_MaxSize: {x: 8003, y: 8042}
   vertical: 1
-  controlID: 22
+  controlID: 87
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -165,11 +165,11 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 1058
-    height: 440.8
+    height: 441
   m_MinSize: {x: 403, y: 221}
   m_MaxSize: {x: 8003, y: 4021}
   vertical: 0
-  controlID: 23
+  controlID: 88
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -187,8 +187,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 353.6
-    height: 440.8
+    width: 354
+    height: 441
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 13}
@@ -206,23 +206,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: SceneView
+  m_Name: GameView
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 353.6
+    x: 354
     y: 0
-    width: 704.4
-    height: 440.8
+    width: 704
+    height: 441
   m_MinSize: {x: 202, y: 221}
   m_MaxSize: {x: 4002, y: 4021}
-  m_ActualView: {fileID: 14}
+  m_ActualView: {fileID: 12}
   m_Panes:
   - {fileID: 14}
   - {fileID: 12}
-  m_Selected: 0
-  m_LastSelected: 1
+  m_Selected: 1
+  m_LastSelected: 0
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -239,9 +239,9 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 440.8
+    y: 441
     width: 1058
-    height: 330.2
+    height: 330
   m_MinSize: {x: 100, y: 100}
   m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 16}
@@ -279,7 +279,7 @@ MonoBehaviour:
   - {fileID: 20}
   - {fileID: 21}
   m_Selected: 0
-  m_LastSelected: 4
+  m_LastSelected: 1
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -300,10 +300,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 353.6
+    x: 354.4
     y: 73.6
-    width: 702.4
-    height: 419.8
+    width: 702
+    height: 420
   m_ViewDataDictionary: {fileID: 0}
   m_SerializedViewNames: []
   m_SerializedViewValues: []
@@ -338,7 +338,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 0
+    m_EnableMouseInput: 1
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1
@@ -347,23 +347,23 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 21
-      width: 702.4
-      height: 398.8
-    m_Scale: {x: 0.7055199, y: 0.7055199}
-    m_Translation: {x: 425.8177, y: 148.06071}
+      width: 702
+      height: 399
+    m_Scale: {x: 0.45703125, y: 0.45703125}
+    m_Translation: {x: 351, y: 199.5}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -603.55164
-      y: -209.86043
-      width: 995.5779
-      height: 565.2569
+      x: -768
+      y: -436.51282
+      width: 1536
+      height: 873.02563
     m_MinimalGUI: 1
-  m_defaultScale: 0.4572917
-  m_LastWindowPixelSize: {x: 878, y: 524.75}
+  m_defaultScale: 0.45703125
+  m_LastWindowPixelSize: {x: 877.5, y: 525}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 00000000000000000000
@@ -391,15 +391,15 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 73.6
-    width: 352.6
-    height: 419.8
+    width: 353
+    height: 420
   m_ViewDataDictionary: {fileID: 0}
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: 8aa5f4ff38a6f4ff16a7f4ff7a3ff5ff2840f5ff0641f5ffcee9f7ff0819faffec5dfaff46e0fafff0e0faffcae1fafff2fffaff5430fbff4666fbfff066fbffca67fbff74b3fbff5eb4fbff08b5fbff4c11fcff9a12fcff924cfcff6492fcffec5bfdffac8dfdff52fbffff
+      m_SelectedIDs: 32bfd2ff
+      m_LastClickedID: -2965710
+      m_ExpandedIDs: e4bfd2ffba94d8ff0c95d8ff5e8fdbff7a61dfff7e61dfff0a63dfff0e63dfff4679dfff4a79dffff679dffffa79dfffd87adfffdc7adfffa0c7dfffa4c7dfff50c8dfff54c8dfff32c9dfff36c9dfff10d7dfff14d7dffff2d7dffff6d7dfff381be0ff3c1be0ff4226e0ff4626e0ff8027e0ff8427e0ff2091ffff56fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -415,7 +415,7 @@ MonoBehaviour:
         m_IsRenaming: 0
         m_OriginalEventType: 11
         m_IsRenamingFilename: 0
-        m_ClientGUIView: {fileID: 11}
+        m_ClientGUIView: {fileID: 8}
       m_SearchString: 
     m_ExpandedScenes: []
     m_CurrenRootInstanceID: 0
@@ -443,10 +443,10 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 353.6
+    x: 354.4
     y: 73.6
-    width: 702.4
-    height: 419.8
+    width: 702
+    height: 420
   m_ViewDataDictionary: {fileID: 0}
   m_ShowContextualTools: 0
   m_WindowGUID: 40c9b43471d16d74fbcce545effe85e5
@@ -459,9 +459,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -2.3740425, y: 12.21619, z: -0.47379684}
+    m_Target: {x: -1.6518843, y: 13.0897665, z: 0.8553212}
     speed: 2
-    m_Value: {x: -2.3740425, y: 12.21619, z: -0.47379684}
+    m_Value: {x: -1.6518843, y: 13.0897665, z: 0.8553212}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -508,13 +508,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.25541085, y: -0.68279606, z: 0.27899256, w: -0.6250867}
+    m_Target: {x: -0.013683492, y: -0.6180025, z: 0.010747051, w: -0.78599656}
     speed: 2
-    m_Value: {x: -0.25540888, y: -0.68279076, z: 0.2789904, w: -0.6250819}
+    m_Value: {x: -0.013683354, y: -0.6179962, z: 0.010746942, w: -0.78598857}
   m_Size:
-    m_Target: 11.783296
+    m_Target: 7.4381127
     speed: 2
-    m_Value: 11.783296
+    m_Value: 7.4381127
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -560,9 +560,9 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 474.4
+    y: 514.4
     width: 1057
-    height: 349
+    height: 309
   m_ViewDataDictionary: {fileID: 0}
   m_SearchFilter:
     m_NameFilter: 
@@ -577,23 +577,23 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts/Enums
+    - Assets/Tests EditMode
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scripts/Enums
+  - Assets/Tests EditMode
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\Molly\OneDrive - University of Sussex\University Home
     Share\FYP\terrain
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: ee510000
-    m_LastClickedID: 20974
-    m_ExpandedIDs: 00000000904900009249000094490000
+    scrollPos: {x: 0, y: 3}
+    m_SelectedIDs: 924d0000
+    m_LastClickedID: 19858
+    m_ExpandedIDs: 00000000904900009249000094490000904d00006e560000485700000058000002580000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -646,9 +646,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 920c0000
-    m_LastClickedInstanceID: 3218
-    m_HadKeyboardFocusLastEvent: 0
+    m_SelectedInstanceIDs: 10120000
+    m_LastClickedInstanceID: 4624
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c623000000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -665,7 +665,7 @@ MonoBehaviour:
       m_IsRenaming: 0
       m_OriginalEventType: 11
       m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 9}
+      m_ClientGUIView: {fileID: 10}
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
       m_InstanceID: 0
@@ -700,7 +700,7 @@ MonoBehaviour:
     x: 0
     y: 514.4
     width: 1057
-    height: 309.2
+    height: 309
   m_ViewDataDictionary: {fileID: 0}
 --- !u!114 &17
 MonoBehaviour:
@@ -760,13 +760,13 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1005.60004
+    x: 1058.4
     y: 73.6
-    width: 529.4
+    width: 477
     height: 750
   m_ViewDataDictionary: {fileID: 0}
   m_Spl:
-    ID: 1756
+    ID: 16677
     splitterInitialOffset: 315
     currentActiveSplitter: -1
     realSizes:
@@ -789,7 +789,7 @@ MonoBehaviour:
     oldMinSizes: 
     oldMaxSizes: 
     oldSplitSize: 0
-  m_TestTypeToolbarIndex: 0
+  m_TestTypeToolbarIndex: 1
   m_PlayModeTestListGUI:
     m_Window: {fileID: 18}
     m_NewResultList:
@@ -809,14 +809,14 @@ MonoBehaviour:
       categories: []
       parentId: 
       parentUniqueId: 
-    - id: 1015
-      uniqueId: '[PlayModeTests][C:/Users/Molly/OneDrive - University of Sussex/Third
-        Year/FYP/lizardbot/terrain/Library/ScriptAssemblies/PlayModeTests.dll][suite]'
+    - id: 1010
+      uniqueId: '[PlayModeTests][C:/Users/Molly/OneDrive - University of Sussex/University
+        Home Share/FYP/terrain/Library/ScriptAssemblies/PlayModeTests.dll][suite]'
       name: PlayModeTests.dll
-      fullName: C:/Users/Molly/OneDrive - University of Sussex/Third Year/FYP/lizardbot/terrain/Library/ScriptAssemblies/PlayModeTests.dll
-      resultStatus: 2
-      duration: 20.398697
-      messages: One or more child tests had errors
+      fullName: C:/Users/Molly/OneDrive - University of Sussex/University Home Share/FYP/terrain/Library/ScriptAssemblies/PlayModeTests.dll
+      resultStatus: 0
+      duration: 0
+      messages: 
       output: 
       stacktrace: 
       notRunnable: 0
@@ -997,7 +997,7 @@ MonoBehaviour:
     m_ResultText: "Y_RotatesClockwiseOnInit (20.366s)\n---\nExpected: True\r\n  But
       was:  False\n---\nat RotateBodyTests+<Y_RotatesClockwiseOnInit>d__8.MoveNext
       () [0x00092] in C:\\Users\\Molly\\OneDrive - University of Sussex\\Third Year\\FYP\\lizardbot\\terrain\\Assets\\Tests
-      PlayMode\\RotateBodyTests.cs:62\r\nat UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext
+      PlayMode\\RotateBodyTests.cs:62\nat UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext
       () [0x0004e] in C:\\Users\\Molly\\OneDrive - University of Sussex\\Third Year\\FYP\\lizardbot\\terrain\\Library\\PackageCache\\com.unity.test-framework@1.1.30\\UnityEngine.TestRunner\\NUnitExtensions\\Attributes\\TestEnumerator.cs:46"
     m_ResultStacktrace: 'at RotateBodyTests+<Y_RotatesClockwiseOnInit>d__8.MoveNext
       () [0x00092] in C:\Users\Molly\OneDrive - University of Sussex\Third Year\FYP\lizardbot\terrain\Assets\Tests
@@ -1046,7 +1046,7 @@ MonoBehaviour:
       name: terrain
       fullName: terrain
       resultStatus: 1
-      duration: 0.4983889
+      duration: 0.4295675
       messages: 
       output: 
       stacktrace: 
@@ -1057,14 +1057,14 @@ MonoBehaviour:
       categories: []
       parentId: 
       parentUniqueId: 
-    - id: 1053
-      uniqueId: '[EditMode Tests][C:/Users/Molly/OneDrive - University of Sussex/Third
-        Year/FYP/lizardbot/terrain/Library/ScriptAssemblies/EditMode Tests.dll][suite]'
+    - id: 1036
+      uniqueId: '[EditMode Tests][C:/Users/Molly/OneDrive - University of Sussex/University
+        Home Share/FYP/terrain/Library/ScriptAssemblies/EditMode Tests.dll][suite]'
       name: EditMode Tests.dll
-      fullName: C:/Users/Molly/OneDrive - University of Sussex/Third Year/FYP/lizardbot/terrain/Library/ScriptAssemblies/EditMode
+      fullName: C:/Users/Molly/OneDrive - University of Sussex/University Home Share/FYP/terrain/Library/ScriptAssemblies/EditMode
         Tests.dll
       resultStatus: 1
-      duration: 0.4374517
+      duration: 0.3439193
       messages: 
       output: 
       stacktrace: 
@@ -1073,7 +1073,7 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1034
+      parentId: 1012
       parentUniqueId: '[terrain][suite]'
     - id: 1035
       uniqueId: EditMode Tests.dll/[EditMode Tests][CameraPosTests][suite]
@@ -1216,7 +1216,7 @@ MonoBehaviour:
       name: VariableTests
       fullName: VariableTests
       resultStatus: 1
-      duration: 0.0940798
+      duration: 0.3332531
       messages: 
       output: 
       stacktrace: 
@@ -1312,6 +1312,23 @@ MonoBehaviour:
       categories:
       - Uncategorized
       parentId: 1009
+      parentUniqueId: EditMode Tests.dll/[EditMode Tests][VariableTests][suite]
+    - id: 1035
+      uniqueId: EditMode Tests.dll/VariableTests/[EditMode Tests][VariableTests.ListOfVariables]
+      name: ListOfVariables
+      fullName: VariableTests.ListOfVariables
+      resultStatus: 1
+      duration: 0.2988633
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1021
       parentUniqueId: EditMode Tests.dll/[EditMode Tests][VariableTests][suite]
     - id: 1015
       uniqueId: EditMode Tests.dll/VariableTests/[EditMode Tests][VariableTests.RangedVariableTest_int]
@@ -1449,13 +1466,13 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1009
       parentUniqueId: EditMode Tests.dll/[EditMode Tests][VariableTests][suite]
-    m_ResultText: GetAngleTest (0.257s)
+    m_ResultText: ListOfVariables (0.299s)
     m_ResultStacktrace: 
     m_TestListState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: d97a241b
-      m_LastClickedID: 455375577
-      m_ExpandedIDs: 37e00d9144fa21a35c9a31ab9d6763bf994793ddd3d35211282f681c2df76c3e394e1d71ffffff7f
+      m_SelectedIDs: 00e51705
+      m_LastClickedID: 85452032
+      m_ExpandedIDs: 37e00d9144fa21a35c9a31ab9d6763bf994793ddd3d35211282f681c2df76c3e90f4e96a394e1d71ffffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 

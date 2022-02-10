@@ -4,6 +4,7 @@ using UnityEngine;
 using Config;
 using System;
 using System.Linq;
+using Random = System.Random;
 
 public class GenerateRobot : MonoBehaviour
 {
@@ -108,13 +109,17 @@ public class GenerateRobot : MonoBehaviour
         //setup config - different defaults for tail
         config.AngleConstraint = new RangedVariable(new Vector3(60, 60, 60), 0, 180, Variable.Physical);
         config.RotationMultiplier = new RangedVariable(new Vector3(1f, 1f, 1f), 0.5f, 1f, Variable.Movement);
+        config.TailColour.Value = new Random().Next(35, 65);
 
         //set mass to be equal to rest of body
         tail.GetComponent<Rigidbody>().mass = GetTotalMass() * config.TailMassMultiplier.Value;
+        //set colour
+        var renderer = tail.GetComponent<Renderer>();
+        renderer.material.SetColor("_Color", new Color(1f, config.TailColour.Value/100f, config.TailColour.Value/100f));
 
+        //setup object config
         ObjectConfig objConfig = tail.GetComponent<ObjectConfig>();
         if (objConfig == null) objConfig = tail.AddComponent<ObjectConfig>();
-
 
         //important!!
         objConfig.Init(0, BodyPart.Tail, tail, robotConfig.RobotIndex);

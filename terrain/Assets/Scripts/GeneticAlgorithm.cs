@@ -3,8 +3,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using UnityEngine;
+using Random = System.Random;
 
 public class GeneticAlgorithm : MonoBehaviour
 {
@@ -19,68 +19,90 @@ public class GeneticAlgorithm : MonoBehaviour
         RobotConfig robot = Init(newRobot, oldRobot);
 
         //mutate
-        Mutate(robot);
+        List<BaseVariable> genes = GetGenes(robot);
+
+        if(AIConfig.R_Rate > 0) Recombination(genes);
+
+        if(AIConfig.M_Rate > 0) Mutation(genes);
 
         //respawn
         robot.gameObject.SetActive(true);
     }
+    private void Recombination(List<BaseVariable> genes)
+    {
+        
+    }
 
-    private void Mutate(RobotConfig robot)
+    private void Mutation(List<BaseVariable> allGenes)
+    {
+        Random random = new Random();
+        if(AIConfig.M_Type == mType.Any)
+        {
+            Array allMTypes = Enum.GetValues(typeof(mType));
+            AIConfig.M_Type = (mType)allMTypes.GetValue(random.Next(allMTypes.Length - 1));
+        }
+        //trim list if physical / movement limited
+        List<BaseVariable> genes = AIConfig.M_Type == mType.Physical ? allGenes.Where(g => g.Type == Variable.Physical).ToList() :
+            AIConfig.M_Type == mType.Movement ? allGenes.Where(g => g.Type == Variable.Movement).ToList() :
+                allGenes;
+        foreach (BaseVariable gene in genes)
+        {
+            if(random.Next(0, 100)/100f < AIConfig.M_Rate)
+            {
+                if(gene.GetType() == typeof(RangedVariable))
+                {
+                    //adjust
+                    RangedVariable g = (RangedVariable)gene;
+                }
+                else
+                {
+                    //toggle
+                    gene.Value = !gene.Value;
+                }
+            }
+        }
+    }
+
+
+    private List<BaseVariable> GetGenes(RobotConfig robot)
     {
         robot.IsTailEnabled.Value = false;
-        List<BaseVariable> toggle = new List<BaseVariable>();
-        List<RangedVariable> adjust = new List<RangedVariable>();
+        List<BaseVariable> genes = new List<BaseVariable>();
         //split variables into physical and movement
-        GetVariables(robot, toggle, adjust);
+        GetVariables(robot, genes);
         
         foreach (ObjectConfig objConfig in robot.Configs)
         {
             if(objConfig.Type == BodyPart.Body)
             {
                 BodyConfig config = objConfig.Object.GetComponent<BodyConfig>();
-                GetVariables(config, toggle, adjust);
+                GetVariables(config, genes);
             }
             else if(objConfig.Type == BodyPart.Tail)
             {
                 TailConfig config = objConfig.Object.GetComponent<TailConfig>();
-                GetVariables(config, toggle, adjust);
+                GetVariables(config, genes);
             }
         }
-        //there are now two lists of the toggleable and adjustable variables for the whole robot
+        //this is now a list of all variables that can be recombined / mutated
         //these can further be classified into those that affect the physical structure of the robot, versus the movement of it
-        Toggle(toggle.Where(f => f.Type == Variable.Movement).ToList());
-        Adjust(adjust.Where(f => f.Type == Variable.Movement).ToList());
-        if (AIConfig.MutatePhysical)
-        {
-            Toggle(toggle.Where(f => f.Type == Variable.Physical).ToList());
-            Adjust(adjust.Where(f => f.Type == Variable.Physical).ToList());
-        }
+        return genes;
     }
 
-    private void GetVariables(dynamic config, List<BaseVariable> toggle, List<RangedVariable> adjust)
+    private void GetVariables(dynamic config, List<BaseVariable> genes)
     {
         var allFields = config.GetType().GetFields();
         foreach (var item in allFields)
         {
             if(item.FieldType == typeof(BaseVariable)){
                 var f = item.GetValue(config);
-                toggle.Add((BaseVariable)f);
+                genes.Add((BaseVariable)f);
             }
             else if (item.FieldType == typeof(RangedVariable)){
                 var f = item.GetValue(config);
-                adjust.Add((RangedVariable)f);
+                genes.Add((RangedVariable)f);
             }
         }
-    }
-
-    private void Toggle(List<BaseVariable> baseVariables)
-    {
-       
-    }
-
-    private void Adjust(List<RangedVariable> rangedVariables)
-    {
-
     }
 
     private void Freeze(RobotConfig robot)

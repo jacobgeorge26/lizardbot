@@ -114,4 +114,13 @@ public class VariableTests
         bool value = true;
         Assert.Throws<System.Exception>(() => new RangedVariable(value, 0, 5, Variable.Physical));
     }
+
+    [Test]
+    public void ListOfVariables()
+    {
+        RangedVariable ranged = new RangedVariable(5, 1, 10, Variable.Physical);
+        BaseVariable based = new BaseVariable(true, Variable.Physical);
+        List<BaseVariable> z = new List<BaseVariable> { ranged, based};
+        Assert.AreEqual(typeof(RangedVariable), z[0].GetType());
+    }
 }
