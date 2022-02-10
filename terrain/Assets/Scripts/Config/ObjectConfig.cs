@@ -26,5 +26,6 @@ namespace Config
             Object = _object;
             RobotIndex = _robotIndex;
         }
+
     }
 }

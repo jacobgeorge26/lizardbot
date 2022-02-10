@@ -174,7 +174,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7383069210834719537}
   - component: {fileID: 5641002130525227979}
-  - component: {fileID: 3378788461376074754}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -227,7 +226,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 2147483647
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 2
@@ -239,14 +238,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &3378788461376074754
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4935590414583626525}
-  m_Enabled: 1
 --- !u!1 &5480807896302546173
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,9 +381,10 @@ GameObject:
   - component: {fileID: -2804406947049718368}
   - component: {fileID: 2710373693779685277}
   - component: {fileID: 632443744547319622}
+  - component: {fileID: 3813828291398471766}
   m_Layer: 0
   m_Name: Head
-  m_TagString: Untagged
+  m_TagString: Robot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -546,3 +538,15 @@ MonoBehaviour:
   Index: 0
   Object: {fileID: 0}
   RobotIndex: 0
+--- !u!114 &3813828291398471766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7256667157510425408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 141e473b35f64ea42a1ed0aaf78ef245, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

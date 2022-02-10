@@ -1,3 +1,4 @@
+using Config;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,17 +11,10 @@ public class Collisions : MonoBehaviour
         if(!trappedAlgorithmTriggered && collider.tag == "Terrain")
         {
             trappedAlgorithmTriggered = true;
-            FindObjectOfType<TrappedAlgorithm>().Enable();
-            MoveTail[] tails = FindObjectsOfType<MoveTail>();
-            for (int i = 0; i < tails.Length; i++)
-            {
-                tails[i].Enable();
-            }
-            MoveBody[] sections = FindObjectsOfType<MoveBody>();
-            for (int i = 0; i < sections.Length; i++)
-            {
-                sections[i].Enable();
-            }
+            Transform head = transform.parent;
+            RobotConfig robot = head.parent.gameObject.GetComponent<RobotConfig>();
+            if (robot != null) robot.IsEnabled = true;
+            Destroy(this);
         }
     }
 }

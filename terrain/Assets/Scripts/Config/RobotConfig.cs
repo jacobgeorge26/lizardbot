@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,12 @@ namespace Config
     public class RobotConfig : MonoBehaviour
     {
         public int RobotIndex;
+
+        public int Version = 0;
+
+        public bool IsEnabled = false;
+
+        public float Performance = 0;
 
         public RangedVariable NoSections = new RangedVariable(5, 1, 10);
 

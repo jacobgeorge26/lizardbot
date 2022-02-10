@@ -9,23 +9,17 @@ public class TrappedAlgorithm : MonoBehaviour
 {
     private Queue<Vector3> locations = new Queue<Vector3>();
     private Queue<float> volumes = new Queue<float>();
+    private GeneticAlgorithm AIScript;
+    private RobotConfig robotConfig;
 
-    //these are used to determine how many frames pass before the location is analysed
-    private int sampleCount = 0; //starts at 0, will be assigned framerate / 2
+    //how many locations are analysed (2 per second)
     private int locationsSize = 20; 
     //these are used to prevent data being collected too soon 
     //the robot needs time to hit the terrain and react
-    private bool IsEnabled = false;
-    private int StartBuffer = 100;
     private bool ShowTrail = false;
+    private bool ShowStuckPoints = false;
 
     private GameObject pointsContainer;
-
-    private void Start()
-    {
-        pointsContainer = new GameObject();
-        pointsContainer.name = "Stuck Points";
-    }
 
     //if the gradient of the variance of the magnitude of the coordinates dips below the limit then the robot is classed as stuck
     //this can be due to many different behaviours:
@@ -33,23 +27,19 @@ public class TrappedAlgorithm : MonoBehaviour
     //circling
     //remaining in the same general area for too long
     //bouncing between the same locations
-    void Update()
+    IEnumerator Start()
     {
-        //variance on init can take a few frames to start returning a proper result
-        StartBuffer -= IsEnabled ? 1 : 0;
-        if(StartBuffer <= 0)
+        pointsContainer = new GameObject();
+        pointsContainer.name = "Stuck Points";
+        pointsContainer.transform.parent = GetComponent<Transform>().parent;
+
+        AIScript = FindObjectOfType<GeneticAlgorithm>();
+        robotConfig = transform.parent.gameObject.GetComponent<RobotConfig>();
+
+        while (true)
         {
-            if(sampleCount <= 0)
-            {
-                float framerate = 1.0f / Time.deltaTime;
-                sampleCount = (int)framerate / 2;
-                UpdateLocations();
-            }
-            else
-            {
-                sampleCount--;
-            }
-            
+            yield return new WaitForSeconds(0.5f);
+            if(robotConfig.IsEnabled) UpdateLocations();
         }
     }
 
@@ -85,9 +75,13 @@ public class TrappedAlgorithm : MonoBehaviour
                 //Grapher.Log(variance, "Variance", Color.red);
                 if (Math.Round(variance) == 0)
                 {
-                    GameObject p = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Stuck"));
-                    p.transform.position = currentLocation;
-                    p.transform.parent = pointsContainer.transform;
+                    if (ShowStuckPoints)
+                    {
+                        GameObject p = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Stuck"));
+                        p.transform.position = currentLocation;
+                        p.transform.parent = pointsContainer.transform;
+                    }
+                    AIScript.RobotIsStuck(this.transform.parent.gameObject.GetComponent<RobotConfig>());
 
                 }
                 else if(ShowTrail)
@@ -99,6 +93,8 @@ public class TrappedAlgorithm : MonoBehaviour
             }              
 
         }
+        //important - update robot with its performance metric for AI to use
+        robotConfig.Performance = currentLocation.magnitude > robotConfig.Performance ? currentLocation.magnitude : robotConfig.Performance;
     }
 
     private float GetVolume()
@@ -134,10 +130,5 @@ public class TrappedAlgorithm : MonoBehaviour
         }
         float variance = squareMeanDiff.Sum() / squareMeanDiff.Count();
         return variance;
-    }
-
-    internal void Enable()
-    {
-        IsEnabled = true;
     }
 }
