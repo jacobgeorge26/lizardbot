@@ -10,12 +10,12 @@ public class TrappedAlgorithm : MonoBehaviour
     private Queue<Vector3> locations = new Queue<Vector3>();
     private Queue<float> volumes = new Queue<float>();
     private GeneticAlgorithm AIScript;
+    private RobotConfig robotConfig;
 
     //how many locations are analysed (2 per second)
     private int locationsSize = 20; 
     //these are used to prevent data being collected too soon 
     //the robot needs time to hit the terrain and react
-    private bool IsEnabled = false;
     private bool ShowTrail = false;
     private bool ShowStuckPoints = false;
 
@@ -34,11 +34,12 @@ public class TrappedAlgorithm : MonoBehaviour
         pointsContainer.transform.parent = GetComponent<Transform>().parent;
 
         AIScript = FindObjectOfType<GeneticAlgorithm>();
+        robotConfig = transform.parent.gameObject.GetComponent<RobotConfig>();
 
         while (true)
         {
             yield return new WaitForSeconds(0.5f);
-            if(IsEnabled) UpdateLocations();
+            if(robotConfig.IsEnabled) UpdateLocations();
         }
     }
 
@@ -92,6 +93,8 @@ public class TrappedAlgorithm : MonoBehaviour
             }              
 
         }
+        //important - update robot with its performance metric for AI to use
+        robotConfig.Performance = currentLocation.magnitude > robotConfig.Performance ? currentLocation.magnitude : robotConfig.Performance;
     }
 
     private float GetVolume()
@@ -127,10 +130,5 @@ public class TrappedAlgorithm : MonoBehaviour
         }
         float variance = squareMeanDiff.Sum() / squareMeanDiff.Count();
         return variance;
-    }
-
-    internal void Enable()
-    {
-        IsEnabled = true;
     }
 }

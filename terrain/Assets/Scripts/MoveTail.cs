@@ -11,7 +11,6 @@ public class MoveTail : MonoBehaviour
     private Rigidbody tail;
     private TailConfig config;
     private ObjectConfig objectConfig;
-    private bool IsEnabled = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,7 +23,7 @@ public class MoveTail : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (IsEnabled)
+        if (robotConfig.IsEnabled)
         {
             Move();
         }
@@ -86,10 +85,5 @@ public class MoveTail : MonoBehaviour
             }
         }
         return sumMassByPos / sumMass;
-    }
-
-    internal void Enable()
-    {
-        IsEnabled = true;
     }
 }

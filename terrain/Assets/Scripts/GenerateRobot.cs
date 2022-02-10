@@ -12,21 +12,16 @@ public class GenerateRobot : MonoBehaviour
 
     void Start()
     {
-        CreateRobot();
-    }
-
-    public void CreateRobot()
-    {
         //setup robot config
         robotConfig = this.gameObject.GetComponent<RobotConfig>();
         if (robotConfig == null) robotConfig = this.gameObject.AddComponent<RobotConfig>();
-        if (robotConfig.Version == 0) robotConfig.RobotIndex = AIConfig.RobotConfigs.Count;
-        if (robotConfig.Version == 0) AIConfig.RobotConfigs.Add(robotConfig);
+        robotConfig.RobotIndex = AIConfig.RobotConfigs.Count;
+        AIConfig.RobotConfigs.Add(robotConfig);
 
         //setup overall robot
         GameObject robot = this.gameObject;
         robot.name = $"robot{robotConfig.RobotIndex + 1}_{robotConfig.Version}";
-        robot.transform.position = new Vector3(0, TerrainConfig.GetTerrainHeight() + 1f, 0);
+        robot.transform.position = new Vector3(0, GetYPos(), 0);
 
         //get layer for this robot
         layer = LayerMask.NameToLayer($"Robot{(robotConfig.RobotIndex % 25) + 1}");
@@ -38,7 +33,6 @@ public class GenerateRobot : MonoBehaviour
         if (robotConfig.IsTailEnabled.Value) SetupTail(robot);
 
         if (robotConfig.RobotIndex == 0) SetupCam(robot);
-
     }
 
     private void SetupBody(GameObject robot)
@@ -61,7 +55,7 @@ public class GenerateRobot : MonoBehaviour
             {
                 foreach (Transform child in section.transform)
                 {
-                    if(child.GetComponent<Rigidbody>() != null)
+                    if (child.GetComponent<Rigidbody>() != null)
                     {
                         //this is the sphere we're looking for
                         child.gameObject.layer = layer;
@@ -73,19 +67,15 @@ public class GenerateRobot : MonoBehaviour
             BodyConfig config = section.GetComponent<BodyConfig>();
             if (config == null) config = section.AddComponent<BodyConfig>();
             //setup how rotation will work for this section
-            if(robotConfig.Version == 0) config.IsRotating.Value = i % 2 == 0 ? true : false;
-            //TODO: do we want to maintain the serpentine motion or are we instead going to allow toggle off/on?
+            config.IsRotating.Value = i % 2 == 0 ? true : false;
             if (config.IsRotating.Value) rotatingSections.Add(config);
 
             ObjectConfig objConfig = section.GetComponent<ObjectConfig>();
             if (objConfig == null) objConfig = section.AddComponent<ObjectConfig>();
             //important!!
             objConfig.Init(i, BodyPart.Body, section, robotConfig.RobotIndex);
-            List<ObjectConfig> existingObjConfigs = robotConfig.Configs.Where(c => c.Type == BodyPart.Body && c.Index == objConfig.Index).ToList();
-            if (existingObjConfigs.Count > 1) throw new Exception($"More than one object config exists for section {objConfig.Index} of robot {robotConfig.RobotIndex}");
-            else if (existingObjConfigs.Count == 0) robotConfig.Configs.Add(objConfig);
-            else objConfig.Copy(existingObjConfigs.First());
-            
+            robotConfig.Configs.Add(objConfig);
+
             //setup configurable joints
             if (i > 0)
             {
@@ -113,11 +103,11 @@ public class GenerateRobot : MonoBehaviour
         TailConfig config = tail.GetComponent<TailConfig>();
         if (config == null) config = tail.AddComponent<TailConfig>();
         //setup config
-        if(robotConfig.Version == 0) config.AngleConstraint = new RangedVariable(new Vector3(60, 60, 60), 0, 180);
-        if (robotConfig.Version == 0) config.RotationMultiplier = new RangedVariable(new Vector3(1f, 1f, 1f), 0.5f, 1f);
+        config.AngleConstraint = new RangedVariable(new Vector3(60, 60, 60), 0, 180);
+        config.RotationMultiplier = new RangedVariable(new Vector3(1f, 1f, 1f), 0.5f, 1f);
 
         //set mass to be equal to rest of body
-        tail.GetComponent<Rigidbody>().mass = GetTotalMass() * config.TailMassMultiplier.Value; 
+        tail.GetComponent<Rigidbody>().mass = GetTotalMass() * config.TailMassMultiplier.Value;
 
         ObjectConfig objConfig = tail.GetComponent<ObjectConfig>();
         if (objConfig == null) objConfig = tail.AddComponent<ObjectConfig>();
@@ -125,19 +115,22 @@ public class GenerateRobot : MonoBehaviour
 
         //important!!
         objConfig.Init(0, BodyPart.Tail, tail, robotConfig.RobotIndex);
-        List<ObjectConfig> existingObjConfigs = robotConfig.Configs.Where(c => c.Type == BodyPart.Tail && c.Index == objConfig.Index).ToList();
-        if (existingObjConfigs.Count > 1) throw new Exception($"More than one object config exists for the tail of robot {robotConfig.RobotIndex}");
-        else if (existingObjConfigs.Count == 0) robotConfig.Configs.Add(objConfig);
-        else objConfig.Copy(existingObjConfigs.First());
+        robotConfig.Configs.Add(objConfig);
 
         //setup joint
         SetupConfigurableJoint(tail, config, lastSection);
     }
 
-
-    private float GetZPos(GameObject prevObject, GameObject thisObject)
+    //accessed by GeneticAlgorithm when respawning
+    public float GetYPos()
     {
-        if(prevObject == null) return 0;
+        return TerrainConfig.GetTerrainHeight() + 1f;
+    }
+
+    //accessed by GeneticAlgorithm when respawning
+    public float GetZPos(GameObject prevObject, GameObject thisObject)
+    {
+        if (prevObject == null) return 0;
         //determine the position of this section by the location of the prev section, and size of both
         float zPos = prevObject.transform.position.z;
         zPos += -1 * (prevObject.transform.localScale.z / 2 + thisObject.transform.localScale.z / 2 + 0.1f);
@@ -183,7 +176,7 @@ public class GenerateRobot : MonoBehaviour
         //tail
         List<ObjectConfig> Tails = robotConfig.Configs.Where(o => o.Type == BodyPart.Tail).ToList();
         if (Tails.Count > 1 || (Tails.Count == 1 && !robotConfig.IsTailEnabled.Value)) throw new Exception("There is more than one tail, or a tail exists when IsTailEnabled is set to false.");
-        else if(robotConfig.IsTailEnabled.Value) tail = Tails.First().Object;
+        else if (robotConfig.IsTailEnabled.Value) tail = Tails.First().Object;
         //last section
         List<ObjectConfig> Backs = Sections.Where(o => o.Index == robotConfig.NoSections.Value - 1).ToList();
         if (Backs.Count != 1) throw new Exception("The last section either does not exist or has multiple sections with the same index.");

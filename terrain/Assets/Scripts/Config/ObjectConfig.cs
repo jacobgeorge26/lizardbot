@@ -27,12 +27,5 @@ namespace Config
             RobotIndex = _robotIndex;
         }
 
-        public void Copy(ObjectConfig objectConfig)
-        {
-            this.Type = objectConfig.Type;
-            this.Index = objectConfig.Index;
-            this.Object = objectConfig.Object;
-            this.RobotIndex = objectConfig.RobotIndex;
-        }
     }
 }

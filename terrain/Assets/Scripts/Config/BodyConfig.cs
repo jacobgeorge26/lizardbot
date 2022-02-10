@@ -30,6 +30,5 @@ namespace Config
         //<1 is too slow and will trigger the robot being stuck more easily - especially in the rough terrain
         [Range(0, 3)]
         public RangedVariable DriveVelocity = new RangedVariable(2f, 0f, 3f);
-
     }
 }

@@ -12,7 +12,6 @@ public class MoveBody : MonoBehaviour
     private BodyConfig config;
     private ObjectConfig objectConfig;
     private Vector3 direction;
-    private bool IsEnabled = false;
 
     private List<ObjectConfig> RotatingConfigs = new List<ObjectConfig>();
 
@@ -23,6 +22,7 @@ public class MoveBody : MonoBehaviour
         config = this.gameObject.GetComponent<BodyConfig>();
         objectConfig = this.gameObject.GetComponent<ObjectConfig>();
         robotConfig = AIConfig.RobotConfigs.Where(c => c.RobotIndex.Equals(objectConfig.RobotIndex)).First();
+        SetupRotatingSections();
     }
 
 
@@ -50,8 +50,8 @@ public class MoveBody : MonoBehaviour
     //will drive and/or rotate as determined in BodyConfig
     void FixedUpdate()
     {
-        if (config.IsDriving.Value && IsEnabled) Drive();
-        if (config.IsRotating.Value && IsEnabled) Rotate();
+        if (config.IsDriving.Value && robotConfig.IsEnabled) Drive();
+        if (config.IsRotating.Value && robotConfig.IsEnabled) Rotate();
     }
 
     //rotate this body section
@@ -141,12 +141,6 @@ public class MoveBody : MonoBehaviour
         angle = round ? new Vector3((float)Math.Round(angle.x, 0), (float)Math.Round(angle.y, 0), (float)Math.Round(angle.z, 0)) : angle;
 
         return angle;
-    }
-
-    public void Enable()
-    {
-        SetupRotatingSections();
-        IsEnabled = true;
     }
 
 }

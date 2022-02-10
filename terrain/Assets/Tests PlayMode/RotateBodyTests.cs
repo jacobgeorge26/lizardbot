@@ -55,7 +55,6 @@ public class RotateBodyTests
     public IEnumerator Y_RotatesClockwiseOnInit()
     {
         body.rotation = Quaternion.Euler(0, 0, 0);
-        sectionMS.Enable();
         sectionBC.IsRotating.Value = true;
 
         yield return new WaitForSeconds(3);
