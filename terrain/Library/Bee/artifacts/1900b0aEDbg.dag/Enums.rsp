@@ -312,6 +312,7 @@
 -r:"Library/Bee/artifacts/1900b0aEDbg.dag/UnityEngine.UI.ref.dll"
 "Assets/Scripts/Enums/BodyPart.cs"
 "Assets/Scripts/Enums/Surface.cs"
+"Assets/Scripts/Enums/VariableType.cs"
 -langversion:8.0
 
 /deterministic

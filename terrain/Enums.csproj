@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Enums\BodyPart.cs" />
     <Compile Include="Assets\Scripts\Enums\Surface.cs" />
+    <Compile Include="Assets\Scripts\Enums\VariableType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\Enums\Enums.asmdef" />

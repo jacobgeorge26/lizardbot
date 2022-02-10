@@ -15,9 +15,9 @@ namespace Config
 
         public float Performance = 0;
 
-        public RangedVariable NoSections = new RangedVariable(5, 1, 10);
+        public RangedVariable NoSections = new RangedVariable(5, 1, 10, Variable.Physical);
 
-        public BaseVariable IsTailEnabled = new BaseVariable(true);
+        public BaseVariable IsTailEnabled = new BaseVariable(true, Variable.Physical);
 
         public List<ObjectConfig> Configs { get; set; } = new List<ObjectConfig>();
     }

@@ -102,9 +102,9 @@ public class GenerateRobot : MonoBehaviour
 
         TailConfig config = tail.GetComponent<TailConfig>();
         if (config == null) config = tail.AddComponent<TailConfig>();
-        //setup config
-        config.AngleConstraint = new RangedVariable(new Vector3(60, 60, 60), 0, 180);
-        config.RotationMultiplier = new RangedVariable(new Vector3(1f, 1f, 1f), 0.5f, 1f);
+        //setup config - different defaults for tail
+        config.AngleConstraint = new RangedVariable(new Vector3(60, 60, 60), 0, 180, Variable.Physical);
+        config.RotationMultiplier = new RangedVariable(new Vector3(1f, 1f, 1f), 0.5f, 1f, Variable.Movement);
 
         //set mass to be equal to rest of body
         tail.GetComponent<Rigidbody>().mass = GetTotalMass() * config.TailMassMultiplier.Value;

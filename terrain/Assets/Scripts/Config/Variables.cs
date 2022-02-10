@@ -8,27 +8,42 @@ namespace Config
 {
     public class BaseVariable
     {
-        protected dynamic rangedValue;
+        protected dynamic currentValue;
 
-        private List<Type> compatibleTypes = new List<Type>{ typeof(int), typeof(float), typeof(bool), typeof(Vector3) };
+        private List<Type> compatibleTypes = new List<Type>{typeof(bool)};
+
+        public Variable Type;
 
         public dynamic Value
         {
-            get => rangedValue;
+            get => currentValue;
             set
             {
-                if(!compatibleTypes.Contains(value.GetType())){
-                    throw new Exception($"BaseVariable has been assigned a variable with non-compatible type {value.GetType()}.");
-                }
-                rangedValue = value;
+                currentValue = value;
+                CheckType();
             }
         }
 
-        public BaseVariable(dynamic defaultValue)
+        public BaseVariable(dynamic defaultValue, Variable type)
         {
             Value = defaultValue;
+            Type = type;
+        }
+
+        protected virtual void CheckType()
+        {
+            if (!compatibleTypes.Contains(currentValue.GetType()))
+            {
+                throw new Exception($"BaseVariable has been assigned a variable with non-compatible type {currentValue.GetType()}.");
+            }
         }
     }
+
+
+
+    //--------------------------------------------------------------------------------------
+
+
 
     public class RangedVariable : BaseVariable
     {
@@ -40,26 +55,23 @@ namespace Config
 
         public new dynamic Value
         {
-            get => rangedValue;
+            get => currentValue;
             set
             {
                 try
-                {
-                    if (!compatibleTypes.Contains(value.GetType()))
-                    {
-                        throw new Exception($"RangedVariable has been assigned a variable with non-compatible type {value.GetType()}.");
-                    }
-                    if (rangedValue.GetType() == typeof(Vector3))
+                {                   
+                    if (currentValue.GetType() == typeof(Vector3))
                     {
                         for (int i = 0; i < 3; i++)
                         {
-                            rangedValue[i] = HandleRange(value[i]);
+                            currentValue[i] = HandleRange(value[i]);
                         }
                     }
                     else
                     {
-                        rangedValue = HandleRange(value);
+                        currentValue = HandleRange(value);
                     }
+                    CheckType();
                 }
                 catch (System.Exception)
                 {
@@ -69,7 +81,7 @@ namespace Config
             }
         }
 
-        public RangedVariable(dynamic defaultValue, dynamic minValue, dynamic maxValue) : base((object)defaultValue)
+        public RangedVariable(dynamic defaultValue, dynamic minValue, dynamic maxValue, Variable type) : base((object)defaultValue, type)
         {
             this.Min = minValue;
             this.Max = maxValue;
@@ -84,6 +96,14 @@ namespace Config
             return value < Min ? Min :
                 value > Max ? Max :
                     value;
+        }
+
+        protected override void CheckType()
+        {
+            if (!compatibleTypes.Contains(currentValue.GetType()))
+            {
+                throw new Exception($"BaseVariable has been assigned a variable with non-compatible type {currentValue.GetType()}.");
+            }
         }
     }
 }

@@ -16,12 +16,12 @@ namespace Config
         //what is the angle constraint of the joint
         //lower -> tighter coil
         [Tooltip("It is recommended that the angle constraint is in range 30 <= x <= 120")]
-        public RangedVariable AngleConstraint = new RangedVariable(new Vector3(120, 120, 120), 0, 180);
+        public RangedVariable AngleConstraint = new RangedVariable(new Vector3(120, 120, 120), 0, 180, Variable.Physical);
 
         //when rotating how much force should each axis have applied to it?
         //e.g. 0.5, 1, 0.5 makes y the primary axis
         [Tooltip("Range 0 <= x <= 1")]
-        public RangedVariable RotationMultiplier = new RangedVariable(new Vector3(0.5f, 1f, 0.5f), 0f, 1f);
+        public RangedVariable RotationMultiplier = new RangedVariable(new Vector3(0.5f, 1f, 0.5f), 0f, 1f, Variable.Movement);
 
     }
 }

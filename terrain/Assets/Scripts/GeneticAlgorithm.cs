@@ -3,20 +3,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 public class GeneticAlgorithm : MonoBehaviour
 {
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
-
     public void RobotIsStuck(RobotConfig robot)
     {
         GenerateRobot generator = robot.gameObject.GetComponent<GenerateRobot>();
@@ -78,5 +69,59 @@ public class GeneticAlgorithm : MonoBehaviour
 
     private void Mutate(RobotConfig robot)
     {
+        robot.IsTailEnabled.Value = false;
+        List<BaseVariable> toggle = new List<BaseVariable>();
+        List<RangedVariable> adjust = new List<RangedVariable>();
+        //split variables into physical and movement
+        GetVariables(robot, toggle, adjust);
+        
+        foreach (ObjectConfig objConfig in robot.Configs)
+        {
+            if(objConfig.Type == BodyPart.Body)
+            {
+                BodyConfig config = objConfig.Object.GetComponent<BodyConfig>();
+                GetVariables(config, toggle, adjust);
+            }
+            else if(objConfig.Type == BodyPart.Tail)
+            {
+                TailConfig config = objConfig.Object.GetComponent<TailConfig>();
+                GetVariables(config, toggle, adjust);
+            }
+        }
+        //there are now two lists of the toggleable and adjustable variables for the whole robot
+        //these can further be classified into those that affect the physical structure of the robot, versus the movement of it
+        Toggle(toggle.Where(f => f.Type == Variable.Movement).ToList());
+        Adjust(adjust.Where(f => f.Type == Variable.Movement).ToList());
+        if (AIConfig.MutatePhysical)
+        {
+            Toggle(toggle.Where(f => f.Type == Variable.Physical).ToList());
+            Adjust(adjust.Where(f => f.Type == Variable.Physical).ToList());
+        }
+    }
+
+    private void GetVariables(dynamic config, List<BaseVariable> toggle, List<RangedVariable> adjust)
+    {
+        var allFields = config.GetType().GetFields();
+        foreach (var item in allFields)
+        {
+            if(item.FieldType == typeof(BaseVariable)){
+                var f = item.GetValue(config);
+                toggle.Add((BaseVariable)f);
+            }
+            else if (item.FieldType == typeof(RangedVariable)){
+                var f = item.GetValue(config);
+                adjust.Add((RangedVariable)f);
+            }
+        }
+    }
+
+    private void Toggle(List<BaseVariable> baseVariables)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void Adjust(List<RangedVariable> rangedVariables)
+    {
+        throw new NotImplementedException();
     }
 }

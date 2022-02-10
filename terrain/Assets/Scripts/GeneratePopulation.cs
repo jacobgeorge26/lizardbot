@@ -14,7 +14,7 @@ public class GeneratePopulation : MonoBehaviour
 
     IEnumerator GenerateRobots()
     {
-        for (int i = 0; i < AIConfig.PopulationSize.Value; i++)
+        for (int i = 0; i < AIConfig.PopulationSize; i++)
         {
             GameObject robot = new GameObject();
             robot.AddComponent<GenerateRobot>();
