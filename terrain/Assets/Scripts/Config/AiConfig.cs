@@ -20,7 +20,9 @@ namespace Config
 
         public static bool RandomInitValues = false;
 
-        public static Selection Selection = Selection.Performance;
+        //how many generations of mutations are allowed to pass before it determines the success of the robot
+        //set to 0 to always select the best of the previous vs mutation
+        public static int MutationCycle = 1;
 
         //the recombination rate accounts for whether the robot will recombine this generation
         //for no recombination set recombination rate to 0

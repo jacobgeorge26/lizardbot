@@ -15,7 +15,7 @@ namespace Config
 
         public float Performance = 0;
 
-        public GameObject LastRobot = null;
+        public int MutationCount = 0;
 
         public RangedVariable NoSections = new RangedVariable(5, 1, 10, Variable.Physical);
 

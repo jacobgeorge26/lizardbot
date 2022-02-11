@@ -1,9 +1,3 @@
-//selection type
-public enum Selection
-{
-    Performance = 0, Mutation = 1
-}
-
 //recombination type
 public enum Recombination
 {

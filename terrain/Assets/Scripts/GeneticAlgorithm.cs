@@ -9,16 +9,20 @@ using Random = System.Random;
 public class GeneticAlgorithm : MonoBehaviour
 {
     private RobotHelpers helpers;
+    private GameObject[] LastRobots = new GameObject[AIConfig.PopulationSize];
     public void RobotIsStuck(RobotConfig stuckRobot)
     {
         helpers = stuckRobot.gameObject.GetComponent<RobotHelpers>();
         //pause stuck robot
         Freeze(stuckRobot);
 
+        int newVersion = stuckRobot.Version + 1;
+        //init LastRobots if this is first iteration
+        if (LastRobots[stuckRobot.RobotIndex] == null) LastRobots[stuckRobot.RobotIndex] = stuckRobot.gameObject;
         //clone better performing between the stuck (mutated) robot and its predecessor
-        GameObject oldRobot = CompareRobots(stuckRobot);
+        GameObject oldRobot = stuckRobot.MutationCount == AIConfig.MutationCycle ? CompareRobots(stuckRobot, ref newVersion) : stuckRobot.gameObject;
         GameObject newRobot = Instantiate(oldRobot);
-        RobotConfig robot = Init(newRobot, oldRobot);
+        RobotConfig robot = Init(newRobot, oldRobot, newVersion);
         helpers = newRobot.GetComponent<RobotHelpers>();
         helpers.Init(newRobot, robot);
 
@@ -30,6 +34,11 @@ public class GeneticAlgorithm : MonoBehaviour
         if(AIConfig.MutationRate > 0) Mutation(genes);
 
         UpdateBody(oldRobot.GetComponent<RobotConfig>(), robot);
+        if(stuckRobot.MutationCount != AIConfig.MutationCycle && stuckRobot.Version != 0)
+        {         
+            Destroy(oldRobot);
+            robot.MutationCount++;
+        }
 
         //respawn
         robot.gameObject.SetActive(true);
@@ -148,20 +157,21 @@ public class GeneticAlgorithm : MonoBehaviour
         }
     }
 
-    private GameObject CompareRobots(RobotConfig robot1)
+    private GameObject CompareRobots(RobotConfig robot2, ref int v)
     {
-        if (robot1.LastRobot == null) return robot1.gameObject;
-        RobotConfig robot2 = robot1.LastRobot.GetComponent<RobotConfig>();
+        int index = robot2.RobotIndex;
+        RobotConfig robot1 = LastRobots[index].GetComponent<RobotConfig>();
+        v = Math.Max(robot1.Version, robot2.Version) + 1;
         //if the mutated robot performed as well or better than the previous one then continue with this one
-        if(robot2.Performance > robot1.Performance)
+        if(robot2.Performance >= robot1.Performance)
         {
-            //up the version number to allow the clone to +1
-            robot2.GetComponent<RobotConfig>().Version = robot1.Version;
+            LastRobots[index] = robot2.gameObject;
             Destroy(robot1.gameObject);
             return robot2.gameObject;
         }
         else
         {
+            LastRobots[index] = robot1.gameObject;
             Destroy(robot2.gameObject);
             return robot1.gameObject;
         }
@@ -209,16 +219,16 @@ public class GeneticAlgorithm : MonoBehaviour
         }
     }
 
-    private RobotConfig Init(GameObject newRobot, GameObject oldRobot)
+    private RobotConfig Init(GameObject newRobot, GameObject oldRobot, int newVersion)
     {
         RobotConfig robot = newRobot.GetComponent<RobotConfig>();
         //setup ready to respawn
         robot.IsEnabled = false;
-        robot.LastRobot = oldRobot;
-        robot.Version++;
+        robot.Version = newVersion;
         robot.gameObject.name = $"Robot {robot.RobotIndex + 1} V {robot.Version}";
         robot.transform.parent = oldRobot.transform.parent;
         robot.Performance = 0;
+        robot.MutationCount = 0;
 
         //replace stuck robot with new robot in RobotConfigs
         int index = AIConfig.RobotConfigs.IndexOf(AIConfig.RobotConfigs.First(c => c.RobotIndex.Equals(robot.RobotIndex)));
