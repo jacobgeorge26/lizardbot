@@ -30,7 +30,7 @@ public class MoveBody : MonoBehaviour
     {
         foreach (ObjectConfig objConfig in robotConfig.Configs.Where(o => o.Type == BodyPart.Body))
         {
-            GameObject obj = objConfig.Object;
+            GameObject obj = objConfig.gameObject;
             BodyConfig bodyConfig = obj.GetComponent<BodyConfig>();
             if (bodyConfig.IsRotating.Value)
             {
@@ -64,7 +64,7 @@ public class MoveBody : MonoBehaviour
         List<ObjectConfig> prevRotating = RotatingConfigs.Where(o => o.Index < objectConfig.Index).ToList();
         if (prevRotating.Count > 0)
         {
-            GameObject previousSection = prevRotating.Last().Object;
+            GameObject previousSection = prevRotating.Last().gameObject;
             MoveBody prevSecMoveBody = previousSection.GetComponent<MoveBody>();
             prevSecAngle = prevSecMoveBody.GetRelativeAngle();
             angleVelocity = prevSecMoveBody.GetVelocity();

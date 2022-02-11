@@ -25,7 +25,7 @@ public class DriveBodyTests : MonoBehaviour
         sectionMS = section.GetComponent<MoveBody>();
         sectionBC = section.GetComponent<BodyConfig>();
         ObjectConfig HObjConfig = section.GetComponent<ObjectConfig>();
-        HObjConfig.Init(0, BodyPart.Body, section, 1);
+        HObjConfig.Init(0, BodyPart.Body, 1);
 
         env = MonoBehaviour.Instantiate(Resources.Load<GameObject>("BaseEnv"));
     }

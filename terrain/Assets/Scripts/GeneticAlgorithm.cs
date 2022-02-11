@@ -93,12 +93,12 @@ public class GeneticAlgorithm : MonoBehaviour
         {
             if(objConfig.Type == BodyPart.Body)
             {
-                BodyConfig config = objConfig.Object.GetComponent<BodyConfig>();
+                BodyConfig config = objConfig.gameObject.GetComponent<BodyConfig>();
                 GetVariables(config, genes);
             }
             else if(objConfig.Type == BodyPart.Tail)
             {
-                TailConfig config = objConfig.Object.GetComponent<TailConfig>();
+                TailConfig config = objConfig.gameObject.GetComponent<TailConfig>();
                 GetVariables(config, genes);
             }
         }

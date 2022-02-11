@@ -52,7 +52,7 @@ public class MoveTail : MonoBehaviour
         //l = rmv
         foreach (ObjectConfig objConfig in robotConfig.Configs)
         {
-            GameObject obj = objConfig.Object;
+            GameObject obj = objConfig.gameObject;
             Rigidbody objRigidBody = obj.GetComponent<Rigidbody>();
             float m = objRigidBody.mass;
             float r = (obj.transform.position + objRigidBody.centerOfMass - cog).magnitude;
@@ -74,7 +74,7 @@ public class MoveTail : MonoBehaviour
         //iterate objects, get sum of (mass * axis coordinate), divide by sum of all masses
         foreach(ObjectConfig objConfig in robotConfig.Configs)
         {
-            GameObject obj = objConfig.Object;
+            GameObject obj = objConfig.gameObject;
             Rigidbody sectionRigidBody = obj.GetComponent<Rigidbody>();
             Vector3 position = obj.transform.position + sectionRigidBody.centerOfMass;
             float mass = sectionRigidBody.mass;

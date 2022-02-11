@@ -14,16 +14,12 @@ namespace Config
         public int Index;
 
         [HideInInspector]
-        public GameObject Object;
-
-        [HideInInspector]
         public int RobotIndex;
 
-        public void Init(int _index, BodyPart _type, GameObject _object, int _robotIndex)
+        public void Init(int _index, BodyPart _type, int _robotIndex)
         {
             Index = _index;
             Type = _type;
-            Object = _object;
             RobotIndex = _robotIndex;
         }
 

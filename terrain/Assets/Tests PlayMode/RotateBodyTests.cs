@@ -29,7 +29,7 @@ public class RotateBodyTests
         sectionMS = section.GetComponent<MoveBody>();
         sectionBC = section.GetComponent<BodyConfig>();
         ObjectConfig HObjConfig = section.GetComponent<ObjectConfig>();
-        HObjConfig.Init(0, BodyPart.Body, section, 1);
+        HObjConfig.Init(0, BodyPart.Body, 1);
         body = section.GetComponent<Rigidbody>();
         body.useGravity = false;
 
