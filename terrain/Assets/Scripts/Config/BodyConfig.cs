@@ -7,8 +7,6 @@ namespace Config
 {
     public class BodyConfig : JointConfig
     {
-        //determines whether the joint will be rotating or not
-        [Header("Rotation Setup")]
 
         //will this section be rotating (it can rotate AND drive if that is desirable)
         public BaseVariable IsRotating = new BaseVariable(true, Variable.Movement);
@@ -19,9 +17,6 @@ namespace Config
 
         /*-------------------------------------------------------------------------------------------------------*/
 
-
-        [Header("Drive Setup")]
-
         //will this section be driving (it can rotate AND drive if that is desirable)
         public BaseVariable IsDriving = new BaseVariable(true, Variable.Movement);
 
@@ -30,5 +25,9 @@ namespace Config
         //<1 is too slow and will trigger the robot being stuck more easily - especially in the rough terrain
         [Range(0, 3)]
         public RangedVariable DriveVelocity = new RangedVariable(2f, 0f, 3f, Variable.Movement);
+
+        /*-------------------------------------------------------------------------------------------------------*/
+
+        
     }
 }

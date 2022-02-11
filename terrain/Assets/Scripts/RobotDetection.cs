@@ -55,24 +55,12 @@ public class RobotDetection : MonoBehaviour
             else if(incoming.Count > 0)
             {
                 //there are layers available, replace the layer of this robot (all objects) with a randomly selected new layer
-                int oldLayer = gameObject.layer;
                 int newLayer = layers[Random.Range(0, layers.Count)];
                 gameObject.layer = newLayer;
-                foreach (Transform child in gameObject.transform.parent.transform)
-                {
-                    GameObject childObject = child.gameObject;
-                    childObject.layer = newLayer;
-                }
-                //also update the sphere attached to the head to enable collision detection without impacting the behaviour of the robot
-                foreach (Transform child in gameObject.transform)
-                {
-                    if (child.GetComponent<Rigidbody>() != null)
-                    {
-                        //this is the sphere we're looking for
-                        child.gameObject.layer = newLayer;
-                    }
-                }
-                //Debug.Log($"Moving {gameObject.name} from layer {LayerMask.LayerToName(oldLayer)} to layer {LayerMask.LayerToName(newLayer)}");
+                //set robot object's layer - no collisions but easier to have them all in same layer
+                GameObject robotObject = gameObject.transform.parent.gameObject;
+                robotObject.layer = newLayer;
+                robotObject.GetComponent<RobotHelpers>().SetChildLayer(newLayer);
             }
         }
 

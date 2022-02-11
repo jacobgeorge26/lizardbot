@@ -8,8 +8,10 @@ using Random = System.Random;
 
 public class GeneticAlgorithm : MonoBehaviour
 {
+    private RobotHelpers helpers;
     public void RobotIsStuck(RobotConfig stuckRobot)
     {
+        helpers = stuckRobot.gameObject.GetComponent<RobotHelpers>();
         //pause stuck robot
         Freeze(stuckRobot);
 
@@ -17,6 +19,7 @@ public class GeneticAlgorithm : MonoBehaviour
         GameObject oldRobot = CompareRobots(stuckRobot);
         GameObject newRobot = Instantiate(oldRobot);
         RobotConfig robot = Init(newRobot, oldRobot);
+        helpers = newRobot.GetComponent<RobotHelpers>();
 
         //mutate
         List<BaseVariable> genes = GetGenes(robot);
@@ -63,6 +66,11 @@ public class GeneticAlgorithm : MonoBehaviour
                 }
             }
         }
+        //update rotating sections - incl. list - are we maintaining serpentine?
+        //update joints
+        //new sections / remove one?
+        //new tail / remove it?
+        //physical parameters e.g. colour / mass
     }
 
 
@@ -115,7 +123,7 @@ public class GeneticAlgorithm : MonoBehaviour
         foreach (Transform child in robot.gameObject.transform)
         {
             child.rotation = Quaternion.Euler(Vector3.zero);
-            child.position = new Vector3(0, robot.GetYPos(), robot.GetZPos(prevObject, child.gameObject));
+            child.position = new Vector3(0, helpers.GetYPos(), helpers.GetZPos(prevObject, child.gameObject));
 
             Rigidbody childBody = child.gameObject.GetComponent<Rigidbody>();
             if (childBody != null)

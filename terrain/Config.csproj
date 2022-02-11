@@ -61,7 +61,7 @@
     <Compile Include="Assets\Scripts\Config\JointConfig.cs" />
     <Compile Include="Assets\Scripts\Config\ObjectConfig.cs" />
     <Compile Include="Assets\Scripts\Config\TerrainConfig.cs" />
-    <Compile Include="Assets\Scripts\Config\AiConfig.cs" />
+    <Compile Include="Assets\Scripts\Config\AIConfig.cs" />
     <Compile Include="Assets\Scripts\Config\Variables.cs" />
     <Compile Include="Assets\Scripts\Config\RobotConfig.cs" />
   </ItemGroup>
