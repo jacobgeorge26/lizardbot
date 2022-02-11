@@ -20,6 +20,7 @@ public class GeneticAlgorithm : MonoBehaviour
         GameObject newRobot = Instantiate(oldRobot);
         RobotConfig robot = Init(newRobot, oldRobot);
         helpers = newRobot.GetComponent<RobotHelpers>();
+        helpers.Init(newRobot, robot);
 
         //mutate
         List<BaseVariable> genes = GetGenes(robot);
@@ -28,9 +29,12 @@ public class GeneticAlgorithm : MonoBehaviour
 
         if(AIConfig.MutationRate > 0) Mutation(genes);
 
+        UpdateBody(oldRobot.GetComponent<RobotConfig>(), robot);
+
         //respawn
         robot.gameObject.SetActive(true);
     }
+
     private void Recombination(List<BaseVariable> genes)
     {
         
@@ -66,11 +70,6 @@ public class GeneticAlgorithm : MonoBehaviour
                 }
             }
         }
-        //update rotating sections - incl. list - are we maintaining serpentine?
-        //update joints
-        //new sections / remove one?
-        //new tail / remove it?
-        //physical parameters e.g. colour / mass
     }
 
 
@@ -165,6 +164,48 @@ public class GeneticAlgorithm : MonoBehaviour
         {
             Destroy(robot2.gameObject);
             return robot1.gameObject;
+        }
+    }
+
+    private void UpdateBody(RobotConfig oldRobot, RobotConfig newRobot)
+    {
+        //does the tail need to be added?
+        if (!oldRobot.IsTailEnabled.Value && newRobot.IsTailEnabled.Value) helpers.CreateTail();
+        //does the tail need to be removed?
+        else if (oldRobot.IsTailEnabled.Value && !newRobot.IsTailEnabled.Value) helpers.RemoveTail();
+        //are there more sections now?
+        for (int i = 0; i < newRobot.NoSections.Value - oldRobot.NoSections.Value; i++)
+        {
+            helpers.CreateBody(oldRobot.NoSections.Value + i);
+        }
+        //are there fewer sections now?
+        for (int i = 0; i < oldRobot.NoSections.Value - newRobot.NoSections.Value; i++)
+        {
+            helpers.RemoveBody(oldRobot.NoSections.Value - 1 - i);
+        }
+        //update existing configs
+        foreach (ObjectConfig item in newRobot.Configs)
+        {
+            if(item.Type == BodyPart.Body)
+            {
+                BodyConfig config = item.gameObject.GetComponent<BodyConfig>();
+                helpers.UpdateBodyPart(config, item.Index, BodyPart.Body);
+            }
+            else if(item.Type == BodyPart.Tail)
+            {
+                TailConfig config = item.gameObject.GetComponent<TailConfig>();
+                helpers.UpdateBodyPart(config, 0, BodyPart.Tail);
+            }
+        }
+        if (AIConfig.CamFollow == newRobot.RobotIndex)
+        {
+            foreach (Transform item in newRobot.gameObject.transform)
+            {
+                if (item.gameObject.tag == "MainCamera")
+                {
+                    helpers.UpdateCam(item.gameObject);
+                }
+            }           
         }
     }
 

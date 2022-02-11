@@ -31,15 +31,21 @@ public class TrappedAlgorithm : MonoBehaviour
     //bouncing between the same locations
     void Start()
     {
-        if(pointsContainer == null)
+        string name = "Stuck Points";
+        bool containerCreated = false;
+        foreach (Transform item in gameObject.transform.parent)
+        {
+            if (item.name == name) containerCreated = true;
+        }
+        if (!containerCreated)
         {
             pointsContainer = new GameObject();
-            pointsContainer.name = "Stuck Points";
+            pointsContainer.name = name;
             pointsContainer.transform.parent = GetComponent<Transform>().parent;
-
-            AIScript = FindObjectOfType<GeneticAlgorithm>();
-            robotConfig = transform.parent.gameObject.GetComponent<RobotConfig>();
         }
+        AIScript = FindObjectOfType<GeneticAlgorithm>();
+        robotConfig = transform.parent.gameObject.GetComponent<RobotConfig>();
+
 
         StartCoroutine(IsTrapped());
     }

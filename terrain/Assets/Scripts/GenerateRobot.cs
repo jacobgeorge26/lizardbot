@@ -42,7 +42,7 @@ public class GenerateRobot : MonoBehaviour
 
         helpers.SetChildLayer(layer);
 
-        if (robotConfig.RobotIndex == 0) helpers.SetupCam();
+        if (AIConfig.CamFollow == robotConfig.RobotIndex) helpers.SetupCam();
 
         //destroy GenerateRobot so that a duplicate clone isn't created when this robot is cloned
         Destroy(this);

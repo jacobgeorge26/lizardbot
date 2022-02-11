@@ -34,7 +34,7 @@ public class RobotHelpers : MonoBehaviour
         objConfig.Init(0, BodyPart.Body, head, robotConfig.RobotIndex);
         robotConfig.Configs.Add(objConfig);
 
-        UpdateBodyPart(config, objConfig, BodyPart.Body);
+        UpdateBodyPart(config, 0, BodyPart.Body);
     }
 
     internal void CreateBody(int index)
@@ -55,7 +55,7 @@ public class RobotHelpers : MonoBehaviour
         objConfig.Init(index, BodyPart.Body, body, robotConfig.RobotIndex);
         robotConfig.Configs.Add(objConfig);
 
-        UpdateBodyPart(config, objConfig, BodyPart.Body);
+        UpdateBodyPart(config, index, BodyPart.Body);
     }
 
     internal void CreateTail()
@@ -83,23 +83,23 @@ public class RobotHelpers : MonoBehaviour
         objConfig.Init(0, BodyPart.Tail, tail, robotConfig.RobotIndex);
         robotConfig.Configs.Add(objConfig);
 
-        UpdateBodyPart(config, objConfig, BodyPart.Tail);
+        UpdateBodyPart(config, 0, BodyPart.Tail);
     }
 
     //works for all
-    internal void UpdateBodyPart(JointConfig config, ObjectConfig objConfig, BodyPart type)
+    internal void UpdateBodyPart(JointConfig config, int index, BodyPart type)
     {
         GameObject prevSection = null;
         switch (type)
         {
             case BodyPart.Body:
-                if (objConfig.Index > 0)
+                if (index > 0)
                 {
                     prevSection = robotConfig.Configs
-                        .Where(o => o.Type == BodyPart.Body && o.Index == objConfig.Index - 1)
+                        .Where(o => o.Type == BodyPart.Body && o.Index == index - 1)
                         .First().Object;
                     BodyConfig bodyConfig = (BodyConfig)config;
-                    var renderer = objConfig.Object.GetComponent<Renderer>();
+                    var renderer = config.gameObject.GetComponent<Renderer>();
                     renderer.material.SetColor("_Color", new Color(robotConfig.BodyColour.Value / 100f, robotConfig.BodyColour.Value / 100f, 1f));
                     //setup joint
                     SetupConfigurableJoint(config.gameObject, config, prevSection);
@@ -111,7 +111,7 @@ public class RobotHelpers : MonoBehaviour
                 .First().Object;
                 //set mass to be equal to rest of body
                 TailConfig tailConfig = (TailConfig)config;
-                objConfig.Object.GetComponent<Rigidbody>().mass = GetTotalMass() * tailConfig.TailMassMultiplier.Value;
+                config.gameObject.GetComponent<Rigidbody>().mass = GetTotalMass() * tailConfig.TailMassMultiplier.Value;
                 //setup joint
                 SetupConfigurableJoint(config.gameObject, config, prevSection);
                 break;
@@ -119,6 +119,33 @@ public class RobotHelpers : MonoBehaviour
                 break;
             default:
                 break;
+        }
+
+    }
+
+    internal void RemoveBody(int index)
+    {
+        List<ObjectConfig> bodyConfigs = robotConfig.Configs.Where(o => o.Type == BodyPart.Body && o.Index == index).ToList();
+        if (bodyConfigs.Count > 1) throw new Exception("There are multiple body parts that fit the criteria for the part being removed after mutation.");
+        else if (bodyConfigs.Count == 0) throw new Exception("There are no body parts that fit the criteria for the part being removed after mutation.");
+        else
+        {
+            ObjectConfig bodyConfig = bodyConfigs.First();
+            Destroy(bodyConfig.Object);
+            robotConfig.Configs.Remove(bodyConfig);
+        }
+
+    }
+    internal void RemoveTail()
+    {
+        List<ObjectConfig> tailConfigs = robotConfig.Configs.Where(o => o.Type == BodyPart.Tail).ToList();
+        if (tailConfigs.Count > 1) throw new Exception("There are multiple tails that fit the criteria for the part being removed after mutation.");
+        else if (tailConfigs.Count == 0) throw new Exception("There are no tails that fit the criteria for the part being removed after mutation.");
+        else
+        {
+            ObjectConfig tailConfig = tailConfigs.First();
+            Destroy(tailConfig.Object);
+            robotConfig.Configs.Remove(tailConfig);
         }
 
     }
@@ -160,6 +187,11 @@ public class RobotHelpers : MonoBehaviour
         GameObject cam = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Robot Camera"));
         cam.name = "camera";
         cam.transform.parent = robot.transform;
+        UpdateCam(cam); 
+    }
+
+    internal void UpdateCam(GameObject cam)
+    {
         CameraPosition camPos = cam.GetComponent<CameraPosition>();
         //validate objects have been organised correctly
         GameObject head, tail = robot, back;

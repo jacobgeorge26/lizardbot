@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = System.Random;
 
 public class GeneratePopulation : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class GeneratePopulation : MonoBehaviour
 
     IEnumerator GenerateRobots()
     {
+        AIConfig.CamFollow = new Random().Next(AIConfig.PopulationSize);
         for (int i = 0; i < AIConfig.PopulationSize; i++)
         {
             GameObject robot = new GameObject();
