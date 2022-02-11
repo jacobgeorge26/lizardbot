@@ -21,9 +21,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProceduralToolkit.LibTessDo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProceduralToolkit.FastNoiseLib", "ProceduralToolkit.FastNoiseLib.csproj", "{F60FA557-4A30-B694-1F87-F224DD6ED463}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProceduralToolkit.ClipperLib", "ProceduralToolkit.ClipperLib.csproj", "{6A7A4159-A5AB-F496-85D9-1C5D94F1D6CF}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{63AA80F5-039F-693D-E1CE-765DEAF51F5F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProceduralToolkit.ClipperLib", "ProceduralToolkit.ClipperLib.csproj", "{6A7A4159-A5AB-F496-85D9-1C5D94F1D6CF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProceduralToolkit.Editor", "ProceduralToolkit.Editor.csproj", "{AF23C36D-B464-4862-07FE-CB5CBE9B4D2B}"
 EndProject
@@ -79,14 +79,14 @@ Global
 		{F60FA557-4A30-B694-1F87-F224DD6ED463}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F60FA557-4A30-B694-1F87-F224DD6ED463}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F60FA557-4A30-B694-1F87-F224DD6ED463}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6A7A4159-A5AB-F496-85D9-1C5D94F1D6CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6A7A4159-A5AB-F496-85D9-1C5D94F1D6CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6A7A4159-A5AB-F496-85D9-1C5D94F1D6CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6A7A4159-A5AB-F496-85D9-1C5D94F1D6CF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{63AA80F5-039F-693D-E1CE-765DEAF51F5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{63AA80F5-039F-693D-E1CE-765DEAF51F5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63AA80F5-039F-693D-E1CE-765DEAF51F5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63AA80F5-039F-693D-E1CE-765DEAF51F5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A7A4159-A5AB-F496-85D9-1C5D94F1D6CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A7A4159-A5AB-F496-85D9-1C5D94F1D6CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A7A4159-A5AB-F496-85D9-1C5D94F1D6CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A7A4159-A5AB-F496-85D9-1C5D94F1D6CF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AF23C36D-B464-4862-07FE-CB5CBE9B4D2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AF23C36D-B464-4862-07FE-CB5CBE9B4D2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF23C36D-B464-4862-07FE-CB5CBE9B4D2B}.Release|Any CPU.ActiveCfg = Release|Any CPU

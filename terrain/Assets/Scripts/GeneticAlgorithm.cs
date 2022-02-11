@@ -21,9 +21,9 @@ public class GeneticAlgorithm : MonoBehaviour
         //mutate
         List<BaseVariable> genes = GetGenes(robot);
 
-        if(AIConfig.R_Rate > 0) Recombination(genes);
+        if(AIConfig.RecombinationRate > 0) Recombination(genes);
 
-        if(AIConfig.M_Rate > 0) Mutation(genes);
+        if(AIConfig.MutationRate > 0) Mutation(genes);
 
         //respawn
         robot.gameObject.SetActive(true);
@@ -36,23 +36,25 @@ public class GeneticAlgorithm : MonoBehaviour
     private void Mutation(List<BaseVariable> allGenes)
     {
         Random random = new Random();
-        if(AIConfig.M_Type == mType.Any)
+        if(AIConfig.MutationType == global::Mutation.Any)
         {
-            Array allMTypes = Enum.GetValues(typeof(mType));
-            AIConfig.M_Type = (mType)allMTypes.GetValue(random.Next(allMTypes.Length - 1));
+            Array allMTypes = Enum.GetValues(typeof(Mutation));
+            AIConfig.MutationType = (Mutation)allMTypes.GetValue(random.Next(allMTypes.Length - 1));
         }
         //trim list if physical / movement limited
-        List<BaseVariable> genes = AIConfig.M_Type == mType.Physical ? allGenes.Where(g => g.Type == Variable.Physical).ToList() :
-            AIConfig.M_Type == mType.Movement ? allGenes.Where(g => g.Type == Variable.Movement).ToList() :
+        List<BaseVariable> genes = AIConfig.MutationType == global::Mutation.Physical ? allGenes.Where(g => g.Type == Variable.Physical).ToList() :
+            AIConfig.MutationType == global::Mutation.Movement ? allGenes.Where(g => g.Type == Variable.Movement).ToList() :
                 allGenes;
         foreach (BaseVariable gene in genes)
         {
-            if(random.Next(0, 100)/100f < AIConfig.M_Rate)
+            if(random.NextDouble() < AIConfig.MutationRate)
             {
                 if(gene.GetType() == typeof(RangedVariable))
                 {
                     //adjust
                     RangedVariable g = (RangedVariable)gene;
+                    //handled in Variables - Vector3 will increment by a different amount for each axis
+                    g.Increment();                    
                 }
                 else
                 {

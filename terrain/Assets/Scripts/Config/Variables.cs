@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Random = System.Random;
 
 namespace Config
 {
@@ -53,6 +54,8 @@ namespace Config
 
         private List<Type> compatibleTypes = new List<Type> { typeof(int), typeof(float), typeof(Vector3) };
 
+        Random random = new Random();
+
         public new dynamic Value
         {
             get => currentValue;
@@ -91,6 +94,60 @@ namespace Config
                 throw new Exception("RangedVariable has been assigned a min value that is greater than the max value.");
             }
         }
+
+        public void Increment()
+        {
+            //vector3 - each axis needs an increment
+            if(currentValue.GetType() == typeof(Vector3))
+            {
+                Vector3 newValue = Value;
+                for (int i = 0; i < 3; i++)
+                {
+                    newValue[i] += GetIncrement();
+                    newValue[i] = Bounce(newValue[i]);
+                }
+                Value = newValue;
+            }
+            else if(currentValue.GetType() == typeof(int))//int or float - only one increment needed
+            {
+                var newValue = Value;
+                newValue += GetIncrement();
+                newValue = (int)Bounce(newValue);
+                Value = newValue;
+            }
+            else //float
+            {
+                var newValue = Value;
+                newValue += GetIncrement();
+                newValue = Bounce(newValue);
+                Value = newValue;
+            }
+        }
+
+        private dynamic Bounce(dynamic value)
+        {
+            if (value > Max)
+            {
+                return Max - (value - Max);
+            }
+            else if(value < Min)
+            {
+                return Min + (Min - value);
+            }
+            else
+            {
+                return value;
+            }
+        }
+
+        //get increment value - anywhere between /10 and /100 of the max-min range
+        private float GetIncrement()
+        {
+            float increment = (Max - Min) * random.Next(1, 11) / 100;
+            increment *= random.NextDouble() > 0.5 ? 1 : -1;
+            return increment;
+        }
+
         private dynamic HandleRange(dynamic value)
         {
             return value < Min ? Min :

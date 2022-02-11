@@ -13,23 +13,23 @@ namespace Config
         //population can be >25, but in rougher terrain where the robot isn't making progress, expect some warnings and interaction between them
         public static int PopulationSize = 3;
 
-        public static sType Selection = sType.Performance;
+        public static Selection Selection = Selection.Performance;
 
         //the recombination rate accounts for whether the robot will recombine this generation
         //for no recombination set recombination rate to 0
         //2 decimal places recommmended
-        public static float R_Rate = 0.25f;
+        public static float RecombinationRate = 0.25f;
 
         //list of the possible recombinations that will be used
         //the recombination rate accounts for whether the robot will recombine this generation
-        public static rType R_Type = rType.PhysicalLikeness;
+        public static Recombination RecombinationType = Recombination.PhysicalLikeness;
 
         //the mutation rate accounts for whether the robot will mutate this generation
         //for no mutation set mutation rate to 0
         //2 decimal places recommmended
-        public static float M_Rate = 0.4f;
+        public static float MutationRate = 0.4f;
 
         //options for which genes will be mutated
-        public static mType M_Type = mType.Any;
+        public static Mutation MutationType = Mutation.Any;
     }
 }
