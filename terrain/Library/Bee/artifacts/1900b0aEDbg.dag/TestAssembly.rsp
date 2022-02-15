@@ -334,6 +334,7 @@
 "Assets/Scripts/RobotDetection.cs"
 "Assets/Scripts/RobotHelpers.cs"
 "Assets/Scripts/TrappedAlgorithm.cs"
+"Assets/Scripts/UI.cs"
 -langversion:8.0
 
 /deterministic

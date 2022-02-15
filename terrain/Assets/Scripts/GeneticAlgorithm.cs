@@ -20,8 +20,8 @@ public class GeneticAlgorithm : MonoBehaviour
         //init LastRobots if this is first iteration
         if (LastRobots[stuckRobot.RobotIndex] == null) LastRobots[stuckRobot.RobotIndex] = stuckRobot.gameObject;
         //clone better performing between the stuck (mutated) robot and its predecessor
-        GameObject oldRobot = stuckRobot.MutationCount == AIConfig.MutationCycle ? CompareRobots(stuckRobot, ref newVersion) : stuckRobot.gameObject;
-        GameObject newRobot = Instantiate(oldRobot);
+        RobotConfig oldRobot = stuckRobot.MutationCount == AIConfig.MutationCycle ? CompareRobots(stuckRobot, ref newVersion) : stuckRobot;
+        GameObject newRobot = Instantiate(oldRobot.gameObject);
         RobotConfig robot = Init(newRobot, oldRobot, newVersion);
         helpers = newRobot.GetComponent<RobotHelpers>();
         helpers.Init(newRobot, robot);
@@ -31,12 +31,12 @@ public class GeneticAlgorithm : MonoBehaviour
 
         if(AIConfig.RecombinationRate > 0) Recombination(genes);
 
-        if(AIConfig.MutationRate > 0) Mutation(genes);
+        if(AIConfig.MutationRate > 0) Mutate(genes);
 
         UpdateBody(oldRobot.GetComponent<RobotConfig>(), robot);
         if(stuckRobot.MutationCount != AIConfig.MutationCycle && stuckRobot.Version != 0)
         {         
-            Destroy(oldRobot);
+            if(oldRobot.Version > 0) Destroy(oldRobot); //need access to info from original, leave disabled
             robot.MutationCount++;
         }
 
@@ -49,17 +49,15 @@ public class GeneticAlgorithm : MonoBehaviour
         
     }
 
-    private void Mutation(List<BaseVariable> allGenes)
+    private void Mutate(List<BaseVariable> allGenes)
     {
         Random random = new Random();
-        if(AIConfig.MutationType == global::Mutation.Any)
-        {
-            Array allMTypes = Enum.GetValues(typeof(Mutation));
-            AIConfig.MutationType = (Mutation)allMTypes.GetValue(random.Next(allMTypes.Length - 1));
-        }
+        Mutation type = AIConfig.MutationType == Mutation.Any
+            ? (Mutation)Enum.GetValues(typeof(Mutation)).GetValue(random.Next(Enum.GetValues(typeof(Mutation)).Length - 1))
+            : AIConfig.MutationType;
         //trim list if physical / movement limited
-        List<BaseVariable> genes = AIConfig.MutationType == global::Mutation.Physical ? allGenes.Where(g => g.Type == Variable.Physical).ToList() :
-            AIConfig.MutationType == global::Mutation.Movement ? allGenes.Where(g => g.Type == Variable.Movement).ToList() :
+        List<BaseVariable> genes = type == Mutation.Physical ? allGenes.Where(g => g.Type == Variable.Physical).ToList() :
+            type == Mutation.Movement ? allGenes.Where(g => g.Type == Variable.Movement).ToList() :
                 allGenes;
         foreach (BaseVariable gene in genes)
         {
@@ -157,7 +155,7 @@ public class GeneticAlgorithm : MonoBehaviour
         }
     }
 
-    private GameObject CompareRobots(RobotConfig robot2, ref int v)
+    private RobotConfig CompareRobots(RobotConfig robot2, ref int v)
     {
         int index = robot2.RobotIndex;
         RobotConfig robot1 = LastRobots[index].GetComponent<RobotConfig>();
@@ -167,13 +165,13 @@ public class GeneticAlgorithm : MonoBehaviour
         {
             LastRobots[index] = robot2.gameObject;
             Destroy(robot1.gameObject);
-            return robot2.gameObject;
+            return robot2;
         }
         else
         {
             LastRobots[index] = robot1.gameObject;
             Destroy(robot2.gameObject);
-            return robot1.gameObject;
+            return robot1;
         }
     }
 
@@ -219,7 +217,7 @@ public class GeneticAlgorithm : MonoBehaviour
         }
     }
 
-    private RobotConfig Init(GameObject newRobot, GameObject oldRobot, int newVersion)
+    private RobotConfig Init(GameObject newRobot, RobotConfig oldRobot, int newVersion)
     {
         RobotConfig robot = newRobot.GetComponent<RobotConfig>();
         //setup ready to respawn
@@ -229,6 +227,7 @@ public class GeneticAlgorithm : MonoBehaviour
         robot.transform.parent = oldRobot.transform.parent;
         robot.Performance = 0;
         robot.MutationCount = 0;
+        robot.Original = oldRobot.Original;
 
         //replace stuck robot with new robot in RobotConfigs
         int index = AIConfig.RobotConfigs.IndexOf(AIConfig.RobotConfigs.First(c => c.RobotIndex.Equals(robot.RobotIndex)));

@@ -9,3 +9,13 @@ public enum Mutation
 {
     Physical = 0, Movement = 1, Both = 2, Any = 3
 }
+
+public enum UIView
+{
+    Robot = 0, AI = 1, Performance = 2
+}
+
+public enum UIRobotType
+{
+    Original = 0, Old = 1, New = 2
+}

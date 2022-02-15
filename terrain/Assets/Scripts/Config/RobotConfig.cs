@@ -17,6 +17,8 @@ namespace Config
 
         public int MutationCount = 0;
 
+        public RobotConfig Original;
+
         public RangedVariable NoSections = new RangedVariable(5, 1, 10, Variable.Physical);
 
         public BaseVariable IsTailEnabled = new BaseVariable(true, Variable.Physical);
