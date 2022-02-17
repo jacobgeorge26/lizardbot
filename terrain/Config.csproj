@@ -64,6 +64,7 @@
     <Compile Include="Assets\Scripts\Config\AIConfig.cs" />
     <Compile Include="Assets\Scripts\Config\Variables.cs" />
     <Compile Include="Assets\Scripts\Config\RobotConfig.cs" />
+    <Compile Include="Assets\Scripts\Config\CameraConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\Config\Config.asmdef" />

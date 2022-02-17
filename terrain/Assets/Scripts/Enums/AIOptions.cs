@@ -12,7 +12,7 @@ public enum Mutation
 
 public enum UIView
 {
-    Robot = 0, AI = 1, Performance = 2
+    Robot = 0, Performance = 1
 }
 
 public enum UIRobotType

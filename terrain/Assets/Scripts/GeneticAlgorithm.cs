@@ -10,8 +10,17 @@ public class GeneticAlgorithm : MonoBehaviour
 {
     private RobotHelpers helpers;
     private GameObject[] LastRobots = new GameObject[AIConfig.PopulationSize];
+    private UI ui;
+    private CameraPosition cam;
+
+    void Start()
+    {
+        ui = FindObjectOfType<UI>();
+        cam = CameraConfig.RobotCamera.GetComponent<CameraPosition>();
+    }
     public void RobotIsStuck(RobotConfig stuckRobot)
     {
+        ui = FindObjectOfType<UI>();
         helpers = stuckRobot.gameObject.GetComponent<RobotHelpers>();
         //pause stuck robot
         Freeze(stuckRobot);
@@ -21,10 +30,14 @@ public class GeneticAlgorithm : MonoBehaviour
         if (LastRobots[stuckRobot.RobotIndex] == null) LastRobots[stuckRobot.RobotIndex] = stuckRobot.gameObject;
         //clone better performing between the stuck (mutated) robot and its predecessor
         RobotConfig oldRobot = stuckRobot.MutationCount == AIConfig.MutationCycle ? CompareRobots(stuckRobot, ref newVersion) : stuckRobot;
+        if(stuckRobot.RobotIndex == CameraConfig.CamFollow) CameraConfig.Hat.transform.parent = this.transform; //avoid the hat being cloned too
         GameObject newRobot = Instantiate(oldRobot.gameObject);
         RobotConfig robot = Init(newRobot, oldRobot, newVersion);
         helpers = newRobot.GetComponent<RobotHelpers>();
         helpers.Init(newRobot, robot);
+
+        //update UI for old
+        ui.UpdateUI((int)UIRobotType.Old, oldRobot);
 
         //mutate
         List<BaseVariable> genes = GetGenes(robot);
@@ -36,9 +49,12 @@ public class GeneticAlgorithm : MonoBehaviour
         UpdateBody(oldRobot.GetComponent<RobotConfig>(), robot);
         if(stuckRobot.MutationCount != AIConfig.MutationCycle && stuckRobot.Version != 0)
         {         
-            if(oldRobot.Version > 0) Destroy(oldRobot); //need access to info from original, leave disabled
+            if(oldRobot.Version > 0) Destroy(oldRobot.gameObject); //need access to info from original, leave disabled
             robot.MutationCount++;
         }
+
+        //update UI for new
+        ui.UpdateUI((int)UIRobotType.New, robot);
 
         //respawn
         robot.gameObject.SetActive(true);
@@ -205,16 +221,8 @@ public class GeneticAlgorithm : MonoBehaviour
                 helpers.UpdateBodyPart(config, 0, BodyPart.Tail);
             }
         }
-        if (AIConfig.CamFollow == newRobot.RobotIndex)
-        {
-            foreach (Transform item in newRobot.gameObject.transform)
-            {
-                if (item.gameObject.tag == "MainCamera")
-                {
-                    helpers.UpdateCam(item.gameObject);
-                }
-            }           
-        }
+        //if the robot camera is following this robot then update its Head & Tail variables
+        if (CameraConfig.CamFollow == newRobot.RobotIndex) cam.SetRobot(newRobot);
     }
 
     private RobotConfig Init(GameObject newRobot, RobotConfig oldRobot, int newVersion)

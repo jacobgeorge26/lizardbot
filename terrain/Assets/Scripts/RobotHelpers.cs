@@ -183,38 +183,15 @@ public class RobotHelpers : MonoBehaviour
         }
     }
 
-    internal void SetupCam()
+    internal void AttachCam()
     {
-        GameObject cam = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Robot Camera"));
-        cam.name = "camera";
-        cam.transform.parent = robot.transform;
-        UpdateCam(cam); 
-    }
-
-    internal void UpdateCam(GameObject cam)
-    {
-        CameraPosition camPos = cam.GetComponent<CameraPosition>();
-        //validate objects have been organised correctly
-        GameObject head, tail = robot, back;
-        //all body parts
-        List<ObjectConfig> Sections = robotConfig.Configs.Where(o => o.Type == BodyPart.Body).ToList();
-        if (Sections.Count != robotConfig.NoSections.Value) throw new Exception($"There are {Sections.Count} sections set up where there should be {robotConfig.NoSections.Value}.");
-        //head
-        List<ObjectConfig> Heads = Sections.Where(o => o.Index == 0).ToList();
-        if (Heads.Count > 1) throw new Exception("The indexing has not been initialised correctly or there is more than one head.");
-        else head = Heads.First().gameObject;
-        //tail
-        List<ObjectConfig> Tails = robotConfig.Configs.Where(o => o.Type == BodyPart.Tail).ToList();
-        if (Tails.Count > 1 || (Tails.Count == 1 && !robotConfig.IsTailEnabled.Value)) throw new Exception("There is more than one tail, or a tail exists when IsTailEnabled is set to false.");
-        else if (robotConfig.IsTailEnabled.Value) tail = Tails.First().gameObject;
-        //last section
-        List<ObjectConfig> Backs = Sections.Where(o => o.Index == robotConfig.NoSections.Value - 1).ToList();
-        if (Backs.Count != 1) throw new Exception("The last section either does not exist or has multiple sections with the same index.");
-        else back = Backs.First().gameObject;
-
-        //give camera the objects it needs
-        camPos.Head = head;
-        camPos.Tail = robotConfig.IsTailEnabled.Value ? tail : back;
+        //if the camera was previously attached to another robot then remove that script
+        if(CameraConfig.CamFollow == -1)
+        {
+            CameraConfig.RobotCamera.SetActive(true);
+        }
+        CameraConfig.CamFollow = robotConfig.RobotIndex;
+        CameraConfig.RobotCamera.GetComponent<CameraPosition>().SetRobot(robotConfig);
     }
 
     //accessed by GenerateRobot on init and GeneticAlgorithm when respawning

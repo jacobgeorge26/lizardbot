@@ -13,9 +13,6 @@ namespace Config
         //population can be >25, but in rougher terrain where the robot isn't making progress, expect some warnings and interaction between them
         public static int PopulationSize = 3;
 
-        //MUST be between 0 <= x < PopulationSize
-        public static int CamFollow;
-
         public static bool MaintainSerpentine = true;
 
         public static bool RandomInitValues = false;

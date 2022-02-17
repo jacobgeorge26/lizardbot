@@ -15,7 +15,14 @@ public class GeneratePopulation : MonoBehaviour
 
     IEnumerator GenerateRobots()
     {
-        AIConfig.CamFollow = new Random().Next(AIConfig.PopulationSize);
+        CameraConfig.OverviewCamera = Camera.main.gameObject;
+        CameraConfig.Hat = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Hat"));
+        CameraConfig.Hat.name = "hat";
+        CameraConfig.Hat.SetActive(false);
+        GameObject cam = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Robot Camera"));
+        cam.name = "camera";
+        cam.SetActive(false);
+        CameraConfig.RobotCamera = cam;
         for (int i = 0; i < AIConfig.PopulationSize; i++)
         {
             GameObject robot = new GameObject();
