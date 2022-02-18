@@ -9,17 +9,22 @@ using UnityEngine.UI;
 
 public class UI : MonoBehaviour
 {
+    //BOTH
     public GameObject panel;
     public Dropdown UIOption;
     public Button Toggle;
+
+    //ROBOT
     public InputField RobotNumber;
-    public List<Button> NoSections;
-    public List<Button> TailEnabled;
-    public List<Button> BodyColour;
+    public Button Original;
+    public Button Version;
+    public Button NoSections;
+    public Button TailEnabled;
+    public Button BodyColour;
 
     private RobotConfig Robot;
     private UIView DefaultView = UIView.Performance;
-    private bool IsCollapsed;
+    private bool IsCollapsed, IsOriginal;
 
     private List<GameObject> RobotOptions = new List<GameObject>();
     private List<GameObject> PerformanceOptions = new List<GameObject>();
@@ -29,9 +34,11 @@ public class UI : MonoBehaviour
         SetupUIOptions();
 
         //split objects into Robot / Performance
-        NoSections.ForEach(o => RobotOptions.Add(o.gameObject));
-        TailEnabled.ForEach(o => RobotOptions.Add(o.gameObject));
-        BodyColour.ForEach(o => RobotOptions.Add(o.gameObject));
+        RobotOptions.Add(Original.gameObject);
+        RobotOptions.Add(Version.gameObject);
+        RobotOptions.Add(NoSections.gameObject);
+        RobotOptions.Add(TailEnabled.gameObject);
+        RobotOptions.Add(BodyColour.gameObject);
 
         //setup toggle
         Toggle.onClick.AddListener(delegate { ToggleUI(); });
@@ -61,25 +68,19 @@ public class UI : MonoBehaviour
         switch (selection)
         {
             case UIView.Robot:
-                if (!IsCollapsed)
-                {
-                    ToggleEnable(PerformanceOptions, false);
-                }
+                ToggleEnable(PerformanceOptions, false);
                 SetupRobotSelector();
-                this.transform.SetParent(CameraConfig.RobotCamera.transform);
                 CameraConfig.RobotCamera.SetActive(true);
                 CameraConfig.OverviewCamera.SetActive(false);
                 CameraConfig.Hat.SetActive(true);
                 break;
             case UIView.Performance:
+                ToggleEnable(RobotOptions, false);
                 if (!IsCollapsed)
-                {
-                    ToggleEnable(RobotOptions, false);
-                    RobotNumber.gameObject.SetActive(false);
+                {               
                     ToggleEnable(PerformanceOptions, true);
-                    //TODO: Performance UI
                 }
-                this.transform.SetParent(CameraConfig.OverviewCamera.transform);
+                RobotNumber.gameObject.SetActive(false);
                 CameraConfig.OverviewCamera.SetActive(true);
                 CameraConfig.RobotCamera.SetActive(false);
                 CameraConfig.Hat.SetActive(false);
@@ -96,10 +97,11 @@ public class UI : MonoBehaviour
         if(IsCollapsed)
         {
             //UI is currently down, needs to go up
-            panel.GetComponent<Image>().color = new Color(0, 0, 0, 0.3f);
-            UIOption.transform.localPosition = new Vector3(-750, 335, 0);
-            RobotNumber.transform.localPosition = new Vector3(-450, 110, 0);
-            Toggle.transform.localPosition = new Vector3(910, 335, 0);
+            IsCollapsed = !IsCollapsed;
+            panel.GetComponent<Image>().color = new Color(0, 0, 0, 0.5f);
+            UIOption.transform.localPosition = new Vector3(-800, 440, 0);
+            RobotNumber.transform.localPosition = new Vector3(-525, 175, 0);
+            Toggle.transform.localPosition = new Vector3(920, 440, 0);
             text.text = "▼";
             if ((UIView)UIOption.value == UIView.Robot)
             {
@@ -111,18 +113,28 @@ public class UI : MonoBehaviour
         else
         {
             //UI is currently up, needs to go down
+            IsCollapsed = !IsCollapsed;
             ToggleEnable(RobotOptions, false);
             RobotNumber.gameObject.SetActive(false);
             panel.GetComponent<Image>().color = new Color(0, 0, 0, 0.01f);
-            UIOption.transform.localPosition = new Vector3(-750, -400, 0);
-            RobotNumber.transform.localPosition = new Vector3(-450, -132, 0);
-            Toggle.transform.localPosition = new Vector3(910, -400, 0);
+            UIOption.transform.localPosition = new Vector3(-800, -400, 0);
+            RobotNumber.transform.localPosition = new Vector3(-525, -160, 0);
+            Toggle.transform.localPosition = new Vector3(920, -400, 0);
             text.text = "▲";
         }
-        IsCollapsed = !IsCollapsed;
     }
 
     //------------------------------Robot Options--------------------------------
+    private void SetupRobotSelector()
+    {
+        RobotNumber.gameObject.SetActive(true);
+        RobotNumber.gameObject.transform.parent.gameObject.SetActive(true); //shouldn't be necessary but for some reason is
+        RobotNumber.onEndEdit.AddListener(delegate { SelectRobot(RobotNumber.text); });
+        Original.onClick.AddListener(delegate { ToggleOriginal(); });
+        SelectRobot(CameraConfig.CamFollow == -1 ? "1" : (CameraConfig.CamFollow + 1).ToString());
+        if (!IsCollapsed) ToggleEnable(RobotOptions, true);
+    }
+
     private void SelectRobot(string robotText)
     {
         robotText = Regex.Match(robotText, @"\d+").Value;
@@ -138,9 +150,8 @@ public class UI : MonoBehaviour
         robot = robot < 1 || robot > AIConfig.PopulationSize ? 1 : robot;
         RobotNumber.text = $"Robot {robot}";
         Robot = AIConfig.RobotConfigs[robot - 1];
-        RobotUpdate((int)UIRobotType.Original, Robot.Original); //show original values
-        NoSections[1].GetComponentInChildren<Text>().text = "";
-        NoSections[2].GetComponentInChildren<Text>().text = "";
+        if (IsOriginal && !IsCollapsed) RobotUpdate(Robot.Original, false); //show original values
+        else if (!IsCollapsed) RobotUpdate(Robot, false); //show current values
 
         //setup camera if not already done
         if(CameraConfig.CamFollow != Robot.RobotIndex)
@@ -150,26 +161,57 @@ public class UI : MonoBehaviour
         }
     }
 
-    private void SetupRobotSelector()
+    private void RobotUpdate(RobotConfig config, bool ChangeColour)
     {
-        RobotNumber.gameObject.SetActive(true);
-        RobotNumber.onEndEdit.AddListener(delegate { SelectRobot(RobotNumber.text); });
-        SelectRobot(CameraConfig.CamFollow == -1 ? "1" : (CameraConfig.CamFollow + 1).ToString());
-        if(!IsCollapsed) ToggleEnable(RobotOptions, true);
+        //↶ ↷ ← symbols that will be used
+        Text text;
+        string original;
+
+        //Version
+        text = Version.GetComponentInChildren<Text>();
+        original = text.text;
+        text.text = Robot.Version.ToString();
+        if (ChangeColour && text.text != original) StartCoroutine(TextChanged(Version, config.RobotIndex));
+
+        //NoSections
+        text = NoSections.GetComponentInChildren<Text>();
+        original = text.text;
+        text.text = config.NoSections.Value.ToString();
+        if (ChangeColour && text.text != original) StartCoroutine(TextChanged(NoSections, config.RobotIndex));
+
+        //TailEnabled
+        text = TailEnabled.GetComponentInChildren<Text>();
+        original = text.text;
+        text.text = config.IsTailEnabled.Value ? "✓" : "";
+        if (ChangeColour && text.text != original) StartCoroutine(TextChanged(TailEnabled, config.RobotIndex));
+
+        //BodyColour
+        text = BodyColour.GetComponentInChildren<Text>();
+        text.text = "■";
+        Color originalColour = text.color;
+        text.color = new Color(config.BodyColour.Value / 100f, config.BodyColour.Value / 100f, 1f);
+        if (ChangeColour && text.color != originalColour) StartCoroutine(TextChanged(BodyColour, config.RobotIndex));
     }
 
-    private void RobotUpdate(int index, RobotConfig config)
+    private void ToggleOriginal()
     {
-        //NoSections
-        Text text = NoSections[index].GetComponentInChildren<Text>();
-        text.text = config.NoSections.Value.ToString();
-        //TailEnabled
-        text = TailEnabled[index].GetComponentInChildren<Text>();
-        text.text = config.IsTailEnabled.Value ? "✓" : "";
-        //BodyColour
-        text = BodyColour[index].GetComponentInChildren<Text>();
-        text.text = "■";
-        text.color = new Color(config.BodyColour.Value / 100f, config.BodyColour.Value / 100f, 1f);
+        Text text = Original.GetComponentInChildren<Text>();
+        if (IsOriginal)
+        {
+            //currently showing original, move to show current
+            text.text = "Original";
+            RobotOptions.ForEach(o => o.GetComponent<Image>().color = Color.white);
+            RobotUpdate(Robot, false);
+        }
+        else
+        {
+            //currently showing current, move to show original
+            text.text = "Current";
+            RobotOptions.ForEach(o => o.GetComponent<Image>().color = Color.grey);
+            Original.GetComponent<Image>().color = Color.white; //return to white, exception to above line
+            RobotUpdate(Robot.Original, false);
+        }
+        IsOriginal = !IsOriginal;
     }
 
     //-----------------------------------------------All Helpers----------------------------
@@ -182,11 +224,22 @@ public class UI : MonoBehaviour
         }
     }
 
+    private IEnumerator TextChanged(Button button, int robotIndex)
+    {
+        button.GetComponent<Image>().color = Color.red;
+        yield return new WaitForSeconds(5f);
+        if (Robot.RobotIndex == robotIndex)
+        {
+            button.GetComponentInChildren<Text>().text = "";
+            button.GetComponent<Image>().color = Color.white;
+        }
+    }
+
     //------------------------------------------Accessed by GA------------------------------
 
-    public void UpdateUI(int index, RobotConfig config)
+    public void UpdateRobotUI(RobotConfig config)
     {
-        if ((UIView)UIOption.value == UIView.Robot && config.RobotIndex == Robot.RobotIndex) RobotUpdate(index, config);
+        if ((UIView)UIOption.value == UIView.Robot && !IsOriginal && config.RobotIndex == Robot.RobotIndex) RobotUpdate(config, true);
     }
 
 }

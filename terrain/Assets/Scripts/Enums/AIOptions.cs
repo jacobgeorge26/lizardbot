@@ -14,8 +14,3 @@ public enum UIView
 {
     Robot = 0, Performance = 1
 }
-
-public enum UIRobotType
-{
-    Original = 0, Old = 1, New = 2
-}

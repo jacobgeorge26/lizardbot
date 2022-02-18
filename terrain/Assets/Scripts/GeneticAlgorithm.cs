@@ -36,9 +36,6 @@ public class GeneticAlgorithm : MonoBehaviour
         helpers = newRobot.GetComponent<RobotHelpers>();
         helpers.Init(newRobot, robot);
 
-        //update UI for old
-        ui.UpdateUI((int)UIRobotType.Old, oldRobot);
-
         //mutate
         List<BaseVariable> genes = GetGenes(robot);
 
@@ -54,7 +51,7 @@ public class GeneticAlgorithm : MonoBehaviour
         }
 
         //update UI for new
-        ui.UpdateUI((int)UIRobotType.New, robot);
+        ui.UpdateRobotUI(robot);
 
         //respawn
         robot.gameObject.SetActive(true);
