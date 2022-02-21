@@ -297,4 +297,60 @@ public class RobotHelpers : MonoBehaviour
         }
         //Debug.Log($"Moving {gameObject.name} from layer {LayerMask.LayerToName(oldLayer)} to layer {LayerMask.LayerToName(newLayer)}");
     }
+
+    internal List<GameObject> GetNearbyRobots(int radius)
+    {
+        Collider[] potential = Physics.OverlapSphere(this.transform.position, radius);
+        List<GameObject> incoming = new List<GameObject>();
+        if (potential.Length > GetExpectedColliders())
+        {    
+            foreach (var item in potential)
+            {
+                //only interested in the heads - as these are tagged
+                if (item.gameObject.tag == "Robot" && item.gameObject != robot)
+                {
+                    //there is another robot in the area
+                    incoming.Add(item.gameObject);
+                }
+            }
+        }
+        return incoming;
+    }
+
+    internal List<RobotConfig> GetPhysicallySimilarRobots(int difference)
+    {
+        List<RobotConfig> similar = new List<RobotConfig>();
+        //higher the difference, the more different the robot is allowed to be
+        //find all robots with the same number of sections, and a tail (or lack thereof)
+        similar = AIConfig.RobotConfigs.Where(robot => 
+            robot.RobotIndex != robotConfig.RobotIndex && 
+            Math.Abs(robot.NoSections.Value - robotConfig.NoSections.Value) <= difference &&
+            robot.IsTailEnabled.Value == robotConfig.IsTailEnabled.Value).ToList();
+        //remove those whose tail is very different
+        //allowed difference = (max - min) / 10 * difference
+        if (robotConfig.IsTailEnabled.Value)
+        {
+            TailConfig tail = robotConfig.Configs.Where(o => o.Type == BodyPart.Tail).First().GetComponent<TailConfig>();
+            float allowedDifference = (tail.TailMassMultiplier.Max - tail.TailMassMultiplier.Min) * (difference + 1) / 10;
+            foreach (var item in similar)
+            {
+                TailConfig otherTail = item.Configs.First(o => o.Type == BodyPart.Tail).GetComponent<TailConfig>();
+                if(Math.Abs(otherTail.TailMassMultiplier.Value - tail.TailMassMultiplier.Value) > difference){
+                    similar.Remove(item);
+                }
+                //TODO: add size & mass, plus tail length
+            }
+        }
+        return similar;
+    }
+
+    private int GetExpectedColliders()
+    {
+        int expectedColliders = 0;
+        expectedColliders = robotConfig.NoSections.Value; //one for each section of the body
+        expectedColliders++; //terrain
+        expectedColliders++; //sphere contained in head for collision detection
+        expectedColliders += robotConfig.IsTailEnabled.Value ? 1 : 0; //tail
+        return expectedColliders;
+    }
 }

@@ -23,6 +23,7 @@ namespace Config
 
         public GeneVariable IsTailEnabled = new GeneVariable(true, Variable.IsTailEnabled);
 
+        //lower the better
         public GeneVariable BodyColour = new GeneVariable(150, 0, 255, Variable.BodyColour);
 
         public List<ObjectConfig> Configs { get; set; } = new List<ObjectConfig>();

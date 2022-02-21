@@ -11,9 +11,9 @@ namespace Config
     {
         private dynamic currentValue;
 
-        private dynamic Min;
+        public dynamic Min;
 
-        private dynamic Max;
+        public dynamic Max;
 
         public Variable Type;
 

@@ -71,11 +71,29 @@ public class GeneticAlgorithm : MonoBehaviour
             Recombination.Lizard => BestLizardRobot(),
             _ => AIConfig.RobotConfigs.Where(r => r.RobotIndex != robot.RobotIndex).ToList()[random.Next(AIConfig.PopulationSize - 2)]
         };
+        //if using triad approach then best1 is the physical one, best2 needs to be the movement one
+        RobotConfig best2 = type == Recombination.Triad ? BestMovementRobot() : null;
+        //TODO: recombination
+
     }
 
     private RobotConfig BestLizardRobot()
     {
-        throw new NotImplementedException();
+        int attempts = 1;
+        List<GameObject> nearby = new List<GameObject>();
+        List<RobotConfig> robots = new List<RobotConfig>();
+        //look for robots nearby until selection size is met
+        while (nearby.Count < AIConfig.SelectionSize && attempts <= 5)
+        {
+            //get robots in that vicinity
+            nearby = helpers.GetNearbyRobots(attempts * 10);
+            attempts++;
+        }
+        //nearby currently contains the heads, I need the robot to get the RobotConfig
+        nearby.ForEach(r => robots.Add(r.transform.parent.gameObject.GetComponent<RobotConfig>()));
+        //return robot with best body colour
+        robots.OrderBy(r => r.BodyColour);
+        return robots.Count > 0 ? robots.First() : null;
     }
 
     private RobotConfig BestMovementRobot()
@@ -85,7 +103,19 @@ public class GeneticAlgorithm : MonoBehaviour
 
     private RobotConfig BestPhysicalRobot()
     {
-        throw new NotImplementedException();
+        int attempts = 0;
+        List<RobotConfig> robots = new List<RobotConfig>();
+        //look for robots nearby until selection size is met
+        while (robots.Count < AIConfig.SelectionSize && attempts < 5)
+        {
+            //get robots that are similar
+            robots = helpers.GetPhysicallySimilarRobots(attempts);
+            //out of those robots, 
+            attempts++;
+        }
+        //return robot with best performance
+        robots.OrderBy(r => r.Performance);
+        return robots.Count > 0 ? robots.Last() : null;
     }
 
     private void Mutate(List<GeneVariable> allGenes)
