@@ -76,18 +76,10 @@ public class GeneticAlgorithm : MonoBehaviour
         {
             if(random.NextDouble() < AIConfig.MutationRate)
             {
-                if(gene.GetType() == typeof(GeneVariable))
-                {
-                    //adjust
-                    GeneVariable g = (GeneVariable)gene;
-                    //handled in Variables - Vector3 will increment by a different amount for each axis
-                    g.Increment();                    
-                }
-                else
-                {
-                    //toggle
-                    gene.Value = !gene.Value;
-                }
+                //adjust
+                GeneVariable g = (GeneVariable)gene;
+                //handled in Variables - Vector3 will increment by a different amount for each axis
+                g.Increment();
             }
         }
     }
