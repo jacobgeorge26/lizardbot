@@ -7,49 +7,6 @@ using Random = System.Random;
 
 namespace Config
 {
-    //public class BaseVariable
-    //{
-    //    protected dynamic currentValue;
-
-    //    private List<Type> compatibleTypes = new List<Type>{typeof(float)};
-
-    //    public Variable Type;
-
-    //    protected bool IsBool = false;
-
-    //    public dynamic Value
-    //    {
-    //        get => currentValue;
-    //        set
-    //        {
-    //            currentValue = value;
-    //            CheckType();
-    //        }
-    //    }
-
-    //    public BaseVariable(dynamic defaultValue, Variable type)
-    //    {
-    //        Value = defaultValue;
-    //        Type = type;
-    //    }
-
-    //    protected virtual void CheckType()
-    //    {
-    //        if (!compatibleTypes.Contains(currentValue.GetType()))
-    //        {
-    //            throw new Exception($"BaseVariable has been assigned a variable with non-compatible type {currentValue.GetType()}.");
-    //        }
-    //    }
-    //}
-
-
-
-    //--------------------------------------------------------------------------------------
-
-
-
-
-
     public class GeneVariable
     {
         private dynamic currentValue;
@@ -71,11 +28,14 @@ namespace Config
             this.Min = minValue;
             this.Max = maxValue;
             currentValue = defaultValue;
+            //allow this to run before random init because there is some bool setup in here, and type checking
             Value = defaultValue;
             if (minValue > maxValue)
             {
-                throw new Exception("RangedVariable has been assigned a min value that is greater than the max value.");
+                throw new Exception("GeneVariable has been assigned a min value that is greater than the max value.");
             }
+            //now we know if there are any issues, we can generate a random value if necessary
+            if (AIConfig.RandomInitValues) Value = GenerateValue();
         }
 
         public GeneVariable(bool boolValue, Variable type)
@@ -84,6 +44,7 @@ namespace Config
             this.Max = 1f;
             currentValue = boolValue;
             Value = boolValue;
+            if (AIConfig.RandomInitValues) Value = GenerateValue();
         }
 
         public dynamic Value
@@ -91,21 +52,22 @@ namespace Config
             get => IsBool ? GetBool() : currentValue;
             set
             {
+                value = SetBool(value);
+                if (currentValue.GetType() == typeof(Vector3))
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        currentValue[i] = HandleRange(value[i]);
+                    }
+                }
+                else
+                {
+                    currentValue = HandleRange(value);
+                }
+                CheckType();
                 try
                 {
-                    value = SetBool(value);
-                    if (currentValue.GetType() == typeof(Vector3))
-                    {
-                        for (int i = 0; i < 3; i++)
-                        {
-                            currentValue[i] = HandleRange(value[i]);
-                        }
-                    }
-                    else
-                    {
-                        currentValue = HandleRange(value);
-                    }
-                    CheckType();
+
                 }
                 catch (System.Exception)
                 {
@@ -115,12 +77,35 @@ namespace Config
             }
         }
 
+        private dynamic GenerateValue()
+        {
+            //vector3 - each axis needs a value
+            if (currentValue.GetType() == typeof(Vector3))
+            {
+                Vector3 newValue = new Vector3();
+                for (int i = 0; i < 3; i++)
+                {
+                    newValue[i] = (float)random.NextDouble() * (Max - Min) + Min;
+                }
+                return newValue;
+            }
+            else if (currentValue.GetType() == typeof(int))//int or float - only one value needed
+            {
+                return random.Next(Min, Max);
+
+            }
+            else //float
+            {
+                return (float)random.NextDouble() * (Max - Min) + Min;
+            }
+        }
+
         public void Increment()
         {
             //vector3 - each axis needs an increment
             if (currentValue.GetType() == typeof(Vector3))
             {
-                Vector3 newValue = Value;
+                Vector3 newValue = currentValue;
                 for (int i = 0; i < 3; i++)
                 {
                     newValue[i] += GetIncrement();
@@ -130,14 +115,14 @@ namespace Config
             }
             else if (currentValue.GetType() == typeof(int))//int or float - only one increment needed
             {
-                var newValue = Value;
+                var newValue = currentValue;
                 newValue += GetIncrement();
                 newValue = (int)Bounce(newValue);
                 Value = newValue;
             }
             else //float
             {
-                var newValue = Value;
+                var newValue = currentValue;
                 newValue += GetIncrement();
                 newValue = Bounce(newValue);
                 Value = newValue;
@@ -164,7 +149,7 @@ namespace Config
         private float GetIncrement()
         {
             float increment = (Max - Min) * random.Next(1, 11) / 100;
-            increment *= random.NextDouble() > 0.5 ? 1 : -1;
+            increment *= (float)random.NextDouble() > 0.5 ? 1 : -1;
             return increment;
         }
 
@@ -188,19 +173,17 @@ namespace Config
         {
             if (value.GetType() == typeof(bool))
             {
-                if (!IsBool)
-                {
+                if(currentValue.GetType() == typeof(bool)){
+                    //new variable - needs setup
                     IsBool = true;
-                    //new variable, set between 0 - 0.5, or 0.5 - 1
                     Min = 0f;
                     Max = 1f;
-                    return value ? 0.75f : 0.25f;
+                    return currentValue = value ? 0.75f : 0.25f;
                 }
-                else
-                {
-                    //existing variable, return current float value
-                    return currentValue;
-                }
+                //existing value, check if value needs to be changed as bool has changed
+                else if (value && currentValue < 0.5f) return 0.25f;
+                else if (!value && currentValue >= 0.5f) return 0.75f;
+                else return currentValue;
             }
             //not bool, return value
             return value;

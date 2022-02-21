@@ -114,6 +114,8 @@ public class RobotHelpers : MonoBehaviour
                 config.gameObject.GetComponent<Rigidbody>().mass = GetTotalMass() * tailConfig.TailMassMultiplier.Value;
                 //setup joint
                 SetupConfigurableJoint(config.gameObject, config, prevSection);
+                //reset position in case a section has been removed
+                config.gameObject.transform.localPosition = new Vector3(0, 0, GetZPos(prevSection, config.gameObject));
                 break;
             case BodyPart.Leg:
                 break;

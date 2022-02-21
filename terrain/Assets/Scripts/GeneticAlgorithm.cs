@@ -178,10 +178,6 @@ public class GeneticAlgorithm : MonoBehaviour
 
     private void UpdateBody(RobotConfig oldRobot, RobotConfig newRobot)
     {
-        //does the tail need to be added?
-        if (!oldRobot.IsTailEnabled.Value && newRobot.IsTailEnabled.Value) helpers.CreateTail();
-        //does the tail need to be removed?
-        else if (oldRobot.IsTailEnabled.Value && !newRobot.IsTailEnabled.Value) helpers.RemoveTail();
         //are there more sections now?
         for (int i = 0; i < newRobot.NoSections.Value - oldRobot.NoSections.Value; i++)
         {
@@ -192,6 +188,11 @@ public class GeneticAlgorithm : MonoBehaviour
         {
             helpers.RemoveBody(oldRobot.NoSections.Value - 1 - i);
         }
+        //does the tail need to be added?
+        if (!oldRobot.IsTailEnabled.Value && newRobot.IsTailEnabled.Value) helpers.CreateTail();
+        //does the tail need to be removed?
+        else if (oldRobot.IsTailEnabled.Value && !newRobot.IsTailEnabled.Value) helpers.RemoveTail();
+
         //update existing configs
         foreach (ObjectConfig item in newRobot.Configs)
         {

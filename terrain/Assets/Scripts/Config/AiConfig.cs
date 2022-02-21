@@ -15,7 +15,7 @@ namespace Config
 
         public static bool MaintainSerpentine = true;
 
-        public static bool RandomInitValues = false;
+        public static bool RandomInitValues = true;
 
         //how many generations of mutations are allowed to pass before it determines the success of the robot
         //set to 0 to always select the best of the previous vs mutation

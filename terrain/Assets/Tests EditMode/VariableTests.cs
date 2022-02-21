@@ -7,8 +7,14 @@ using UnityEngine.TestTools;
 
 public class VariableTests
 {
+    [SetUp]
+    public void Init()
+    {
+        AIConfig.RandomInitValues = false;
+    }
+
     [Test]
-    public void GeneVariableTest_int()
+    public void standard_int()
     {
         int value = 3;
         GeneVariable variable = new GeneVariable(value, 0, 5, Variable.Physical);
@@ -17,7 +23,7 @@ public class VariableTests
     }
 
     [Test]
-    public void GeneVariableTest_int_BelowMin()
+    public void int_BelowMin()
     {
         int value = 1, min = 2;
         GeneVariable variable = new GeneVariable(value, min, 5, Variable.Physical);
@@ -25,7 +31,7 @@ public class VariableTests
     }
 
     [Test]
-    public void GeneVariableTest_int_AboveMax()
+    public void int_AboveMax()
     {
         int value = 5, max = 4;
         GeneVariable variable = new GeneVariable(value, 0, max, Variable.Physical);
@@ -33,7 +39,7 @@ public class VariableTests
     }
 
     [Test]
-    public void GeneVariableTest_vector3()
+    public void vector3()
     {
         Vector3 value = new Vector3(30, 60, 45);
         GeneVariable variable = new GeneVariable(value, 10, 90, Variable.Physical);
@@ -42,7 +48,7 @@ public class VariableTests
     }
 
     [Test]
-    public void GeneVariableTest_vector3_BelowMin()
+    public void vector3_BelowMin()
     {
         Vector3 value = new Vector3(30, 60, 45);
         float min = 45;
@@ -51,7 +57,7 @@ public class VariableTests
     }
 
     [Test]
-    public void GeneVariableTest_vector3_AboveMax()
+    public void vector3_AboveMax()
     {
         Vector3 value = new Vector3(30, 60, 45);
         float max = 45;
@@ -60,30 +66,41 @@ public class VariableTests
     }
 
     [Test]
-    public void GeneVariableTest_MinAboveMax()
+    public void MinAboveMax()
     {
         int value = 5, min = 20, max = 4;
         Assert.Throws<System.Exception>(() => new GeneVariable(value, min, max, Variable.Physical));
     }
 
     [Test]
-    public void GeneVariableTest_NonCompatible()
+    public void NonCompatible()
     {
         double value = 0.5;
         Assert.Throws<System.Exception>(() => new GeneVariable(value, 0, 5, Variable.Physical));
     }
 
     [Test]
-    public void GeneVariableTest_Bool_CorrectInit()
+    public void bool_CorrectInit()
     {
         GeneVariable variable = new GeneVariable(true, Variable.Physical);
         Assert.AreEqual(true, variable.Value);
     }
 
     [Test]
-    public void GeneVariableTest_Bool_IncorrectInit()
+    public void bool_IncorrectInit()
     {
         GeneVariable variable = new GeneVariable(true, 0, 1, Variable.Physical);
         Assert.AreEqual(true, variable.Value);
+    }
+
+
+    //slightly unstable as it could randomly generate the input value
+    //don't test with bool as this is 50/50 going to return same result due to bool handling
+    [Test]
+    public void RandomInit()
+    {
+        AIConfig.RandomInitValues = true;
+        GeneVariable variable = new GeneVariable(17, 1, 100, Variable.Physical);
+        Assert.AreNotEqual(17, variable.Value);
     }
 }
