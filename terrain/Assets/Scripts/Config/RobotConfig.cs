@@ -26,6 +26,9 @@ namespace Config
         //lower the better
         public GeneVariable BodyColour = new GeneVariable(150, 0, 255, Variable.BodyColour);
 
+        //when changes are made, should serpentine motion be preserved
+        public GeneVariable MaintainSerpentine = new GeneVariable(true, Variable.MaintainSerpentine);
+
         public List<ObjectConfig> Configs { get; set; } = new List<ObjectConfig>();
 
         //not directly a copy, a clean copy without the default / random init

@@ -74,7 +74,7 @@ public class GeneticAlgorithm : MonoBehaviour
         //if using triad approach then best1 is the physical one, best2 needs to be the movement one
         RobotConfig best2 = type == Recombination.Triad ? BestMovementRobot() : null;
         //TODO: recombination
-
+        Debug.Log($"Robot: {robot.RobotIndex}    Physical: {(best1 == null ? '-' : best1.RobotIndex)}    Movement: {(best2 == null ? '-' : best2.RobotIndex)}");
     }
 
     private RobotConfig BestLizardRobot()
@@ -98,7 +98,16 @@ public class GeneticAlgorithm : MonoBehaviour
 
     private RobotConfig BestMovementRobot()
     {
-        throw new NotImplementedException();
+        int attempts = 0;
+        List<RobotConfig> robots = new List<RobotConfig>();
+        while(robots.Count < AIConfig.SelectionSize && attempts < 5)
+        {
+            robots = helpers.GetMovementSimilarRobots(attempts);
+            attempts++;
+        }
+        //return robot with best performance
+        robots.OrderBy(r => r.Performance);
+        return robots.Count > 0 ? robots.Last() : null;
     }
 
     private RobotConfig BestPhysicalRobot()
@@ -251,7 +260,7 @@ public class GeneticAlgorithm : MonoBehaviour
                 helpers.UpdateBodyPart(config, 0, BodyPart.Tail);
             }
         }
-        if (AIConfig.MaintainSerpentine) helpers.MakeSerpentine(false);
+        if (newRobot.MaintainSerpentine.Value) helpers.MakeSerpentine(false);
         //if the robot camera is following this robot then update its Head & Tail variables
         if (CameraConfig.CamFollow == newRobot.RobotIndex) cam.SetRobot(newRobot);
     }

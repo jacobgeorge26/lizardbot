@@ -12,5 +12,6 @@ public enum Variable
     UseSin = 2, 
     IsDriving = 3, 
     DriveVelocity = 4,
-    RotationMultiplier = 5
+    RotationMultiplier = 5,
+    MaintainSerpentine = 6
 }

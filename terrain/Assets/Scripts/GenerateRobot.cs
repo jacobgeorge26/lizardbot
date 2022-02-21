@@ -57,7 +57,7 @@ public class GenerateRobot : MonoBehaviour
             if (i == 0) helpers.CreateHead();
             else helpers.CreateBody(i);
         }
-        if (AIConfig.MaintainSerpentine) helpers.MakeSerpentine(!AIConfig.RandomInitValues);
+        if (robotConfig.MaintainSerpentine.Value) helpers.MakeSerpentine(!AIConfig.RandomInitValues);
     }
 
 

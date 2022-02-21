@@ -332,14 +332,53 @@ public class RobotHelpers : MonoBehaviour
         {
             TailConfig tail = robotConfig.Configs.Where(o => o.Type == BodyPart.Tail).First().GetComponent<TailConfig>();
             float allowedDifference = (tail.TailMassMultiplier.Max - tail.TailMassMultiplier.Min) * (difference + 1) / 10;
-            foreach (var item in similar)
+            for (int i = similar.Count - 1; i >= 0; i--)
             {
-                TailConfig otherTail = item.Configs.First(o => o.Type == BodyPart.Tail).GetComponent<TailConfig>();
-                if(Math.Abs(otherTail.TailMassMultiplier.Value - tail.TailMassMultiplier.Value) > difference){
-                    similar.Remove(item);
+                TailConfig otherTail = similar[i].Configs.First(o => o.Type == BodyPart.Tail).GetComponent<TailConfig>();
+                if (Math.Abs(otherTail.TailMassMultiplier.Value - tail.TailMassMultiplier.Value) > allowedDifference)
+                {
+                    similar.RemoveAt(i);
                 }
-                //TODO: add size & mass, plus tail length
             }
+        }
+        return similar;
+    }
+
+    internal List<RobotConfig> GetMovementSimilarRobots(int difference)
+    {
+        List<RobotConfig> similar = new List<RobotConfig>();
+        //higher the difference, the more different the robot is allowed to be
+        //find all robots that are also preserving serpentine motion
+        similar = AIConfig.RobotConfigs.Where(robot =>
+            robot.RobotIndex != robotConfig.RobotIndex &&
+            robot.MaintainSerpentine.Value == robotConfig.MaintainSerpentine.Value).ToList();
+        float thisDriveVelocity = 0;
+        if(similar.Count > 0)
+        {
+            //get the total drive velocity and rotation multiplier for this robot
+            List<ObjectConfig> bodyObjects = robotConfig.Configs.Where(o => o.Type == BodyPart.Body).ToList();
+            List<BodyConfig> body = new List<BodyConfig>();
+            bodyObjects.ForEach(o => body.Add(o.gameObject.GetComponent<BodyConfig>()));
+            body.ForEach(o => {
+                thisDriveVelocity += o.IsDriving.Value ? o.DriveVelocity.Value : 0;
+            });
+        }
+        float allowedDifference = 0.25f * (difference + 1);
+        //remove those with a different similarity
+        for (int i = similar.Count - 1; i >= 0; i--)
+        {
+            //how different is the drive velocity (zero if not driving, to take into account no of driving sections)
+            //how different are the rotation multipliers
+            List<ObjectConfig> bodyObjects = similar[i].Configs.Where(o => o.Type == BodyPart.Body).ToList();
+            List<BodyConfig> body = new List<BodyConfig>();
+            bodyObjects.ForEach(o => body.Add(o.gameObject.GetComponent<BodyConfig>()));
+            //get the total for the other robot
+            float otherDriveVelocity = 0;
+            body.ForEach(o => {
+                otherDriveVelocity += o.IsDriving.Value ? o.DriveVelocity.Value : 0;
+            });
+            //remove if the drive velocity : nosections is too different
+            if (Math.Abs((thisDriveVelocity / robotConfig.NoSections.Value) - (otherDriveVelocity / similar[i].NoSections.Value)) > allowedDifference) similar.RemoveAt(i);
         }
         return similar;
     }
