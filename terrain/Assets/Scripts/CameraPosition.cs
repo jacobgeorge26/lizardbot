@@ -16,7 +16,7 @@ public class CameraPosition : MonoBehaviour
     private float offset = 5;
 
     //when a new robot is set as the one to follow, the script is added
-    internal void SetRobot(RobotConfig newRobot)
+    public void SetRobot(RobotConfig newRobot)
     {
         robot = newRobot;
         UpdateHeadTail();

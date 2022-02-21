@@ -19,11 +19,11 @@ namespace Config
 
         public RobotConfig Original;
 
-        public RangedVariable NoSections = new RangedVariable(5, 1, 10, Variable.Physical);
+        public GeneVariable NoSections = new GeneVariable(5, 1, 10, Variable.Physical);
 
-        public BaseVariable IsTailEnabled = new BaseVariable(true, Variable.Physical);
+        public GeneVariable IsTailEnabled = new GeneVariable(true, Variable.Physical);
 
-        public RangedVariable BodyColour = new RangedVariable(150, 0, 255, Variable.Physical);
+        public GeneVariable BodyColour = new GeneVariable(150, 0, 255, Variable.Physical);
 
         public List<ObjectConfig> Configs { get; set; } = new List<ObjectConfig>();
     }

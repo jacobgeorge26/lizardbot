@@ -71,8 +71,8 @@ public class RobotHelpers : MonoBehaviour
         //setup config - different defaults for tail
         if (!AIConfig.RandomInitValues)
         {
-            config.AngleConstraint = new RangedVariable(new Vector3(60, 60, 60), 0, 180, Variable.Physical);
-            config.RotationMultiplier = new RangedVariable(new Vector3(1f, 1f, 1f), 0.5f, 1f, Variable.Movement);
+            config.AngleConstraint = new GeneVariable(new Vector3(60, 60, 60), 0, 180, Variable.Physical);
+            config.RotationMultiplier = new GeneVariable(new Vector3(1f, 1f, 1f), 0.5f, 1f, Variable.Movement);
         }
 
         //setup object config

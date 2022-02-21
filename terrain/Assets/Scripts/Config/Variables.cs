@@ -7,38 +7,40 @@ using Random = System.Random;
 
 namespace Config
 {
-    public class BaseVariable
-    {
-        protected dynamic currentValue;
+    //public class BaseVariable
+    //{
+    //    protected dynamic currentValue;
 
-        private List<Type> compatibleTypes = new List<Type>{typeof(bool)};
+    //    private List<Type> compatibleTypes = new List<Type>{typeof(float)};
 
-        public Variable Type;
+    //    public Variable Type;
 
-        public dynamic Value
-        {
-            get => currentValue;
-            set
-            {
-                currentValue = value;
-                CheckType();
-            }
-        }
+    //    protected bool IsBool = false;
 
-        public BaseVariable(dynamic defaultValue, Variable type)
-        {
-            Value = defaultValue;
-            Type = type;
-        }
+    //    public dynamic Value
+    //    {
+    //        get => currentValue;
+    //        set
+    //        {
+    //            currentValue = value;
+    //            CheckType();
+    //        }
+    //    }
 
-        protected virtual void CheckType()
-        {
-            if (!compatibleTypes.Contains(currentValue.GetType()))
-            {
-                throw new Exception($"BaseVariable has been assigned a variable with non-compatible type {currentValue.GetType()}.");
-            }
-        }
-    }
+    //    public BaseVariable(dynamic defaultValue, Variable type)
+    //    {
+    //        Value = defaultValue;
+    //        Type = type;
+    //    }
+
+    //    protected virtual void CheckType()
+    //    {
+    //        if (!compatibleTypes.Contains(currentValue.GetType()))
+    //        {
+    //            throw new Exception($"BaseVariable has been assigned a variable with non-compatible type {currentValue.GetType()}.");
+    //        }
+    //    }
+    //}
 
 
 
@@ -46,23 +48,52 @@ namespace Config
 
 
 
-    public class RangedVariable : BaseVariable
-    {
-        public dynamic Min;
 
-        public dynamic Max;
+
+    public class GeneVariable
+    {
+        private dynamic currentValue;
+
+        private dynamic Min;
+
+        private dynamic Max;
+
+        public Variable Type;
+
+        private bool IsBool = false;
 
         private List<Type> compatibleTypes = new List<Type> { typeof(int), typeof(float), typeof(Vector3) };
 
-        Random random = new Random();
+        private Random random = new Random();
 
-        public new dynamic Value
+        public GeneVariable(dynamic defaultValue, dynamic minValue, dynamic maxValue, Variable type)
         {
-            get => currentValue;
+            this.Min = minValue;
+            this.Max = maxValue;
+            currentValue = defaultValue;
+            Value = defaultValue;
+            if (minValue > maxValue)
+            {
+                throw new Exception("RangedVariable has been assigned a min value that is greater than the max value.");
+            }
+        }
+
+        public GeneVariable(bool boolValue, Variable type)
+        {
+            this.Min = 0f;
+            this.Max = 1f;
+            currentValue = boolValue;
+            Value = boolValue;
+        }
+
+        public dynamic Value
+        {
+            get => IsBool ? GetBool() : currentValue;
             set
             {
                 try
-                {                   
+                {
+                    value = SetBool(value);
                     if (currentValue.GetType() == typeof(Vector3))
                     {
                         for (int i = 0; i < 3; i++)
@@ -78,27 +109,16 @@ namespace Config
                 }
                 catch (System.Exception)
                 {
-                    throw new System.Exception("There was an issue setting the value of a RangedVariable.");
+                    throw new System.Exception("There was an issue setting the value of a GeneVariable.");
                 }
 
-            }
-        }
-
-        public RangedVariable(dynamic defaultValue, dynamic minValue, dynamic maxValue, Variable type) : base((object)defaultValue, type)
-        {
-            this.Min = minValue;
-            this.Max = maxValue;
-            Value = defaultValue;
-            if(minValue > maxValue)
-            {
-                throw new Exception("RangedVariable has been assigned a min value that is greater than the max value.");
             }
         }
 
         public void Increment()
         {
             //vector3 - each axis needs an increment
-            if(currentValue.GetType() == typeof(Vector3))
+            if (currentValue.GetType() == typeof(Vector3))
             {
                 Vector3 newValue = Value;
                 for (int i = 0; i < 3; i++)
@@ -108,7 +128,7 @@ namespace Config
                 }
                 Value = newValue;
             }
-            else if(currentValue.GetType() == typeof(int))//int or float - only one increment needed
+            else if (currentValue.GetType() == typeof(int))//int or float - only one increment needed
             {
                 var newValue = Value;
                 newValue += GetIncrement();
@@ -130,7 +150,7 @@ namespace Config
             {
                 return Max - (value - Max);
             }
-            else if(value < Min)
+            else if (value < Min)
             {
                 return Min + (Min - value);
             }
@@ -148,6 +168,7 @@ namespace Config
             return increment;
         }
 
+
         private dynamic HandleRange(dynamic value)
         {
             return value < Min ? Min :
@@ -155,12 +176,40 @@ namespace Config
                     value;
         }
 
-        protected override void CheckType()
+        private void CheckType()
         {
             if (!compatibleTypes.Contains(currentValue.GetType()))
             {
-                throw new Exception($"BaseVariable has been assigned a variable with non-compatible type {currentValue.GetType()}.");
+                throw new Exception($"GeneVariable has been assigned a variable with non-compatible type {currentValue.GetType()}.");
             }
+        }
+
+        private dynamic SetBool(dynamic value)
+        {
+            if (value.GetType() == typeof(bool))
+            {
+                if (!IsBool)
+                {
+                    IsBool = true;
+                    //new variable, set between 0 - 0.5, or 0.5 - 1
+                    Min = 0f;
+                    Max = 1f;
+                    return value ? 0.75f : 0.25f;
+                }
+                else
+                {
+                    //existing variable, return current float value
+                    return currentValue;
+                }
+            }
+            //not bool, return value
+            return value;
+        }
+
+        private bool GetBool()
+        {
+            //return false if less than 0.5, true if > 0.5
+            return currentValue < 0.5f ? false : true;
         }
     }
 }

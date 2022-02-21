@@ -37,7 +37,7 @@ public class GeneticAlgorithm : MonoBehaviour
         helpers.Init(newRobot, robot);
 
         //mutate
-        List<BaseVariable> genes = GetGenes(robot);
+        List<GeneVariable> genes = GetGenes(robot);
 
         if(AIConfig.RecombinationRate > 0) Recombination(genes);
 
@@ -57,29 +57,29 @@ public class GeneticAlgorithm : MonoBehaviour
         robot.gameObject.SetActive(true);
     }
 
-    private void Recombination(List<BaseVariable> genes)
+    private void Recombination(List<GeneVariable> genes)
     {
         
     }
 
-    private void Mutate(List<BaseVariable> allGenes)
+    private void Mutate(List<GeneVariable> allGenes)
     {
         Random random = new Random();
         Mutation type = AIConfig.MutationType == Mutation.Any
             ? (Mutation)Enum.GetValues(typeof(Mutation)).GetValue(random.Next(Enum.GetValues(typeof(Mutation)).Length - 1))
             : AIConfig.MutationType;
         //trim list if physical / movement limited
-        List<BaseVariable> genes = type == Mutation.Physical ? allGenes.Where(g => g.Type == Variable.Physical).ToList() :
+        List<GeneVariable> genes = type == Mutation.Physical ? allGenes.Where(g => g.Type == Variable.Physical).ToList() :
             type == Mutation.Movement ? allGenes.Where(g => g.Type == Variable.Movement).ToList() :
                 allGenes;
-        foreach (BaseVariable gene in genes)
+        foreach (GeneVariable gene in genes)
         {
             if(random.NextDouble() < AIConfig.MutationRate)
             {
-                if(gene.GetType() == typeof(RangedVariable))
+                if(gene.GetType() == typeof(GeneVariable))
                 {
                     //adjust
-                    RangedVariable g = (RangedVariable)gene;
+                    GeneVariable g = (GeneVariable)gene;
                     //handled in Variables - Vector3 will increment by a different amount for each axis
                     g.Increment();                    
                 }
@@ -93,10 +93,10 @@ public class GeneticAlgorithm : MonoBehaviour
     }
 
 
-    private List<BaseVariable> GetGenes(RobotConfig robot)
+    private List<GeneVariable> GetGenes(RobotConfig robot)
     {
         robot.IsTailEnabled.Value = false;
-        List<BaseVariable> genes = new List<BaseVariable>();
+        List<GeneVariable> genes = new List<GeneVariable>();
         //split variables into physical and movement
         GetVariables(robot, genes);
         
@@ -118,18 +118,14 @@ public class GeneticAlgorithm : MonoBehaviour
         return genes;
     }
 
-    private void GetVariables(dynamic config, List<BaseVariable> genes)
+    private void GetVariables(dynamic config, List<GeneVariable> genes)
     {
         var allFields = config.GetType().GetFields();
         foreach (var item in allFields)
         {
-            if(item.FieldType == typeof(BaseVariable)){
+            if (item.FieldType == typeof(GeneVariable)){
                 var f = item.GetValue(config);
-                genes.Add((BaseVariable)f);
-            }
-            else if (item.FieldType == typeof(RangedVariable)){
-                var f = item.GetValue(config);
-                genes.Add((RangedVariable)f);
+                genes.Add((GeneVariable)f);
             }
         }
     }
