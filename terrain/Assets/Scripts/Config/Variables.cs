@@ -27,6 +27,7 @@ namespace Config
         {
             this.Min = minValue;
             this.Max = maxValue;
+            this.Type = type;
             currentValue = defaultValue;
             //allow this to run before random init because there is some bool setup in here, and type checking
             Value = defaultValue;
@@ -42,8 +43,11 @@ namespace Config
         {
             this.Min = 0f;
             this.Max = 1f;
+            this.Type = type;
+            //allow this to run before random init because there is some bool setup in here, and type checking
             currentValue = boolValue;
             Value = boolValue;
+            //now we know if there are any issues, we can generate a random value if necessary
             if (AIConfig.RandomInitValues) Value = GenerateValue();
         }
 
@@ -52,22 +56,21 @@ namespace Config
             get => IsBool ? GetBool() : currentValue;
             set
             {
-                value = SetBool(value);
-                if (currentValue.GetType() == typeof(Vector3))
-                {
-                    for (int i = 0; i < 3; i++)
-                    {
-                        currentValue[i] = HandleRange(value[i]);
-                    }
-                }
-                else
-                {
-                    currentValue = HandleRange(value);
-                }
-                CheckType();
                 try
                 {
-
+                    value = SetBool(value);
+                    if (currentValue.GetType() == typeof(Vector3))
+                    {
+                        for (int i = 0; i < 3; i++)
+                        {
+                            currentValue[i] = HandleRange(value[i]);
+                        }
+                    }
+                    else
+                    {
+                        currentValue = HandleRange(value);
+                    }
+                    CheckType();
                 }
                 catch (System.Exception)
                 {
@@ -75,6 +78,12 @@ namespace Config
                 }
 
             }
+        }
+
+        //used when doing maths on bool / int values elsewhere - don't use to get values to be applied directly
+        public dynamic Real
+        {
+            get => currentValue;
         }
 
         private dynamic GenerateValue()
@@ -149,7 +158,7 @@ namespace Config
         private float GetIncrement()
         {
             float increment = (Max - Min) * random.Next(1, 11) / 100;
-            increment *= (float)random.NextDouble() > 0.5 ? 1 : -1;
+            increment *= random.NextDouble() > 0.5 ? 1 : -1;
             return increment;
         }
 

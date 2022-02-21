@@ -71,8 +71,8 @@ public class RobotHelpers : MonoBehaviour
         //setup config - different defaults for tail
         if (!AIConfig.RandomInitValues)
         {
-            config.AngleConstraint = new GeneVariable(new Vector3(60, 60, 60), 0, 180, Variable.Physical);
-            config.RotationMultiplier = new GeneVariable(new Vector3(1f, 1f, 1f), 0.5f, 1f, Variable.Movement);
+            config.AngleConstraint = new GeneVariable(new Vector3(60, 60, 60), 0, 180, Variable.AngleConstraint);
+            config.RotationMultiplier = new GeneVariable(new Vector3(1f, 1f, 1f), 0.5f, 1f, Variable.RotationMultiplier);
         }
 
         //setup object config
@@ -163,6 +163,47 @@ public class RobotHelpers : MonoBehaviour
         joint.connectedBody = prevObject.GetComponent<Rigidbody>();
     }
 
+    internal void AverageRestOfBody()
+    {
+        //get all the genes for the rest of the body
+        List<ObjectConfig> prevBody = robotConfig.Configs.Where(o => o.Type == BodyPart.Body).OrderBy(o => o.Index).ToList();
+        ObjectConfig last = prevBody.Last();
+        prevBody.Remove(last);
+        List<GeneVariable> allGenes = new List<GeneVariable>();
+        foreach (var objConfig in prevBody)
+        {
+            allGenes = allGenes.Concat(GetVariables(objConfig.gameObject.GetComponent<BodyConfig>())).ToList();
+        }
+        //get all the genes for the last body section
+        List<GeneVariable> newGenes = new List<GeneVariable>();
+        BodyConfig newBody = last.gameObject.GetComponent<BodyConfig>();
+        newGenes = newGenes.Concat(GetVariables(newBody)).ToList();
+        //now there's a list of all the genes that need to be updated (newGenes) and all the genes of the rest of the body (allGenes)
+        foreach (var item in newGenes)
+        {
+            int count = 0;
+            if (item.Real.GetType() == typeof(Vector3))
+            {
+                Vector3 sum = Vector3.zero;
+                allGenes.Where(o => o.Type == item.Type).ToList().ForEach(o => { sum += o.Value; count++; });
+                item.Value = sum / count;
+            }
+            else
+            {
+                dynamic sum = item.Real;
+                sum = 0;
+                allGenes.Where(o => o.Type == item.Type).ToList().ForEach(o => { sum += o.Real; count++; });
+                item.Value = Convert.ChangeType(sum / count, item.Real.GetType());
+            }
+        }
+        //if there is fixed alternating rotating sections, then set this up. The call for serpentine will be make in the GA
+        if (!AIConfig.RandomInitValues && prevBody.Count > 0)
+        {
+            BodyConfig prevBodyConfig = prevBody.Last().gameObject.GetComponent<BodyConfig>();
+            newBody.IsRotating.Value = !prevBodyConfig.IsRotating.Value;
+        }
+    }
+
     internal void MakeSerpentine(bool SetRotation = false)
     {
         bool isRotating = true;
@@ -183,6 +224,21 @@ public class RobotHelpers : MonoBehaviour
                 useSin = !useSin;
             }
         }
+    }
+
+    internal List<GeneVariable> GetVariables(dynamic config)
+    {
+        List<GeneVariable> genes = new List<GeneVariable>();
+        var allFields = config.GetType().GetFields();
+        foreach (var item in allFields)
+        {
+            if (item.FieldType == typeof(GeneVariable))
+            {
+                var f = item.GetValue(config);
+                genes.Add((GeneVariable)f);
+            }
+        }
+        return genes;
     }
 
     internal void AttachCam()

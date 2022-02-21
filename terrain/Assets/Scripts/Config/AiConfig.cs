@@ -28,7 +28,7 @@ namespace Config
 
         //list of the possible recombinations that will be used
         //the recombination rate accounts for whether the robot will recombine this generation
-        public static Recombination RecombinationType = Recombination.PhysicalLikeness;
+        public static Recombination RecombinationType = Recombination.Random;
 
         //the mutation rate accounts for whether the robot will mutate this generation
         //for no mutation set mutation rate to 0
@@ -36,6 +36,6 @@ namespace Config
         public static float MutationRate = 0.4f;
 
         //options for which genes will be mutated
-        public static Mutation MutationType = Mutation.Any;
+        public static Mutation MutationType = Mutation.Physical;
     }
 }

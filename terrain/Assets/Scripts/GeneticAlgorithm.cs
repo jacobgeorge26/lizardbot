@@ -12,6 +12,7 @@ public class GeneticAlgorithm : MonoBehaviour
     private GameObject[] LastRobots = new GameObject[AIConfig.PopulationSize];
     private UI ui;
     private CameraPosition cam;
+    Random random = new Random();
 
     void Start()
     {
@@ -39,7 +40,7 @@ public class GeneticAlgorithm : MonoBehaviour
         //mutate
         List<GeneVariable> genes = GetGenes(robot);
 
-        if(AIConfig.RecombinationRate > 0) Recombination(genes);
+        if(AIConfig.RecombinationRate > 0 && AIConfig.PopulationSize > 1) Recombine(genes, robot);
 
         if(AIConfig.MutationRate > 0) Mutate(genes);
 
@@ -57,20 +58,44 @@ public class GeneticAlgorithm : MonoBehaviour
         robot.gameObject.SetActive(true);
     }
 
-    private void Recombination(List<GeneVariable> genes)
+    private void Recombine(List<GeneVariable> genes, RobotConfig robot)
     {
-        
+        Recombination type = AIConfig.RecombinationType == Recombination.Any
+            ? (Recombination)Enum.GetValues(typeof(Recombination)).GetValue(random.Next(Enum.GetValues(typeof(Recombination)).Length - 1))
+            : AIConfig.RecombinationType;
+        RobotConfig best1 = type switch
+        {
+            Recombination.PhysicalLikeness => BestPhysicalRobot(),
+            Recombination.MovementLikeness => BestMovementRobot(),
+            Recombination.Triad => BestPhysicalRobot(),
+            Recombination.Lizard => BestLizardRobot(),
+            _ => AIConfig.RobotConfigs.Where(r => r.RobotIndex != robot.RobotIndex).ToList()[random.Next(AIConfig.PopulationSize - 2)]
+        };
+    }
+
+    private RobotConfig BestLizardRobot()
+    {
+        throw new NotImplementedException();
+    }
+
+    private RobotConfig BestMovementRobot()
+    {
+        throw new NotImplementedException();
+    }
+
+    private RobotConfig BestPhysicalRobot()
+    {
+        throw new NotImplementedException();
     }
 
     private void Mutate(List<GeneVariable> allGenes)
     {
-        Random random = new Random();
         Mutation type = AIConfig.MutationType == Mutation.Any
             ? (Mutation)Enum.GetValues(typeof(Mutation)).GetValue(random.Next(Enum.GetValues(typeof(Mutation)).Length - 1))
             : AIConfig.MutationType;
         //trim list if physical / movement limited
-        List<GeneVariable> genes = type == Mutation.Physical ? allGenes.Where(g => g.Type == Variable.Physical).ToList() :
-            type == Mutation.Movement ? allGenes.Where(g => g.Type == Variable.Movement).ToList() :
+        List<GeneVariable> genes = type == Mutation.Physical ? allGenes.Where(g => g.Type < 0).ToList() :
+            type == Mutation.Movement ? allGenes.Where(g => g.Type > 0).ToList() :
                 allGenes;
         foreach (GeneVariable gene in genes)
         {
@@ -90,36 +115,24 @@ public class GeneticAlgorithm : MonoBehaviour
         robot.IsTailEnabled.Value = false;
         List<GeneVariable> genes = new List<GeneVariable>();
         //split variables into physical and movement
-        GetVariables(robot, genes);
+        genes = genes.Concat(helpers.GetVariables(robot)).ToList();
         
         foreach (ObjectConfig objConfig in robot.Configs)
         {
             if(objConfig.Type == BodyPart.Body)
             {
                 BodyConfig config = objConfig.gameObject.GetComponent<BodyConfig>();
-                GetVariables(config, genes);
+                genes = genes.Concat(helpers.GetVariables(config)).ToList();
             }
             else if(objConfig.Type == BodyPart.Tail)
             {
                 TailConfig config = objConfig.gameObject.GetComponent<TailConfig>();
-                GetVariables(config, genes);
+                genes = genes.Concat(helpers.GetVariables(config)).ToList();
             }
         }
         //this is now a list of all variables that can be recombined / mutated
         //these can further be classified into those that affect the physical structure of the robot, versus the movement of it
         return genes;
-    }
-
-    private void GetVariables(dynamic config, List<GeneVariable> genes)
-    {
-        var allFields = config.GetType().GetFields();
-        foreach (var item in allFields)
-        {
-            if (item.FieldType == typeof(GeneVariable)){
-                var f = item.GetValue(config);
-                genes.Add((GeneVariable)f);
-            }
-        }
     }
 
     private void Freeze(RobotConfig robot)
@@ -182,6 +195,7 @@ public class GeneticAlgorithm : MonoBehaviour
         for (int i = 0; i < newRobot.NoSections.Value - oldRobot.NoSections.Value; i++)
         {
             helpers.CreateBody(oldRobot.NoSections.Value + i);
+            helpers.AverageRestOfBody();
         }
         //are there fewer sections now?
         for (int i = 0; i < oldRobot.NoSections.Value - newRobot.NoSections.Value; i++)
@@ -207,6 +221,7 @@ public class GeneticAlgorithm : MonoBehaviour
                 helpers.UpdateBodyPart(config, 0, BodyPart.Tail);
             }
         }
+        if (AIConfig.MaintainSerpentine) helpers.MakeSerpentine(false);
         //if the robot camera is following this robot then update its Head & Tail variables
         if (CameraConfig.CamFollow == newRobot.RobotIndex) cam.SetRobot(newRobot);
     }
@@ -214,14 +229,10 @@ public class GeneticAlgorithm : MonoBehaviour
     private RobotConfig Init(GameObject newRobot, RobotConfig oldRobot, int newVersion)
     {
         RobotConfig robot = newRobot.GetComponent<RobotConfig>();
+        robot.FreshCopy(oldRobot, newVersion);
         //setup ready to respawn
-        robot.IsEnabled = false;
-        robot.Version = newVersion;
         robot.gameObject.name = $"Robot {robot.RobotIndex + 1} V {robot.Version}";
         robot.transform.parent = oldRobot.transform.parent;
-        robot.Performance = 0;
-        robot.MutationCount = 0;
-        robot.Original = oldRobot.Original;
 
         //replace stuck robot with new robot in RobotConfigs
         int index = AIConfig.RobotConfigs.IndexOf(AIConfig.RobotConfigs.First(c => c.RobotIndex.Equals(robot.RobotIndex)));
