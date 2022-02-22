@@ -16,16 +16,16 @@ public class DriveBodyTests : MonoBehaviour
     public void Init()
     {
         robot = new GameObject();
-        RobotConfig robotConfig = robot.AddComponent<RobotConfig>();
+        RobotConfig robotConfig = new RobotConfig(0, robot);
         robotConfig.RobotIndex = 1;
         AIConfig.RobotConfigs.Add(robotConfig);
 
         //setup all objects that the tests will use
         section = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Section"));
         sectionMS = section.GetComponent<MoveBody>();
-        sectionBC = section.GetComponent<BodyConfig>();
+        sectionBC = new BodyConfig();
         ObjectConfig HObjConfig = section.GetComponent<ObjectConfig>();
-        HObjConfig.Init(0, BodyPart.Body, 1);
+        HObjConfig.Init(0, BodyPart.Body, sectionBC, 1);
 
         env = MonoBehaviour.Instantiate(Resources.Load<GameObject>("BaseEnv"));
     }

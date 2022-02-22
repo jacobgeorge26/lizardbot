@@ -18,7 +18,7 @@ public class RotateBodyTests
     public void Init()
     {
         robot = new GameObject();
-        RobotConfig robotConfig = robot.AddComponent<RobotConfig>();
+        RobotConfig robotConfig = new RobotConfig(0, robot);
         robotConfig.RobotIndex = 1;
         AIConfig.RobotConfigs.Add(robotConfig);
 
@@ -27,9 +27,9 @@ public class RotateBodyTests
 
         section = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Section"));
         sectionMS = section.GetComponent<MoveBody>();
-        sectionBC = section.GetComponent<BodyConfig>();
+        sectionBC = new BodyConfig();
         ObjectConfig HObjConfig = section.GetComponent<ObjectConfig>();
-        HObjConfig.Init(0, BodyPart.Body, 1);
+        HObjConfig.Init(0, BodyPart.Body, sectionBC, 1);
         body = section.GetComponent<Rigidbody>();
         body.useGravity = false;
 

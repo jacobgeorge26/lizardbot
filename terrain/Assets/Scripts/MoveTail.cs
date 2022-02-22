@@ -15,8 +15,8 @@ public class MoveTail : MonoBehaviour
     void Start()
     {
         tail = GetComponent<Rigidbody>();
-        config = this.gameObject.GetComponent<TailConfig>();
         objectConfig = this.gameObject.GetComponent<ObjectConfig>();
+        config = objectConfig.Tail;
         robotConfig = AIConfig.RobotConfigs.Where(c => c.RobotIndex == objectConfig.RobotIndex).First();
     }
 

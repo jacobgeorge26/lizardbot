@@ -25,16 +25,15 @@ public class RobotHelpers : MonoBehaviour
         head.transform.localPosition = new Vector3(0, 0, GetZPos(null, head));
 
         //setup BodyConfig for MoveBody script
-        BodyConfig config = head.GetComponent<BodyConfig>();
-        if (config == null) config = head.AddComponent<BodyConfig>();
+        BodyConfig config = new BodyConfig();
 
         ObjectConfig objConfig = head.GetComponent<ObjectConfig>();
         if (objConfig == null) objConfig = head.AddComponent<ObjectConfig>();
         //important!!
-        objConfig.Init(0, BodyPart.Body, robotConfig.RobotIndex);
+        objConfig.Init(0, BodyPart.Body, config, robotConfig.RobotIndex);
         robotConfig.Configs.Add(objConfig);
 
-        UpdateBodyPart(config, 0, BodyPart.Body);
+        UpdateBodyPart(objConfig, 0, BodyPart.Body);
     }
 
     internal void CreateBody(int index)
@@ -46,16 +45,15 @@ public class RobotHelpers : MonoBehaviour
         body.transform.localPosition = new Vector3(0, 0, GetZPos(prevSection, body));
 
         //setup BodyConfig for MoveBody script
-        BodyConfig config = body.GetComponent<BodyConfig>();
-        if (config == null) config = body.AddComponent<BodyConfig>();
+        BodyConfig config = new BodyConfig();
 
         ObjectConfig objConfig = body.GetComponent<ObjectConfig>();
         if (objConfig == null) objConfig = body.AddComponent<ObjectConfig>();
         //important!!
-        objConfig.Init(index, BodyPart.Body, robotConfig.RobotIndex);
+        objConfig.Init(index, BodyPart.Body, config, robotConfig.RobotIndex);
         robotConfig.Configs.Add(objConfig);
 
-        UpdateBodyPart(config, index, BodyPart.Body);
+        UpdateBodyPart(objConfig, index, BodyPart.Body);
     }
 
     internal void CreateTail()
@@ -66,8 +64,7 @@ public class RobotHelpers : MonoBehaviour
         GameObject lastSection = robotConfig.Configs.Where(o => o.Type == BodyPart.Body && o.Index == robotConfig.NoSections.Value - 1).First().gameObject;
         tail.transform.localPosition = new Vector3(0, 0, GetZPos(lastSection, tail));
 
-        TailConfig config = tail.GetComponent<TailConfig>();
-        if (config == null) config = tail.AddComponent<TailConfig>();
+        TailConfig config = new TailConfig();
         //setup config - different defaults for tail
         if (!AIConfig.RandomInitValues)
         {
@@ -80,14 +77,14 @@ public class RobotHelpers : MonoBehaviour
         if (objConfig == null) objConfig = tail.AddComponent<ObjectConfig>();
 
         //important!!
-        objConfig.Init(0, BodyPart.Tail, robotConfig.RobotIndex);
+        objConfig.Init(0, BodyPart.Tail, config, robotConfig.RobotIndex);
         robotConfig.Configs.Add(objConfig);
 
-        UpdateBodyPart(config, 0, BodyPart.Tail);
+        UpdateBodyPart(objConfig, 0, BodyPart.Tail);
     }
 
     //works for all
-    internal void UpdateBodyPart(JointConfig config, int index, BodyPart type)
+    internal void UpdateBodyPart(ObjectConfig objConfig, int index, BodyPart type)
     {
         GameObject prevSection = null;
         switch (type)
@@ -98,11 +95,11 @@ public class RobotHelpers : MonoBehaviour
                     prevSection = robotConfig.Configs
                         .Where(o => o.Type == BodyPart.Body && o.Index == index - 1)
                         .First().gameObject;
-                    BodyConfig bodyConfig = (BodyConfig)config;
-                    var renderer = config.gameObject.GetComponent<Renderer>();
+                    BodyConfig bodyConfig = objConfig.Body;
+                    var renderer = objConfig.gameObject.GetComponent<Renderer>();
                     renderer.material.SetColor("_Color", new Color(robotConfig.BodyColour.Value / 100f, robotConfig.BodyColour.Value / 100f, 1f));
                     //setup joint
-                    SetupConfigurableJoint(config.gameObject, config, prevSection);
+                    SetupConfigurableJoint(objConfig.gameObject, bodyConfig, prevSection);
                 }
                 break;
             case BodyPart.Tail:
@@ -110,12 +107,12 @@ public class RobotHelpers : MonoBehaviour
                 .Where(o => o.Type == BodyPart.Body && o.Index == robotConfig.NoSections.Value - 1)
                 .First().gameObject;
                 //set mass to be equal to rest of body
-                TailConfig tailConfig = (TailConfig)config;
-                config.gameObject.GetComponent<Rigidbody>().mass = GetTotalMass() * tailConfig.TailMassMultiplier.Value;
+                TailConfig tailConfig = objConfig.Tail;
+                objConfig.gameObject.GetComponent<Rigidbody>().mass = GetTotalMass() * tailConfig.TailMassMultiplier.Value;
                 //setup joint
-                SetupConfigurableJoint(config.gameObject, config, prevSection);
+                SetupConfigurableJoint(objConfig.gameObject, tailConfig, prevSection);
                 //reset position in case a section has been removed
-                config.gameObject.transform.localPosition = new Vector3(0, 0, GetZPos(prevSection, config.gameObject));
+                objConfig.gameObject.transform.localPosition = new Vector3(0, 0, GetZPos(prevSection, objConfig.gameObject));
                 break;
             case BodyPart.Leg:
                 break;
@@ -172,11 +169,11 @@ public class RobotHelpers : MonoBehaviour
         List<GeneVariable> allGenes = new List<GeneVariable>();
         foreach (var objConfig in prevBody)
         {
-            allGenes = allGenes.Concat(GetVariables(objConfig.gameObject.GetComponent<BodyConfig>())).ToList();
+            allGenes = allGenes.Concat(GetVariables(objConfig.Body)).ToList();
         }
         //get all the genes for the last body section
         List<GeneVariable> newGenes = new List<GeneVariable>();
-        BodyConfig newBody = last.gameObject.GetComponent<BodyConfig>();
+        BodyConfig newBody = last.Body;
         newGenes = newGenes.Concat(GetVariables(newBody)).ToList();
         //now there's a list of all the genes that need to be updated (newGenes) and all the genes of the rest of the body (allGenes)
         foreach (var item in newGenes)
@@ -199,7 +196,7 @@ public class RobotHelpers : MonoBehaviour
         //if there is fixed alternating rotating sections, then set this up. The call for serpentine will be make in the GA
         if (!AIConfig.RandomInitValues && prevBody.Count > 0)
         {
-            BodyConfig prevBodyConfig = prevBody.Last().gameObject.GetComponent<BodyConfig>();
+            BodyConfig prevBodyConfig = prevBody.Last().Body;
             newBody.IsRotating.Value = !prevBodyConfig.IsRotating.Value;
         }
     }
@@ -212,7 +209,7 @@ public class RobotHelpers : MonoBehaviour
         foreach (ObjectConfig item in robotConfig.Configs.Where(o => o.Type == BodyPart.Body).ToList())
         {
             GameObject body = item.gameObject;
-            BodyConfig config = body.GetComponent<BodyConfig>();
+            BodyConfig config = item.Body;
             if(SetRotation)
             {
                 config.IsRotating.Value = isRotating;
@@ -330,11 +327,11 @@ public class RobotHelpers : MonoBehaviour
         //allowed difference = (max - min) / 10 * difference
         if (robotConfig.IsTailEnabled.Value)
         {
-            TailConfig tail = robotConfig.Configs.Where(o => o.Type == BodyPart.Tail).First().GetComponent<TailConfig>();
+            TailConfig tail = robotConfig.Configs.Where(o => o.Type == BodyPart.Tail).First().Tail;
             float allowedDifference = (tail.TailMassMultiplier.Max - tail.TailMassMultiplier.Min) * (difference + 1) / 10;
             for (int i = similar.Count - 1; i >= 0; i--)
             {
-                TailConfig otherTail = similar[i].Configs.First(o => o.Type == BodyPart.Tail).GetComponent<TailConfig>();
+                TailConfig otherTail = similar[i].Configs.First(o => o.Type == BodyPart.Tail).Tail;
                 if (Math.Abs(otherTail.TailMassMultiplier.Value - tail.TailMassMultiplier.Value) > allowedDifference)
                 {
                     similar.RemoveAt(i);
@@ -358,7 +355,7 @@ public class RobotHelpers : MonoBehaviour
             //get the total drive velocity and rotation multiplier for this robot
             List<ObjectConfig> bodyObjects = robotConfig.Configs.Where(o => o.Type == BodyPart.Body).ToList();
             List<BodyConfig> body = new List<BodyConfig>();
-            bodyObjects.ForEach(o => body.Add(o.gameObject.GetComponent<BodyConfig>()));
+            bodyObjects.ForEach(o => body.Add(o.Body));
             body.ForEach(o => {
                 thisDriveVelocity += o.IsDriving.Value ? o.DriveVelocity.Value : 0;
             });
@@ -371,7 +368,7 @@ public class RobotHelpers : MonoBehaviour
             //how different are the rotation multipliers
             List<ObjectConfig> bodyObjects = similar[i].Configs.Where(o => o.Type == BodyPart.Body).ToList();
             List<BodyConfig> body = new List<BodyConfig>();
-            bodyObjects.ForEach(o => body.Add(o.gameObject.GetComponent<BodyConfig>()));
+            bodyObjects.ForEach(o => body.Add(o.Body));
             //get the total for the other robot
             float otherDriveVelocity = 0;
             body.ForEach(o => {

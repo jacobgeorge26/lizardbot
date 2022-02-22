@@ -14,17 +14,17 @@ public class CameraPosTests : MonoBehaviour
     public void Init()
     {
         robot = new GameObject();
-        RobotConfig robotConfig = robot.AddComponent<RobotConfig>();
+        RobotConfig robotConfig = new RobotConfig(0, robot);
         robotConfig.NoSections.Value = 1;
 
         head = new GameObject();
         ObjectConfig headConfig = head.AddComponent<ObjectConfig>();
-        headConfig.Init(0, BodyPart.Body, 0);
+        headConfig.Init(0, BodyPart.Body, new BodyConfig(), 0);
         robotConfig.Configs.Add(headConfig);
 
         tail = new GameObject();
         ObjectConfig tailConfig = tail.AddComponent<ObjectConfig>();
-        headConfig.Init(0, BodyPart.Tail, 0);
+        headConfig.Init(0, BodyPart.Tail, new TailConfig(), 0);
         robotConfig.Configs.Add(tailConfig);
 
         cam = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Robot Camera"));

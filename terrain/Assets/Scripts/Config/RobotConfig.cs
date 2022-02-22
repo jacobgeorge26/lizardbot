@@ -5,9 +5,11 @@ using UnityEngine;
 
 namespace Config
 {
-    public class RobotConfig : MonoBehaviour
+    public class RobotConfig : object
     {
         public int RobotIndex;
+
+        public GameObject Object;
 
         public int Version = 0;
 
@@ -28,6 +30,12 @@ namespace Config
 
         //when changes are made, should serpentine motion be preserved
         public GeneVariable MaintainSerpentine = new GeneVariable(true, Variable.MaintainSerpentine);
+
+        public RobotConfig(int _index, GameObject _object)
+        {
+            this.RobotIndex = _index;
+            this.Object = _object;
+        }
 
         public List<ObjectConfig> Configs { get; set; } = new List<ObjectConfig>();
 

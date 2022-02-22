@@ -15,9 +15,8 @@ public class GenerateRobot : MonoBehaviour
     void Start()
     {
         //setup robot config
-        robotConfig = this.gameObject.GetComponent<RobotConfig>();
-        if (robotConfig == null) robotConfig = this.gameObject.AddComponent<RobotConfig>();
-        robotConfig.RobotIndex = AIConfig.RobotConfigs.Count;
+        robotConfig = new RobotConfig(AIConfig.RobotConfigs.Count, this.gameObject);
+
         robotConfig.Original = robotConfig;
         AIConfig.RobotConfigs.Add(robotConfig);
 

@@ -44,8 +44,8 @@ public class TrappedAlgorithm : MonoBehaviour
             pointsContainer.transform.parent = GetComponent<Transform>().parent;
         }
         AIScript = FindObjectOfType<GeneticAlgorithm>();
-        robotConfig = transform.parent.gameObject.GetComponent<RobotConfig>();
-
+        ObjectConfig objConfig = this.gameObject.GetComponent<ObjectConfig>();
+        robotConfig = AIConfig.RobotConfigs.Where(r => r.RobotIndex == objConfig.RobotIndex).First();
 
         StartCoroutine(IsTrapped());
     }
@@ -104,7 +104,7 @@ public class TrappedAlgorithm : MonoBehaviour
                         p.transform.parent = pointsContainer.transform;
                     }
                     IsEnabled = false;
-                    AIScript.RobotIsStuck(this.transform.parent.gameObject.GetComponent<RobotConfig>());        
+                    AIScript.RobotIsStuck(robotConfig);        
                 }
                 else if(ShowTrail)
                 {

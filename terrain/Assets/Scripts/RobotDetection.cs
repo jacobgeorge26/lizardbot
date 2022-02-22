@@ -14,7 +14,7 @@ public class RobotDetection : MonoBehaviour
         //find the expected number of colliders, to know if another robot is approaching
         int robotIndex = GetComponent<ObjectConfig>().RobotIndex;
         robotConfig = AIConfig.RobotConfigs[robotIndex];
-        helpers = robotConfig.gameObject.GetComponent<RobotHelpers>();
+        helpers = robotConfig.Object.GetComponent<RobotHelpers>();
     }
 
     // Update is called once per frame

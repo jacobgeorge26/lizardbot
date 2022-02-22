@@ -33,7 +33,7 @@ public class CameraPosition : MonoBehaviour
     private void UpdateHeadTail()
     {
         //validate objects have been organised correctly
-        GameObject head, tail = robot.gameObject, back;
+        GameObject head, tail = robot.Object, back;
         //all body parts
         List<ObjectConfig> Sections = robot.Configs.Where(o => o.Type == BodyPart.Body).ToList();
         if (Sections.Count != robot.NoSections.Value) throw new Exception($"There are {Sections.Count} sections set up where there should be {robot.NoSections.Value}.");

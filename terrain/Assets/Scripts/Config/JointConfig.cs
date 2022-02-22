@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Config
 {
-    public class JointConfig : MonoBehaviour
+    public class JointConfig : object
     {
         /* if you change AngleConstraint's limits then check for strange behaviour
         * if too high it will break expected behaviour from a physical robot

@@ -19,8 +19,8 @@ public class MoveBody : MonoBehaviour
     {
         //get the rigidbody for this body section as this is how the rotation/position will be manipulated
         body = GetComponent<Rigidbody>();
-        config = this.gameObject.GetComponent<BodyConfig>();
         objectConfig = this.gameObject.GetComponent<ObjectConfig>();
+        config = objectConfig.Body;
         robotConfig = AIConfig.RobotConfigs.Where(c => c.RobotIndex.Equals(objectConfig.RobotIndex)).First();
         SetupRotatingSections();
     }
@@ -31,7 +31,7 @@ public class MoveBody : MonoBehaviour
         foreach (ObjectConfig objConfig in robotConfig.Configs.Where(o => o.Type == BodyPart.Body))
         {
             GameObject obj = objConfig.gameObject;
-            BodyConfig bodyConfig = obj.GetComponent<BodyConfig>();
+            BodyConfig bodyConfig = objConfig.Body;
             if (bodyConfig.IsRotating.Value)
             {
                 RotatingConfigs.Add(objConfig);

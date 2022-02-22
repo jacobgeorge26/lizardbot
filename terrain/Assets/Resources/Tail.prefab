@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 5039663217300996155}
   - component: {fileID: 2840010343165674745}
   - component: {fileID: 4859188835574871236}
-  - component: {fileID: 5222635431383186057}
   - component: {fileID: -6764898152852853518}
   m_Layer: 0
   m_Name: Tail
@@ -226,18 +225,6 @@ ConfigurableJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
---- !u!114 &5222635431383186057
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4753562939605308872}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecd85f5d966208d479453f15f029ff48, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-6764898152852853518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,5 +239,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 0
   Index: 0
-  Object: {fileID: 0}
   RobotIndex: 0
