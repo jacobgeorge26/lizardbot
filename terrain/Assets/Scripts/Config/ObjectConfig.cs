@@ -31,5 +31,10 @@ namespace Config
             RobotIndex = _robotIndex;
         }
 
+        public void Destroy()
+        {
+            Destroy(this.gameObject);
+        }
+
     }
 }

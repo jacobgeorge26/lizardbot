@@ -7,20 +7,18 @@ using UnityEngine;
 public class RobotDetection : MonoBehaviour
 {
     private RobotConfig robotConfig;
-    private RobotHelpers helpers;
     // Start is called before the first frame update
     void Start()
     {
         //find the expected number of colliders, to know if another robot is approaching
         int robotIndex = GetComponent<ObjectConfig>().RobotIndex;
         robotConfig = AIConfig.RobotConfigs[robotIndex];
-        helpers = robotConfig.Object.GetComponent<RobotHelpers>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        List<GameObject> incoming = helpers.GetNearbyRobots(10);
+        List<GameObject> incoming = robotConfig.GetNearbyRobots(10);
         //list of possible layers, remove current and any layers being used by those in the area
         List<int> layers = Enumerable.Range(6, 25).ToList();
         layers.Remove(gameObject.layer);
@@ -39,7 +37,7 @@ public class RobotDetection : MonoBehaviour
             //set robot object's layer - no collisions but easier to have them all in same layer
             GameObject robotObject = gameObject.transform.parent.gameObject;
             robotObject.layer = newLayer;
-            robotObject.GetComponent<RobotHelpers>().SetChildLayer(newLayer);
+            robotConfig.SetChildLayer(newLayer);
         }
 
     }

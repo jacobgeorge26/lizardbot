@@ -156,8 +156,7 @@ public class UI : MonoBehaviour
         //setup camera if not already done
         if(CameraConfig.CamFollow != Robot.RobotIndex)
         {
-            RobotHelpers helpers = Robot.Object.GetComponent<RobotHelpers>();
-            helpers.AttachCam();
+            Robot.AttachCam();
         }
     }
 

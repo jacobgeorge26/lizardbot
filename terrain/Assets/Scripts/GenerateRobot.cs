@@ -9,7 +9,6 @@ using Random = System.Random;
 public class GenerateRobot : MonoBehaviour
 {
     private RobotConfig robotConfig;
-    private RobotHelpers helpers;
     private int layer;
 
     void Start()
@@ -23,24 +22,19 @@ public class GenerateRobot : MonoBehaviour
         //setup overall robot
         GameObject robot = this.gameObject;
         robot.name = $"Robot {robotConfig.RobotIndex + 1} V {robotConfig.Version}";
-        helpers = robot.GetComponent<RobotHelpers>();
-        if (helpers == null) helpers = robot.AddComponent<RobotHelpers>();
-        robot.transform.position = new Vector3(0, helpers.GetYPos(), 0);
+        robot.transform.position = new Vector3(0, robotConfig.GetYPos(), 0);
 
         //get layer for this robot
         layer = LayerMask.NameToLayer($"Robot{(robotConfig.RobotIndex % 25) + 1}");
         robot.layer = layer;
 
-        //important - give helpers the info it needs
-        helpers.Init(robot, robotConfig);
-
         SetupBody(robot);
 
         //TODO: setup legs
 
-        if (robotConfig.IsTailEnabled.Value) helpers.CreateTail();
+        if (robotConfig.IsTailEnabled.Value) robotConfig.CreateTail();
 
-        helpers.SetChildLayer(layer);
+        robotConfig.SetChildLayer(layer);
 
         //destroy GenerateRobot so that a duplicate clone isn't created when this robot is cloned
         Destroy(this);
@@ -53,10 +47,10 @@ public class GenerateRobot : MonoBehaviour
         robotConfig.BodyColour.Value = new Random().Next(30, 70);
         for (int i = 0; i < robotConfig.NoSections.Value; i++)
         {
-            if (i == 0) helpers.CreateHead();
-            else helpers.CreateBody(i);
+            if (i == 0) robotConfig.CreateHead();
+            else robotConfig.CreateBody(i);
         }
-        if (robotConfig.MaintainSerpentine.Value) helpers.MakeSerpentine(!AIConfig.RandomInitValues);
+        if (robotConfig.MaintainSerpentine.Value) robotConfig.MakeSerpentine(!AIConfig.RandomInitValues);
     }
 
 
