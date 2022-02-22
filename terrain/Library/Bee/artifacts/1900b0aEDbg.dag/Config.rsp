@@ -321,6 +321,7 @@
 "Assets/Scripts/Config/TailConfig.cs"
 "Assets/Scripts/Config/TerrainConfig.cs"
 "Assets/Scripts/Config/UIConfig.cs"
+"Assets/Scripts/Config/UITemplateBody.cs"
 "Assets/Scripts/Config/Variables.cs"
 -langversion:8.0
 

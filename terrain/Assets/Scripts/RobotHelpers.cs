@@ -8,6 +8,8 @@ using Random = System.Random;
 
 public static class RobotHelpers : object
 {
+    //create the head - has less to it than setting up a main body section
+    //should only be called at start as the head should never be removed - NoSections > 0
     internal static void CreateHead(this RobotConfig robot)
     {
         GameObject head = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Head"));
@@ -27,6 +29,7 @@ public static class RobotHelpers : object
         robot.UpdateBodyPart(objConfig, 0, BodyPart.Body);
     }
 
+    //create a body section and attach it to the previous section
     internal static void CreateBody(this RobotConfig robot, int index)
     {
         GameObject body = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Section"));
@@ -47,6 +50,7 @@ public static class RobotHelpers : object
         robot.UpdateBodyPart(objConfig, index, BodyPart.Body);
     }
 
+    //create a tail - only ever one
     internal static void CreateTail(this RobotConfig robot)
     {
         GameObject tail = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Tail"));
@@ -74,7 +78,8 @@ public static class RobotHelpers : object
         robot.UpdateBodyPart(objConfig, 0, BodyPart.Tail);
     }
 
-    //works for all
+    //works for all body types (body, tail etc.) - updates it for any changes to its associated config
+    //must be called after creation too, to initialise it with the config params
     internal static void UpdateBodyPart(this RobotConfig robot, ObjectConfig objConfig, int index, BodyPart type)
     {
         GameObject prevSection = null;
@@ -113,6 +118,7 @@ public static class RobotHelpers : object
 
     }
 
+    //remove a body section
     internal static void RemoveBody(this RobotConfig robot, int index)
     {
         List<ObjectConfig> bodyConfigs = robot.Configs.Where(o => o.Type == BodyPart.Body && o.Index == index).ToList();
@@ -127,6 +133,7 @@ public static class RobotHelpers : object
 
     }
 
+    //remove the tail
     internal static void RemoveTail(this RobotConfig robot)
     {
         List<ObjectConfig> tailConfigs = robot.Configs.Where(o => o.Type == BodyPart.Tail).ToList();
@@ -141,6 +148,7 @@ public static class RobotHelpers : object
 
     }
 
+    //setup the joints to have the correct angle constraints and be attached to the correct rigidbody before it in the body
     private static void SetupConfigurableJoint(this RobotConfig robot, GameObject section, JointConfig config, GameObject prevObject)
     {
         ConfigurableJoint joint = section.GetComponent<ConfigurableJoint>();
@@ -151,6 +159,8 @@ public static class RobotHelpers : object
         joint.connectedBody = prevObject.GetComponent<Rigidbody>();
     }
 
+    //used when creating a new body section for an existing robot
+    //set it as an average of the existing body, so that it is 'up to date' with the evolution thus far
     internal static void AverageRestOfBody(this RobotConfig robot)
     {
         //get all the genes for the rest of the body
@@ -192,6 +202,9 @@ public static class RobotHelpers : object
         }
     }
 
+    //set the rotating sections to alternate between sin and cos
+    //if SetRotation, then also set it such that every other section is rotating
+    //SetRotation should only really be true when a robot is first created
     internal static void MakeSerpentine(this RobotConfig robot, bool SetRotation = false)
     {
         bool isRotating = true;
@@ -214,6 +227,7 @@ public static class RobotHelpers : object
         }
     }
 
+    //get a list of all the genevariables for a config (e.g. BodyConfig)
     internal static List<GeneVariable> GetVariables(this RobotConfig robot, dynamic config)
     {
         List<GeneVariable> genes = new List<GeneVariable>();
@@ -229,6 +243,7 @@ public static class RobotHelpers : object
         return genes;
     }
 
+    //attach the cam to the robot, say after switching to a new robot in the Robot UI View
     internal static void AttachCam(this RobotConfig robot)
     {
         //if the camera was previously attached to another robot then remove that script
@@ -240,12 +255,14 @@ public static class RobotHelpers : object
         CameraConfig.RobotCamera.GetComponent<CameraPosition>().SetRobot(robot);
     }
 
+    //get what the Y position param should be on spawn
     //accessed by GenerateRobot on init and GeneticAlgorithm when respawning
     internal static float GetYPos(this RobotConfig robot)
     {
         return TerrainConfig.GetTerrainHeight() + 1f;
     }
 
+    //get what the Z position param should be on spawn - called for each body part
     //accessed by GenerateRobot on init and GeneticAlgorithm when respawning
     internal static float GetZPos(this RobotConfig robot, GameObject prevObject, GameObject thisObject)
     {
@@ -256,6 +273,7 @@ public static class RobotHelpers : object
         return zPos;
     }
 
+    //return the total mass of the robot
     private static float GetTotalMass(this RobotConfig robot)
     {
         float sumMass = 0;
@@ -267,6 +285,7 @@ public static class RobotHelpers : object
         return sumMass;
     }
 
+    //when changing the layer of a robot, update each child to also use this layer
     internal static void SetChildLayer(this RobotConfig robot, int newLayer)
     {
         foreach (Transform child in robot.Object.transform)
@@ -286,6 +305,7 @@ public static class RobotHelpers : object
         //Debug.Log($"Moving {gameObject.name} from layer {LayerMask.LayerToName(oldLayer)} to layer {LayerMask.LayerToName(newLayer)}");
     }
 
+    //get all robots within a radius
     internal static List<GameObject> GetNearbyRobots(this RobotConfig robot, int radius)
     {
         Collider[] potential = Physics.OverlapSphere(robot.Object.transform.position, radius);
@@ -305,6 +325,7 @@ public static class RobotHelpers : object
         return incoming;
     }
 
+    //get all robots that are physically similar, within a set accepted range of difference
     internal static List<RobotConfig> GetPhysicallySimilarRobots(this RobotConfig robot, int difference)
     {
         List<RobotConfig> similar = new List<RobotConfig>();
@@ -332,6 +353,7 @@ public static class RobotHelpers : object
         return similar;
     }
 
+    //get all robots that are movement-ally similar, within a set accepted range of difference
     internal static List<RobotConfig> GetMovementSimilarRobots(this RobotConfig robot, int difference)
     {
         List<RobotConfig> similar = new List<RobotConfig>();
@@ -371,6 +393,7 @@ public static class RobotHelpers : object
         return similar;
     }
 
+    //get the expected number of colliders that would be within the range of the robot anyway (such as the terrain and the size of the robot itself)
     private static int GetExpectedColliders(this RobotConfig robot)
     {
         int expectedColliders = 0;

@@ -167,6 +167,85 @@ public class UI : MonoBehaviour
         Color originalColour = text.color;
         text.color = new Color(config.BodyColour.Value / 100f, config.BodyColour.Value / 100f, 1f);
         if (ChangeColour && text.color != originalColour) StartCoroutine(TextChanged(UIE.BodyColour, config.RobotIndex));
+
+        //body diagram
+        //too many bodies, clear out some
+        while(UIE.Bodies.Count - config.NoSections.Value > 0)
+        {
+            UITemplateBody removeBody = UIE.Bodies[UIE.Bodies.Count - 1];
+            Destroy(removeBody.Body.gameObject);
+            UIE.Bodies.Remove(removeBody);
+        }
+        //not enough bodies, create some
+        while(config.NoSections.Value - UIE.Bodies.Count > 0)
+        {
+            GameObject newBody = MonoBehaviour.Instantiate(Resources.Load<GameObject>("BodyUI"));
+            UITemplateBody objects = newBody.GetComponent<UITemplateBody>();
+            UIE.Bodies.Add(objects);
+            newBody.transform.SetParent(UIE.RobotNumber.transform.parent);
+            newBody.name = $"Body {UIE.Bodies.IndexOf(objects)}";
+        }
+        List<ObjectConfig> objConfigs = config.Configs.Where(o => o.Type == BodyPart.Body).OrderBy(o => o.Index).ToList();
+        for (int i = 0; i < UIE.Bodies.Count; i++)
+        {
+            UITemplateBody body = UIE.Bodies[i];
+            BodyConfig bodyConfig = config.Configs.Where(o => o.Type == BodyPart.Body && o.Index == i).First().Body;
+
+            int width = 160;
+            //position
+            UITemplateBody prevBody = i == 0 ? null : UIE.Bodies[i - 1];
+            body.Body.transform.localPosition = new Vector3(prevBody == null ? -880 : prevBody.Body.transform.localPosition.x + prevBody.Body.transform.localScale.x * width + 20, 30, 0);
+            body.Body.transform.localScale = new Vector3(1, 1, 1);
+
+            //primary axis
+            text = body.PrimaryRotation;
+            original = text.text;
+            text.text = GetPrimaryAxis(bodyConfig.RotationMultiplier.Value);
+            if (ChangeColour && text.text != original) StartCoroutine(TextChanged(body.PrimaryRotation, config.RobotIndex));
+
+            //is rotating
+            text = body.IsRotating;
+            original = text.text;
+            text.text = !bodyConfig.IsRotating.Value ? ""
+                : bodyConfig.UseSin.Value ? "↶" : "↷";
+            if (ChangeColour && text.text != original) StartCoroutine(TextChanged(body.IsRotating, config.RobotIndex));
+
+            //is driving
+            text = body.IsDriving;
+            original = text.text;
+            text.text = bodyConfig.IsDriving.Value ? "←" : "";
+            if (ChangeColour && text.text != original) StartCoroutine(TextChanged(body.IsDriving, config.RobotIndex));
+
+            //drive velocity
+            text = body.DriveVelocity;
+            original = text.text;
+            text.text = Math.Round(bodyConfig.DriveVelocity.Value, 1).ToString();
+            if (ChangeColour && text.text != original) StartCoroutine(TextChanged(body.DriveVelocity, config.RobotIndex));
+
+            //angle - 0 - 60
+            //size
+            float originalScale = body.Body.transform.localScale.x;
+            float scalemin = 0.7f, scalemax = 1f;
+            float value = (bodyConfig.Size.Value - bodyConfig.Size.Min) / (bodyConfig.Size.Max - bodyConfig.Size.Min);
+            float newScale = value * (scalemax - scalemin) + scalemin;
+            body.Body.transform.localScale = new Vector3(newScale, newScale, newScale);
+
+            //mass
+            float originalMass = body.Body.GetComponent<Image>().pixelsPerUnitMultiplier;
+            float massmin = 0.3f, massmax = 1f;
+            value = (bodyConfig.Mass.Value - bodyConfig.Mass.Min) / (bodyConfig.Mass.Max - bodyConfig.Mass.Min);
+            float newMass = value * (massmax - massmin) + massmin;
+            body.Body.GetComponent<Image>().pixelsPerUnitMultiplier = newMass;
+
+            //angle
+            float originalAngle = body.Body.transform.localPosition.y;
+            float anglemin = 0, anglemax = 60;
+            value = bodyConfig.AngleConstraint.Value.magnitude;
+
+            if(ChangeColour && (originalScale != newScale || originalMass != newMass)) StartCoroutine(TextChanged(body.Changed, config.RobotIndex));
+
+        }
+
     }
 
     private void ToggleOriginal()
@@ -208,6 +287,33 @@ public class UI : MonoBehaviour
         {
             button.GetComponent<Image>().color = Color.white;
         }
+    }
+
+    private IEnumerator TextChanged(GameObject button, int robotIndex)
+    {
+        button.GetComponent<Image>().color = Color.red;
+        yield return new WaitForSeconds(5f);
+        if (Robot.RobotIndex == robotIndex)
+        {
+            button.GetComponent<Image>().color = Color.white;
+        }
+    }
+
+    private IEnumerator TextChanged(Text text, int robotIndex)
+    {
+        text.color = Color.red;
+        yield return new WaitForSeconds(5f);
+        if(Robot.RobotIndex == robotIndex)
+        {
+            text.color = Color.white;
+        }
+    }
+
+    private string GetPrimaryAxis(Vector3 vector)
+    {
+        if (vector.x > vector.y && vector.x > vector.y) return "X";
+        else if (vector.y > vector.z) return "Y";
+        else return "Z";
     }
 
     //------------------------------------------Accessed by GA------------------------------

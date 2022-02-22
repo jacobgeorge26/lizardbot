@@ -7,6 +7,8 @@ public enum Variable
     BodyColour = -3, 
     AngleConstraint = -4, 
     TailMassMultiplier = -5,
+    Size = -6, 
+    Mass = -7,
     //positive = movement
     IsRotating = 1, 
     UseSin = 2, 

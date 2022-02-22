@@ -54,6 +54,9 @@ public class UIConfig : MonoBehaviour
     [HideInInspector]
     public List<GameObject> RobotOptions, PerformanceOptions;
 
+    [HideInInspector]
+    public List<UITemplateBody> Bodies;
+
     void Awake()
     {
         UIContainer = this.gameObject;
@@ -79,3 +82,5 @@ public class UIConfig : MonoBehaviour
         BodyColourText = BodyColour.GetComponentInChildren<Text>();
     }
 }
+
+

@@ -28,6 +28,8 @@ namespace Config
 
         /*-------------------------------------------------------------------------------------------------------*/
 
-        
+        public GeneVariable Size = new GeneVariable(1f, 0.5f, 1.5f, Variable.Size);
+
+        public GeneVariable Mass = new GeneVariable(1f, 0.5f, 1.5f, Variable.Mass);
     }
 }
