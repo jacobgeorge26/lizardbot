@@ -6,7 +6,7 @@ using System.Linq;
 using UnityEngine;
 using Random = System.Random;
 
-public static class RobotHelpers
+public static class RobotHelpers : object
 {
     internal static void CreateHead(this RobotConfig robot)
     {
@@ -121,7 +121,7 @@ public static class RobotHelpers
         else
         {
             ObjectConfig bodyConfig = bodyConfigs.First();
-            bodyConfig.Destroy();
+            bodyConfig.Remove();
             robot.Configs.Remove(bodyConfig);
         }
 
@@ -135,7 +135,7 @@ public static class RobotHelpers
         else
         {
             ObjectConfig tailConfig = tailConfigs.First();
-            tailConfig.Destroy();
+            tailConfig.Remove();
             robot.Configs.Remove(tailConfig);
         }
 

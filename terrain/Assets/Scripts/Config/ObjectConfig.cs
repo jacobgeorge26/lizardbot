@@ -31,9 +31,27 @@ namespace Config
             RobotIndex = _robotIndex;
         }
 
-        public void Destroy()
+        public void Remove()
         {
             Destroy(this.gameObject);
+        }
+
+
+        //this method is used to delete an entire robot - uses the first objectconfig it is storing (there must always be >0)
+        //calls this to delete it, though ObjectConfig isn't directly related to the Robot
+        //messy, but avoids messier code when RobotConfig was a MonoBehaviour too
+        public void Remove(GameObject robot)
+        {
+            Destroy(robot);
+        }
+
+        //this method is used to clone an entire robot - uses the first objectconfig it is storing (there must always be >0)
+        //calls this to clone it, though ObjectConfig isn't directly related to the Robot
+        //messy, but avoids messier code when RobotConfig was a MonoBehaviour too
+        public GameObject Clone(GameObject robot)
+        {
+            GameObject newRobot = Instantiate(robot);
+            return newRobot;
         }
 
     }

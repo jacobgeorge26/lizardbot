@@ -9,7 +9,6 @@ public class TrappedAlgorithm : MonoBehaviour
 {
     private Queue<Vector3> locations = new Queue<Vector3>();
     private Queue<float> volumes = new Queue<float>();
-    private GeneticAlgorithm AIScript;
     private RobotConfig robotConfig;
 
     //how many locations are analysed (2 per second)
@@ -43,7 +42,6 @@ public class TrappedAlgorithm : MonoBehaviour
             pointsContainer.name = name;
             pointsContainer.transform.parent = GetComponent<Transform>().parent;
         }
-        AIScript = FindObjectOfType<GeneticAlgorithm>();
         ObjectConfig objConfig = this.gameObject.GetComponent<ObjectConfig>();
         robotConfig = AIConfig.RobotConfigs.Where(r => r.RobotIndex == objConfig.RobotIndex).First();
 
@@ -104,7 +102,7 @@ public class TrappedAlgorithm : MonoBehaviour
                         p.transform.parent = pointsContainer.transform;
                     }
                     IsEnabled = false;
-                    AIScript.RobotIsStuck(robotConfig);        
+                    robotConfig.RobotIsStuck();     
                 }
                 else if(ShowTrail)
                 {

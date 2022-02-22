@@ -320,6 +320,7 @@
 "Assets/Scripts/Config/RobotConfig.cs"
 "Assets/Scripts/Config/TailConfig.cs"
 "Assets/Scripts/Config/TerrainConfig.cs"
+"Assets/Scripts/Config/UIConfig.cs"
 "Assets/Scripts/Config/Variables.cs"
 -langversion:8.0
 
