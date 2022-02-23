@@ -9,6 +9,8 @@ namespace Config
     {
         public GeneVariable TailMassMultiplier = new GeneVariable(0.5f, 0.2f, 1.5f, Variable.TailMassMultiplier);
 
+        public GeneVariable Length = new GeneVariable(2f, 1f, 4f, Variable.Length);
+
         public void Clone(TailConfig oldConfig)
         {
             AngleConstraint.Value = oldConfig.AngleConstraint.Value;

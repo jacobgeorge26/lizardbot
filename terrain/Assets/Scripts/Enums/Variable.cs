@@ -9,6 +9,7 @@ public enum Variable
     TailMassMultiplier = -5,
     Size = -6, 
     Mass = -7,
+    Length = -8,
     //positive = movement
     IsRotating = 1, 
     UseSin = 2, 

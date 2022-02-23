@@ -1,4 +1,5 @@
-using Config;
+﻿using Config;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -67,6 +68,177 @@ public class UIConfig : MonoBehaviour
         VersionText = Version.GetComponentInChildren<Text>();
         CurrentPerformanceText = CurrentPerformance.GetComponentInChildren<Text>();
         BestPerformanceText = BestPerformance.GetComponentInChildren<Text>();
+    }
+
+    //-------------------------------------------------------------------------------------------
+    //helper methods to make UI a bit easier to read
+    private float anglemin = 0, anglemax = 60;
+    private float scalemin = 0.7f, scalemax = 1f;
+    private float massmin = 0.3f, massmax = 1f;
+
+    public void SetupBodies(int max)
+    {
+        for (int i = 0; i < max; i++)
+        {
+            GameObject newBody = MonoBehaviour.Instantiate(Resources.Load<GameObject>("BodyUI"));
+            BodyUI objects = newBody.GetComponent<BodyUI>();
+            Bodies.Add(objects);
+            newBody.transform.SetParent(RobotNumber.transform.parent);
+            newBody.name = $"Body {Bodies.IndexOf(objects)}";
+        }
+    }
+
+    public void SetBodyPosition(BodyUI body, BodyUI prevBody)
+    {
+        float width = prevBody == null ? 0 : prevBody.Body.transform.GetComponent<RectTransform>().rect.width;
+        body.Body.transform.localPosition = new Vector3(prevBody == null ? -880 : prevBody.Body.transform.localPosition.x + prevBody.Body.transform.localScale.x * width + 20, (anglemax + anglemin) / 2, 0);
+        body.Body.transform.localScale = new Vector3(1, 1, 1);
+    }
+
+    public bool SetPrimaryAxis(BodyUI body, Vector3 value)
+    {
+        string original = body.PrimaryRotation.text;
+        body.PrimaryRotation.text = GetPrimaryAxis(value);
+        return body.PrimaryRotation.text != original;
+    }
+
+    private string GetPrimaryAxis(Vector3 vector)
+    {
+        if (vector.x > vector.y && vector.x > vector.y) return "X";
+        else if (vector.y > vector.z) return "Y";
+        else return "Z";
+    }
+
+    public bool SetIsRotating(BodyUI body, bool isRotating, bool isSin)
+    {
+        string original = body.IsRotating.text;
+        body.IsRotating.text = !isRotating ? ""
+            : isSin ? "↶" : "↷";
+        return body.IsRotating.text != original;
+    }
+
+    public bool SetIsDriving(BodyUI body, bool isDriving)
+    {
+        string original = body.IsDriving.text;
+        body.IsDriving.text = isDriving ? "←" : "";
+        return body.IsDriving.text != original;
+    }
+
+    public bool SetDriveVelocity(BodyUI body, float driveVelocity)
+    {
+        string original = body.DriveVelocity.text;
+        body.DriveVelocity.text = Math.Round(driveVelocity, 2).ToString();
+        return body.DriveVelocity.text != original;
+    }
+
+    public bool SetSize(BodyUI body, float value)
+    {
+        float originalScale = body.RelativeScale;
+        float newScale = value * (scalemax - scalemin) + scalemin;
+        body.RelativeScale = newScale;
+        body.Body.transform.localScale = new Vector3(newScale, newScale, newScale);
+        return newScale != originalScale;
+    }
+
+    public bool SetMass(BodyUI body, float value)
+    {
+        float originalMass = body.Body.GetComponent<Image>().pixelsPerUnitMultiplier;
+        float newMass = value * (massmax - massmin) + massmin;
+        body.Body.GetComponent<Image>().pixelsPerUnitMultiplier = newMass;
+        return newMass != originalMass;
+    }
+
+    public bool SetAngleConstraint(BodyUI body, float value, ref bool angleDirectionUp, BodyUI prevBody)
+    {
+        float originalAngle = body.RelativeAngle;
+        //angle needs to be relative to previous body UI
+        float prevAngle = prevBody == null ? 0 : prevBody.Body.transform.localPosition.y;
+        //new angle is how far the new body should be from the previous body, put into the scale anglemin - anglemax
+        float newAngle = prevBody == null ? (anglemax + anglemin) / 2 : (value * (anglemax - anglemin) + anglemin) / 2;
+        body.RelativeAngle = newAngle;
+
+        //set actual angle
+        float actualAngle = GetActualAngle(prevAngle, newAngle, ref angleDirectionUp);
+        body.Body.transform.localPosition = new Vector3(body.Body.transform.localPosition.x, actualAngle, 0);
+        return newAngle != originalAngle;
+    }
+
+    private float GetActualAngle(float prevAngle, float newAngle, ref bool angleDirectionUp)
+    {
+        float actualAngle;
+        if (prevAngle + newAngle > anglemax && prevAngle - newAngle < anglemin)
+        {
+            //handle the case in which the angle exceeds both min and max
+            //data shown won't quite be accurate but will be close enough
+            actualAngle = anglemax - prevAngle > prevAngle - anglemin ? anglemax : anglemin;
+            angleDirectionUp = anglemax - prevAngle > prevAngle - anglemin ? false : true;
+        }
+        else
+        {
+            actualAngle = angleDirectionUp ? prevAngle + newAngle : prevAngle - newAngle;
+            //if new angle exceeds max, then correct and move back down
+            angleDirectionUp = actualAngle > anglemax ? false : angleDirectionUp;
+            actualAngle = actualAngle > anglemax ? prevAngle - newAngle : actualAngle;
+            //if new angle is below min, then correct and move back up
+            angleDirectionUp = actualAngle < anglemin ? true : angleDirectionUp;
+            actualAngle = actualAngle < anglemin ? prevAngle + newAngle : actualAngle;
+        }
+        return actualAngle;
+    }
+
+    public void SetupTail()
+    {
+        GameObject newTail = MonoBehaviour.Instantiate(Resources.Load<GameObject>("TailUI"));
+        TailUI objects = newTail.GetComponent<TailUI>();
+        Tail = objects;
+        newTail.transform.SetParent(RobotNumber.transform.parent);
+        newTail.name = $"Tail";
+    }
+
+    public bool SetTailLength(float value, ref float newLength)
+    {
+        RectTransform lengthObject = Tail.transform.GetComponent<RectTransform>();
+        float originalLength = lengthObject.rect.width;
+        float lengthmin = 160, lengthmax = 250;
+        newLength = value * (lengthmax - lengthmin) + lengthmin;
+        lengthObject.sizeDelta = new Vector2(newLength, lengthObject.rect.height);
+        return newLength != originalLength;
+    }
+
+    public void SetTailPosition(BodyUI lastBody, float tailLength)
+    {
+        Tail.transform.localPosition = new Vector3(lastBody.Body.transform.localPosition.x + lastBody.Body.transform.localScale.x * tailLength + 20, (anglemax + anglemin) / 2, 0);
+        Tail.transform.localScale = new Vector3(1, 1, 1);
+        //set the position of the JointChanged slider - only other position affected by the tail length
+        Tail.JointChanged.transform.localPosition = new Vector3((-tailLength / 2) - 10, 0, 0);
+    }
+
+    public bool SetTailPrimaryAxis(Vector3 rotation)
+    {
+        string original = Tail.PrimaryRotation.text;
+        Tail.PrimaryRotation.text = GetPrimaryAxis(rotation);
+        return Tail.PrimaryRotation.text != original;
+    }
+
+    public bool SetTailMass(float value)
+    {
+        string original = Tail.MassMultiplier.text;
+        Tail.MassMultiplier.text = Math.Round(value, 2).ToString();
+        return Tail.MassMultiplier.text != original;
+    }
+
+    public bool SetTailAngleConstraint(float value, ref bool angleDirectionUp, BodyUI lastBody)
+    {
+        float originalAngle = Tail.RelativeAngle;
+        //angle needs to be relative to the last body UI
+        float prevAngle = lastBody.Body.transform.localPosition.y;
+        //new angle is how far the new tail should be from the previous tail, put into the scale anglemin - anglemax
+        float newAngle = (value * (anglemax - anglemin) + anglemin) / 2;
+        Tail.RelativeAngle = newAngle;
+        //set actual angle
+        float actualAngle = GetActualAngle(prevAngle, newAngle, ref angleDirectionUp);
+        Tail.transform.localPosition = new Vector3(Tail.transform.localPosition.x, actualAngle, 0);
+        return newAngle != originalAngle;
     }
 }
 

@@ -5,9 +5,12 @@ using UnityEngine.UI;
 
 public class TailUI : MonoBehaviour
 {
-    public Button Body;
+    public Button Tail;
     public Text PrimaryRotation;
-    public GameObject SizeMassChanged;
+    public Text MassMultiplier;
+    public GameObject LengthChanged;
+    public GameObject JointChanged;
+
     //the UI needs to know the relative angle of the Body (for AngleConstraint), rather than the actual y coordinate
     [HideInInspector]
     public float RelativeAngle = 0;

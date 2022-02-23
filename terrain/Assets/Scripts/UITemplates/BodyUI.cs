@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,7 @@ public class BodyUI : MonoBehaviour
     public Text IsDriving;
     public Text DriveVelocity;
     public GameObject SizeMassChanged;
+    public GameObject JointChanged;
     //the UI needs to know the relative angle of the Body (for AngleConstraint), rather than the actual y coordinate
     [HideInInspector]
     public float RelativeAngle = 0;

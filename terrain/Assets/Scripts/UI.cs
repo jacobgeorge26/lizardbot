@@ -136,45 +136,27 @@ public class UI : MonoBehaviour
         }
     }
 
-    private void RobotUpdate(RobotConfig config, bool ChangeColour)
+    private void RobotUpdate(RobotConfig config, bool showChanges)
     {
-        //↶ ↷ ← symbols that will be used
-        Text text;
-        string original;
-
+        //HEADER
         //Version
-        text = UIE.VersionText;
-        original = text.text;
+        Text text = UIE.VersionText;
+        string original = text.text;
         text.text = config.Version.ToString();
-        if (ChangeColour && text.text != original) StartCoroutine(TextChanged(UIE.Version, config.RobotIndex));
-
         //Performance
-        //best
-        text = UIE.BestPerformanceText;
+        text = UIE.BestPerformanceText; //best
         text.text = config.Performance.ToString();
-        //current
-        text = UIE.CurrentPerformanceText;
+        text = UIE.CurrentPerformanceText; //current
         text.text = "";
 
-        //body diagram
+        //BODY
         //if first time, set up body objects
-        if (UIE.Bodies.Count == 0)
-        {
-            for (int i = 0; i < config.NoSections.Max; i++)
-            {
-                GameObject newBody = MonoBehaviour.Instantiate(Resources.Load<GameObject>("BodyUI"));
-                BodyUI objects = newBody.GetComponent<BodyUI>();
-                UIE.Bodies.Add(objects);
-                newBody.transform.SetParent(UIE.RobotNumber.transform.parent);
-                newBody.name = $"Body {UIE.Bodies.IndexOf(objects)}";
-            }
-        }
+        if (UIE.Bodies.Count == 0) UIE.SetupBodies(config.NoSections.Max);   
         //make sure the right number are enabled vs disabled
         for (int i = 0; i < config.NoSections.Max; i++)
         {
             UIE.Bodies[i].Body.gameObject.SetActive(i < config.NoSections.Value);
         }
-
         List<ObjectConfig> objConfigs = config.Configs.Where(o => o.Type == BodyPart.Body).OrderBy(o => o.Index).ToList();
         bool angleDirectionUp = true;
         for (int i = 0; i < config.NoSections.Value; i++)
@@ -182,86 +164,73 @@ public class UI : MonoBehaviour
             BodyUI body = UIE.Bodies[i];
             BodyConfig bodyConfig = config.Configs.Where(o => o.Type == BodyPart.Body && o.Index == i).First().Body;
 
-            int width = 160;
             //position
             BodyUI prevBody = i == 0 ? null : UIE.Bodies[i - 1];
-            body.Body.transform.localPosition = new Vector3(prevBody == null ? -880 : prevBody.Body.transform.localPosition.x + prevBody.Body.transform.localScale.x * width + 20, 30, 0);
-            body.Body.transform.localScale = new Vector3(1, 1, 1);
+            UIE.SetBodyPosition(body, prevBody);
 
             //primary axis
-            text = body.PrimaryRotation;
-            original = text.text;
-            text.text = GetPrimaryAxis(bodyConfig.RotationMultiplier.Value);
-            if (ChangeColour && text.text != original) StartCoroutine(TextChanged(body.PrimaryRotation, config.RobotIndex));
+            bool isChanged = UIE.SetPrimaryAxis(body, bodyConfig.RotationMultiplier.Value);
+            if (showChanges && isChanged) StartCoroutine(ValueChanged(body.PrimaryRotation, config.RobotIndex));
 
             //is rotating
-            text = body.IsRotating;
-            original = text.text;
-            text.text = !bodyConfig.IsRotating.Value ? ""
-                : bodyConfig.UseSin.Value ? "↶" : "↷";
-            if (ChangeColour && text.text != original) StartCoroutine(TextChanged(body.IsRotating, config.RobotIndex));
+            isChanged = UIE.SetIsRotating(body, bodyConfig.IsRotating.Value, bodyConfig.UseSin.Value);
+            if (showChanges && isChanged) StartCoroutine(ValueChanged(body.IsRotating, config.RobotIndex));
 
             //is driving
-            text = body.IsDriving;
-            original = text.text;
-            text.text = bodyConfig.IsDriving.Value ? "←" : "";
-            if (ChangeColour && text.text != original) StartCoroutine(TextChanged(body.IsDriving, config.RobotIndex));
+            isChanged = UIE.SetIsDriving(body, bodyConfig.IsDriving.Value);
+            if (showChanges && isChanged) StartCoroutine(ValueChanged(body.IsDriving, config.RobotIndex));
 
             //drive velocity
-            text = body.DriveVelocity;
-            original = text.text;
-            text.text = Math.Round(bodyConfig.DriveVelocity.Value, 1).ToString();
-            if (ChangeColour && text.text != original) StartCoroutine(TextChanged(body.DriveVelocity, config.RobotIndex));
+            isChanged = UIE.SetDriveVelocity(body, bodyConfig.DriveVelocity.Value);
+            if (showChanges && isChanged) StartCoroutine(ValueChanged(body.DriveVelocity, config.RobotIndex));
 
             //size
-            float originalScale = body.RelativeScale;
-            float scalemin = 0.7f, scalemax = 1f;
             float value = (bodyConfig.Size.Value - bodyConfig.Size.Min) / (bodyConfig.Size.Max - bodyConfig.Size.Min);
-            float newScale = value * (scalemax - scalemin) + scalemin;
-            body.RelativeScale = newScale;
-            body.Body.transform.localScale = new Vector3(newScale, newScale, newScale);
+            bool sizeChanged = UIE.SetSize(body, value);
 
             //mass
-            float originalMass = body.Body.GetComponent<Image>().pixelsPerUnitMultiplier;
-            float massmin = 0.3f, massmax = 1f;
             value = (bodyConfig.Mass.Value - bodyConfig.Mass.Min) / (bodyConfig.Mass.Max - bodyConfig.Mass.Min);
-            float newMass = value * (massmax - massmin) + massmin;
-            body.Body.GetComponent<Image>().pixelsPerUnitMultiplier = newMass;
+            bool massChanged = UIE.SetMass(body, value);
+
+            if (showChanges && (sizeChanged || massChanged)) StartCoroutine(ValueChanged(body.SizeMassChanged, config.RobotIndex));
 
             //angle
-            float originalAngle = body.RelativeAngle;
-            float anglemin = 0, anglemax = 60;
             value = GetRelativeAngleMagnitude(bodyConfig.AngleConstraint.Value, bodyConfig.AngleConstraint.Min, bodyConfig.AngleConstraint.Max);
-            //angle needs to be relative to previous body UI
-            float prevAngle = i == 0 ? 0 : prevBody.Body.transform.localPosition.y;
-            //new angle is how far the new body should be from the previous body, put into the scale anglemin - anglemax
-            float newAngle = i == 0 ? (anglemax + anglemin) / 2 : (value * (anglemax - anglemin) + anglemin) / 2;
-            body.RelativeAngle = newAngle;
+            isChanged = UIE.SetAngleConstraint(body, value, ref angleDirectionUp, prevBody);
+            if (showChanges && i > 0 && isChanged) StartCoroutine(ValueChanged(body.JointChanged, config.RobotIndex));
+        }
 
-            float actualAngle;
-            if(prevAngle + newAngle > anglemax && prevAngle - newAngle < anglemin)
-            {
-                //handle the case in which the angle exceeds both min and max
-                //data shown won't quite be accurate but will be close enough
-                actualAngle = anglemax - prevAngle > prevAngle - anglemin ? anglemax : anglemin;
-                angleDirectionUp = anglemax - prevAngle > prevAngle - anglemin ? false : true;
-            }
-            else
-            {
-                actualAngle = angleDirectionUp ? prevAngle + newAngle : prevAngle - newAngle;
-                //if new angle exceeds max, then correct and move back down
-                angleDirectionUp = actualAngle > anglemax ? false : angleDirectionUp;
-                actualAngle = actualAngle > anglemax ? prevAngle - newAngle : actualAngle;
-                //if new angle is below min, then correct and move back up
-                angleDirectionUp = actualAngle < anglemin ? true : angleDirectionUp;
-                actualAngle = actualAngle < anglemin ? prevAngle + newAngle : actualAngle;
-            }
-            body.Body.transform.localPosition = new Vector3(body.Body.transform.localPosition.x, actualAngle, 0);
+        //TAIL
+        //if first time, set up tail object
+        if (UIE.Tail == null) UIE.SetupTail();
+        UIE.Tail.gameObject.SetActive(config.IsTailEnabled.Value);
+        if (config.IsTailEnabled.Value)
+        {
+            TailUI tail = UIE.Tail;
+            TailConfig tailConfig = config.Configs.Where(o => o.Type == BodyPart.Tail).First().Tail;
 
-            //if(originalAngle != newAngle)
+            //Length
+            float value = (tailConfig.Length.Value - tailConfig.Length.Min) / (tailConfig.Length.Max - tailConfig.Length.Min);
+            float tailLength = 0;
+            bool isChanged = UIE.SetTailLength(value, ref tailLength);
+            if (showChanges && isChanged) StartCoroutine(ValueChanged(tail.LengthChanged, config.RobotIndex));
 
-            if (ChangeColour && (originalScale != newScale || originalMass != newMass)) StartCoroutine(TextChanged(body.SizeMassChanged, config.RobotIndex));
+            //position - needed to set the new length first to adjust for it in the position
+            BodyUI lastBody = UIE.Bodies[config.NoSections.Value - 1];
+            UIE.SetTailPosition(lastBody, tailLength);
 
+            //primary axis
+            isChanged = UIE.SetTailPrimaryAxis(tailConfig.RotationMultiplier.Value);
+            if (showChanges && isChanged) StartCoroutine(ValueChanged(tail.PrimaryRotation, config.RobotIndex));
+
+            //mass multiplier
+            isChanged = UIE.SetTailMass(tailConfig.TailMassMultiplier.Value);
+            if (showChanges && isChanged) StartCoroutine(ValueChanged(tail.MassMultiplier, config.RobotIndex));
+
+            //rotation multiplier
+            value = GetRelativeAngleMagnitude(tailConfig.AngleConstraint.Value, tailConfig.AngleConstraint.Min, tailConfig.AngleConstraint.Max);
+            isChanged = UIE.SetTailAngleConstraint(value, ref angleDirectionUp, lastBody);
+            if (showChanges && isChanged) StartCoroutine(ValueChanged(tail.JointChanged, config.RobotIndex));
         }
 
     }
@@ -310,7 +279,7 @@ public class UI : MonoBehaviour
         UIE.Overview.transform.parent.gameObject.SetActive(!IsRobotView && !UIE.IsCollapsed);
     }
 
-    private IEnumerator TextChanged(Button button, int robotIndex)
+    private IEnumerator ValueChanged(Button button, int robotIndex)
     {
         button.GetComponent<Image>().color = Color.red;
         yield return new WaitForSeconds(5f);
@@ -320,7 +289,7 @@ public class UI : MonoBehaviour
         }
     }
 
-    private IEnumerator TextChanged(GameObject slider, int robotIndex)
+    private IEnumerator ValueChanged(GameObject slider, int robotIndex)
     {
         slider.SetActive(true);
         yield return new WaitForSeconds(5f);
@@ -330,21 +299,14 @@ public class UI : MonoBehaviour
         }
     }
 
-    private IEnumerator TextChanged(Text text, int robotIndex)
+    private IEnumerator ValueChanged(Text text, int robotIndex)
     {
         text.color = Color.red;
         yield return new WaitForSeconds(5f);
-        if(Robot.RobotIndex == robotIndex)
+        if (Robot.RobotIndex == robotIndex)
         {
             text.color = Color.white;
         }
-    }
-
-    private string GetPrimaryAxis(Vector3 vector)
-    {
-        if (vector.x > vector.y && vector.x > vector.y) return "X";
-        else if (vector.y > vector.z) return "Y";
-        else return "Z";
     }
 
     private float GetRelativeAngleMagnitude(Vector3 vector, float min, float max)
