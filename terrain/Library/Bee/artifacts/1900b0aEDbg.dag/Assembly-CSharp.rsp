@@ -316,6 +316,7 @@
 -r:"Library/Bee/artifacts/1900b0aEDbg.dag/ProceduralToolkit.Samples.Chairs.Editor.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aEDbg.dag/ProceduralToolkit.Samples.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aEDbg.dag/TestAssembly.ref.dll"
+-r:"Library/Bee/artifacts/1900b0aEDbg.dag/UITemplates.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aEDbg.dag/Unity.PlasticSCM.Editor.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aEDbg.dag/Unity.Recorder.Base.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aEDbg.dag/Unity.Recorder.Editor.ref.dll"

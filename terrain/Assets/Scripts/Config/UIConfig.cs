@@ -48,26 +48,18 @@ public class UIConfig : MonoBehaviour
     [HideInInspector]
     public Text BestPerformanceText;
 
-    [HideInInspector]
-    public List<GameObject> RobotOptions, PerformanceOptions;
+    //PERFORMANCE
+    public Button Overview;
 
     [HideInInspector]
-    public List<UITemplateBody> Bodies;
+    public List<BodyUI> Bodies;
+
+    [HideInInspector]
+    public TailUI Tail;
 
     void Awake()
     {
         UIContainer = this.gameObject;
-
-        //split objects into Robot / Performance
-        //Robot
-        RobotOptions = new List<GameObject>();
-        RobotOptions.Add(Original.gameObject);
-        RobotOptions.Add(Version.gameObject);
-        RobotOptions.Add(CurrentPerformance.gameObject);
-        RobotOptions.Add(BestPerformance.gameObject);
-        //Performance
-        PerformanceOptions = new List<GameObject>();
-        //TODO: add performance UI
 
         //setup text objects
         ToggleText = Toggle.GetComponentInChildren<Text>();

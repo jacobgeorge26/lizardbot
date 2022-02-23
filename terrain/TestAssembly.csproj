@@ -703,6 +703,10 @@
       <Project>{1E4203AB-7F81-1C6A-C02E-D06CD9BD6DE4}</Project>
       <Name>Grapher</Name>
     </ProjectReference>
+    <ProjectReference Include="UITemplates.csproj">
+      <Project>{937A1AA3-2F8B-93E3-C784-EBB1FB8BAFAF}</Project>
+      <Name>UITemplates</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

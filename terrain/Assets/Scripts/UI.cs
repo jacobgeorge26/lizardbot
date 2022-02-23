@@ -15,6 +15,7 @@ public class UI : MonoBehaviour
     void Start()
     {
         UIE = this.gameObject.GetComponent<UIConfig>();
+
         SetupUIOptions();
 
         //setup toggle
@@ -44,19 +45,14 @@ public class UI : MonoBehaviour
         switch (selection)
         {
             case UIView.Robot:
-                ToggleEnable(UIE.PerformanceOptions, false);
+                ToggleEnable();
                 SetupRobotSelector();
                 CameraConfig.RobotCamera.SetActive(true);
                 CameraConfig.OverviewCamera.SetActive(false);
                 CameraConfig.Hat.SetActive(true);
                 break;
             case UIView.Performance:
-                ToggleEnable(UIE.RobotOptions, false);
-                if (!UIE.IsCollapsed)
-                {               
-                    ToggleEnable(UIE.PerformanceOptions, true);
-                }
-                UIE.RobotNumber.gameObject.SetActive(false);
+                ToggleEnable();
                 CameraConfig.OverviewCamera.SetActive(true);
                 CameraConfig.RobotCamera.SetActive(false);
                 CameraConfig.RobotCamera.GetComponent<CameraPosition>().Clear();
@@ -71,32 +67,31 @@ public class UI : MonoBehaviour
     private void ToggleUI()
     {
         Text text = UIE.ToggleText;
-        if(UIE.IsCollapsed)
+        //toggle IsCollapsed
+        if (UIE.IsCollapsed)
         {
             //UI is currently down, needs to go up
             UIE.IsCollapsed = !UIE.IsCollapsed;
             UIE.panel.GetComponent<Image>().color = new Color(0, 0, 0, 0.5f);
             UIE.UIOption.transform.localPosition = new Vector3(-800, 440, 0);
-            UIE.RobotNumber.transform.localPosition = new Vector3(-525, 175, 0);
+            UIE.RobotNumber.transform.localPosition = new Vector3(-525, 176, 0);
             UIE.Toggle.transform.localPosition = new Vector3(920, 440, 0);
-            text.text = "▼";
+            text.text = "▼"; 
+            ToggleEnable();
             if (UIE.View == UIView.Robot)
             {
-                UIE.RobotNumber.gameObject.SetActive(true);
                 SelectRobot(UIE.RobotNumber.text);
-                ToggleEnable(UIE.RobotOptions, true);
             }
         }
         else
         {
             //UI is currently up, needs to go down
             UIE.IsCollapsed = !UIE.IsCollapsed;
-            ToggleEnable(UIE.RobotOptions, false);
-            UIE.RobotNumber.gameObject.SetActive(false);
+            ToggleEnable();
             UIE.panel.GetComponent<Image>().color = new Color(0, 0, 0, 0.01f);
-            UIE.UIOption.transform.localPosition = new Vector3(-800, -400, 0);
-            UIE.RobotNumber.transform.localPosition = new Vector3(-525, -160, 0);
-            UIE.Toggle.transform.localPosition = new Vector3(920, -400, 0);
+            UIE.UIOption.transform.localPosition = new Vector3(-800, -450, 0);
+            UIE.RobotNumber.transform.localPosition = new Vector3(-525, -180, 0);
+            UIE.Toggle.transform.localPosition = new Vector3(920, -450, 0);
             text.text = "▲";
         }
     }
@@ -109,7 +104,7 @@ public class UI : MonoBehaviour
         UIE.RobotNumber.onEndEdit.AddListener(delegate { SelectRobot(UIE.RobotNumber.text); });
         UIE.Original.onClick.AddListener(delegate { ToggleOriginal(); });
         SelectRobot(CameraConfig.CamFollow == -1 ? "1" : (CameraConfig.CamFollow + 1).ToString());
-        if (!UIE.IsCollapsed) ToggleEnable(UIE.RobotOptions, true);
+        ToggleEnable();
     }
 
     private void SelectRobot(string robotText)
@@ -168,7 +163,7 @@ public class UI : MonoBehaviour
             for (int i = 0; i < config.NoSections.Max; i++)
             {
                 GameObject newBody = MonoBehaviour.Instantiate(Resources.Load<GameObject>("BodyUI"));
-                UITemplateBody objects = newBody.GetComponent<UITemplateBody>();
+                BodyUI objects = newBody.GetComponent<BodyUI>();
                 UIE.Bodies.Add(objects);
                 newBody.transform.SetParent(UIE.RobotNumber.transform.parent);
                 newBody.name = $"Body {UIE.Bodies.IndexOf(objects)}";
@@ -184,12 +179,12 @@ public class UI : MonoBehaviour
         bool angleDirectionUp = true;
         for (int i = 0; i < config.NoSections.Value; i++)
         {
-            UITemplateBody body = UIE.Bodies[i];
+            BodyUI body = UIE.Bodies[i];
             BodyConfig bodyConfig = config.Configs.Where(o => o.Type == BodyPart.Body && o.Index == i).First().Body;
 
             int width = 160;
             //position
-            UITemplateBody prevBody = i == 0 ? null : UIE.Bodies[i - 1];
+            BodyUI prevBody = i == 0 ? null : UIE.Bodies[i - 1];
             body.Body.transform.localPosition = new Vector3(prevBody == null ? -880 : prevBody.Body.transform.localPosition.x + prevBody.Body.transform.localScale.x * width + 20, 30, 0);
             body.Body.transform.localScale = new Vector3(1, 1, 1);
 
@@ -277,8 +272,11 @@ public class UI : MonoBehaviour
         if (!UIE.IsOriginal)
         {
             //currently showing current, move to show original
+            UIE.IsOriginal = !UIE.IsOriginal;
             text.text = "Show Current";
-            UIE.RobotOptions.ForEach(o => o.GetComponent<Image>().color = Color.grey);
+            UIE.Version.GetComponent<Image>().color = Color.grey;
+            UIE.CurrentPerformance.GetComponent<Image>().color = Color.grey;
+            UIE.BestPerformance.GetComponent<Image>().color = Color.grey;
             UIE.Bodies.ForEach(o => {
                 o.PrimaryRotation.color = Color.white;
                 o.IsRotating.color = Color.white;
@@ -292,21 +290,24 @@ public class UI : MonoBehaviour
         else
         {
             //currently showing original, move to show current
+            UIE.IsOriginal = !UIE.IsOriginal;
             text.text = "Show Original";
-            UIE.RobotOptions.ForEach(o => o.GetComponent<Image>().color = Color.white);
+            UIE.Version.GetComponent<Image>().color = Color.white;
+            UIE.CurrentPerformance.GetComponent<Image>().color = Color.white;
+            UIE.BestPerformance.GetComponent<Image>().color = Color.white;
             RobotUpdate(Robot, false);
         }
-        UIE.IsOriginal = !UIE.IsOriginal;
+        
     }
 
     //-----------------------------------------------All Helpers----------------------------
-    private void ToggleEnable(List<GameObject> objects, bool enable)
+    private void ToggleEnable()
     {
-        foreach (var item in objects)
-        {
-            item.SetActive(enable);
-            item.transform.parent.gameObject.SetActive(enable); //the label associated with these values
-        }
+        bool IsRobotView = UIE.View == UIView.Robot;
+        UIE.RobotNumber.transform.parent.gameObject.SetActive(IsRobotView && !UIE.IsCollapsed);
+        UIE.RobotNumber.gameObject.SetActive(IsRobotView);
+
+        UIE.Overview.transform.parent.gameObject.SetActive(!IsRobotView && !UIE.IsCollapsed);
     }
 
     private IEnumerator TextChanged(Button button, int robotIndex)
