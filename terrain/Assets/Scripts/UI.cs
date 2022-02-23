@@ -21,7 +21,6 @@ public class UI : MonoBehaviour
         UIE.Toggle.onClick.AddListener(delegate { ToggleUI(); });
         //flip so that it will flip back to the default state
         UIE.IsCollapsed = !UIE.IsCollapsed;
-        UIE.IsOriginal = !UIE.IsOriginal;
         ToggleUI();
     }
 
@@ -60,6 +59,7 @@ public class UI : MonoBehaviour
                 UIE.RobotNumber.gameObject.SetActive(false);
                 CameraConfig.OverviewCamera.SetActive(true);
                 CameraConfig.RobotCamera.SetActive(false);
+                CameraConfig.RobotCamera.GetComponent<CameraPosition>().Clear();
                 CameraConfig.Hat.SetActive(false);
                 break;
             default:
@@ -127,9 +127,13 @@ public class UI : MonoBehaviour
         robot = robot < 1 || robot > AIConfig.PopulationSize ? 1 : robot;
         UIE.RobotNumber.text = $"Robot {robot}";
         Robot = AIConfig.RobotConfigs[robot - 1];
-        if (UIE.IsOriginal && !UIE.IsCollapsed) RobotUpdate(Robot.Original, false); //show original values
-        else if (!UIE.IsCollapsed) RobotUpdate(Robot, false); //show current values
-
+        if (!UIE.IsCollapsed)
+        {
+            //flip so that it will flip back to the default state
+            UIE.IsOriginal = !UIE.IsOriginal;
+            ToggleOriginal();
+            //ToggleOriginal will in turn call RobotUpdate
+        }
         //setup camera if not already done
         if(CameraConfig.CamFollow != Robot.RobotIndex)
         {
@@ -146,47 +150,39 @@ public class UI : MonoBehaviour
         //Version
         text = UIE.VersionText;
         original = text.text;
-        text.text = Robot.Version.ToString();
+        text.text = config.Version.ToString();
         if (ChangeColour && text.text != original) StartCoroutine(TextChanged(UIE.Version, config.RobotIndex));
 
-        //NoSections
-        text = UIE.NoSectionsText;
-        original = text.text;
-        text.text = config.NoSections.Value.ToString();
-        if (ChangeColour && text.text != original) StartCoroutine(TextChanged(UIE.NoSections, config.RobotIndex));
-
-        //TailEnabled
-        text = UIE.TailEnabledText;
-        original = text.text;
-        text.text = config.IsTailEnabled.Value ? "✓" : "";
-        if (ChangeColour && text.text != original) StartCoroutine(TextChanged(UIE.TailEnabled, config.RobotIndex));
-
-        //BodyColour
-        text = UIE.BodyColourText;
-        text.text = "■";
-        Color originalColour = text.color;
-        text.color = new Color(config.BodyColour.Value / 100f, config.BodyColour.Value / 100f, 1f);
-        if (ChangeColour && text.color != originalColour) StartCoroutine(TextChanged(UIE.BodyColour, config.RobotIndex));
+        //Performance
+        //best
+        text = UIE.BestPerformanceText;
+        text.text = config.Performance.ToString();
+        //current
+        text = UIE.CurrentPerformanceText;
+        text.text = "";
 
         //body diagram
-        //too many bodies, clear out some
-        while(UIE.Bodies.Count - config.NoSections.Value > 0)
+        //if first time, set up body objects
+        if (UIE.Bodies.Count == 0)
         {
-            UITemplateBody removeBody = UIE.Bodies[UIE.Bodies.Count - 1];
-            Destroy(removeBody.Body.gameObject);
-            UIE.Bodies.Remove(removeBody);
+            for (int i = 0; i < config.NoSections.Max; i++)
+            {
+                GameObject newBody = MonoBehaviour.Instantiate(Resources.Load<GameObject>("BodyUI"));
+                UITemplateBody objects = newBody.GetComponent<UITemplateBody>();
+                UIE.Bodies.Add(objects);
+                newBody.transform.SetParent(UIE.RobotNumber.transform.parent);
+                newBody.name = $"Body {UIE.Bodies.IndexOf(objects)}";
+            }
         }
-        //not enough bodies, create some
-        while(config.NoSections.Value - UIE.Bodies.Count > 0)
+        //make sure the right number are enabled vs disabled
+        for (int i = 0; i < config.NoSections.Max; i++)
         {
-            GameObject newBody = MonoBehaviour.Instantiate(Resources.Load<GameObject>("BodyUI"));
-            UITemplateBody objects = newBody.GetComponent<UITemplateBody>();
-            UIE.Bodies.Add(objects);
-            newBody.transform.SetParent(UIE.RobotNumber.transform.parent);
-            newBody.name = $"Body {UIE.Bodies.IndexOf(objects)}";
+            UIE.Bodies[i].Body.gameObject.SetActive(i < config.NoSections.Value);
         }
+
         List<ObjectConfig> objConfigs = config.Configs.Where(o => o.Type == BodyPart.Body).OrderBy(o => o.Index).ToList();
-        for (int i = 0; i < UIE.Bodies.Count; i++)
+        bool angleDirectionUp = true;
+        for (int i = 0; i < config.NoSections.Value; i++)
         {
             UITemplateBody body = UIE.Bodies[i];
             BodyConfig bodyConfig = config.Configs.Where(o => o.Type == BodyPart.Body && o.Index == i).First().Body;
@@ -222,12 +218,12 @@ public class UI : MonoBehaviour
             text.text = Math.Round(bodyConfig.DriveVelocity.Value, 1).ToString();
             if (ChangeColour && text.text != original) StartCoroutine(TextChanged(body.DriveVelocity, config.RobotIndex));
 
-            //angle - 0 - 60
             //size
-            float originalScale = body.Body.transform.localScale.x;
+            float originalScale = body.RelativeScale;
             float scalemin = 0.7f, scalemax = 1f;
             float value = (bodyConfig.Size.Value - bodyConfig.Size.Min) / (bodyConfig.Size.Max - bodyConfig.Size.Min);
             float newScale = value * (scalemax - scalemin) + scalemin;
+            body.RelativeScale = newScale;
             body.Body.transform.localScale = new Vector3(newScale, newScale, newScale);
 
             //mass
@@ -238,11 +234,38 @@ public class UI : MonoBehaviour
             body.Body.GetComponent<Image>().pixelsPerUnitMultiplier = newMass;
 
             //angle
-            float originalAngle = body.Body.transform.localPosition.y;
+            float originalAngle = body.RelativeAngle;
             float anglemin = 0, anglemax = 60;
-            value = bodyConfig.AngleConstraint.Value.magnitude;
+            value = GetRelativeAngleMagnitude(bodyConfig.AngleConstraint.Value, bodyConfig.AngleConstraint.Min, bodyConfig.AngleConstraint.Max);
+            //angle needs to be relative to previous body UI
+            float prevAngle = i == 0 ? 0 : prevBody.Body.transform.localPosition.y;
+            //new angle is how far the new body should be from the previous body, put into the scale anglemin - anglemax
+            float newAngle = i == 0 ? (anglemax + anglemin) / 2 : (value * (anglemax - anglemin) + anglemin) / 2;
+            body.RelativeAngle = newAngle;
 
-            if(ChangeColour && (originalScale != newScale || originalMass != newMass)) StartCoroutine(TextChanged(body.Changed, config.RobotIndex));
+            float actualAngle;
+            if(prevAngle + newAngle > anglemax && prevAngle - newAngle < anglemin)
+            {
+                //handle the case in which the angle exceeds both min and max
+                //data shown won't quite be accurate but will be close enough
+                actualAngle = anglemax - prevAngle > prevAngle - anglemin ? anglemax : anglemin;
+                angleDirectionUp = anglemax - prevAngle > prevAngle - anglemin ? false : true;
+            }
+            else
+            {
+                actualAngle = angleDirectionUp ? prevAngle + newAngle : prevAngle - newAngle;
+                //if new angle exceeds max, then correct and move back down
+                angleDirectionUp = actualAngle > anglemax ? false : angleDirectionUp;
+                actualAngle = actualAngle > anglemax ? prevAngle - newAngle : actualAngle;
+                //if new angle is below min, then correct and move back up
+                angleDirectionUp = actualAngle < anglemin ? true : angleDirectionUp;
+                actualAngle = actualAngle < anglemin ? prevAngle + newAngle : actualAngle;
+            }
+            body.Body.transform.localPosition = new Vector3(body.Body.transform.localPosition.x, actualAngle, 0);
+
+            //if(originalAngle != newAngle)
+
+            if (ChangeColour && (originalScale != newScale || originalMass != newMass)) StartCoroutine(TextChanged(body.SizeMassChanged, config.RobotIndex));
 
         }
 
@@ -254,15 +277,22 @@ public class UI : MonoBehaviour
         if (!UIE.IsOriginal)
         {
             //currently showing current, move to show original
-            text.text = "Current";
+            text.text = "Show Current";
             UIE.RobotOptions.ForEach(o => o.GetComponent<Image>().color = Color.grey);
+            UIE.Bodies.ForEach(o => {
+                o.PrimaryRotation.color = Color.white;
+                o.IsRotating.color = Color.white;
+                o.IsDriving.color = Color.white;
+                o.DriveVelocity.color = Color.white;
+                o.SizeMassChanged.SetActive(false);
+                });
             UIE.Original.GetComponent<Image>().color = Color.white; //return to white, exception to above line
             RobotUpdate(Robot.Original, false);
         }
         else
         {
             //currently showing original, move to show current
-            text.text = "Original";
+            text.text = "Show Original";
             UIE.RobotOptions.ForEach(o => o.GetComponent<Image>().color = Color.white);
             RobotUpdate(Robot, false);
         }
@@ -289,13 +319,13 @@ public class UI : MonoBehaviour
         }
     }
 
-    private IEnumerator TextChanged(GameObject button, int robotIndex)
+    private IEnumerator TextChanged(GameObject slider, int robotIndex)
     {
-        button.GetComponent<Image>().color = Color.red;
+        slider.SetActive(true);
         yield return new WaitForSeconds(5f);
         if (Robot.RobotIndex == robotIndex)
         {
-            button.GetComponent<Image>().color = Color.white;
+            slider.SetActive(false);
         }
     }
 
@@ -316,11 +346,33 @@ public class UI : MonoBehaviour
         else return "Z";
     }
 
-    //------------------------------------------Accessed by GA------------------------------
+    private float GetRelativeAngleMagnitude(Vector3 vector, float min, float max)
+    {
+        float magnitudeMax = new Vector3(max, max, max).magnitude;
+        float magnitudeMin = new Vector3(min, min, min).magnitude;
+        return (vector.magnitude - magnitudeMin) / (magnitudeMax - magnitudeMin);
+    }
+
+    //------------------------------------------Accessed by GA &&|| TrappedAlgorithm------------------------------
 
     public void UpdateRobotUI(RobotConfig config)
     {
-        if (UIE.View == UIView.Robot && !UIE.IsOriginal && config.RobotIndex == Robot.RobotIndex) RobotUpdate(config, true);
+        if (UIE.View == UIView.Robot && !UIE.IsOriginal && config.RobotIndex == Robot.RobotIndex)
+        {
+            Robot = config;
+            RobotUpdate(config, true);
+        }
+    }
+
+    public void UpdatePerformance(int robotIndex, float current, float best)
+    {
+        if(UIE.View == UIView.Robot && !UIE.IsOriginal && robotIndex == Robot.RobotIndex)
+        {
+            Text text = UIE.BestPerformanceText;
+            text.text = best.ToString();
+            text = UIE.CurrentPerformanceText;
+            text.text = current.ToString();
+        }
     }
 
 }

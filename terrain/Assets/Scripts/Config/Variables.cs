@@ -190,8 +190,8 @@ namespace Config
                     return currentValue = value ? 0.75f : 0.25f;
                 }
                 //existing value, check if value needs to be changed as bool has changed
-                else if (value && currentValue < 0.5f) return 0.25f;
-                else if (!value && currentValue >= 0.5f) return 0.75f;
+                else if (value && currentValue < 0.5f) return 0.75f; //set true
+                else if (!value && currentValue >= 0.5f) return 0.25f; //set false
                 else return currentValue;
             }
             //not bool, return value

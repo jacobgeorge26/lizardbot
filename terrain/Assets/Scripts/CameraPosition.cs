@@ -60,7 +60,15 @@ public class CameraPosition : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CameraConfig.RobotCamera.transform.position = GetCameraPosition();
+        if(robot != null)
+        {
+            CameraConfig.RobotCamera.transform.position = GetCameraPosition();
+        }
+    }
+
+    public void Clear()
+    {
+        robot = null;
     }
 
     public Vector3 GetCameraPosition()

@@ -301,7 +301,9 @@ MonoBehaviour:
   IsRotating: {fileID: 4866227253285000520}
   IsDriving: {fileID: 5753388038588094056}
   DriveVelocity: {fileID: 3023505012729170493}
-  Changed: {fileID: 3023505013795115993}
+  SizeMassChanged: {fileID: 3023505013795115993}
+  RelativeAngle: 0
+  RelativeScale: 1
 --- !u!1 &3023505013795115993
 GameObject:
   m_ObjectHideFlags: 0
@@ -319,7 +321,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3023505013795115992
 RectTransform:
   m_ObjectHideFlags: 0

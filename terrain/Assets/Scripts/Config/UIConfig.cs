@@ -35,9 +35,8 @@ public class UIConfig : MonoBehaviour
     public InputField RobotNumber;
     public Button Original;
     public Button Version;
-    public Button NoSections;
-    public Button TailEnabled;
-    public Button BodyColour;
+    public Button CurrentPerformance;
+    public Button BestPerformance;
 
     //Text objects for robot display - save repeated calls for GetComponent
     [HideInInspector]
@@ -45,11 +44,9 @@ public class UIConfig : MonoBehaviour
     [HideInInspector]
     public Text VersionText;
     [HideInInspector]
-    public Text NoSectionsText;
+    public Text CurrentPerformanceText;
     [HideInInspector]
-    public Text TailEnabledText;
-    [HideInInspector]
-    public Text BodyColourText;
+    public Text BestPerformanceText;
 
     [HideInInspector]
     public List<GameObject> RobotOptions, PerformanceOptions;
@@ -66,9 +63,8 @@ public class UIConfig : MonoBehaviour
         RobotOptions = new List<GameObject>();
         RobotOptions.Add(Original.gameObject);
         RobotOptions.Add(Version.gameObject);
-        RobotOptions.Add(NoSections.gameObject);
-        RobotOptions.Add(TailEnabled.gameObject);
-        RobotOptions.Add(BodyColour.gameObject);
+        RobotOptions.Add(CurrentPerformance.gameObject);
+        RobotOptions.Add(BestPerformance.gameObject);
         //Performance
         PerformanceOptions = new List<GameObject>();
         //TODO: add performance UI
@@ -77,9 +73,8 @@ public class UIConfig : MonoBehaviour
         ToggleText = Toggle.GetComponentInChildren<Text>();
         OriginalText = Original.GetComponentInChildren<Text>();
         VersionText = Version.GetComponentInChildren<Text>();
-        NoSectionsText = NoSections.GetComponentInChildren<Text>();
-        TailEnabledText = TailEnabled.GetComponentInChildren<Text>();
-        BodyColourText = BodyColour.GetComponentInChildren<Text>();
+        CurrentPerformanceText = CurrentPerformance.GetComponentInChildren<Text>();
+        BestPerformanceText = BestPerformance.GetComponentInChildren<Text>();
     }
 }
 

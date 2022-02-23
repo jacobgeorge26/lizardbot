@@ -31,5 +31,17 @@ namespace Config
         public GeneVariable Size = new GeneVariable(1f, 0.5f, 1.5f, Variable.Size);
 
         public GeneVariable Mass = new GeneVariable(1f, 0.5f, 1.5f, Variable.Mass);
+
+        public void Clone(BodyConfig oldConfig)
+        {
+            AngleConstraint.Value = oldConfig.AngleConstraint.Value;
+            RotationMultiplier.Value = oldConfig.RotationMultiplier.Value;
+            IsRotating.Value = oldConfig.IsRotating.Value;
+            UseSin.Value = oldConfig.UseSin.Value;
+            IsDriving.Value = oldConfig.IsDriving.Value;
+            DriveVelocity.Value = oldConfig.DriveVelocity.Value;
+            Size.Value = oldConfig.Size.Value;
+            Mass.Value = oldConfig.Mass.Value;
+        }
     }
 }

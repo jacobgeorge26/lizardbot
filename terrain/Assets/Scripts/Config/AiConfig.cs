@@ -13,7 +13,7 @@ namespace Config
         //population can be >25, but in rougher terrain where the robot isn't making progress, expect some warnings and interaction between them
         public static int PopulationSize = 5;
 
-        public static bool RandomInitValues = true;
+        public static bool RandomInitValues = false;
 
         //how many generations of mutations are allowed to pass before it determines the success of the robot
         //set to 0 to always select the best of the previous vs mutation
@@ -34,7 +34,7 @@ namespace Config
         public static float MutationRate = 0.5f;
 
         //options for which genes will be mutated
-        public static Mutation MutationType = Mutation.Physical;
+        public static Mutation MutationType = Mutation.Movement;
 
         //value for k - how many should be considered in the recombination?
         public static int SelectionSize = 1;

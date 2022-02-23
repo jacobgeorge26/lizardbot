@@ -52,6 +52,7 @@ namespace Config
             this.IsTailEnabled = robot.IsTailEnabled;
             this.BodyColour = robot.BodyColour;
         }
+
     }
 }
 

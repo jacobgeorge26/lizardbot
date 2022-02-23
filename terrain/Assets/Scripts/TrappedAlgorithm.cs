@@ -10,6 +10,7 @@ public class TrappedAlgorithm : MonoBehaviour
     private Queue<Vector3> locations = new Queue<Vector3>();
     private Queue<float> volumes = new Queue<float>();
     private RobotConfig robotConfig;
+    private UI ui;
 
     //how many locations are analysed (2 per second)
     private int locationsSize = 20; 
@@ -44,6 +45,8 @@ public class TrappedAlgorithm : MonoBehaviour
         }
         ObjectConfig objConfig = this.gameObject.GetComponent<ObjectConfig>();
         robotConfig = AIConfig.RobotConfigs.Where(r => r.RobotIndex == objConfig.RobotIndex).First();
+
+        ui ??= UIConfig.UIContainer.GetComponent<UI>();
 
         StartCoroutine(IsTrapped());
     }
@@ -114,7 +117,10 @@ public class TrappedAlgorithm : MonoBehaviour
 
         }
         //important - update robot with its performance metric for AI to use
-        robotConfig.Performance = currentLocation.magnitude > robotConfig.Performance ? currentLocation.magnitude : robotConfig.Performance;
+        float currentPerformance = currentLocation.magnitude;
+        robotConfig.Performance = currentPerformance > robotConfig.Performance ? currentPerformance : robotConfig.Performance;
+        //update performance in UI
+        ui.UpdatePerformance(robotConfig.RobotIndex, currentPerformance, robotConfig.Performance);
     }
 
     private float GetVolume()

@@ -145,7 +145,6 @@ public static class GeneticAlgorithm : object
 
     private static List<GeneVariable> GetGenes(RobotConfig robot)
     {
-        robot.IsTailEnabled.Value = false;
         List<GeneVariable> genes = new List<GeneVariable>();
         //split variables into physical and movement
         genes = genes.Concat(robot.GetVariables(robot)).ToList();
@@ -256,7 +255,7 @@ public static class GeneticAlgorithm : object
         }
         if (newRobot.MaintainSerpentine.Value) newRobot.MakeSerpentine(false);
         //if the robot camera is following this robot then update its Head & Tail variables
-        if (CameraConfig.CamFollow == newRobot.RobotIndex) CameraConfig.RobotCamera.GetComponent<CameraPosition>().SetRobot(newRobot);
+        if (CameraConfig.CamFollow == newRobot.RobotIndex && CameraConfig.RobotCamera.activeSelf == true) CameraConfig.RobotCamera.GetComponent<CameraPosition>().SetRobot(newRobot);
     }
 
     private static RobotConfig Init(RobotConfig newRobot, RobotConfig oldRobot, int newVersion)
@@ -274,15 +273,18 @@ public static class GeneticAlgorithm : object
         foreach (Transform item in newRobot.Object.transform)
         {
             ObjectConfig objConfig = item.gameObject.GetComponent<ObjectConfig>();
-            if(objConfig != null)
+            if (objConfig != null)
             {
+                ObjectConfig oldObjConfig = oldRobot.Configs.First(o => o.Type == objConfig.Type && o.Index == objConfig.Index);
                 if (objConfig.Type == BodyPart.Body)
                 {
-                    objConfig.Body = oldRobot.Configs.First(o => o.Type == BodyPart.Body && o.Index == objConfig.Index).Body;
+                    objConfig.Body = new BodyConfig();
+                    objConfig.Body.Clone(oldObjConfig.Body);
                 }
                 else if (objConfig.Type == BodyPart.Tail)
                 {
-                    objConfig.Tail = oldRobot.Configs.First(o => o.Type == BodyPart.Tail).Tail;
+                    objConfig.Tail = new TailConfig();
+                    objConfig.Tail.Clone(oldObjConfig.Tail);
                 }
                 newRobot.Configs.Add(objConfig);
             }
