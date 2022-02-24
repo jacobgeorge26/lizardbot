@@ -10,18 +10,20 @@ public class UIConfig : MonoBehaviour
     //Important - how static scripts will access the UI (aka GA to update robot)
     public static GameObject UIContainer;
 
+    [Header("Default Options")]
     //UI options
     public static bool IsUIEnabled = true;
-    //Defaults
-    public UIView DefaultView = UIView.Performance;
+    public UIView DefaultView;
     public bool IsCollapsed;
     [HideInInspector]
     public bool IsOriginal = false;
 
-    //BOTH
+    [Header("General Objects")]
     public GameObject panel;
     public Dropdown UIOption;
     public Button Toggle;
+    public GameObject RobotOptions;
+    public GameObject PerformanceOptions;
     //Helpers for both
     [HideInInspector]
     public Text ToggleText;
@@ -32,7 +34,7 @@ public class UIConfig : MonoBehaviour
         set => UIOption.value = (int)value;
     }
 
-    //ROBOT
+    [Header("Robot Objects")]
     public InputField RobotNumber;
     public Button Original;
     public Button Version;
@@ -49,7 +51,7 @@ public class UIConfig : MonoBehaviour
     [HideInInspector]
     public Text BestPerformanceText;
 
-    //PERFORMANCE
+    [Header("Performance Objects")]
     public Button Overview;
 
     [HideInInspector]
@@ -74,7 +76,7 @@ public class UIConfig : MonoBehaviour
     //helper methods to make UI a bit easier to read
     private float anglemin = 0, anglemax = 60;
     private float scalemin = 0.7f, scalemax = 1f;
-    private float massmin = 0.3f, massmax = 1f;
+    private float massmin = 0.2f, massmax = 0.7f;
 
     public void SetupBodies(int max)
     {
@@ -83,22 +85,31 @@ public class UIConfig : MonoBehaviour
             GameObject newBody = MonoBehaviour.Instantiate(Resources.Load<GameObject>("BodyUI"));
             BodyUI objects = newBody.GetComponent<BodyUI>();
             Bodies.Add(objects);
-            newBody.transform.SetParent(RobotNumber.transform.parent);
+            newBody.transform.SetParent(RobotOptions.transform);
             newBody.name = $"Body {Bodies.IndexOf(objects)}";
         }
     }
 
     public void SetBodyPosition(BodyUI body, BodyUI prevBody)
     {
-        float width = prevBody == null ? 0 : prevBody.Body.transform.GetComponent<RectTransform>().rect.width;
-        body.Body.transform.localPosition = new Vector3(prevBody == null ? -880 : prevBody.Body.transform.localPosition.x + prevBody.Body.transform.localScale.x * width + 20, (anglemax + anglemin) / 2, 0);
-        body.Body.transform.localScale = new Vector3(1, 1, 1);
+        float x = GetXPos(body.Body.transform, body.RelativeScale, prevBody == null ? null : prevBody.Body.transform, prevBody == null ? 0 : prevBody.RelativeScale);
+        body.Body.transform.localPosition = new Vector3(x, (anglemax + anglemin) / 2, 0);
     }
 
-    public bool SetPrimaryAxis(BodyUI body, Vector3 value)
+    private float GetXPos(Transform thisBody, float thisScale, Transform prevBody, float prevScale)
+    {
+        float prevWidth = prevBody == null ? 0 : prevBody.GetComponent<RectTransform>().rect.width;
+        float thisWidth = thisBody.GetComponent<RectTransform>().rect.width;
+        float x = prevBody == null ? -880 : prevBody.localPosition.x; //start point to work right from
+        x += prevBody == null ? 0 : ((prevScale * prevWidth) / 2) + ((thisScale * thisWidth) / 2) + 20; //get x position using scale & width, from previous object
+        return x;
+    }
+
+    public bool SetPrimaryAxis(BodyUI body, Vector3 value, bool IsRotating)
     {
         string original = body.PrimaryRotation.text;
-        body.PrimaryRotation.text = GetPrimaryAxis(value);
+        body.PrimaryRotation.fontSize = 34;
+        body.PrimaryRotation.text = IsRotating ? GetPrimaryAxis(value) : "";
         return body.PrimaryRotation.text != original;
     }
 
@@ -124,10 +135,11 @@ public class UIConfig : MonoBehaviour
         return body.IsDriving.text != original;
     }
 
-    public bool SetDriveVelocity(BodyUI body, float driveVelocity)
+    public bool SetDriveVelocity(BodyUI body, float driveVelocity, bool isDriving)
     {
         string original = body.DriveVelocity.text;
-        body.DriveVelocity.text = Math.Round(driveVelocity, 2).ToString();
+        body.DriveVelocity.fontSize = 34;
+        body.DriveVelocity.text = isDriving ? Math.Round(driveVelocity, 2).ToString() : "";
         return body.DriveVelocity.text != original;
     }
 
@@ -191,7 +203,7 @@ public class UIConfig : MonoBehaviour
         GameObject newTail = MonoBehaviour.Instantiate(Resources.Load<GameObject>("TailUI"));
         TailUI objects = newTail.GetComponent<TailUI>();
         Tail = objects;
-        newTail.transform.SetParent(RobotNumber.transform.parent);
+        newTail.transform.SetParent(RobotOptions.transform);
         newTail.name = $"Tail";
     }
 
@@ -207,7 +219,8 @@ public class UIConfig : MonoBehaviour
 
     public void SetTailPosition(BodyUI lastBody, float tailLength)
     {
-        Tail.transform.localPosition = new Vector3(lastBody.Body.transform.localPosition.x + lastBody.Body.transform.localScale.x * tailLength + 20, (anglemax + anglemin) / 2, 0);
+        float x = GetXPos(Tail.transform, Tail.RelativeScale, lastBody.Body.transform, lastBody.RelativeScale);
+        Tail.transform.localPosition = new Vector3(x, (anglemax + anglemin) / 2, 0);
         Tail.transform.localScale = new Vector3(1, 1, 1);
         //set the position of the JointChanged slider - only other position affected by the tail length
         Tail.JointChanged.transform.localPosition = new Vector3((-tailLength / 2) - 10, 0, 0);

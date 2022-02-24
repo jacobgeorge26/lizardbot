@@ -4,7 +4,7 @@ using UnityEngine;
 using Config;
 using System;
 using System.Linq;
-using Random = System.Random;
+using Random = UnityEngine.Random;
 
 public class GenerateRobot : MonoBehaviour
 {
@@ -44,7 +44,7 @@ public class GenerateRobot : MonoBehaviour
     {
         List<BodyConfig> rotatingSections = new List<BodyConfig>();
         //initialise with random colour
-        robotConfig.BodyColour.Value = new Random().Next(30, 70);
+        robotConfig.BodyColour.Value = Random.Range(30, 70);
         for (int i = 0; i < robotConfig.NoSections.Value; i++)
         {
             if (i == 0) robotConfig.CreateHead();

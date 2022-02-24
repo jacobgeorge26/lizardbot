@@ -71,11 +71,12 @@ public class UI : MonoBehaviour
         if (UIE.IsCollapsed)
         {
             //UI is currently down, needs to go up
+            float up = 440;
             UIE.IsCollapsed = !UIE.IsCollapsed;
             UIE.panel.GetComponent<Image>().color = new Color(0, 0, 0, 0.5f);
-            UIE.UIOption.transform.localPosition = new Vector3(-800, 440, 0);
-            UIE.RobotNumber.transform.localPosition = new Vector3(-525, 176, 0);
-            UIE.Toggle.transform.localPosition = new Vector3(920, 440, 0);
+            UIE.UIOption.transform.localPosition = new Vector3(-800, up, 0);
+            UIE.RobotNumber.transform.localPosition = new Vector3(-525, up, 0);
+            UIE.Toggle.transform.localPosition = new Vector3(920, up, 0);
             text.text = "▼"; 
             ToggleEnable();
             if (UIE.View == UIView.Robot)
@@ -86,12 +87,13 @@ public class UI : MonoBehaviour
         else
         {
             //UI is currently up, needs to go down
+            float down = -450;
             UIE.IsCollapsed = !UIE.IsCollapsed;
             ToggleEnable();
             UIE.panel.GetComponent<Image>().color = new Color(0, 0, 0, 0.01f);
-            UIE.UIOption.transform.localPosition = new Vector3(-800, -450, 0);
-            UIE.RobotNumber.transform.localPosition = new Vector3(-525, -180, 0);
-            UIE.Toggle.transform.localPosition = new Vector3(920, -450, 0);
+            UIE.UIOption.transform.localPosition = new Vector3(-800, down, 0);
+            UIE.RobotNumber.transform.localPosition = new Vector3(-525, down, 0);
+            UIE.Toggle.transform.localPosition = new Vector3(920, down, 0);
             text.text = "▲";
         }
     }
@@ -99,12 +101,10 @@ public class UI : MonoBehaviour
     //------------------------------Robot Options--------------------------------
     private void SetupRobotSelector()
     {
-        UIE.RobotNumber.gameObject.SetActive(true);
-        UIE.RobotNumber.gameObject.transform.parent.gameObject.SetActive(true); //shouldn't be necessary but for some reason is
+        ToggleEnable();
         UIE.RobotNumber.onEndEdit.AddListener(delegate { SelectRobot(UIE.RobotNumber.text); });
         UIE.Original.onClick.AddListener(delegate { ToggleOriginal(); });
         SelectRobot(CameraConfig.CamFollow == -1 ? "1" : (CameraConfig.CamFollow + 1).ToString());
-        ToggleEnable();
     }
 
     private void SelectRobot(string robotText)
@@ -145,7 +145,7 @@ public class UI : MonoBehaviour
         text.text = config.Version.ToString();
         //Performance
         text = UIE.BestPerformanceText; //best
-        text.text = config.Performance.ToString();
+        text.text = Math.Round(config.Performance, 2).ToString();
         text = UIE.CurrentPerformanceText; //current
         text.text = "";
 
@@ -164,12 +164,16 @@ public class UI : MonoBehaviour
             BodyUI body = UIE.Bodies[i];
             BodyConfig bodyConfig = config.Configs.Where(o => o.Type == BodyPart.Body && o.Index == i).First().Body;
 
+            //size - affects position so call first
+            float value = (bodyConfig.Size.Value - bodyConfig.Size.Min) / (bodyConfig.Size.Max - bodyConfig.Size.Min);
+            bool sizeChanged = UIE.SetSize(body, value);
+
             //position
             BodyUI prevBody = i == 0 ? null : UIE.Bodies[i - 1];
             UIE.SetBodyPosition(body, prevBody);
 
             //primary axis
-            bool isChanged = UIE.SetPrimaryAxis(body, bodyConfig.RotationMultiplier.Value);
+            bool isChanged = UIE.SetPrimaryAxis(body, bodyConfig.RotationMultiplier.Value, bodyConfig.IsRotating.Value);
             if (showChanges && isChanged) StartCoroutine(ValueChanged(body.PrimaryRotation, config.RobotIndex));
 
             //is rotating
@@ -181,12 +185,8 @@ public class UI : MonoBehaviour
             if (showChanges && isChanged) StartCoroutine(ValueChanged(body.IsDriving, config.RobotIndex));
 
             //drive velocity
-            isChanged = UIE.SetDriveVelocity(body, bodyConfig.DriveVelocity.Value);
+            isChanged = UIE.SetDriveVelocity(body, bodyConfig.DriveVelocity.Value, bodyConfig.IsDriving.Value);
             if (showChanges && isChanged) StartCoroutine(ValueChanged(body.DriveVelocity, config.RobotIndex));
-
-            //size
-            float value = (bodyConfig.Size.Value - bodyConfig.Size.Min) / (bodyConfig.Size.Max - bodyConfig.Size.Min);
-            bool sizeChanged = UIE.SetSize(body, value);
 
             //mass
             value = (bodyConfig.Mass.Value - bodyConfig.Mass.Min) / (bodyConfig.Mass.Max - bodyConfig.Mass.Min);
@@ -273,10 +273,10 @@ public class UI : MonoBehaviour
     private void ToggleEnable()
     {
         bool IsRobotView = UIE.View == UIView.Robot;
-        UIE.RobotNumber.transform.parent.gameObject.SetActive(IsRobotView && !UIE.IsCollapsed);
+        UIE.RobotOptions.SetActive(IsRobotView && !UIE.IsCollapsed);
         UIE.RobotNumber.gameObject.SetActive(IsRobotView);
 
-        UIE.Overview.transform.parent.gameObject.SetActive(!IsRobotView && !UIE.IsCollapsed);
+        UIE.PerformanceOptions.SetActive(!IsRobotView && !UIE.IsCollapsed);
     }
 
     private IEnumerator ValueChanged(Button button, int robotIndex)
@@ -302,10 +302,16 @@ public class UI : MonoBehaviour
     private IEnumerator ValueChanged(Text text, int robotIndex)
     {
         text.color = Color.red;
+        if (text.text == "")
+        {
+            text.fontSize = 48;
+            text.text = "-";
+        }
         yield return new WaitForSeconds(5f);
         if (Robot.RobotIndex == robotIndex)
         {
             text.color = Color.white;
+            if (text.text == "-") text.text = "";
         }
     }
 
@@ -332,9 +338,9 @@ public class UI : MonoBehaviour
         if(UIE.View == UIView.Robot && !UIE.IsOriginal && robotIndex == Robot.RobotIndex)
         {
             Text text = UIE.BestPerformanceText;
-            text.text = best.ToString();
+            text.text = Math.Round(best, 2).ToString();
             text = UIE.CurrentPerformanceText;
-            text.text = current.ToString();
+            text.text = Math.Round(current, 2).ToString();
         }
     }
 

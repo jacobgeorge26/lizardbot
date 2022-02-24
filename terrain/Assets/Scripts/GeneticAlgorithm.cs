@@ -4,13 +4,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Random = System.Random;
+using Random = UnityEngine.Random;
 
 public static class GeneticAlgorithm : object
 {
     private static RobotConfig[] LastRobots = new RobotConfig[AIConfig.PopulationSize];
     private static UI ui;
-    private static Random random = new Random();
 
     public static void RobotIsStuck(this RobotConfig stuckRobot)
     {
@@ -55,7 +54,7 @@ public static class GeneticAlgorithm : object
     private static void Recombine(List<GeneVariable> genes, RobotConfig robot)
     {
         Recombination type = AIConfig.RecombinationType == Recombination.Any
-            ? (Recombination)Enum.GetValues(typeof(Recombination)).GetValue(random.Next(Enum.GetValues(typeof(Recombination)).Length - 1))
+            ? (Recombination)Enum.GetValues(typeof(Recombination)).GetValue((int)Random.Range(0, Enum.GetValues(typeof(Recombination)).Length - 1))
             : AIConfig.RecombinationType;
         RobotConfig best1 = type switch
         {
@@ -63,7 +62,7 @@ public static class GeneticAlgorithm : object
             Recombination.MovementLikeness => BestMovementRobot(robot),
             Recombination.Triad => BestPhysicalRobot(robot),
             Recombination.Lizard => BestLizardRobot(robot),
-            _ => AIConfig.RobotConfigs.Where(r => r.RobotIndex != robot.RobotIndex).ToList()[random.Next(AIConfig.PopulationSize - 2)]
+            _ => AIConfig.RobotConfigs.Where(r => r.RobotIndex != robot.RobotIndex).ToList()[(int)Random.Range(0, AIConfig.PopulationSize - 2)]
         };
         //if using triad approach then best1 is the physical one, best2 needs to be the movement one
         RobotConfig best2 = type == Recombination.Triad ? BestMovementRobot(robot) : null;
@@ -124,7 +123,7 @@ public static class GeneticAlgorithm : object
     private static void Mutate(List<GeneVariable> allGenes)
     {
         Mutation type = AIConfig.MutationType == Mutation.Any
-            ? (Mutation)Enum.GetValues(typeof(Mutation)).GetValue(random.Next(Enum.GetValues(typeof(Mutation)).Length - 1))
+            ? (Mutation)Enum.GetValues(typeof(Mutation)).GetValue((int)Random.Range(0, Enum.GetValues(typeof(Mutation)).Length - 1))
             : AIConfig.MutationType;
         //trim list if physical / movement limited
         List<GeneVariable> genes = type == Mutation.Physical ? allGenes.Where(g => g.Type < 0).ToList() :
@@ -132,7 +131,7 @@ public static class GeneticAlgorithm : object
                 allGenes;
         foreach (GeneVariable gene in genes)
         {
-            if(random.NextDouble() < AIConfig.MutationRate)
+            if(Random.value < AIConfig.MutationRate)
             {
                 //adjust
                 GeneVariable g = (GeneVariable)gene;

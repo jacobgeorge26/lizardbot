@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using Random = System.Random;
+using Random = UnityEngine.Random;
 
 namespace Config
 {
@@ -21,8 +21,6 @@ namespace Config
 
         private List<Type> compatibleTypes = new List<Type> { typeof(int), typeof(float), typeof(Vector3) };
 
-        private Random random = new Random();
-
         public GeneVariable(dynamic defaultValue, dynamic minValue, dynamic maxValue, Variable type)
         {
             this.Min = minValue;
@@ -36,7 +34,7 @@ namespace Config
                 throw new Exception("GeneVariable has been assigned a min value that is greater than the max value.");
             }
             //now we know if there are any issues, we can generate a random value if necessary
-            if (AIConfig.RandomInitValues) Value = GenerateValue();
+            if (AIConfig.RandomInitValues) currentValue = GenerateValue();
         }
 
         public GeneVariable(bool boolValue, Variable type)
@@ -48,7 +46,7 @@ namespace Config
             currentValue = boolValue;
             Value = boolValue;
             //now we know if there are any issues, we can generate a random value if necessary
-            if (AIConfig.RandomInitValues) Value = GenerateValue();
+            if (AIConfig.RandomInitValues) currentValue = GenerateValue();
         }
 
         public dynamic Value
@@ -94,18 +92,18 @@ namespace Config
                 Vector3 newValue = new Vector3();
                 for (int i = 0; i < 3; i++)
                 {
-                    newValue[i] = (float)random.NextDouble() * (Max - Min) + Min;
+                    newValue[i] = Random.value * (Max - Min) + Min;
                 }
                 return newValue;
             }
             else if (currentValue.GetType() == typeof(int))//int or float - only one value needed
             {
-                return random.Next(Min, Max);
+                return (int)Random.Range(Min, Max);
 
             }
             else //float
             {
-                return (float)random.NextDouble() * (Max - Min) + Min;
+                return Random.value * (Max - Min) + Min;
             }
         }
 
@@ -157,8 +155,8 @@ namespace Config
         //get increment value - anywhere between /10 and /100 of the max-min range
         private float GetIncrement()
         {
-            float increment = (Max - Min) * random.Next(1, 11) / 100;
-            increment *= random.NextDouble() > 0.5 ? 1 : -1;
+            float increment = (Max - Min) * Random.Range(1, 11) / 100;
+            increment *= Random.value > 0.5 ? 1 : -1;
             return increment;
         }
 

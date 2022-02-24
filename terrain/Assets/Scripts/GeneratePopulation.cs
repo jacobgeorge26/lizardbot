@@ -3,7 +3,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = System.Random;
 
 public class GeneratePopulation : MonoBehaviour
 {
@@ -25,13 +24,17 @@ public class GeneratePopulation : MonoBehaviour
         cam.name = "Robot Camera";
         cam.SetActive(false);
         CameraConfig.RobotCamera = cam;
-        //setup UI
-        UI ui = FindObjectOfType<UI>();
-        if (ui != null && UIConfig.IsUIEnabled) ui.enabled = true;
-        else UIConfig.UIContainer.SetActive(false);
         //generate population, leaving a gap between them
         for (int i = 0; i < AIConfig.PopulationSize; i++)
         {
+            //setup UI after first robot has been generated
+            if(i == 1)
+            {
+                //setup UI
+                UI ui = FindObjectOfType<UI>();
+                if (ui != null && UIConfig.IsUIEnabled) ui.enabled = true;
+                else UIConfig.UIContainer.SetActive(false);
+            }
             GameObject robot = new GameObject();
             robot.name = $"Robot {i + 1}";
             GameObject version = new GameObject();

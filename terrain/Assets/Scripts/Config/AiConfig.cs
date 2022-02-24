@@ -13,7 +13,7 @@ namespace Config
         //population can be >25, but in rougher terrain where the robot isn't making progress, expect some warnings and interaction between them
         public static int PopulationSize = 5;
 
-        public static bool RandomInitValues = false;
+        public static bool RandomInitValues = true;
 
         //how many generations of mutations are allowed to pass before it determines the success of the robot
         //set to 0 to always select the best of the previous vs mutation
