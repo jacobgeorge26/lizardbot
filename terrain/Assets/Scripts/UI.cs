@@ -11,18 +11,12 @@ public class UI : MonoBehaviour
 {
     private UIConfig UIE; //UI elements
     private RobotConfig Robot;
+    private bool IsEnabled = false;
 
     void Start()
     {
         UIE = this.gameObject.GetComponent<UIConfig>();
-
-        SetupUIOptions();
-
-        //setup toggle
-        UIE.Toggle.onClick.AddListener(delegate { ToggleUI(); });
-        //flip so that it will flip back to the default state
-        UIE.IsCollapsed = !UIE.IsCollapsed;
-        ToggleUI();
+        UIE.panel.SetActive(false);
     }
 
     private void SetupUIOptions()
@@ -148,6 +142,10 @@ public class UI : MonoBehaviour
         text.text = Math.Round(config.Performance, 2).ToString();
         text = UIE.CurrentPerformanceText; //current
         text.text = "";
+        //Body Colour
+        UIE.ColourChanged.SetActive(false);
+        bool isChanged = UIE.SetBodyColour(config.BodyColour.Value / 100f);
+        if (showChanges && isChanged) StartCoroutine(ValueChanged(UIE.ColourChanged, config.RobotIndex));
 
         //BODY
         //if first time, set up body objects
@@ -173,7 +171,7 @@ public class UI : MonoBehaviour
             UIE.SetBodyPosition(body, prevBody);
 
             //primary axis
-            bool isChanged = UIE.SetPrimaryAxis(body, bodyConfig.RotationMultiplier.Value, bodyConfig.IsRotating.Value);
+            isChanged = UIE.SetPrimaryAxis(body, bodyConfig.RotationMultiplier.Value, bodyConfig.IsRotating.Value);
             if (showChanges && isChanged) StartCoroutine(ValueChanged(body.PrimaryRotation, config.RobotIndex));
 
             //is rotating
@@ -212,7 +210,7 @@ public class UI : MonoBehaviour
             //Length
             float value = (tailConfig.Length.Value - tailConfig.Length.Min) / (tailConfig.Length.Max - tailConfig.Length.Min);
             float tailLength = 0;
-            bool isChanged = UIE.SetTailLength(value, ref tailLength);
+            isChanged = UIE.SetTailLength(value, ref tailLength);
             if (showChanges && isChanged) StartCoroutine(ValueChanged(tail.LengthChanged, config.RobotIndex));
 
             //position - needed to set the new length first to adjust for it in the position
@@ -324,9 +322,21 @@ public class UI : MonoBehaviour
 
     //------------------------------------------Accessed by GA &&|| TrappedAlgorithm------------------------------
 
+    internal void Enable()
+    {
+        IsEnabled = true;
+        UIE.panel.SetActive(true);
+        SetupUIOptions();
+        //setup toggle
+        UIE.Toggle.onClick.AddListener(delegate { ToggleUI(); });
+        //flip so that it will flip back to the default state
+        UIE.IsCollapsed = !UIE.IsCollapsed;
+        ToggleUI();
+    }
+
     public void UpdateRobotUI(RobotConfig config)
     {
-        if (UIE.View == UIView.Robot && !UIE.IsOriginal && config.RobotIndex == Robot.RobotIndex)
+        if (IsEnabled && UIE.View == UIView.Robot && !UIE.IsOriginal && config.RobotIndex == Robot.RobotIndex)
         {
             Robot = config;
             RobotUpdate(config, true);
@@ -335,7 +345,7 @@ public class UI : MonoBehaviour
 
     public void UpdatePerformance(int robotIndex, float current, float best)
     {
-        if(UIE.View == UIView.Robot && !UIE.IsOriginal && robotIndex == Robot.RobotIndex)
+        if(IsEnabled && UIE.View == UIView.Robot && !UIE.IsOriginal && robotIndex == Robot.RobotIndex)
         {
             Text text = UIE.BestPerformanceText;
             text.text = Math.Round(best, 2).ToString();

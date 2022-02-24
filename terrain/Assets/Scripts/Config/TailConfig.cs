@@ -7,7 +7,7 @@ namespace Config
 {
     public class TailConfig : JointConfig
     {
-        public GeneVariable TailMassMultiplier = new GeneVariable(0.5f, 0.2f, 1.5f, Variable.TailMassMultiplier);
+        public GeneVariable TailMassMultiplier = new GeneVariable(1f, 0.2f, 1.5f, Variable.TailMassMultiplier);
 
         public GeneVariable Length = new GeneVariable(2f, 1f, 4f, Variable.Length);
 

@@ -11,7 +11,7 @@ public class GenerateRobot : MonoBehaviour
     private RobotConfig robotConfig;
     private int layer;
 
-    void Start()
+    void Awake()
     {
         //setup robot config
         robotConfig = new RobotConfig(AIConfig.RobotConfigs.Count, this.gameObject);
@@ -35,6 +35,9 @@ public class GenerateRobot : MonoBehaviour
         if (robotConfig.IsTailEnabled.Value) robotConfig.CreateTail();
 
         robotConfig.SetChildLayer(layer);
+
+        //give UI this robot if this is the one the cam is following
+        //if (CameraConfig.CamFollow == robotConfig.RobotIndex) FindObjectOfType<UI>().UpdateRobotUI(robotConfig);
 
         //destroy GenerateRobot so that a duplicate clone isn't created when this robot is cloned
         Destroy(this);

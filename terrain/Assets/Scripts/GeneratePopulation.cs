@@ -24,17 +24,13 @@ public class GeneratePopulation : MonoBehaviour
         cam.name = "Robot Camera";
         cam.SetActive(false);
         CameraConfig.RobotCamera = cam;
+        //setup UI
+        UI ui = FindObjectOfType<UI>();
+        if (ui != null && UIConfig.IsUIEnabled) ui.enabled = true;
+        else UIConfig.UIContainer.SetActive(false);
         //generate population, leaving a gap between them
         for (int i = 0; i < AIConfig.PopulationSize; i++)
         {
-            //setup UI after first robot has been generated
-            if(i == 1)
-            {
-                //setup UI
-                UI ui = FindObjectOfType<UI>();
-                if (ui != null && UIConfig.IsUIEnabled) ui.enabled = true;
-                else UIConfig.UIContainer.SetActive(false);
-            }
             GameObject robot = new GameObject();
             robot.name = $"Robot {i + 1}";
             GameObject version = new GameObject();
@@ -42,6 +38,8 @@ public class GeneratePopulation : MonoBehaviour
             version.AddComponent<GenerateRobot>();
             yield return new WaitForSeconds(1f);
         }
+        //enable UI
+        ui.Enable();
         //destroy this script now that it's finished
         Destroy(this);
     }

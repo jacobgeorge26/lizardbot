@@ -24,7 +24,7 @@ namespace Config
         //>3 is too fast and can be hard to follow / limit the effects of rotation as it's constantly just bouncing off the terrain
         //<1 is too slow and will trigger the robot being stuck more easily - especially in the rough terrain
         [Range(0, 3)]
-        public GeneVariable DriveVelocity = new GeneVariable(2f, 0f, 3f, Variable.DriveVelocity);
+        public GeneVariable DriveVelocity = new GeneVariable(1f, 0f, 2f, Variable.DriveVelocity);
 
         /*-------------------------------------------------------------------------------------------------------*/
 

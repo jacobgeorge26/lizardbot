@@ -21,7 +21,7 @@ namespace Config
 
         public RobotConfig Original;
 
-        public GeneVariable NoSections = new GeneVariable(10, 1, 10, Variable.NoSections);
+        public GeneVariable NoSections = new GeneVariable(5, 1, 10, Variable.NoSections);
 
         public GeneVariable IsTailEnabled = new GeneVariable(true, Variable.IsTailEnabled);
 

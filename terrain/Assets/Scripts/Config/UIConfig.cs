@@ -13,8 +13,10 @@ public class UIConfig : MonoBehaviour
     [Header("Default Options")]
     //UI options
     public static bool IsUIEnabled = true;
-    public UIView DefaultView;
-    public bool IsCollapsed;
+    [HideInInspector]
+    public UIView DefaultView = UIView.Performance;
+    [HideInInspector]
+    public bool IsCollapsed = true;
     [HideInInspector]
     public bool IsOriginal = false;
 
@@ -40,6 +42,8 @@ public class UIConfig : MonoBehaviour
     public Button Version;
     public Button CurrentPerformance;
     public Button BestPerformance;
+    public Image BodyColour;
+    public GameObject ColourChanged;
 
     //Text objects for robot display - save repeated calls for GetComponent
     [HideInInspector]
@@ -75,8 +79,9 @@ public class UIConfig : MonoBehaviour
     //-------------------------------------------------------------------------------------------
     //helper methods to make UI a bit easier to read
     private float anglemin = 0, anglemax = 60;
-    private float scalemin = 0.7f, scalemax = 1f;
+    private float scalemin = 0.7f, scalemax = 0.9f;
     private float massmin = 0.2f, massmax = 0.7f;
+    private float lengthmin = 160, lengthmax = 250;
 
     public void SetupBodies(int max)
     {
@@ -90,6 +95,15 @@ public class UIConfig : MonoBehaviour
         }
     }
 
+    public bool SetBodyColour(float colour)
+    {
+        BodyColour.transform.localPosition = new Vector3(-910, (anglemax + anglemin) / 2, 0);
+        Color oldColour = BodyColour.color;
+        Color newColour = new Color(colour, colour, 1f);
+        BodyColour.color = newColour;
+        return oldColour.r != newColour.r;
+    }
+
     public void SetBodyPosition(BodyUI body, BodyUI prevBody)
     {
         float x = GetXPos(body.Body.transform, body.RelativeScale, prevBody == null ? null : prevBody.Body.transform, prevBody == null ? 0 : prevBody.RelativeScale);
@@ -100,8 +114,8 @@ public class UIConfig : MonoBehaviour
     {
         float prevWidth = prevBody == null ? 0 : prevBody.GetComponent<RectTransform>().rect.width;
         float thisWidth = thisBody.GetComponent<RectTransform>().rect.width;
-        float x = prevBody == null ? -880 : prevBody.localPosition.x; //start point to work right from
-        x += prevBody == null ? 0 : ((prevScale * prevWidth) / 2) + ((thisScale * thisWidth) / 2) + 20; //get x position using scale & width, from previous object
+        float x = prevBody == null ? -780 : prevBody.localPosition.x; //start point to work right from
+        x += prevBody == null ? 0 : ((prevScale * prevWidth) / 2) + ((thisScale * thisWidth) / 2) + 10; //get x position using scale & width, from previous object
         return x;
     }
 
@@ -211,7 +225,6 @@ public class UIConfig : MonoBehaviour
     {
         RectTransform lengthObject = Tail.transform.GetComponent<RectTransform>();
         float originalLength = lengthObject.rect.width;
-        float lengthmin = 160, lengthmax = 250;
         newLength = value * (lengthmax - lengthmin) + lengthmin;
         lengthObject.sizeDelta = new Vector2(newLength, lengthObject.rect.height);
         return newLength != originalLength;
@@ -223,7 +236,7 @@ public class UIConfig : MonoBehaviour
         Tail.transform.localPosition = new Vector3(x, (anglemax + anglemin) / 2, 0);
         Tail.transform.localScale = new Vector3(1, 1, 1);
         //set the position of the JointChanged slider - only other position affected by the tail length
-        Tail.JointChanged.transform.localPosition = new Vector3((-tailLength / 2) - 10, 0, 0);
+        Tail.JointChanged.transform.localPosition = new Vector3((-tailLength / 2) - 5, 0, 0);
     }
 
     public bool SetTailPrimaryAxis(Vector3 rotation)
