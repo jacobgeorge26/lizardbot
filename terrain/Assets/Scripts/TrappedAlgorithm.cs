@@ -9,8 +9,8 @@ public class TrappedAlgorithm : MonoBehaviour
 {
     private Queue<Vector3> locations = new Queue<Vector3>();
     private Queue<float> volumes = new Queue<float>();
-    private GeneticAlgorithm AIScript;
     private RobotConfig robotConfig;
+    private UI ui;
 
     //how many locations are analysed (2 per second)
     private int locationsSize = 20; 
@@ -18,6 +18,8 @@ public class TrappedAlgorithm : MonoBehaviour
     //the robot needs time to hit the terrain and react
     private bool ShowTrail = false;
     private bool ShowStuckPoints = false;
+
+    private bool IsEnabled = true;
 
     private GameObject pointsContainer;
 
@@ -27,19 +29,40 @@ public class TrappedAlgorithm : MonoBehaviour
     //circling
     //remaining in the same general area for too long
     //bouncing between the same locations
-    IEnumerator Start()
+    void Start()
     {
-        pointsContainer = new GameObject();
-        pointsContainer.name = "Stuck Points";
-        pointsContainer.transform.parent = GetComponent<Transform>().parent;
+        string name = "Stuck Points";
+        bool containerCreated = false;
+        foreach (Transform item in gameObject.transform.parent)
+        {
+            if (item.name == name) containerCreated = true;
+        }
+        if (!containerCreated)
+        {
+            pointsContainer = new GameObject();
+            pointsContainer.name = name;
+            pointsContainer.transform.parent = GetComponent<Transform>().parent;
+        }
+        ObjectConfig objConfig = this.gameObject.GetComponent<ObjectConfig>();
+        robotConfig = AIConfig.RobotConfigs.Where(r => r.RobotIndex == objConfig.RobotIndex).First();
 
-        AIScript = FindObjectOfType<GeneticAlgorithm>();
-        robotConfig = transform.parent.gameObject.GetComponent<RobotConfig>();
+        ui ??= UIConfig.UIContainer.GetComponent<UI>();
 
-        while (true)
+        StartCoroutine(IsTrapped());
+    }
+
+    internal void Reset()
+    {
+        IsEnabled = true;
+        StartCoroutine(IsTrapped());
+    }
+
+    private IEnumerator IsTrapped()
+    {
+        while (IsEnabled)
         {
             yield return new WaitForSeconds(0.5f);
-            if(robotConfig.IsEnabled) UpdateLocations();
+            if (robotConfig.IsEnabled) UpdateLocations();
         }
     }
 
@@ -81,8 +104,8 @@ public class TrappedAlgorithm : MonoBehaviour
                         p.transform.position = currentLocation;
                         p.transform.parent = pointsContainer.transform;
                     }
-                    AIScript.RobotIsStuck(this.transform.parent.gameObject.GetComponent<RobotConfig>());
-
+                    IsEnabled = false;
+                    robotConfig.RobotIsStuck();     
                 }
                 else if(ShowTrail)
                 {
@@ -94,7 +117,10 @@ public class TrappedAlgorithm : MonoBehaviour
 
         }
         //important - update robot with its performance metric for AI to use
-        robotConfig.Performance = currentLocation.magnitude > robotConfig.Performance ? currentLocation.magnitude : robotConfig.Performance;
+        float currentPerformance = currentLocation.magnitude;
+        robotConfig.Performance = currentPerformance > robotConfig.Performance ? currentPerformance : robotConfig.Performance;
+        //update performance in UI
+        ui.UpdatePerformance(robotConfig.RobotIndex, currentPerformance, robotConfig.Performance);
     }
 
     private float GetVolume()

@@ -311,6 +311,7 @@
 -r:"Library/Bee/artifacts/1900b0aEDbg.dag/Config.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aEDbg.dag/Enums.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aEDbg.dag/Grapher.ref.dll"
+-r:"Library/Bee/artifacts/1900b0aEDbg.dag/UITemplates.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aEDbg.dag/UnityEditor.UI.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aEDbg.dag/UnityEngine.UI.ref.dll"
 "Assets/Scripts/CameraPosition.cs"
@@ -332,7 +333,9 @@
 "Assets/Scripts/retired/TerrainGeneration.cs"
 "Assets/Scripts/retired/TestJointSetup.cs"
 "Assets/Scripts/RobotDetection.cs"
+"Assets/Scripts/RobotHelpers.cs"
 "Assets/Scripts/TrappedAlgorithm.cs"
+"Assets/Scripts/UI.cs"
 -langversion:8.0
 
 /deterministic

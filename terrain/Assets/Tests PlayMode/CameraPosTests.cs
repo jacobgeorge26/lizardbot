@@ -6,30 +6,43 @@ using UnityEngine.TestTools;
 
 public class CameraPosTests : MonoBehaviour
 {
-    private GameObject head, tail;
+    private GameObject robot, head, tail;
     private GameObject cam;
     private CameraPosition camScript;
 
     [SetUp]
     public void Init()
     {
+        robot = new GameObject();
+        RobotConfig robotConfig = new RobotConfig(0, robot);
+        robotConfig.NoSections.Value = 1;
+
         head = new GameObject();
+        ObjectConfig headConfig = head.AddComponent<ObjectConfig>();
+        headConfig.Init(0, BodyPart.Body, new BodyConfig(), 0);
+        robotConfig.Configs.Add(headConfig);
 
         tail = new GameObject();
+        ObjectConfig tailConfig = tail.AddComponent<ObjectConfig>();
+        headConfig.Init(0, BodyPart.Tail, new TailConfig(), 0);
+        robotConfig.Configs.Add(tailConfig);
 
         cam = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Robot Camera"));
+        CameraConfig.RobotCamera = cam;
+        CameraConfig.Hat = new GameObject();
         camScript = cam.GetComponent<CameraPosition>();
-        camScript.Head = head;
-        camScript.Tail = tail;    
+        camScript.SetRobot(robotConfig);
     }
 
     [TearDown]
     public void CleanUp()
     {
         //destroy all objects used
+        GameObject.Destroy(robot);
         GameObject.Destroy(head);
         GameObject.Destroy(tail);
         GameObject.Destroy(cam);
+        GameObject.Destroy(CameraConfig.Hat);
     }
 
     //check that the camera is following the 

@@ -19,9 +19,9 @@ MonoBehaviour:
     width: 1536
     height: 820.8
   m_ShowMode: 4
-  m_Title: Console
+  m_Title: Hierarchy
   m_RootView: {fileID: 2}
-  m_MinSize: {x: 875, y: 392}
+  m_MinSize: {x: 875, y: 542}
   m_MaxSize: {x: 10000, y: 10000}
   m_Maximized: 1
 --- !u!114 &2
@@ -46,7 +46,7 @@ MonoBehaviour:
     y: 0
     width: 1536
     height: 821
-  m_MinSize: {x: 875, y: 392}
+  m_MinSize: {x: 875, y: 542}
   m_MaxSize: {x: 10000, y: 10000}
   m_UseTopView: 1
   m_TopViewHeight: 30
@@ -116,10 +116,10 @@ MonoBehaviour:
     y: 30
     width: 1536
     height: 771
-  m_MinSize: {x: 677, y: 342}
-  m_MaxSize: {x: 12002, y: 8042}
+  m_MinSize: {x: 678, y: 492}
+  m_MaxSize: {x: 14001, y: 14042}
   vertical: 0
-  controlID: 49
+  controlID: 85
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -139,12 +139,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1058
+    width: 1061
     height: 771
-  m_MinSize: {x: 402, y: 342}
-  m_MaxSize: {x: 8002, y: 8042}
+  m_MinSize: {x: 403, y: 492}
+  m_MaxSize: {x: 10001, y: 14042}
   vertical: 1
-  controlID: 50
+  controlID: 86
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -164,12 +164,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1058
-    height: 401
-  m_MinSize: {x: 402, y: 221}
-  m_MaxSize: {x: 8002, y: 4021}
+    width: 1061
+    height: 489
+  m_MinSize: {x: 403, y: 221}
+  m_MaxSize: {x: 8003, y: 4021}
   vertical: 0
-  controlID: 51
+  controlID: 87
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -187,8 +187,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 354
-    height: 401
+    width: 346
+    height: 489
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 13}
@@ -206,23 +206,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: SceneView
+  m_Name: GameView
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 354
+    x: 346
     y: 0
-    width: 704
-    height: 401
+    width: 715
+    height: 489
   m_MinSize: {x: 202, y: 221}
   m_MaxSize: {x: 4002, y: 4021}
-  m_ActualView: {fileID: 14}
+  m_ActualView: {fileID: 12}
   m_Panes:
   - {fileID: 14}
   - {fileID: 12}
-  m_Selected: 0
-  m_LastSelected: 1
+  m_Selected: 1
+  m_LastSelected: 0
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -233,23 +233,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ConsoleWindow
+  m_Name: ProjectBrowser
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 401
-    width: 1058
-    height: 370
-  m_MinSize: {x: 101, y: 121}
-  m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 16}
+    y: 489
+    width: 1061
+    height: 282
+  m_MinSize: {x: 231, y: 271}
+  m_MaxSize: {x: 10001, y: 10021}
+  m_ActualView: {fileID: 15}
   m_Panes:
   - {fileID: 15}
   - {fileID: 16}
-  m_Selected: 1
-  m_LastSelected: 0
+  m_Selected: 0
+  m_LastSelected: 1
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -265,9 +265,9 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 1058
+    x: 1061
     y: 0
-    width: 478
+    width: 475
     height: 771
   m_MinSize: {x: 275, y: 50}
   m_MaxSize: {x: 4000, y: 4000}
@@ -277,7 +277,6 @@ MonoBehaviour:
   - {fileID: 18}
   - {fileID: 19}
   - {fileID: 20}
-  - {fileID: 21}
   m_Selected: 0
   m_LastSelected: 3
 --- !u!114 &12
@@ -300,18 +299,18 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 354.4
+    x: 346.4
     y: 73.6
-    width: 702
-    height: 380
+    width: 713
+    height: 468
   m_ViewDataDictionary: {fileID: 0}
   m_SerializedViewNames: []
   m_SerializedViewValues: []
   m_PlayModeViewName: GameView
   m_ShowGizmos: 0
-  m_TargetDisplay: 1
+  m_TargetDisplay: 0
   m_ClearColor: {r: 0, g: 0, b: 0, a: 0}
-  m_TargetSize: {x: 1920, y: 1080}
+  m_TargetSize: {x: 891.25, y: 558.75}
   m_TextureFilterMode: 0
   m_TextureHideFlags: 61
   m_RenderIMGUI: 1
@@ -320,16 +319,16 @@ MonoBehaviour:
   m_VSyncEnabled: 0
   m_Gizmos: 0
   m_Stats: 0
-  m_SelectedSizes: 03000000000000000000000000000000000000000000000000000000000000000000000000000000
+  m_SelectedSizes: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
   m_ZoomArea:
     m_HRangeLocked: 0
     m_VRangeLocked: 0
     hZoomLockedByDefault: 0
     vZoomLockedByDefault: 0
-    m_HBaseRangeMin: -768
-    m_HBaseRangeMax: 768
-    m_VBaseRangeMin: -432
-    m_VBaseRangeMax: 432
+    m_HBaseRangeMin: -356.5
+    m_HBaseRangeMax: 356.5
+    m_VBaseRangeMin: -223.5
+    m_VBaseRangeMax: 223.5
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -338,7 +337,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 0
+    m_EnableMouseInput: 1
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1
@@ -347,23 +346,23 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 21
-      width: 702
-      height: 359
-    m_Scale: {x: 0.7055199, y: 0.7055199}
-    m_Translation: {x: 425.6177, y: 128.16075}
+      width: 713
+      height: 447
+    m_Scale: {x: 1, y: 1}
+    m_Translation: {x: 356.5, y: 223.5}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -603.2682
-      y: -181.65434
-      width: 995.01086
-      height: 508.8446
+      x: -356.5
+      y: -223.5
+      width: 713
+      height: 447
     m_MinimalGUI: 1
-  m_defaultScale: 0.41550925
-  m_LastWindowPixelSize: {x: 877.5, y: 475}
+  m_defaultScale: 1
+  m_LastWindowPixelSize: {x: 891.25, y: 585}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 00000000000000000000
@@ -391,15 +390,15 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 73.6
-    width: 353
-    height: 380
+    width: 345
+    height: 468
   m_ViewDataDictionary: {fileID: 0}
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: 043cf4ffae3cf4ffae3df4fff47cf5fffc7cf5fffed2f5ffb883f7ffea36faff64c7faffb6f1faff3c45fbffdc9dfbff56fbffff
+      m_SelectedIDs: 1a500000
+      m_LastClickedID: 20506
+      m_ExpandedIDs: e647fffff247ffff00500000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -415,14 +414,14 @@ MonoBehaviour:
         m_IsRenaming: 0
         m_OriginalEventType: 11
         m_IsRenamingFilename: 0
-        m_ClientGUIView: {fileID: 11}
+        m_ClientGUIView: {fileID: 8}
       m_SearchString: 
     m_ExpandedScenes: []
     m_CurrenRootInstanceID: 0
     m_LockTracker:
       m_IsLocked: 0
     m_CurrentSortingName: TransformSorting
-  m_WindowGUID: debd960ee522e9941a26cdf390c54022
+  m_WindowGUID: da13912bfa8cb1143bc2ccbcd612031b
 --- !u!114 &14
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -443,25 +442,25 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 354.4
+    x: 346.4
     y: 73.6
-    width: 702
-    height: 380
+    width: 713
+    height: 468
   m_ViewDataDictionary: {fileID: 0}
   m_ShowContextualTools: 0
-  m_WindowGUID: 40c9b43471d16d74fbcce545effe85e5
+  m_WindowGUID: fdecc2dfd8a9c6f4fba416542586595c
   m_Gizmos: 1
-  m_OverrideSceneCullingMask: 6917529027641081856
-  m_SceneIsLit: 1
+  m_OverrideSceneCullingMask: 0
+  m_SceneIsLit: 0
   m_SceneLighting: 1
   m_2DMode: 0
   m_isRotationLocked: 0
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 0, y: 17, z: 0}
+    m_Target: {x: -336.5, y: 332.25, z: 0}
     speed: 2
-    m_Value: {x: 0, y: 17, z: 0}
+    m_Value: {x: 115.5821, y: 110.75837, z: 22.891293}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -473,7 +472,7 @@ MonoBehaviour:
   m_SceneViewState:
     m_AlwaysRefresh: 0
     showFog: 1
-    showSkybox: 1
+    showSkybox: 0
     showFlares: 1
     showImageEffects: 1
     showParticleSystems: 1
@@ -490,9 +489,9 @@ MonoBehaviour:
       m_Size: {x: 0, y: 0}
     yGrid:
       m_Fade:
-        m_Target: 0
+        m_Target: 1
         speed: 2
-        m_Value: 0
+        m_Value: 1
       m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 0.4}
       m_Pivot: {x: 0, y: 0, z: 0}
       m_Size: {x: 1, y: 1}
@@ -503,26 +502,26 @@ MonoBehaviour:
         m_Value: 0
       m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 0.4}
       m_Pivot: {x: 0, y: 0, z: 0}
-      m_Size: {x: 1, y: 1}
-    m_ShowGrid: 0
+      m_Size: {x: 0, y: 0}
+    m_ShowGrid: 1
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.29823932, y: -0.66367203, z: 0.3287344, w: -0.602113}
+    m_Target: {x: -0.008690895, y: 0.0014950278, z: 0.000031096362, w: 0.99998426}
     speed: 2
-    m_Value: {x: -0.2982373, y: -0.6636675, z: 0.32873216, w: -0.6021089}
+    m_Value: {x: 0.0033085842, y: 0.020993168, z: -0.000049475093, w: 0.9997741}
   m_Size:
-    m_Target: 10
+    m_Target: 162.57712
     speed: 2
-    m_Value: 10
+    m_Value: 350.49823
   m_Ortho:
     m_Target: 0
     speed: 2
     m_Value: 0
   m_CameraSettings:
-    m_Speed: 0.8856
-    m_SpeedNormalized: 0.44
-    m_SpeedMin: 0.01
+    m_Speed: 1
+    m_SpeedNormalized: 0.5
+    m_SpeedMin: 0.001
     m_SpeedMax: 2
     m_EasingEnabled: 1
     m_EasingDuration: 0.4
@@ -532,7 +531,7 @@ MonoBehaviour:
     m_FarClip: 10000
     m_DynamicClip: 1
     m_OcclusionCulling: 0
-  m_LastSceneViewRotation: {x: -0.08717229, y: 0.89959055, z: -0.21045254, w: -0.3726226}
+  m_LastSceneViewRotation: {x: 0, y: 0, z: 0, w: 0}
   m_LastSceneViewOrtho: 0
   m_ReplacementShader: {fileID: 0}
   m_ReplacementString: 
@@ -560,9 +559,9 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 474.4
-    width: 1057
-    height: 349
+    y: 562.4
+    width: 1060
+    height: 261
   m_ViewDataDictionary: {fileID: 0}
   m_SearchFilter:
     m_NameFilter: 
@@ -590,10 +589,10 @@ MonoBehaviour:
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: d44c0000
-    m_LastClickedID: 19668
-    m_ExpandedIDs: 000000008e4900009049000092490000d84c0000
+    scrollPos: {x: 0, y: 3}
+    m_SelectedIDs: c24f0000
+    m_LastClickedID: 20418
+    m_ExpandedIDs: 00000000cc4a0000ce4a0000d04a0000d24a0000d44a0000d64a0000d84a0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -609,7 +608,7 @@ MonoBehaviour:
       m_IsRenaming: 0
       m_OriginalEventType: 11
       m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 10}
+      m_ClientGUIView: {fileID: 0}
     m_SearchString: 
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
@@ -621,7 +620,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000008e4900009049000092490000
+    m_ExpandedIDs: 00000000cc4a0000ce4a0000d04a0000d24a0000d44a0000d64a0000d84a0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -649,7 +648,7 @@ MonoBehaviour:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
     m_HadKeyboardFocusLastEvent: 1
-    m_ExpandedInstanceIDs: c623000000000000
+    m_ExpandedInstanceIDs: c6230000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -676,7 +675,7 @@ MonoBehaviour:
     m_ScrollPosition: {x: 0, y: 0}
     m_GridSize: 64
   m_SkipHiddenPackages: 0
-  m_DirectoriesAreaWidth: 223
+  m_DirectoriesAreaWidth: 115
 --- !u!114 &16
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -698,9 +697,9 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 474.4
-    width: 1057
-    height: 349
+    y: 562.4
+    width: 1060
+    height: 261
   m_ViewDataDictionary: {fileID: 0}
 --- !u!114 &17
 MonoBehaviour:
@@ -722,9 +721,9 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1058.4
+    x: 1060.8
     y: 73.6
-    width: 477
+    width: 474
     height: 750
   m_ViewDataDictionary: {fileID: 0}
   m_ObjectsLockedBeforeSerialization: []
@@ -760,21 +759,21 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1005.60004
+    x: 1068.8
     y: 73.6
-    width: 529.4
+    width: 466
     height: 750
   m_ViewDataDictionary: {fileID: 0}
   m_Spl:
-    ID: 1756
-    splitterInitialOffset: 315
+    ID: 138
+    splitterInitialOffset: 0
     currentActiveSplitter: -1
     realSizes:
-    - 471.2
-    - 208.8
+    - 509.6
+    - 170.4
     relativeSizes:
-    - 0.69313055
-    - 0.30686945
+    - 0.75
+    - 0.25
     minSizes:
     - 32
     - 32
@@ -789,17 +788,17 @@ MonoBehaviour:
     oldMinSizes: 
     oldMaxSizes: 
     oldSplitSize: 0
-  m_TestTypeToolbarIndex: 0
+  m_TestTypeToolbarIndex: 1
   m_PlayModeTestListGUI:
     m_Window: {fileID: 18}
     m_NewResultList:
-    - id: 1004
+    - id: 1072
       uniqueId: '[terrain][suite]'
       name: terrain
       fullName: terrain
-      resultStatus: 2
-      duration: 20.559418
-      messages: One or more child tests had errors
+      resultStatus: 1
+      duration: 0.5157709
+      messages: 
       output: 
       stacktrace: 
       notRunnable: 0
@@ -809,14 +808,14 @@ MonoBehaviour:
       categories: []
       parentId: 
       parentUniqueId: 
-    - id: 1015
-      uniqueId: '[PlayModeTests][C:/Users/Molly/OneDrive - University of Sussex/Third
-        Year/FYP/lizardbot/terrain/Library/ScriptAssemblies/PlayModeTests.dll][suite]'
+    - id: 1082
+      uniqueId: '[PlayModeTests][C:/Users/Molly/OneDrive - University of Sussex/University
+        Home Share/FYP/terrain/Library/ScriptAssemblies/PlayModeTests.dll][suite]'
       name: PlayModeTests.dll
-      fullName: C:/Users/Molly/OneDrive - University of Sussex/Third Year/FYP/lizardbot/terrain/Library/ScriptAssemblies/PlayModeTests.dll
-      resultStatus: 2
-      duration: 20.398697
-      messages: One or more child tests had errors
+      fullName: C:/Users/Molly/OneDrive - University of Sussex/University Home Share/FYP/terrain/Library/ScriptAssemblies/PlayModeTests.dll
+      resultStatus: 1
+      duration: 0.3458096
+      messages: 
       output: 
       stacktrace: 
       notRunnable: 0
@@ -824,14 +823,14 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1000
+      parentId: 1072
       parentUniqueId: '[terrain][suite]'
-    - id: 1001
+    - id: 1073
       uniqueId: PlayModeTests.dll/[PlayModeTests][CameraPosTests][suite]
       name: CameraPosTests
       fullName: CameraPosTests
       resultStatus: 1
-      duration: 0.0623391
+      duration: 0.3362628
       messages: 
       output: 'You are trying to create a MonoBehaviour using the ''new'' keyword. 
         This is not allowed.  MonoBehaviours can only be added using AddComponent().
@@ -845,15 +844,15 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1015
-      parentUniqueId: '[PlayModeTests][C:/Users/Molly/OneDrive - University of Sussex/Third
-        Year/FYP/lizardbot/terrain/Library/ScriptAssemblies/PlayModeTests.dll][suite]'
-    - id: 1002
+      parentId: 1082
+      parentUniqueId: '[PlayModeTests][C:/Users/Molly/OneDrive - University of Sussex/University
+        Home Share/FYP/terrain/Library/ScriptAssemblies/PlayModeTests.dll][suite]'
+    - id: 1074
       uniqueId: PlayModeTests.dll/CameraPosTests/[PlayModeTests][CameraPosTests.CameraPosition]
       name: CameraPosition
       fullName: CameraPosTests.CameraPosition
       resultStatus: 1
-      duration: 0.0381309
+      duration: 0.3110084
       messages: 
       output: 
       stacktrace: 
@@ -863,14 +862,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1073
       parentUniqueId: PlayModeTests.dll/[PlayModeTests][CameraPosTests][suite]
-    - id: 1001
+    - id: 1075
       uniqueId: PlayModeTests.dll/[PlayModeTests][DriveBodyTests][suite]
       name: DriveBodyTests
       fullName: DriveBodyTests
       resultStatus: 1
-      duration: 0.3539149
+      duration: 0.3744358
       messages: 
       output: 'You are trying to create a MonoBehaviour using the ''new'' keyword. 
         This is not allowed.  MonoBehaviours can only be added using AddComponent().
@@ -884,14 +883,15 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1013
-      parentUniqueId: '[PlayModeTests][C:/Users/Molly/OneDrive/FYP/Robot/terrain/Library/ScriptAssemblies/PlayModeTests.dll][suite]'
-    - id: 1002
+      parentId: 1082
+      parentUniqueId: '[PlayModeTests][C:/Users/Molly/OneDrive - University of Sussex/University
+        Home Share/FYP/terrain/Library/ScriptAssemblies/PlayModeTests.dll][suite]'
+    - id: 1076
       uniqueId: PlayModeTests.dll/DriveBodyTests/[PlayModeTests][DriveBodyTests.Drive]
       name: Drive
       fullName: DriveBodyTests.Drive
       resultStatus: 1
-      duration: 0.3483092
+      duration: 0.3679517
       messages: 
       output: 
       stacktrace: 
@@ -901,14 +901,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1001
+      parentId: 1075
       parentUniqueId: PlayModeTests.dll/[PlayModeTests][DriveBodyTests][suite]
-    - id: 1003
+    - id: 1077
       uniqueId: PlayModeTests.dll/[PlayModeTests][RotateBodyTests][suite]
       name: RotateBodyTests
       fullName: RotateBodyTests
       resultStatus: 2
-      duration: 20.389633
+      duration: 8.164698
       messages: One or more child tests had errors
       output: 
       stacktrace: 
@@ -917,14 +917,15 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1013
-      parentUniqueId: '[PlayModeTests][C:/Users/Molly/OneDrive/FYP/Robot/terrain/Library/ScriptAssemblies/PlayModeTests.dll][suite]'
-    - id: 1012
+      parentId: 1082
+      parentUniqueId: '[PlayModeTests][C:/Users/Molly/OneDrive - University of Sussex/University
+        Home Share/FYP/terrain/Library/ScriptAssemblies/PlayModeTests.dll][suite]'
+    - id: 1081
       uniqueId: PlayModeTests.dll/RotateBodyTests/[PlayModeTests][RotateBodyTests.Y_NotRotating]
       name: Y_NotRotating
       fullName: RotateBodyTests.Y_NotRotating
       resultStatus: 1
-      duration: 0.3730784
+      duration: 0.0620047
       messages: 
       output: 
       stacktrace: 
@@ -934,22 +935,23 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1003
+      parentId: 1077
       parentUniqueId: PlayModeTests.dll/[PlayModeTests][RotateBodyTests][suite]
-    - id: 1006
+    - id: 1078
       uniqueId: PlayModeTests.dll/RotateBodyTests/[PlayModeTests][RotateBodyTests.Y_RotatesClockwiseOnInit]
       name: Y_RotatesClockwiseOnInit
       fullName: RotateBodyTests.Y_RotatesClockwiseOnInit
       resultStatus: 2
-      duration: 20.365505
+      duration: 3.0234728
       messages: "  Expected: True\r\n  But was:  False\r\n"
       output: 
       stacktrace: 'at RotateBodyTests+<Y_RotatesClockwiseOnInit>d__8.MoveNext ()
-        [0x00092] in C:\Users\Molly\OneDrive - University of Sussex\Third Year\FYP\lizardbot\terrain\Assets\Tests
-        PlayMode\RotateBodyTests.cs:62
+        [0x00081] in C:\Users\Molly\OneDrive - University of Sussex\University Home
+        Share\FYP\terrain\Assets\Tests PlayMode\RotateBodyTests.cs:61
 
-        at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext
-        () [0x0004e] in C:\Users\Molly\OneDrive - University of Sussex\Third Year\FYP\lizardbot\terrain\Library\PackageCache\com.unity.test-framework@1.1.30\UnityEngine.TestRunner\NUnitExtensions\Attributes\TestEnumerator.cs:46
+        at
+        UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0004e]
+        in C:\Users\Molly\OneDrive - University of Sussex\University Home Share\FYP\terrain\Library\PackageCache\com.unity.test-framework@1.1.30\UnityEngine.TestRunner\NUnitExtensions\Attributes\TestEnumerator.cs:46
 
 '
       notRunnable: 0
@@ -958,14 +960,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1005
+      parentId: 1077
       parentUniqueId: PlayModeTests.dll/[PlayModeTests][RotateBodyTests][suite]
-    - id: 1010
+    - id: 1079
       uniqueId: PlayModeTests.dll/RotateBodyTests/[PlayModeTests][RotateBodyTests.Y_ZeroMaxAngle]
       name: Y_ZeroMaxAngle
       fullName: RotateBodyTests.Y_ZeroMaxAngle
       resultStatus: 1
-      duration: 5.031617
+      duration: 5.024895
       messages: 
       output: 
       stacktrace: 
@@ -975,14 +977,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1003
+      parentId: 1077
       parentUniqueId: PlayModeTests.dll/[PlayModeTests][RotateBodyTests][suite]
-    - id: 1013
+    - id: 1080
       uniqueId: PlayModeTests.dll/RotateBodyTests/[PlayModeTests][RotateBodyTests.Y_ZeroTurnRatio]
       name: Y_ZeroTurnRatio
       fullName: RotateBodyTests.Y_ZeroTurnRatio
       resultStatus: 1
-      duration: 0.0349289
+      duration: 0.036536
       messages: 
       output: 
       stacktrace: 
@@ -992,26 +994,15 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1005
+      parentId: 1077
       parentUniqueId: PlayModeTests.dll/[PlayModeTests][RotateBodyTests][suite]
-    m_ResultText: "Y_RotatesClockwiseOnInit (20.366s)\n---\nExpected: True\r\n  But
-      was:  False\n---\nat RotateBodyTests+<Y_RotatesClockwiseOnInit>d__8.MoveNext
-      () [0x00092] in C:\\Users\\Molly\\OneDrive - University of Sussex\\Third Year\\FYP\\lizardbot\\terrain\\Assets\\Tests
-      PlayMode\\RotateBodyTests.cs:62\r\nat UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext
-      () [0x0004e] in C:\\Users\\Molly\\OneDrive - University of Sussex\\Third Year\\FYP\\lizardbot\\terrain\\Library\\PackageCache\\com.unity.test-framework@1.1.30\\UnityEngine.TestRunner\\NUnitExtensions\\Attributes\\TestEnumerator.cs:46"
-    m_ResultStacktrace: 'at RotateBodyTests+<Y_RotatesClockwiseOnInit>d__8.MoveNext
-      () [0x00092] in C:\Users\Molly\OneDrive - University of Sussex\Third Year\FYP\lizardbot\terrain\Assets\Tests
-      PlayMode\RotateBodyTests.cs:62
-
-      at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext
-      () [0x0004e] in C:\Users\Molly\OneDrive - University of Sussex\Third Year\FYP\lizardbot\terrain\Library\PackageCache\com.unity.test-framework@1.1.30\UnityEngine.TestRunner\NUnitExtensions\Attributes\TestEnumerator.cs:46
-
-'
+    m_ResultText: CameraPosition (0.311s)
+    m_ResultStacktrace: 
     m_TestListState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 0f99c933
-      m_LastClickedID: 868849935
-      m_ExpandedIDs: 29d06635fd3ac53d394e1d710828a077b951977cffffff7f
+      m_SelectedIDs: 94bef4b5
+      m_LastClickedID: -1242251628
+      m_ExpandedIDs: 6dd4d8bfe4dd900329d06635394e1d71a4cac676ffffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1046,7 +1037,7 @@ MonoBehaviour:
       name: terrain
       fullName: terrain
       resultStatus: 1
-      duration: 0.4983889
+      duration: 0.1674693
       messages: 
       output: 
       stacktrace: 
@@ -1057,14 +1048,14 @@ MonoBehaviour:
       categories: []
       parentId: 
       parentUniqueId: 
-    - id: 1053
-      uniqueId: '[EditMode Tests][C:/Users/Molly/OneDrive - University of Sussex/Third
-        Year/FYP/lizardbot/terrain/Library/ScriptAssemblies/EditMode Tests.dll][suite]'
+    - id: 1020
+      uniqueId: '[EditMode Tests][C:/Users/Molly/OneDrive - University of Sussex/University
+        Home Share/FYP/terrain/Library/ScriptAssemblies/EditMode Tests.dll][suite]'
       name: EditMode Tests.dll
-      fullName: C:/Users/Molly/OneDrive - University of Sussex/Third Year/FYP/lizardbot/terrain/Library/ScriptAssemblies/EditMode
+      fullName: C:/Users/Molly/OneDrive - University of Sussex/University Home Share/FYP/terrain/Library/ScriptAssemblies/EditMode
         Tests.dll
       resultStatus: 1
-      duration: 0.4374517
+      duration: 0.1063745
       messages: 
       output: 
       stacktrace: 
@@ -1073,14 +1064,14 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1034
+      parentId: 1000
       parentUniqueId: '[terrain][suite]'
-    - id: 1035
+    - id: 1001
       uniqueId: EditMode Tests.dll/[EditMode Tests][CameraPosTests][suite]
       name: CameraPosTests
       fullName: CameraPosTests
       resultStatus: 1
-      duration: 0.0555813
+      duration: 0.0457696
       messages: 
       output: 
       stacktrace: 
@@ -1089,15 +1080,15 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1053
-      parentUniqueId: '[EditMode Tests][C:/Users/Molly/OneDrive - University of Sussex/Third
-        Year/FYP/lizardbot/terrain/Library/ScriptAssemblies/EditMode Tests.dll][suite]'
-    - id: 1036
+      parentId: 1020
+      parentUniqueId: '[EditMode Tests][C:/Users/Molly/OneDrive - University of Sussex/University
+        Home Share/FYP/terrain/Library/ScriptAssemblies/EditMode Tests.dll][suite]'
+    - id: 1002
       uniqueId: EditMode Tests.dll/CameraPosTests/[EditMode Tests][CameraPosTests.CameraPosition]
       name: CameraPosition
       fullName: CameraPosTests.CameraPosition
       resultStatus: 1
-      duration: 0.0285858
+      duration: 0.0206089
       messages: 
       output: 
       stacktrace: 
@@ -1107,14 +1098,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1035
+      parentId: 1001
       parentUniqueId: EditMode Tests.dll/[EditMode Tests][CameraPosTests][suite]
-    - id: 1037
+    - id: 1003
       uniqueId: EditMode Tests.dll/[EditMode Tests][MoveBodyHelperMethodTests][suite]
       name: MoveBodyHelperMethodTests
       fullName: MoveBodyHelperMethodTests
       resultStatus: 1
-      duration: 0.2791055
+      duration: 0.2873055
       messages: 
       output: 
       stacktrace: 
@@ -1123,15 +1114,15 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1053
-      parentUniqueId: '[EditMode Tests][C:/Users/Molly/OneDrive - University of Sussex/Third
-        Year/FYP/lizardbot/terrain/Library/ScriptAssemblies/EditMode Tests.dll][suite]'
+      parentId: 1020
+      parentUniqueId: '[EditMode Tests][C:/Users/Molly/OneDrive - University of Sussex/University
+        Home Share/FYP/terrain/Library/ScriptAssemblies/EditMode Tests.dll][suite]'
     - id: 1004
       uniqueId: EditMode Tests.dll/MoveBodyHelperMethodTests/[EditMode Tests][MoveBodyHelperMethodTests.GetAngleTest]
       name: GetAngleTest
       fullName: MoveBodyHelperMethodTests.GetAngleTest
       resultStatus: 1
-      duration: 0.2567478
+      duration: 0.2738948
       messages: 
       output: 
       stacktrace: 
@@ -1143,12 +1134,12 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1003
       parentUniqueId: EditMode Tests.dll/[EditMode Tests][MoveBodyHelperMethodTests][suite]
-    - id: 1039
+    - id: 1005
       uniqueId: EditMode Tests.dll/MoveBodyHelperMethodTests/[EditMode Tests][MoveBodyHelperMethodTests.GetAngleTest_Rounded]
       name: GetAngleTest_Rounded
       fullName: MoveBodyHelperMethodTests.GetAngleTest_Rounded
       resultStatus: 1
-      duration: 0.0008567
+      duration: 0.0008515
       messages: 
       output: 
       stacktrace: 
@@ -1158,14 +1149,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1037
+      parentId: 1003
       parentUniqueId: EditMode Tests.dll/[EditMode Tests][MoveBodyHelperMethodTests][suite]
-    - id: 1043
+    - id: 1007
       uniqueId: EditMode Tests.dll/MoveBodyHelperMethodTests/[EditMode Tests][MoveBodyHelperMethodTests.GetRelativeAngleTest_NegativeRangeAdjustment]
       name: GetRelativeAngleTest_NegativeRangeAdjustment
       fullName: MoveBodyHelperMethodTests.GetRelativeAngleTest_NegativeRangeAdjustment
       resultStatus: 1
-      duration: 0.0008169
+      duration: 0.0007553
       messages: 
       output: 
       stacktrace: 
@@ -1175,14 +1166,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1037
+      parentId: 1003
       parentUniqueId: EditMode Tests.dll/[EditMode Tests][MoveBodyHelperMethodTests][suite]
-    - id: 1044
+    - id: 1008
       uniqueId: EditMode Tests.dll/MoveBodyHelperMethodTests/[EditMode Tests][MoveBodyHelperMethodTests.GetRelativeAngleTest_NotRounded]
       name: GetRelativeAngleTest_NotRounded
       fullName: MoveBodyHelperMethodTests.GetRelativeAngleTest_NotRounded
       resultStatus: 1
-      duration: 0.0005481
+      duration: 0.0005076
       messages: 
       output: 
       stacktrace: 
@@ -1192,14 +1183,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1037
+      parentId: 1003
       parentUniqueId: EditMode Tests.dll/[EditMode Tests][MoveBodyHelperMethodTests][suite]
-    - id: 1042
+    - id: 1006
       uniqueId: EditMode Tests.dll/MoveBodyHelperMethodTests/[EditMode Tests][MoveBodyHelperMethodTests.GetRelativeAngleTest_PositiveRangeAdjustment]
       name: GetRelativeAngleTest_PositiveRangeAdjustment
       fullName: MoveBodyHelperMethodTests.GetRelativeAngleTest_PositiveRangeAdjustment
       resultStatus: 1
-      duration: 0.0005777
+      duration: 0.0005037
       messages: 
       output: 
       stacktrace: 
@@ -1209,14 +1200,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1037
+      parentId: 1003
       parentUniqueId: EditMode Tests.dll/[EditMode Tests][MoveBodyHelperMethodTests][suite]
-    - id: 1033
+    - id: 1009
       uniqueId: EditMode Tests.dll/[EditMode Tests][VariableTests][suite]
       name: VariableTests
       fullName: VariableTests
       resultStatus: 1
-      duration: 0.0940798
+      duration: 0.0983956
       messages: 
       output: 
       stacktrace: 
@@ -1225,15 +1216,15 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1036
-      parentUniqueId: '[EditMode Tests][C:/Users/Molly/OneDrive - University of Sussex/Third
-        Year/FYP/lizardbot/terrain/Library/ScriptAssemblies/EditMode Tests.dll][suite]'
-    - id: 1020
-      uniqueId: EditMode Tests.dll/VariableTests/[EditMode Tests][VariableTests.BaseVariableTest_bool]
-      name: BaseVariableTest_bool
-      fullName: VariableTests.BaseVariableTest_bool
+      parentId: 1020
+      parentUniqueId: '[EditMode Tests][C:/Users/Molly/OneDrive - University of Sussex/University
+        Home Share/FYP/terrain/Library/ScriptAssemblies/EditMode Tests.dll][suite]'
+    - id: 1030
+      uniqueId: EditMode Tests.dll/VariableTests/[EditMode Tests][VariableTests.bool_CorrectInit]
+      name: bool_CorrectInit
+      fullName: VariableTests.bool_CorrectInit
       resultStatus: 1
-      duration: 0.0125629
+      duration: 0.0293252
       messages: 
       output: 
       stacktrace: 
@@ -1243,14 +1234,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1019
+      parentId: 1021
       parentUniqueId: EditMode Tests.dll/[EditMode Tests][VariableTests][suite]
-    - id: 1012
-      uniqueId: EditMode Tests.dll/VariableTests/[EditMode Tests][VariableTests.BaseVariableTest_float]
-      name: BaseVariableTest_float
-      fullName: VariableTests.BaseVariableTest_float
+    - id: 1031
+      uniqueId: EditMode Tests.dll/VariableTests/[EditMode Tests][VariableTests.bool_IncorrectInit]
+      name: bool_IncorrectInit
+      fullName: VariableTests.bool_IncorrectInit
       resultStatus: 1
-      duration: 0.0147748
+      duration: 0.001666
       messages: 
       output: 
       stacktrace: 
@@ -1260,14 +1251,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1009
+      parentId: 1021
       parentUniqueId: EditMode Tests.dll/[EditMode Tests][VariableTests][suite]
-    - id: 1021
-      uniqueId: EditMode Tests.dll/VariableTests/[EditMode Tests][VariableTests.BaseVariableTest_int]
-      name: BaseVariableTest_int
-      fullName: VariableTests.BaseVariableTest_int
+    - id: 1024
+      uniqueId: EditMode Tests.dll/VariableTests/[EditMode Tests][VariableTests.int_AboveMax]
+      name: int_AboveMax
+      fullName: VariableTests.int_AboveMax
       resultStatus: 1
-      duration: 0.0046596
+      duration: 0.0035405
       messages: 
       output: 
       stacktrace: 
@@ -1277,14 +1268,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1019
+      parentId: 1021
       parentUniqueId: EditMode Tests.dll/[EditMode Tests][VariableTests][suite]
-    - id: 1014
-      uniqueId: EditMode Tests.dll/VariableTests/[EditMode Tests][VariableTests.BaseVariableTest_NonCompatible]
-      name: BaseVariableTest_NonCompatible
-      fullName: VariableTests.BaseVariableTest_NonCompatible
+    - id: 1023
+      uniqueId: EditMode Tests.dll/VariableTests/[EditMode Tests][VariableTests.int_BelowMin]
+      name: int_BelowMin
+      fullName: VariableTests.int_BelowMin
       resultStatus: 1
-      duration: 0.0051216
+      duration: 0.0016905
       messages: 
       output: 
       stacktrace: 
@@ -1294,14 +1285,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1009
+      parentId: 1021
       parentUniqueId: EditMode Tests.dll/[EditMode Tests][VariableTests][suite]
-    - id: 1013
-      uniqueId: EditMode Tests.dll/VariableTests/[EditMode Tests][VariableTests.BaseVariableTest_vector3]
-      name: BaseVariableTest_vector3
-      fullName: VariableTests.BaseVariableTest_vector3
+    - id: 1028
+      uniqueId: EditMode Tests.dll/VariableTests/[EditMode Tests][VariableTests.MinAboveMax]
+      name: MinAboveMax
+      fullName: VariableTests.MinAboveMax
       resultStatus: 1
-      duration: 0.0033867
+      duration: 0.0033531
       messages: 
       output: 
       stacktrace: 
@@ -1311,14 +1302,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1009
+      parentId: 1021
       parentUniqueId: EditMode Tests.dll/[EditMode Tests][VariableTests][suite]
-    - id: 1015
-      uniqueId: EditMode Tests.dll/VariableTests/[EditMode Tests][VariableTests.RangedVariableTest_int]
-      name: RangedVariableTest_int
-      fullName: VariableTests.RangedVariableTest_int
+    - id: 1029
+      uniqueId: EditMode Tests.dll/VariableTests/[EditMode Tests][VariableTests.NonCompatible]
+      name: NonCompatible
+      fullName: VariableTests.NonCompatible
       resultStatus: 1
-      duration: 0.0059838
+      duration: 0.0064976
       messages: 
       output: 
       stacktrace: 
@@ -1328,14 +1319,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1009
+      parentId: 1021
       parentUniqueId: EditMode Tests.dll/[EditMode Tests][VariableTests][suite]
-    - id: 1017
-      uniqueId: EditMode Tests.dll/VariableTests/[EditMode Tests][VariableTests.RangedVariableTest_int_AboveMax]
-      name: RangedVariableTest_int_AboveMax
-      fullName: VariableTests.RangedVariableTest_int_AboveMax
+    - id: 1032
+      uniqueId: EditMode Tests.dll/VariableTests/[EditMode Tests][VariableTests.RandomInit]
+      name: RandomInit
+      fullName: VariableTests.RandomInit
       resultStatus: 1
-      duration: 0.0014658
+      duration: 0.0044205
       messages: 
       output: 
       stacktrace: 
@@ -1345,48 +1336,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1009
-      parentUniqueId: EditMode Tests.dll/[EditMode Tests][VariableTests][suite]
-    - id: 1016
-      uniqueId: EditMode Tests.dll/VariableTests/[EditMode Tests][VariableTests.RangedVariableTest_int_BelowMin]
-      name: RangedVariableTest_int_BelowMin
-      fullName: VariableTests.RangedVariableTest_int_BelowMin
-      resultStatus: 1
-      duration: 0.0014348
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1009
-      parentUniqueId: EditMode Tests.dll/[EditMode Tests][VariableTests][suite]
-    - id: 1021
-      uniqueId: EditMode Tests.dll/VariableTests/[EditMode Tests][VariableTests.RangedVariableTest_MinAboveMax]
-      name: RangedVariableTest_MinAboveMax
-      fullName: VariableTests.RangedVariableTest_MinAboveMax
-      resultStatus: 1
-      duration: 0.0004834
-      messages: 
-      output: 
-      stacktrace: 
-      notRunnable: 0
-      ignoredOrSkipped: 0
-      description: 
-      isSuite: 0
-      categories:
-      - Uncategorized
-      parentId: 1009
+      parentId: 1021
       parentUniqueId: EditMode Tests.dll/[EditMode Tests][VariableTests][suite]
     - id: 1022
-      uniqueId: EditMode Tests.dll/VariableTests/[EditMode Tests][VariableTests.RangedVariableTest_NonCompatible]
-      name: RangedVariableTest_NonCompatible
-      fullName: VariableTests.RangedVariableTest_NonCompatible
+      uniqueId: EditMode Tests.dll/VariableTests/[EditMode Tests][VariableTests.standard_int]
+      name: standard_int
+      fullName: VariableTests.standard_int
       resultStatus: 1
-      duration: 0.0019847
+      duration: 0.0023779
       messages: 
       output: 
       stacktrace: 
@@ -1396,14 +1353,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1009
+      parentId: 1021
       parentUniqueId: EditMode Tests.dll/[EditMode Tests][VariableTests][suite]
-    - id: 1018
-      uniqueId: EditMode Tests.dll/VariableTests/[EditMode Tests][VariableTests.RangedVariableTest_vector3]
-      name: RangedVariableTest_vector3
-      fullName: VariableTests.RangedVariableTest_vector3
+    - id: 1025
+      uniqueId: EditMode Tests.dll/VariableTests/[EditMode Tests][VariableTests.vector3]
+      name: vector3
+      fullName: VariableTests.vector3
       resultStatus: 1
-      duration: 0.003198
+      duration: 0.0028611
       messages: 
       output: 
       stacktrace: 
@@ -1413,14 +1370,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1009
+      parentId: 1021
       parentUniqueId: EditMode Tests.dll/[EditMode Tests][VariableTests][suite]
-    - id: 1020
-      uniqueId: EditMode Tests.dll/VariableTests/[EditMode Tests][VariableTests.RangedVariableTest_vector3_AboveMax]
-      name: RangedVariableTest_vector3_AboveMax
-      fullName: VariableTests.RangedVariableTest_vector3_AboveMax
+    - id: 1027
+      uniqueId: EditMode Tests.dll/VariableTests/[EditMode Tests][VariableTests.vector3_AboveMax]
+      name: vector3_AboveMax
+      fullName: VariableTests.vector3_AboveMax
       resultStatus: 1
-      duration: 0.0024345
+      duration: 0.0025328
       messages: 
       output: 
       stacktrace: 
@@ -1430,14 +1387,14 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1009
+      parentId: 1021
       parentUniqueId: EditMode Tests.dll/[EditMode Tests][VariableTests][suite]
-    - id: 1019
-      uniqueId: EditMode Tests.dll/VariableTests/[EditMode Tests][VariableTests.RangedVariableTest_vector3_BelowMin]
-      name: RangedVariableTest_vector3_BelowMin
-      fullName: VariableTests.RangedVariableTest_vector3_BelowMin
+    - id: 1026
+      uniqueId: EditMode Tests.dll/VariableTests/[EditMode Tests][VariableTests.vector3_BelowMin]
+      name: vector3_BelowMin
+      fullName: VariableTests.vector3_BelowMin
       resultStatus: 1
-      duration: 0.002306
+      duration: 0.0024549
       messages: 
       output: 
       stacktrace: 
@@ -1447,15 +1404,15 @@ MonoBehaviour:
       isSuite: 0
       categories:
       - Uncategorized
-      parentId: 1009
+      parentId: 1021
       parentUniqueId: EditMode Tests.dll/[EditMode Tests][VariableTests][suite]
-    m_ResultText: GetAngleTest (0.257s)
+    m_ResultText: VariableTests (0.098s)
     m_ResultStacktrace: 
     m_TestListState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: d97a241b
-      m_LastClickedID: 455375577
-      m_ExpandedIDs: 37e00d9144fa21a35c9a31ab9d6763bf994793ddd3d35211282f681c2df76c3e394e1d71ffffff7f
+      m_SelectedIDs: 44fa21a3
+      m_LastClickedID: -1558054332
+      m_ExpandedIDs: 44fa21a39d6763bf282f681c90f4e96a394e1d71ffffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1490,21 +1447,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5115ff20f1ea204dac14fa49c0e8f69, type: 3}
+  m_Script: {fileID: 11500000, guid: 2f055a04271c0bf4d8323ab7a0157457, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MinSize: {x: 445, y: 385}
+  m_MinSize: {x: 100, y: 100}
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
-    m_Text: Code Coverage
+    m_Text: Grapher
     m_Image: {fileID: 0}
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 975.2
+    x: 1026.4
     y: 73.6
-    width: 560
-    height: 750
+    width: 508.59998
+    height: 749.8
   m_ViewDataDictionary: {fileID: 0}
 --- !u!114 &20
 MonoBehaviour:
@@ -1526,33 +1483,8 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 1058.4
+    x: 1068.8
     y: 73.6
-    width: 476.59998
-    height: 750
-  m_ViewDataDictionary: {fileID: 0}
---- !u!114 &21
-MonoBehaviour:
-  m_ObjectHideFlags: 52
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f055a04271c0bf4d8323ab7a0157457, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MinSize: {x: 100, y: 100}
-  m_MaxSize: {x: 4000, y: 4000}
-  m_TitleContent:
-    m_Text: Grapher
-    m_Image: {fileID: 0}
-    m_Tooltip: 
-  m_Pos:
-    serializedVersion: 2
-    x: 824
-    y: 73.6
-    width: 711
+    width: 466
     height: 750
   m_ViewDataDictionary: {fileID: 0}

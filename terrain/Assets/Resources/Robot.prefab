@@ -373,6 +373,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tail
       objectReference: {fileID: 0}
+    - target: {fileID: 4859188835574871236, guid: 8b54b15de61bc0f49be2f3d06ea35399, type: 3}
+      propertyPath: m_ConnectedAnchor.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4859188835574871236, guid: 8b54b15de61bc0f49be2f3d06ea35399, type: 3}
+      propertyPath: m_ConnectedAnchor.z
+      value: -13.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b54b15de61bc0f49be2f3d06ea35399, type: 3}
 --- !u!4 &1610850149185619061 stripped

@@ -7,111 +7,100 @@ using UnityEngine.TestTools;
 
 public class VariableTests
 {
-    [Test]
-    public void BaseVariableTest_bool()
+    [SetUp]
+    public void Init()
     {
-        bool value = false;
-        BaseVariable variable = new BaseVariable(value);
-        variable.Value = !value;
-        Assert.AreEqual(!value, variable.Value);
+        AIConfig.RandomInitValues = false;
     }
 
     [Test]
-    public void BaseVariableTest_int()
+    public void standard_int()
     {
         int value = 3;
-        BaseVariable variable = new BaseVariable(value);
+        GeneVariable variable = new GeneVariable(value, 0, 5, Variable.NoSections);
         variable.Value -= 1;
         Assert.AreEqual(value - 1, variable.Value);
     }
 
     [Test]
-    public void BaseVariableTest_float()
-    {
-        float value = 3;
-        BaseVariable variable = new BaseVariable(value);
-        variable.Value -= 1.5f;
-        Assert.AreEqual(value - 1.5f, variable.Value);
-    }
-
-    [Test]
-    public void BaseVariableTest_vector3()
-    {
-        Vector3 value = new Vector3(30, 60, 45);
-        BaseVariable variable = new BaseVariable(value);
-        Assert.AreEqual(variable.Value, value);
-    }
-
-    [Test]
-    public void BaseVariableTest_NonCompatible()
-    {
-        string value = "hello";
-        Assert.Throws<System.Exception>(() => new BaseVariable(value));
-    }
-
-    [Test]
-    public void RangedVariableTest_int()
-    {
-        int value = 3;
-        RangedVariable variable = new RangedVariable(value, 0, 5);
-        variable.Value -= 1;
-        Assert.AreEqual(value - 1, variable.Value);
-    }
-
-    [Test]
-    public void RangedVariableTest_int_BelowMin()
+    public void int_BelowMin()
     {
         int value = 1, min = 2;
-        RangedVariable variable = new RangedVariable(value, min, 5);
+        GeneVariable variable = new GeneVariable(value, min, 5, Variable.NoSections);
         Assert.AreEqual(min, variable.Value);
     }
 
     [Test]
-    public void RangedVariableTest_int_AboveMax()
+    public void int_AboveMax()
     {
         int value = 5, max = 4;
-        RangedVariable variable = new RangedVariable(value, 0, max);
+        GeneVariable variable = new GeneVariable(value, 0, max, Variable.NoSections);
         Assert.AreEqual(max, variable.Value);
     }
 
     [Test]
-    public void RangedVariableTest_vector3()
+    public void vector3()
     {
         Vector3 value = new Vector3(30, 60, 45);
-        RangedVariable variable = new RangedVariable(value, 10, 90);
+        GeneVariable variable = new GeneVariable(value, 10, 90, Variable.NoSections);
         variable.Value = value / 2;
         Assert.AreEqual(new Vector3(15, 30, 22.5f), variable.Value);
     }
 
     [Test]
-    public void RangedVariableTest_vector3_BelowMin()
+    public void vector3_BelowMin()
     {
         Vector3 value = new Vector3(30, 60, 45);
         float min = 45;
-        RangedVariable variable = new RangedVariable(value, min, 90);
+        GeneVariable variable = new GeneVariable(value, min, 90, Variable.NoSections);
         Assert.AreEqual(new Vector3(45, 60, 45), variable.Value);
     }
 
     [Test]
-    public void RangedVariableTest_vector3_AboveMax()
+    public void vector3_AboveMax()
     {
         Vector3 value = new Vector3(30, 60, 45);
         float max = 45;
-        RangedVariable variable = new RangedVariable(value, 0, max);
+        GeneVariable variable = new GeneVariable(value, 0, max, Variable.NoSections);
         Assert.AreEqual(new Vector3(30, 45, 45), variable.Value);
     }
 
     [Test]
-    public void RangedVariableTest_MinAboveMax()
+    public void MinAboveMax()
     {
         int value = 5, min = 20, max = 4;
-        Assert.Throws<System.Exception>(() => new RangedVariable(value, min, max));
+        Assert.Throws<System.Exception>(() => new GeneVariable(value, min, max, Variable.NoSections));
     }
 
     [Test]
-    public void RangedVariableTest_NonCompatible()
+    public void NonCompatible()
     {
-        bool value = true;
-        Assert.Throws<System.Exception>(() => new RangedVariable(value, 0, 5));
+        double value = 0.5;
+        Assert.Throws<System.Exception>(() => new GeneVariable(value, 0, 5, Variable.NoSections));
+    }
+
+    [Test]
+    public void bool_CorrectInit()
+    {
+        GeneVariable variable = new GeneVariable(true, Variable.NoSections);
+        Assert.AreEqual(true, variable.Value);
+    }
+
+    [Test]
+    public void bool_IncorrectInit()
+    {
+        GeneVariable variable = new GeneVariable(true, 0, 1, Variable.NoSections);
+        Assert.AreEqual(true, variable.Value);
+    }
+
+
+    //slightly unstable as it could randomly generate the input value
+    //don't test with bool as this is 50/50 going to return same result due to bool handling
+    [Test]
+    public void RandomInit()
+    {
+        AIConfig.RandomInitValues = true;
+        GeneVariable variable = new GeneVariable(17, 1, 100, Variable.NoSections);
+        Assert.AreNotEqual(17, variable.Value);
     }
 }

@@ -310,8 +310,10 @@
 -r:"C:/Users/Molly/OneDrive - University of Sussex/University Home Share/FYP/terrain/Library/PackageCache/com.unity.testtools.codecoverage@1.1.0/lib/ReportGenerator/ReportGeneratorMerged.dll"
 -r:"Library/Bee/artifacts/1900b0aEDbg.dag/UnityEditor.UI.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aEDbg.dag/UnityEngine.UI.ref.dll"
+"Assets/Scripts/Enums/AIOptions.cs"
 "Assets/Scripts/Enums/BodyPart.cs"
 "Assets/Scripts/Enums/Surface.cs"
+"Assets/Scripts/Enums/Variable.cs"
 -langversion:8.0
 
 /deterministic

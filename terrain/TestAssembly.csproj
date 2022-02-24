@@ -58,12 +58,14 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\GenerateRobot.cs" />
     <Compile Include="Assets\Scripts\retired\EntireBodyConfig.cs" />
+    <Compile Include="Assets\Scripts\RobotHelpers.cs" />
     <Compile Include="Assets\Scripts\RobotDetection.cs" />
     <Compile Include="Assets\Scripts\retired\JointSetup.cs" />
     <Compile Include="Assets\Scripts\GeneticAlgorithm.cs" />
     <Compile Include="Assets\Scripts\retired\retiredcode.cs" />
     <Compile Include="Assets\Scripts\MoveTail.cs" />
     <Compile Include="Assets\Scripts\retired\JointConfig.cs" />
+    <Compile Include="Assets\Scripts\UI.cs" />
     <Compile Include="Assets\Scripts\retired\TerrainGeneration.cs" />
     <Compile Include="Assets\Scripts\retired\TestJointSetup.cs" />
     <Compile Include="Assets\Scripts\retired\MoveJoint.cs" />
@@ -700,6 +702,10 @@
     <ProjectReference Include="Grapher.csproj">
       <Project>{1E4203AB-7F81-1C6A-C02E-D06CD9BD6DE4}</Project>
       <Name>Grapher</Name>
+    </ProjectReference>
+    <ProjectReference Include="UITemplates.csproj">
+      <Project>{937A1AA3-2F8B-93E3-C784-EBB1FB8BAFAF}</Project>
+      <Name>UITemplates</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

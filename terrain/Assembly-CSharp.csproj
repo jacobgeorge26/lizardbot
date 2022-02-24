@@ -56,7 +56,7 @@
     <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\RobotDetection.cs" />
+    <Compile Include="Assets\ColourTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
@@ -748,6 +748,10 @@
     <ProjectReference Include="Config.csproj">
       <Project>{D8035A92-9622-3790-F6FE-9CEC5BA4467C}</Project>
       <Name>Config</Name>
+    </ProjectReference>
+    <ProjectReference Include="UITemplates.csproj">
+      <Project>{937A1AA3-2F8B-93E3-C784-EBB1FB8BAFAF}</Project>
+      <Name>UITemplates</Name>
     </ProjectReference>
     <ProjectReference Include="ProceduralToolkit.ClipperLib.csproj">
       <Project>{6A7A4159-A5AB-F496-85D9-1C5D94F1D6CF}</Project>

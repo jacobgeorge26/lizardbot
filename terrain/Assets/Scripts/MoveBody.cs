@@ -19,8 +19,8 @@ public class MoveBody : MonoBehaviour
     {
         //get the rigidbody for this body section as this is how the rotation/position will be manipulated
         body = GetComponent<Rigidbody>();
-        config = this.gameObject.GetComponent<BodyConfig>();
         objectConfig = this.gameObject.GetComponent<ObjectConfig>();
+        config = objectConfig.Body;
         robotConfig = AIConfig.RobotConfigs.Where(c => c.RobotIndex.Equals(objectConfig.RobotIndex)).First();
         SetupRotatingSections();
     }
@@ -30,8 +30,8 @@ public class MoveBody : MonoBehaviour
     {
         foreach (ObjectConfig objConfig in robotConfig.Configs.Where(o => o.Type == BodyPart.Body))
         {
-            GameObject obj = objConfig.Object;
-            BodyConfig bodyConfig = obj.GetComponent<BodyConfig>();
+            GameObject obj = objConfig.gameObject;
+            BodyConfig bodyConfig = objConfig.Body;
             if (bodyConfig.IsRotating.Value)
             {
                 RotatingConfigs.Add(objConfig);
@@ -64,7 +64,7 @@ public class MoveBody : MonoBehaviour
         List<ObjectConfig> prevRotating = RotatingConfigs.Where(o => o.Index < objectConfig.Index).ToList();
         if (prevRotating.Count > 0)
         {
-            GameObject previousSection = prevRotating.Last().Object;
+            GameObject previousSection = prevRotating.Last().gameObject;
             MoveBody prevSecMoveBody = previousSection.GetComponent<MoveBody>();
             prevSecAngle = prevSecMoveBody.GetRelativeAngle();
             angleVelocity = prevSecMoveBody.GetVelocity();
