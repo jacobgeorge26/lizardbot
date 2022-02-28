@@ -62,8 +62,8 @@ public static class RobotHelpers : object
         //setup config - different defaults for tail
         if (!AIConfig.RandomInitValues)
         {
-            config.AngleConstraint = new GeneVariable(new Vector3(60, 60, 60), 0, 180, Variable.AngleConstraint);
-            config.RotationMultiplier = new GeneVariable(new Vector3(1f, 1f, 1f), 0.5f, 1f, Variable.RotationMultiplier);
+            config.AngleConstraint = new Gene(new Vector3(60, 60, 60), 0, 180, Variable.AngleConstraint);
+            config.RotationMultiplier = new Gene(new Vector3(1f, 1f, 1f), 0.5f, 1f, Variable.RotationMultiplier);
         }
 
         //setup object config
@@ -166,13 +166,13 @@ public static class RobotHelpers : object
         List<ObjectConfig> prevBody = robot.Configs.Where(o => o.Type == BodyPart.Body).OrderBy(o => o.Index).ToList();
         ObjectConfig last = prevBody.Last();
         prevBody.Remove(last);
-        List<GeneVariable> allGenes = new List<GeneVariable>();
+        List<Gene> allGenes = new List<Gene>();
         foreach (var objConfig in prevBody)
         {
             allGenes = allGenes.Concat(robot.GetVariables(objConfig.Body)).ToList();
         }
         //get all the genes for the last body section
-        List<GeneVariable> newGenes = new List<GeneVariable>();
+        List<Gene> newGenes = new List<Gene>();
         BodyConfig newBody = last.Body;
         newGenes = newGenes.Concat(robot.GetVariables(newBody)).ToList();
         //now there's a list of all the genes that need to be updated (newGenes) and all the genes of the rest of the body (allGenes)
@@ -227,16 +227,16 @@ public static class RobotHelpers : object
     }
 
     //get a list of all the genevariables for a config (e.g. BodyConfig)
-    internal static List<GeneVariable> GetVariables(this RobotConfig robot, dynamic config)
+    internal static List<Gene> GetVariables(this RobotConfig robot, dynamic config)
     {
-        List<GeneVariable> genes = new List<GeneVariable>();
+        List<Gene> genes = new List<Gene>();
         var allFields = config.GetType().GetFields();
         foreach (var item in allFields)
         {
-            if (item.FieldType == typeof(GeneVariable))
+            if (item.FieldType == typeof(Gene))
             {
                 var f = item.GetValue(config);
-                genes.Add((GeneVariable)f);
+                genes.Add((Gene)f);
             }
         }
         return genes;

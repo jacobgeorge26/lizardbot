@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 namespace Config
 {
-    public class GeneVariable
+    public class Gene
     {
         private dynamic currentValue;
 
@@ -21,7 +21,7 @@ namespace Config
 
         private List<Type> compatibleTypes = new List<Type> { typeof(int), typeof(float), typeof(Vector3) };
 
-        public GeneVariable(dynamic defaultValue, dynamic minValue, dynamic maxValue, Variable type)
+        public Gene(dynamic defaultValue, dynamic minValue, dynamic maxValue, Variable type)
         {
             this.Min = minValue;
             this.Max = maxValue;
@@ -37,7 +37,7 @@ namespace Config
             if (AIConfig.RandomInitValues) currentValue = GenerateValue();
         }
 
-        public GeneVariable(bool boolValue, Variable type)
+        public Gene(bool boolValue, Variable type)
         {
             this.Min = 0f;
             this.Max = 1f;

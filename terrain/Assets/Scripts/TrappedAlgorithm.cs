@@ -12,8 +12,7 @@ public class TrappedAlgorithm : MonoBehaviour
     private RobotConfig robotConfig;
     private UI ui;
 
-    //how many locations are analysed (2 per second)
-    private int locationsSize = 20; 
+
     //these are used to prevent data being collected too soon 
     //the robot needs time to hit the terrain and react
     private bool ShowTrail = false;
@@ -73,26 +72,26 @@ public class TrappedAlgorithm : MonoBehaviour
         //add this to locations
         locations.Enqueue(currentLocation);
         //locations is full, bring back to size then check if robot is stuck
-        if (locations.Count > locationsSize)
+        if (locations.Count > AIConfig.Sensitivity)
         {
             int count = 100;
             //only store as many samples in locations as determined in AI config
-            while (locations.Count > locationsSize && count > 0)
+            while (locations.Count > AIConfig.Sensitivity && count > 0)
             {
                 count--;
                 locations.Dequeue();
             }
         }
-        if(locations.Count == locationsSize)
+        if(locations.Count == AIConfig.Sensitivity)
         {
             float volume = GetVolume();
             //Grapher.Log(volume, "Volume", Color.white);
             volumes.Enqueue(volume);
-            if(volumes.Count > locationsSize)
+            if(volumes.Count > AIConfig.Sensitivity)
             {
                 volumes.Dequeue();
             }
-            if(volumes.Count == locationsSize)
+            if(volumes.Count == AIConfig.Sensitivity)
             {
                 float variance = GetVariance();
                 //Grapher.Log(variance, "Variance", Color.red);

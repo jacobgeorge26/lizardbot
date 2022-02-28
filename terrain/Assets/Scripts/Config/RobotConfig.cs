@@ -21,15 +21,15 @@ namespace Config
 
         public RobotConfig Original;
 
-        public GeneVariable NoSections = new GeneVariable(5, 1, 10, Variable.NoSections);
+        public Gene NoSections = new Gene(5, 1, 10, Variable.NoSections);
 
-        public GeneVariable IsTailEnabled = new GeneVariable(true, Variable.IsTailEnabled);
+        public Gene IsTailEnabled = new Gene(true, Variable.IsTailEnabled);
 
         //lower the better
-        public GeneVariable BodyColour = new GeneVariable(150, 0, 255, Variable.BodyColour);
+        public Gene BodyColour = new Gene(150, 0, 255, Variable.BodyColour);
 
         //when changes are made, should serpentine motion be preserved
-        public GeneVariable MaintainSerpentine = new GeneVariable(true, Variable.MaintainSerpentine);
+        public Gene MaintainSerpentine = new Gene(true, Variable.MaintainSerpentine);
 
         public RobotConfig(int _index, GameObject _object)
         {

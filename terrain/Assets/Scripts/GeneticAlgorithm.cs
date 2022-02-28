@@ -29,9 +29,12 @@ public static class GeneticAlgorithm : object
         newRobot = Init(newRobot, oldRobot, newVersion);
 
         //mutate
-        List<GeneVariable> genes = GetGenes(newRobot);
-
-        if(AIConfig.RecombinationRate > 0 && AIConfig.PopulationSize > 1) Recombine(genes, newRobot);
+        List<Gene> genes = new List<Gene>();
+        if (AIConfig.RecombinationRate > 0 && AIConfig.PopulationSize > 1) genes = Recombine(newRobot);
+        else
+        {
+            genes = GetGenes(newRobot, true);
+        }
 
         if(AIConfig.MutationRate > 0) Mutate(genes);
 
@@ -51,7 +54,7 @@ public static class GeneticAlgorithm : object
         newRobot.Object.SetActive(true);
     }
 
-    private static void Recombine(List<GeneVariable> genes, RobotConfig robot)
+    private static List<Gene> Recombine(RobotConfig robot)
     {
         Recombination type = AIConfig.RecombinationType == Recombination.Any
             ? (Recombination)Enum.GetValues(typeof(Recombination)).GetValue((int)Random.Range(0, Enum.GetValues(typeof(Recombination)).Length - 1))
@@ -66,8 +69,106 @@ public static class GeneticAlgorithm : object
         };
         //if using triad approach then best1 is the physical one, best2 needs to be the movement one
         RobotConfig best2 = type == Recombination.Triad ? BestMovementRobot(robot) : null;
-        //TODO: recombination
         Debug.Log($"Robot: {robot.RobotIndex}    Physical: {(best1 == null ? '-' : best1.RobotIndex)}    Movement: {(best2 == null ? '-' : best2.RobotIndex)}");
+
+        //recombine robot
+        List<Gene> newRobotGenes = CombineGenes(GetGenes(robot, false), GetGenes(best1, false), GetGenes(best2, false));
+        //recombine body
+        //TODO: how am i handling if the nosections has been increased?
+        int maxNoSections = Math.Max(robot.NoSections.Value, best1.NoSections.Value);
+        maxNoSections = Math.Max(maxNoSections, (best2 != null ? best2.NoSections.Value : 0));
+        for (int i = 0; i < maxNoSections; i++)
+        {
+            //because the nosections might have just been increased it cannot be assumed that a config for this section exists yet
+            List<ObjectConfig> bodies = robot.NoSections.Value > i ? robot.Configs.Where(o => o.Type == BodyPart.Body && o.Index == i).ToList() : new List<ObjectConfig>();
+            ObjectConfig body = bodies.Count == 1 ? bodies.First() : null;
+            ObjectConfig body1 = best1.NoSections.Value > i ? best1.Configs.First(o => o.Type == BodyPart.Body && o.Index == i) : null;
+            ObjectConfig body2 = best2 != null && best2.NoSections.Value > i ? best2.Configs.First(o => o.Type == BodyPart.Body && o.Index == i) : null;
+            List<Gene> newBodyGenes = CombineGenes(GetGenes(robot, body), GetGenes(best1, body1), GetGenes(best2, body2));
+            newRobotGenes = newRobotGenes.Concat(newBodyGenes).ToList(); //update list of genes
+        }
+        if (robot.IsTailEnabled.Value)
+        {
+            List<ObjectConfig> tails = robot.Configs.Where(o => o.Type == BodyPart.Tail).ToList();
+            ObjectConfig tail = tails.Count == 1 ? tails.First() : null;
+            ObjectConfig tail1 = best1.IsTailEnabled.Value ? best1.Configs.First(o => o.Type == BodyPart.Tail) : null;
+            ObjectConfig tail2 = best2.IsTailEnabled.Value ? best2.Configs.First(o => o.Type == BodyPart.Tail) : null;
+            List<Gene> newTailGenes = CombineGenes(GetGenes(robot, tail), GetGenes(best1, tail1), GetGenes(best2, tail2));
+            newRobotGenes = newRobotGenes.Concat(newTailGenes).ToList();
+        }
+        return newRobotGenes;
+    }
+
+    private static List<Gene> CombineGenes(List<Gene> genes1, List<Gene> genes2, List<Gene> genes3)
+    {
+        //genes1 is original robot, use this for loop to make sure only genes that the robot has are used. 
+        //this shouldn't make a difference, but avoids strange errors
+        List<Gene> newGenes = new List<Gene>();
+        for (int i = 0; i < genes1.Count; i++)
+        {
+            Gene oldGene = genes1[i];
+            if (Random.value < AIConfig.RecombinationRate)
+            {
+                //recombine with another gene
+                Gene newGene = genes3.Count > 0 && Random.value < 0.5f ? genes3.First(g => g.Type == oldGene.Type) : genes2.First(g => g.Type == oldGene.Type);
+                oldGene.Value = newGene.Real;
+                newGenes.Add(newGene);
+            }
+            else
+            {
+                //maintain original
+                newGenes.Add(oldGene);
+            }
+        }
+        return newGenes;
+    }
+
+    private static void Mutate(List<Gene> allGenes)
+    {
+        Mutation type = AIConfig.MutationType == Mutation.Any
+            ? (Mutation)Enum.GetValues(typeof(Mutation)).GetValue((int)Random.Range(0, Enum.GetValues(typeof(Mutation)).Length - 1))
+            : AIConfig.MutationType;
+        //trim list if physical / movement limited
+        List<Gene> genes = type == Mutation.Physical ? allGenes.Where(g => g.Type < 0).ToList() :
+            type == Mutation.Movement ? allGenes.Where(g => g.Type > 0).ToList() :
+                allGenes;
+        foreach (Gene gene in genes)
+        {
+            if(Random.value < AIConfig.MutationRate)
+            {
+                //adjust
+                Gene g = (Gene)gene;
+                //handled in Variables - Vector3 will increment by a different amount for each axis
+                g.Increment();
+            }
+        }
+    }
+
+
+    private static List<Gene> GetGenes(RobotConfig robot, bool getObjGenes)
+    {
+        List<Gene> genes = new List<Gene>();
+        //split variables into physical and movement
+        genes = genes.Concat(robot.GetVariables(robot)).ToList();
+        //if we want the full list of genes then get the genes for the object configs too
+        if (getObjGenes)
+        {
+            robot.Configs.ForEach(o => genes = genes.Concat(GetGenes(robot, o)).ToList());
+        }
+        //this is now a list of all variables that can be recombined / mutated
+        //these can further be classified into those that affect the physical structure of the robot, versus the movement of it
+        return genes;
+    }
+
+    private static List<Gene> GetGenes(RobotConfig robot, ObjectConfig config)
+    {
+        if (config == null) return new List<Gene>();
+        return config.Type switch
+        {
+            BodyPart.Body => robot.GetVariables(config.Body),
+            BodyPart.Tail => robot.GetVariables(config.Tail),
+            _ => null
+        };
     }
 
     private static RobotConfig BestLizardRobot(RobotConfig robot)
@@ -93,7 +194,7 @@ public static class GeneticAlgorithm : object
     {
         int attempts = 0;
         List<RobotConfig> robots = new List<RobotConfig>();
-        while(robots.Count < AIConfig.SelectionSize && attempts < 5)
+        while (robots.Count < AIConfig.SelectionSize && attempts < 5)
         {
             robots = robot.GetMovementSimilarRobots(attempts);
             attempts++;
@@ -118,52 +219,6 @@ public static class GeneticAlgorithm : object
         //return robot with best performance
         robots.OrderBy(r => r.Performance);
         return robots.Count > 0 ? robots.Last() : null;
-    }
-
-    private static void Mutate(List<GeneVariable> allGenes)
-    {
-        Mutation type = AIConfig.MutationType == Mutation.Any
-            ? (Mutation)Enum.GetValues(typeof(Mutation)).GetValue((int)Random.Range(0, Enum.GetValues(typeof(Mutation)).Length - 1))
-            : AIConfig.MutationType;
-        //trim list if physical / movement limited
-        List<GeneVariable> genes = type == Mutation.Physical ? allGenes.Where(g => g.Type < 0).ToList() :
-            type == Mutation.Movement ? allGenes.Where(g => g.Type > 0).ToList() :
-                allGenes;
-        foreach (GeneVariable gene in genes)
-        {
-            if(Random.value < AIConfig.MutationRate)
-            {
-                //adjust
-                GeneVariable g = (GeneVariable)gene;
-                //handled in Variables - Vector3 will increment by a different amount for each axis
-                g.Increment();
-            }
-        }
-    }
-
-
-    private static List<GeneVariable> GetGenes(RobotConfig robot)
-    {
-        List<GeneVariable> genes = new List<GeneVariable>();
-        //split variables into physical and movement
-        genes = genes.Concat(robot.GetVariables(robot)).ToList();
-        
-        foreach (ObjectConfig objConfig in robot.Configs)
-        {
-            if(objConfig.Type == BodyPart.Body)
-            {
-                BodyConfig config = objConfig.Body;
-                genes = genes.Concat(robot.GetVariables(config)).ToList();
-            }
-            else if(objConfig.Type == BodyPart.Tail)
-            {
-                TailConfig config = objConfig.Tail;
-                genes = genes.Concat(robot.GetVariables(config)).ToList();
-            }
-        }
-        //this is now a list of all variables that can be recombined / mutated
-        //these can further be classified into those that affect the physical structure of the robot, versus the movement of it
-        return genes;
     }
 
     private static void Freeze(RobotConfig robot)
