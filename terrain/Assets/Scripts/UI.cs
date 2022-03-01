@@ -29,6 +29,7 @@ public class UI : MonoBehaviour
         UIE.UIOption.ClearOptions();
         UIE.UIOption.AddOptions(options);
         UIE.UIOption.onValueChanged.AddListener(delegate { SelectOption(UIE.View); });
+        UIE.Overview.onClick.AddListener(delegate { ToggleOverview(); });
         SelectOption(UIE.DefaultView);
     }
 
@@ -47,6 +48,8 @@ public class UI : MonoBehaviour
                 break;
             case UIView.Performance:
                 ToggleEnable();
+                UIE.IsOverview = !UIE.IsOverview;
+                ToggleOverview();
                 CameraConfig.OverviewCamera.SetActive(true);
                 CameraConfig.RobotCamera.SetActive(false);
                 CameraConfig.RobotCamera.GetComponent<CameraPosition>().Clear();
@@ -76,6 +79,11 @@ public class UI : MonoBehaviour
             if (UIE.View == UIView.Robot)
             {
                 SelectRobot(UIE.RobotNumber.text);
+            }
+            else
+            {
+                UIE.IsOverview = !UIE.IsOverview;
+                ToggleOverview();
             }
         }
         else
@@ -267,6 +275,58 @@ public class UI : MonoBehaviour
         
     }
 
+    //-------------------------------Performance Options-----------------------------------
+
+    private void ToggleOverview()
+    {
+        if (!UIE.IsOverview)
+        {
+            //is currently showing individual, move to show overview
+            UIE.IsOverview = !UIE.IsOverview;
+            UIE.OverviewText.text = "Show Breakdown";
+            UIE.Individuals.ForEach(o => o.SetActive(false));
+            SetupOverviewPerformance();
+        }
+        else
+        {
+            //is currently showing overview, move to show individual
+            UIE.IsOverview = !UIE.IsOverview;
+            UIE.OverviewText.text = "Show Overview";
+            SetupIndividualPerformance();
+        }
+    }
+
+    private void SetupIndividualPerformance()
+    {
+        UIE.SetupIndividuals();
+        float  maxPerformance = AIConfig.RobotConfigs.Max(r => r.Performance);
+        maxPerformance = (float)Math.Max(10, Math.Ceiling(maxPerformance / 10) * 10);
+        for (int i = 0; i < AIConfig.PopulationSize; i++)
+        {
+            RobotConfig robot = AIConfig.RobotConfigs.First(r => r.RobotIndex == i);
+            UIE.SetIndividualHeight(robot.RobotIndex, robot.Performance, maxPerformance);
+        }
+    }
+
+    private void IndividualUpdate(int robotIndex)
+    {
+        float maxPerformance = AIConfig.RobotConfigs.Max(r => r.Performance);
+        maxPerformance = (float)Math.Max(10, Math.Ceiling(maxPerformance / 10) * 10);
+        bool maxChanging = maxPerformance > UIE.MaxPerformance;
+        if (maxPerformance > UIE.MaxPerformance) SetupIndividualPerformance();
+        else 
+        {
+            RobotConfig robot = AIConfig.RobotConfigs.First(r => r.RobotIndex == robotIndex);
+            UIE.SetIndividualHeight(robotIndex, robot.Performance, maxPerformance);
+        }
+    }
+
+    private void SetupOverviewPerformance()
+    {
+        UIE.FirstX.text = "-60s";
+        UIE.LastX.text = "0s";
+    }
+
     //-----------------------------------------------All Helpers----------------------------
     private void ToggleEnable()
     {
@@ -313,6 +373,16 @@ public class UI : MonoBehaviour
         }
     }
 
+    private IEnumerator MaxChanged(float maxPerformance)
+    {
+        UIE.LastPerformance.color = Color.red;
+        yield return new WaitForSeconds(5f);
+        if(UIE.MaxPerformance == maxPerformance)
+        {
+            UIE.LastPerformance.color = Color.white;
+        }
+    }
+
     private float GetRelativeAngleMagnitude(Vector3 vector, float min, float max)
     {
         float magnitudeMax = new Vector3(max, max, max).magnitude;
@@ -336,7 +406,7 @@ public class UI : MonoBehaviour
 
     public void UpdateRobotUI(RobotConfig config)
     {
-        if (IsEnabled && UIE.View == UIView.Robot && !UIE.IsOriginal && config.RobotIndex == Robot.RobotIndex)
+        if (IsEnabled && UIE.View == UIView.Robot && !UIE.IsOriginal && config.RobotIndex == Robot.RobotIndex && !UIE.IsCollapsed)
         {
             Robot = config;
             RobotUpdate(config, true);
@@ -345,13 +415,16 @@ public class UI : MonoBehaviour
 
     public void UpdatePerformance(int robotIndex, float current, float best)
     {
-        if(IsEnabled && UIE.View == UIView.Robot && !UIE.IsOriginal && robotIndex == Robot.RobotIndex)
+        if(IsEnabled && UIE.View == UIView.Robot && !UIE.IsOriginal && robotIndex == Robot.RobotIndex && !UIE.IsCollapsed)
         {
             Text text = UIE.BestPerformanceText;
             text.text = Math.Round(best, 2).ToString();
             text = UIE.CurrentPerformanceText;
             text.text = Math.Round(current, 2).ToString();
         }
+        else if(IsEnabled && UIE.View == UIView.Performance && !UIE.IsOverview && !UIE.IsCollapsed)
+        {
+            IndividualUpdate(robotIndex);
+        }
     }
-
 }

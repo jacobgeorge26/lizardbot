@@ -319,6 +319,7 @@
 "Assets/Scripts/GeneratePopulation.cs"
 "Assets/Scripts/GenerateRobot.cs"
 "Assets/Scripts/GeneticAlgorithm.cs"
+"Assets/Scripts/GetPerformance.cs"
 "Assets/Scripts/MoveBody.cs"
 "Assets/Scripts/MoveTail.cs"
 "Assets/Scripts/OverviewCamPos.cs"

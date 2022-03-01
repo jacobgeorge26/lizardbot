@@ -5,23 +5,91 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637789760884955435
-    m_Hash: 2936545045
+      ticks: 637817466945192330
+    m_Hash: 1919157227
   m_LockFileStatus:
     m_FilePath: C:/Users/Molly/OneDrive - University of Sussex/University Home Share/FYP/terrain/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637789760884965406
-    m_Hash: 1787347941
+      ticks: 637817466945282206
+    m_Hash: 3466468799
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_LocalPackages:
-  m_LocalFileStatus: []
+  m_LocalFileStatus:
+  - m_FilePath: C:\Users\Molly\Downloads\ParticleEffectForUGUI-3.3.10\ParticleEffectForUGUI-3.3.10/package.json
+    m_PathExists: 1
+    m_ContentTrackingEnabled: 1
+    m_ModificationDate:
+      serializedVersion: 2
+      ticks: 637817466604985868
+    m_Hash: 814135982
+  - m_FilePath: C:\Users\Molly\Downloads\ParticleEffectForUGUI-3.3.10\ParticleEffectForUGUI-3.3.10
+    m_PathExists: 1
+    m_ContentTrackingEnabled: 1
+    m_ModificationDate:
+      serializedVersion: 2
+      ticks: 0
+    m_Hash: 0
 m_ProjectPath: C:/Users/Molly/OneDrive - University of Sussex/University Home Share/FYP/terrain/Packages
 m_EditorVersion: 2021.1.10f1 (b15f561b2cef)
 m_ResolvedPackages:
+- packageId: com.coffee.ui-particle@file:C:\Users\Molly\Downloads\ParticleEffectForUGUI-3.3.10\ParticleEffectForUGUI-3.3.10
+  testable: 0
+  isDirectDependency: 1
+  version: 3.3.10
+  source: 4
+  resolvedPath: C:\Users\Molly\Downloads\ParticleEffectForUGUI-3.3.10\ParticleEffectForUGUI-3.3.10
+  assetPath: Packages/com.coffee.ui-particle
+  name: com.coffee.ui-particle
+  displayName: UI Particle
+  author:
+    name: mob-sakai
+    email: sakai861104@gmail.com
+    url: https://github.com/mob-sakai
+  category: 
+  type: 
+  description: 'This plugin provide a component to render particle effect for uGUI.
+
+    The
+    particle rendering is maskable and sortable, without Camera, RenderTexture or
+    Canvas.'
+  status: 4
+  errors: []
+  versions:
+    all: []
+    compatible: []
+    verified: 
+  dependencies: []
+  resolvedDependencies: []
+  keywords:
+  - ui
+  - particle
+  registry:
+    id: 
+    name: 
+    url: 
+    scopes: []
+    isDefault: 0
+    capabilities: 0
+  hasRegistry: 0
+  hideInEditor: 1
+  entitlements:
+    isAllowed: 1
+  isAssetStorePackage: 0
+  datePublishedTicks: 0
+  documentationUrl: 
+  hasRepository: 1
+  repository:
+    type: git
+    url: git+https://github.com/mob-sakai/ParticleEffectForUGUI.git
+    revision: 
+    path: 
+  unityLifecycle:
+    version: 
+    nextVersion: 
 - packageId: com.unity.collab-proxy@1.9.0
   testable: 0
   isDirectDependency: 1

@@ -19,6 +19,8 @@ public class UIConfig : MonoBehaviour
     public bool IsCollapsed = true;
     [HideInInspector]
     public bool IsOriginal = false;
+    [HideInInspector]
+    public bool IsOverview = false;
 
     [Header("General Objects")]
     public GameObject panel;
@@ -55,14 +57,29 @@ public class UIConfig : MonoBehaviour
     [HideInInspector]
     public Text BestPerformanceText;
 
-    [Header("Performance Objects")]
-    public Button Overview;
-
+    //used for robot UI
     [HideInInspector]
     public List<BodyUI> Bodies;
-
     [HideInInspector]
     public TailUI Tail;
+
+    [Header("Performance Objects")]
+    public Button Overview;
+    public Text FirstX;
+    public Text LastX;
+    public Text FirstPerformance;
+    public Text LastPerformance;
+
+    //Text objects for performance display
+    [HideInInspector]
+    public Text OverviewText;
+
+    //used for performance UI
+    [HideInInspector]
+    public List<GameObject> Individuals = new List<GameObject>();
+    [HideInInspector]
+    public float MaxPerformance = 0;
+
 
     void Awake()
     {
@@ -74,6 +91,7 @@ public class UIConfig : MonoBehaviour
         VersionText = Version.GetComponentInChildren<Text>();
         CurrentPerformanceText = CurrentPerformance.GetComponentInChildren<Text>();
         BestPerformanceText = BestPerformance.GetComponentInChildren<Text>();
+        OverviewText = Overview.GetComponentInChildren<Text>();
     }
 
     //-------------------------------------------------------------------------------------------
@@ -82,6 +100,8 @@ public class UIConfig : MonoBehaviour
     private float scalemin = 0.7f, scalemax = 0.9f;
     private float massmin = 0.2f, massmax = 0.7f;
     private float lengthmin = 160, lengthmax = 250;
+    private float performanceWidth = 1755, performanceHeight = 250;
+    private float performanceMinX = -835, performanceMinY = -140;
 
     public void SetupBodies(int max)
     {
@@ -91,7 +111,7 @@ public class UIConfig : MonoBehaviour
             BodyUI objects = newBody.GetComponent<BodyUI>();
             Bodies.Add(objects);
             newBody.transform.SetParent(RobotOptions.transform);
-            newBody.name = $"Body {Bodies.IndexOf(objects)}";
+            newBody.name = $"Body {i}";
         }
     }
 
@@ -265,6 +285,49 @@ public class UIConfig : MonoBehaviour
         float actualAngle = GetActualAngle(prevAngle, newAngle, ref angleDirectionUp);
         Tail.transform.localPosition = new Vector3(Tail.transform.localPosition.x, actualAngle, 0);
         return newAngle != originalAngle;
+    }
+
+    public void SetupIndividuals()
+    {
+        //if individuals is empty then this is the first time this is being called
+        //create all the objects
+        if(Individuals.Count == 0)
+        {
+            float width = (performanceWidth / AIConfig.PopulationSize) - 5;
+            float initY = 10;
+            for (int i = 0; i < AIConfig.PopulationSize; i++)
+            {
+                GameObject graph = MonoBehaviour.Instantiate(Resources.Load<GameObject>("IndividualPerformanceUI"));
+                Individuals.Add(graph);
+                //update parent
+                graph.transform.SetParent(PerformanceOptions.transform);
+                //update size
+                RectTransform transform = graph.GetComponent<RectTransform>();
+                transform.localScale = new Vector3(1, 1, 1);
+                transform.sizeDelta = new Vector2(width, initY);
+                //update position
+                float thisX = performanceMinX + ((width + 5) * i) + (width / 2) + 5;
+                graph.transform.localPosition = new Vector3(thisX, performanceMinY + (initY / 2), 0);
+                graph.name = $"Robot {i + 1}";
+            }
+        }
+        FirstX.text = $"Robot 1";
+        LastX.text = $"Robot {AIConfig.PopulationSize}";
+        LastPerformance.text = MaxPerformance.ToString();
+    }
+
+    public void SetIndividualHeight(int index, float performance, float maxPerformance)
+    {
+        MaxPerformance = Math.Max(MaxPerformance, maxPerformance);
+        LastPerformance.text = MaxPerformance.ToString();
+        GameObject graph = Individuals[index];
+        graph.SetActive(true);
+        RectTransform transform = graph.GetComponent<RectTransform>();
+        float value = performance / MaxPerformance;
+        float newHeight = value * performanceHeight;
+        transform.sizeDelta = new Vector2(transform.rect.width, newHeight);
+        float thisY = performanceMinY + (newHeight / 2);
+        graph.transform.localPosition = new Vector3(graph.transform.localPosition.x, thisY, 0);
     }
 }
 
