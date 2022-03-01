@@ -17,6 +17,7 @@ public class UI : MonoBehaviour
     {
         UIE = this.gameObject.GetComponent<UIConfig>();
         UIE.panel.SetActive(false);
+        StartCoroutine(LogPerformance());
     }
 
     private void SetupUIOptions()
@@ -323,8 +324,17 @@ public class UI : MonoBehaviour
 
     private void SetupOverviewPerformance()
     {
-        UIE.FirstX.text = "-60s";
-        UIE.LastX.text = "0s";
+        UIE.SetupOverview();
+        StartCoroutine(UpdateOverview());
+    }
+
+    private IEnumerator UpdateOverview()
+    {
+        while(IsEnabled && UIE.View == UIView.Performance && !UIE.IsCollapsed && UIE.IsOverview)
+        {
+            yield return new WaitForSeconds(0.5f);
+            UIE.GenerateGraph();
+        }
     }
 
     //-----------------------------------------------All Helpers----------------------------
@@ -390,6 +400,56 @@ public class UI : MonoBehaviour
         return (vector.magnitude - magnitudeMin) / (magnitudeMax - magnitudeMin);
     }
 
+    private IEnumerator LogPerformance()
+    {
+        bool LastRobotsReady = false;
+        List<RobotConfig> robots = new List<RobotConfig>();
+        while (true)
+        {
+            yield return new WaitForSeconds(0.5f);
+            if(AIConfig.RobotConfigs.Count == AIConfig.PopulationSize)
+            {
+                //at first it will need to use the performance of the actual robots
+                //then it will move to use the LastRobots instead
+                if (!LastRobotsReady)
+                {
+                    robots.Clear();
+                    bool ready = true;
+                    for (int i = 0; i < AIConfig.RobotConfigs.Count; i++)
+                    {
+                        if (AIConfig.LastRobots[i] == null)
+                        {
+                            robots.Add(AIConfig.RobotConfigs.First(r => r.RobotIndex == i));
+                            ready = false;
+                        }
+                        else
+                        {
+                            robots.Add(AIConfig.LastRobots[i]);
+                        }
+                    }
+                    LastRobotsReady = ready;
+                }
+                else
+                {
+                    robots = AIConfig.LastRobots.ToList();
+                }
+
+                //calculate average
+                //robots have been generated
+                float average = robots.Average(r => r.Performance);
+                if (UIE.MeanPerformances.Count == UIE.GraphPoints)
+                {
+                    UIE.MeanPerformances.RemoveAt(0);
+                    UIE.MeanPerformances.Add(average);
+                }
+                else
+                {
+                    UIE.MeanPerformances.Add(average);
+                }
+            }
+        }
+    }
+
     //------------------------------------------Accessed by GA &&|| TrappedAlgorithm------------------------------
 
     internal void Enable()
@@ -427,4 +487,6 @@ public class UI : MonoBehaviour
             IndividualUpdate(robotIndex);
         }
     }
+
+
 }

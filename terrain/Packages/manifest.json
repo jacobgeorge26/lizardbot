@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "com.coffee.ui-particle": "file:C:/Users/Molly/Downloads/ParticleEffectForUGUI-3.3.10/ParticleEffectForUGUI-3.3.10",
     "com.unity.collab-proxy": "1.9.0",
     "com.unity.ide.visualstudio": "2.0.14",
     "com.unity.ide.vscode": "1.2.4",

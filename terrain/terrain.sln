@@ -25,10 +25,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProceduralToolkit.ClipperLi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UITemplates", "UITemplates.csproj", "{937A1AA3-2F8B-93E3-C784-EBB1FB8BAFAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coffee.UIParticle", "Coffee.UIParticle.csproj", "{62470B43-9D4A-4333-0371-7FC3A3874680}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coffee.UIParticle.Demo", "Coffee.UIParticle.Demo.csproj", "{F8B3D957-5156-4636-35E1-141389B32B15}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProceduralToolkit.Editor", "ProceduralToolkit.Editor.csproj", "{AF23C36D-B464-4862-07FE-CB5CBE9B4D2B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EditMode Tests", "EditMode Tests.csproj", "{5A7A288C-2183-5267-0A25-B4521F00E3D8}"
@@ -36,8 +32,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProceduralToolkit.Samples.Buildings.Editor", "ProceduralToolkit.Samples.Buildings.Editor.csproj", "{B5266214-BBEB-6D5D-2DF6-09D4DBA444B5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProceduralToolkit.Samples.Chairs.Editor", "ProceduralToolkit.Samples.Chairs.Editor.csproj", "{B4860750-250F-03ED-5E28-135D559BDE09}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coffee.UIParticle.Editor", "Coffee.UIParticle.Editor.csproj", "{C593162D-3290-1A69-6B22-52814083210E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,14 +87,6 @@ Global
 		{937A1AA3-2F8B-93E3-C784-EBB1FB8BAFAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{937A1AA3-2F8B-93E3-C784-EBB1FB8BAFAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{937A1AA3-2F8B-93E3-C784-EBB1FB8BAFAF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{62470B43-9D4A-4333-0371-7FC3A3874680}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{62470B43-9D4A-4333-0371-7FC3A3874680}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{62470B43-9D4A-4333-0371-7FC3A3874680}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{62470B43-9D4A-4333-0371-7FC3A3874680}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F8B3D957-5156-4636-35E1-141389B32B15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F8B3D957-5156-4636-35E1-141389B32B15}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F8B3D957-5156-4636-35E1-141389B32B15}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F8B3D957-5156-4636-35E1-141389B32B15}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AF23C36D-B464-4862-07FE-CB5CBE9B4D2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AF23C36D-B464-4862-07FE-CB5CBE9B4D2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF23C36D-B464-4862-07FE-CB5CBE9B4D2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -117,10 +103,6 @@ Global
 		{B4860750-250F-03ED-5E28-135D559BDE09}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4860750-250F-03ED-5E28-135D559BDE09}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4860750-250F-03ED-5E28-135D559BDE09}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C593162D-3290-1A69-6B22-52814083210E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C593162D-3290-1A69-6B22-52814083210E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C593162D-3290-1A69-6B22-52814083210E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C593162D-3290-1A69-6B22-52814083210E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

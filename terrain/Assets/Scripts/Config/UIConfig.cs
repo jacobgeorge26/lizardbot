@@ -21,6 +21,9 @@ public class UIConfig : MonoBehaviour
     public bool IsOriginal = false;
     [HideInInspector]
     public bool IsOverview = false;
+    [HideInInspector]
+    //two samples taken per second
+    public int GraphPoints = 30;
 
     [Header("General Objects")]
     public GameObject panel;
@@ -73,10 +76,12 @@ public class UIConfig : MonoBehaviour
     //Text objects for performance display
     [HideInInspector]
     public Text OverviewText;
-
-    //used for performance UI
+    [HideInInspector]
+    public List<float> MeanPerformances = new List<float>();
     [HideInInspector]
     public List<GameObject> Individuals = new List<GameObject>();
+    [HideInInspector]
+    public List<GameObject> Overviews = new List<GameObject>();
     [HideInInspector]
     public float MaxPerformance = 0;
 
@@ -328,6 +333,52 @@ public class UIConfig : MonoBehaviour
         transform.sizeDelta = new Vector2(transform.rect.width, newHeight);
         float thisY = performanceMinY + (newHeight / 2);
         graph.transform.localPosition = new Vector3(graph.transform.localPosition.x, thisY, 0);
+    }
+
+    private int sampleSize = 3;
+    public void SetupOverview()
+    {
+        if(Overviews.Count == 0)
+        {
+            for (int i = 0; i < GraphPoints / sampleSize; i++)
+            {
+                GameObject graph = MonoBehaviour.Instantiate(Resources.Load<GameObject>("GraphLineUI"));
+                Overviews.Add(graph);
+                //update parent
+                graph.transform.SetParent(PerformanceOptions.transform);
+                graph.name = $"Line {i}";
+                RectTransform transform = graph.GetComponent<RectTransform>();
+                transform.localScale = new Vector3(1, 1, 1);
+                transform.sizeDelta = new Vector2(10, 10);
+            }
+        }
+        FirstX.text = "-60s";
+        LastX.text = "0s";
+
+
+    }
+
+    public void GenerateGraph()
+    {
+        float width = (performanceWidth / (GraphPoints / sampleSize));
+        for (int i = 0; i < MeanPerformances.Count - sampleSize - 1; i+= sampleSize)
+        {
+            int index = i / sampleSize;
+            GameObject line = Overviews[index];
+            float point1 = MeanPerformances[i], point2 = MeanPerformances[i + sampleSize];
+            float x1 = performanceMinX + (width * i / sampleSize) + (width / 2), x2 = x1 + width;
+            float y1 = performanceMinY + ((point1 / MaxPerformance) * performanceHeight);
+            float y2 = performanceMinY + ((point2 / MaxPerformance) * performanceHeight);
+            float m = (y2 - y1) / (x2 - x1);
+
+            float distance = Vector3.Distance(new Vector3(x1, y1, 0), new Vector3(x2, y2, 0));
+            double radians = Math.Atan(m);
+            double angle = radians * (180 / Math.PI);
+
+            line.transform.localPosition = new Vector3((x1 + x2) / 2, (y1 + y2) / 2, 0);
+            line.transform.rotation = Quaternion.Euler(0, 0, (float)angle);
+            line.GetComponent<RectTransform>().sizeDelta = new Vector2(distance, 10);
+        }
     }
 }
 

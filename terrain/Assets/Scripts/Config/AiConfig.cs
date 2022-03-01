@@ -13,6 +13,8 @@ namespace Config
         //population can be >25, but in rougher terrain where the robot isn't making progress, expect some warnings and interaction between them
         public static int PopulationSize = 10;
 
+        public static RobotConfig[] LastRobots = new RobotConfig[PopulationSize];
+
         //should the robots be randomly generated
         //false uses the preset defaults
         public static bool RandomInitValues = true;

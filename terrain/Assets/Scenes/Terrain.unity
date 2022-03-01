@@ -2313,7 +2313,6 @@ GameObject:
   - component: {fileID: 1074457349}
   - component: {fileID: 1074457353}
   - component: {fileID: 1074457354}
-  - component: {fileID: 1074457355}
   m_Layer: 5
   m_Name: UI Container
   m_TagString: Untagged
@@ -2430,6 +2429,7 @@ MonoBehaviour:
   IsCollapsed: 1
   IsOriginal: 0
   IsOverview: 0
+  GraphPoints: 30
   panel: {fileID: 2053485794}
   UIOption: {fileID: 311844827}
   Toggle: {fileID: 569605853}
@@ -2455,20 +2455,10 @@ MonoBehaviour:
   FirstPerformance: {fileID: 1845160251}
   LastPerformance: {fileID: 1987908110}
   OverviewText: {fileID: 0}
+  MeanPerformances: []
   Individuals: []
+  Overviews: []
   MaxPerformance: 0
---- !u!114 &1074457355
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1074457348}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56c9ac2c6c08dbf408a72e4205bf7be4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1131579135
 GameObject:
   m_ObjectHideFlags: 0

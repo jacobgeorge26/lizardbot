@@ -8,7 +8,6 @@ using Random = UnityEngine.Random;
 
 public static class GeneticAlgorithm : object
 {
-    private static RobotConfig[] LastRobots = new RobotConfig[AIConfig.PopulationSize];
     private static UI ui;
 
     public static void RobotIsStuck(this RobotConfig stuckRobot)
@@ -19,7 +18,7 @@ public static class GeneticAlgorithm : object
 
         int newVersion = stuckRobot.Version + 1;
         //init LastRobots if this is first iteration
-        if (LastRobots[stuckRobot.RobotIndex] == null) LastRobots[stuckRobot.RobotIndex] = stuckRobot;
+        if (AIConfig.LastRobots[stuckRobot.RobotIndex] == null) AIConfig.LastRobots[stuckRobot.RobotIndex] = stuckRobot;
         //clone better performing between the stuck (mutated) robot and its predecessor
         RobotConfig oldRobot = stuckRobot.MutationCount == AIConfig.MutationCycle ? CompareRobots(stuckRobot, ref newVersion) : stuckRobot;
         if(stuckRobot.RobotIndex == CameraConfig.CamFollow) CameraConfig.Hat.transform.parent = CameraConfig.RobotCamera.transform; //avoid the hat being cloned too
@@ -263,18 +262,18 @@ public static class GeneticAlgorithm : object
     private static RobotConfig CompareRobots(RobotConfig robot2, ref int v)
     {
         int index = robot2.RobotIndex;
-        RobotConfig robot1 = LastRobots[index];
+        RobotConfig robot1 = AIConfig.LastRobots[index];
         v = Math.Max(robot1.Version, robot2.Version) + 1;
         //if the mutated robot performed as well or better than the previous one then continue with this one
         if(robot2.Performance >= robot1.Performance)
         {
-            LastRobots[index] = robot2;
+            AIConfig.LastRobots[index] = robot2;
             robot1.Configs.First().Remove(robot1.Object);
             return robot2;
         }
         else
         {
-            LastRobots[index] = robot1;
+            AIConfig.LastRobots[index] = robot1;
             robot2.Configs.First().Remove(robot2.Object);
             return robot1;
         }
