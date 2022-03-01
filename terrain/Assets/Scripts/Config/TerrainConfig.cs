@@ -14,6 +14,11 @@ namespace Config
 
         private static int TerrainWidth = 100;
 
+        public static int GetTerrainWidth()
+        {
+            return TerrainWidth;
+        }
+
         public static Vector3 GetTerrainSize()
         {
             return new Vector3(TerrainWidth, GetTerrainHeight(), TerrainWidth);

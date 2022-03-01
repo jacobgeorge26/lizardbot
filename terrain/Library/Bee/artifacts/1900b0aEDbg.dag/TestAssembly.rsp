@@ -321,6 +321,7 @@
 "Assets/Scripts/GeneticAlgorithm.cs"
 "Assets/Scripts/MoveBody.cs"
 "Assets/Scripts/MoveTail.cs"
+"Assets/Scripts/OverviewCamPos.cs"
 "Assets/Scripts/retired/EntireBodyConfig.cs"
 "Assets/Scripts/retired/Helpers.cs"
 "Assets/Scripts/retired/JointConfig.cs"

@@ -60,6 +60,7 @@
     <Compile Include="Assets\Scripts\retired\EntireBodyConfig.cs" />
     <Compile Include="Assets\Scripts\RobotHelpers.cs" />
     <Compile Include="Assets\Scripts\RobotDetection.cs" />
+    <Compile Include="Assets\Scripts\OverviewCamPos.cs" />
     <Compile Include="Assets\Scripts\retired\JointSetup.cs" />
     <Compile Include="Assets\Scripts\GeneticAlgorithm.cs" />
     <Compile Include="Assets\Scripts\retired\retiredcode.cs" />

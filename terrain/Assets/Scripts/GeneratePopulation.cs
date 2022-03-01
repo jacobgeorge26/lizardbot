@@ -36,7 +36,7 @@ public class GeneratePopulation : MonoBehaviour
             GameObject version = new GameObject();
             version.transform.parent = robot.transform;
             version.AddComponent<GenerateRobot>();
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.5f);
         }
         //enable UI
         ui.Enable();
