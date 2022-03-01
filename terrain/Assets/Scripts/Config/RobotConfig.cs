@@ -40,6 +40,7 @@ namespace Config
         public List<ObjectConfig> Configs { get; set; } = new List<ObjectConfig>();
 
         //not directly a copy, a clean copy without the default / random init
+        //excludes object, this should have been setup with the constructor
         public void FreshCopy(RobotConfig robot, int version)
         {
             this.RobotIndex = robot.RobotIndex;
@@ -48,9 +49,10 @@ namespace Config
             this.Performance = 0;
             this.MutationCount = 0;
             this.Original = robot.Original;
-            this.NoSections = robot.NoSections;
-            this.IsTailEnabled = robot.IsTailEnabled;
-            this.BodyColour = robot.BodyColour;
+            this.NoSections.Value = robot.NoSections.Value;
+            this.IsTailEnabled.Value = robot.IsTailEnabled.Value;
+            this.BodyColour.Value = robot.BodyColour.Value;
+            this.MaintainSerpentine.Value = robot.MaintainSerpentine.Value;
         }
 
     }

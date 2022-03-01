@@ -30,7 +30,7 @@ public static class GeneticAlgorithm : object
 
         //mutate
         List<Gene> genes = new List<Gene>();
-        if (AIConfig.RecombinationRate > 0 && AIConfig.PopulationSize > 1) genes = Recombine(newRobot);
+        if (AIConfig.RecombinationRate > 0 && AIConfig.PopulationSize > 1) genes = Recombine(newRobot, oldRobot);
         else
         {
             genes = GetGenes(newRobot, true);
@@ -54,7 +54,7 @@ public static class GeneticAlgorithm : object
         newRobot.Object.SetActive(true);
     }
 
-    private static List<Gene> Recombine(RobotConfig robot)
+    private static List<Gene> Recombine(RobotConfig robot, RobotConfig old)
     {
         Recombination type = AIConfig.RecombinationType == Recombination.Any
             ? (Recombination)Enum.GetValues(typeof(Recombination)).GetValue((int)Random.Range(0, Enum.GetValues(typeof(Recombination)).Length - 1))
@@ -69,48 +69,54 @@ public static class GeneticAlgorithm : object
         };
         //if using triad approach then best1 is the physical one, best2 needs to be the movement one
         RobotConfig best2 = type == Recombination.Triad ? BestMovementRobot(robot) : null;
-        Debug.Log($"Robot: {robot.RobotIndex}    Physical: {(best1 == null ? '-' : best1.RobotIndex)}    Movement: {(best2 == null ? '-' : best2.RobotIndex)}");
+        //Debug.Log($"Robot: {robot.RobotIndex}    Physical: {(best1 == null ? '-' : best1.RobotIndex)}    Movement: {(best2 == null ? '-' : best2.RobotIndex)}");
 
         //recombine robot
-        List<Gene> newRobotGenes = CombineGenes(GetGenes(robot, false), GetGenes(best1, false), GetGenes(best2, false));
-        //recombine body
-        //TODO: how am i handling if the nosections has been increased?
-        int maxNoSections = Math.Max(robot.NoSections.Value, best1.NoSections.Value);
-        maxNoSections = Math.Max(maxNoSections, (best2 != null ? best2.NoSections.Value : 0));
-        for (int i = 0; i < maxNoSections; i++)
+        List<Gene> newRobotGenes = new List<Gene>();
+        //body
+        for (int i = 0; i < robot.NoSections.Value; i++)
         {
             //because the nosections might have just been increased it cannot be assumed that a config for this section exists yet
-            List<ObjectConfig> bodies = robot.NoSections.Value > i ? robot.Configs.Where(o => o.Type == BodyPart.Body && o.Index == i).ToList() : new List<ObjectConfig>();
-            ObjectConfig body = bodies.Count == 1 ? bodies.First() : null;
-            ObjectConfig body1 = best1.NoSections.Value > i ? best1.Configs.First(o => o.Type == BodyPart.Body && o.Index == i) : null;
+            ObjectConfig body = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == i);
+            ObjectConfig body1 = best1 != null && best1.NoSections.Value > i ? best1.Configs.First(o => o.Type == BodyPart.Body && o.Index == i) : null;
             ObjectConfig body2 = best2 != null && best2.NoSections.Value > i ? best2.Configs.First(o => o.Type == BodyPart.Body && o.Index == i) : null;
-            List<Gene> newBodyGenes = CombineGenes(GetGenes(robot, body), GetGenes(best1, body1), GetGenes(best2, body2));
-            newRobotGenes = newRobotGenes.Concat(newBodyGenes).ToList(); //update list of genes
+            CombineGenes(GetGenes(robot, body), GetGenes(best1, body1), GetGenes(best2, body2), ref newRobotGenes);
         }
+        //tail
         if (robot.IsTailEnabled.Value)
         {
-            List<ObjectConfig> tails = robot.Configs.Where(o => o.Type == BodyPart.Tail).ToList();
-            ObjectConfig tail = tails.Count == 1 ? tails.First() : null;
-            ObjectConfig tail1 = best1.IsTailEnabled.Value ? best1.Configs.First(o => o.Type == BodyPart.Tail) : null;
-            ObjectConfig tail2 = best2.IsTailEnabled.Value ? best2.Configs.First(o => o.Type == BodyPart.Tail) : null;
-            List<Gene> newTailGenes = CombineGenes(GetGenes(robot, tail), GetGenes(best1, tail1), GetGenes(best2, tail2));
-            newRobotGenes = newRobotGenes.Concat(newTailGenes).ToList();
+            ObjectConfig tail = robot.Configs.First(o => o.Type == BodyPart.Tail);
+            ObjectConfig tail1 = best1 != null && best1.IsTailEnabled.Value ? best1.Configs.First(o => o.Type == BodyPart.Tail) : null;
+            ObjectConfig tail2 = best2 != null && best2.IsTailEnabled.Value ? best2.Configs.First(o => o.Type == BodyPart.Tail) : null;
+            CombineGenes(GetGenes(robot, tail), GetGenes(best1, tail1), GetGenes(best2, tail2), ref newRobotGenes);
         }
+        //robot
+        CombineGenes(GetGenes(robot, false), GetGenes(best1, false), GetGenes(best2, false), ref newRobotGenes);
         return newRobotGenes;
     }
 
-    private static List<Gene> CombineGenes(List<Gene> genes1, List<Gene> genes2, List<Gene> genes3)
+    private static void CombineGenes(List<Gene> genes1, List<Gene> genes2, List<Gene> genes3, ref List<Gene> newGenes)
     {
         //genes1 is original robot, use this for loop to make sure only genes that the robot has are used. 
         //this shouldn't make a difference, but avoids strange errors
-        List<Gene> newGenes = new List<Gene>();
         for (int i = 0; i < genes1.Count; i++)
         {
             Gene oldGene = genes1[i];
             if (Random.value < AIConfig.RecombinationRate)
             {
                 //recombine with another gene
-                Gene newGene = genes3.Count > 0 && Random.value < 0.5f ? genes3.First(g => g.Type == oldGene.Type) : genes2.First(g => g.Type == oldGene.Type);
+                //50/50 between genes2 or genes3, defaulting to the existing gene if they're empty
+                Gene newGene;
+                if(genes2.Count > 0 && genes3.Count > 0)
+                {
+                    newGene = Random.value < 0.5f ? genes2.First(g => g.Type == oldGene.Type) : genes3.First(g => g.Type == oldGene.Type);
+                }
+                else
+                {
+                    newGene = genes2.Count > 0 ? genes2.First(g => g.Type == oldGene.Type)
+                        : genes3.Count > 0 ? genes3.First(g => g.Type == oldGene.Type)
+                            : oldGene;
+                }
                 oldGene.Value = newGene.Real;
                 newGenes.Add(newGene);
             }
@@ -120,7 +126,6 @@ public static class GeneticAlgorithm : object
                 newGenes.Add(oldGene);
             }
         }
-        return newGenes;
     }
 
     private static void Mutate(List<Gene> allGenes)

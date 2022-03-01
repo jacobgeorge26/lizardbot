@@ -230,6 +230,7 @@ public static class RobotHelpers : object
     internal static List<Gene> GetVariables(this RobotConfig robot, dynamic config)
     {
         List<Gene> genes = new List<Gene>();
+        if (config == null) return genes;
         var allFields = config.GetType().GetFields();
         foreach (var item in allFields)
         {
