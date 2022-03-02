@@ -334,7 +334,8 @@ public static class RobotHelpers : object
         similar = AIConfig.RobotConfigs.Where(r => 
             r.RobotIndex != robot.RobotIndex && 
             Math.Abs(r.NoSections.Value - robot.NoSections.Value) <= difference &&
-            r.IsTailEnabled.Value == robot.IsTailEnabled.Value).ToList();
+            r.IsTailEnabled.Value == robot.IsTailEnabled.Value &&
+            r.Object.activeSelf).ToList();
         //remove those whose tail is very different
         //allowed difference = (max - min) / 10 * difference
         if (robot.IsTailEnabled.Value)
@@ -343,7 +344,12 @@ public static class RobotHelpers : object
             float allowedDifference = (tail.TailMassMultiplier.Max - tail.TailMassMultiplier.Min) * (difference + 1) / 10;
             for (int i = similar.Count - 1; i >= 0; i--)
             {
-                TailConfig otherTail = similar[i].Configs.First(o => o.Type == BodyPart.Tail).Tail;
+                List<ObjectConfig> tails = similar[i].Configs.Where(o => o.Type == BodyPart.Tail).ToList();
+                if(tails.Count != 1)
+                {
+                    throw new Exception($"The tail is missing for robot {similar[i].RobotIndex} whilst getting physically similar robots");
+                }
+                TailConfig otherTail = tails.First().Tail;
                 if (Math.Abs(otherTail.TailMassMultiplier.Value - tail.TailMassMultiplier.Value) > allowedDifference)
                 {
                     similar.RemoveAt(i);

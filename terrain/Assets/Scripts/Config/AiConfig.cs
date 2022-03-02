@@ -11,7 +11,7 @@ namespace Config
         //there is a hard limit of 25 layers available
         //RobotDetection works to prevent robots in the same area being in the same layer
         //population can be >25, but in rougher terrain where the robot isn't making progress, expect some warnings and interaction between them
-        public static int PopulationSize = 10;
+        public static int PopulationSize = 50;
 
         public static RobotConfig[] LastRobots = new RobotConfig[PopulationSize];
 
@@ -41,9 +41,9 @@ namespace Config
         public static float MutationRate = 0.5f;
 
         //options for which genes will be mutated
-        public static Mutation MutationType = Mutation.Physical;
+        public static Mutation MutationType = Mutation.Both;
 
         //value for k - how many should be considered in the recombination?
-        public static int SelectionSize = 1;
+        public static int SelectionSize = 5;
     }
 }

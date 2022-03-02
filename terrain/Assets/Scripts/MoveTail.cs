@@ -42,6 +42,8 @@ public class MoveTail : MonoBehaviour
             addVelocity[i] = targetVelocity[i] - tail.velocity[i];
             //adjust for rotation multiplier
             addVelocity[i] *= config.RotationMultiplier.Value[i];
+            addVelocity[i] = Math.Min(addVelocity[i], 100);
+            addVelocity[i] = addVelocity[i] == 0 ? 0.01f : addVelocity[i];
         }
         tail.AddForce(addVelocity, ForceMode.VelocityChange);
     }

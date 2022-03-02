@@ -51,7 +51,6 @@ public static class GeneticAlgorithm : object
 
         //respawn
         newRobot.Object.SetActive(true);
-
     }
 
     private static List<Gene> Recombine(RobotConfig robot, RobotConfig old)
