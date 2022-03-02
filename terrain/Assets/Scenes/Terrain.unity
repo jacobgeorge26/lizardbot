@@ -2429,7 +2429,7 @@ MonoBehaviour:
   IsCollapsed: 1
   IsOriginal: 0
   IsOverview: 0
-  GraphPoints: 30
+  NoPoints: 120
   panel: {fileID: 2053485794}
   UIOption: {fileID: 311844827}
   Toggle: {fileID: 569605853}
@@ -3004,7 +3004,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 3
     m_MaxSize: 40
-    m_Alignment: 0
+    m_Alignment: 2
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0

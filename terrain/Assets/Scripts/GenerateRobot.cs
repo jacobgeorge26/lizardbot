@@ -36,9 +36,6 @@ public class GenerateRobot : MonoBehaviour
 
         robotConfig.SetChildLayer(layer);
 
-        //give UI this robot if this is the one the cam is following
-        //if (CameraConfig.CamFollow == robotConfig.RobotIndex) FindObjectOfType<UI>().UpdateRobotUI(robotConfig);
-
         //destroy GenerateRobot so that a duplicate clone isn't created when this robot is cloned
         Destroy(this);
     }

@@ -20,10 +20,10 @@ public class UIConfig : MonoBehaviour
     [HideInInspector]
     public bool IsOriginal = false;
     [HideInInspector]
-    public bool IsOverview = false;
-    [HideInInspector]
+    public bool IsOverview = true;
     //two samples taken per second
-    public int GraphPoints = 30;
+    public static int NoPoints = 240;
+    public static int SampleSize = 10;
 
     [Header("General Objects")]
     public GameObject panel;
@@ -335,12 +335,11 @@ public class UIConfig : MonoBehaviour
         graph.transform.localPosition = new Vector3(graph.transform.localPosition.x, thisY, 0);
     }
 
-    private int sampleSize = 3;
     public void SetupOverview()
     {
         if(Overviews.Count == 0)
         {
-            for (int i = 0; i < GraphPoints / sampleSize; i++)
+            for (int i = 0; i < NoPoints / SampleSize; i++)
             {
                 GameObject graph = MonoBehaviour.Instantiate(Resources.Load<GameObject>("GraphLineUI"));
                 Overviews.Add(graph);
@@ -352,21 +351,25 @@ public class UIConfig : MonoBehaviour
                 transform.sizeDelta = new Vector2(10, 10);
             }
         }
-        FirstX.text = "-60s";
+        FirstX.text = $"-{NoPoints / 2}s";
         LastX.text = "0s";
 
 
     }
 
-    public void GenerateGraph()
+    public void GenerateGraph(float maxPerformance)
     {
-        float width = (performanceWidth / (GraphPoints / sampleSize));
-        for (int i = 0; i < MeanPerformances.Count - sampleSize - 1; i+= sampleSize)
+        MaxPerformance = Math.Max(MaxPerformance, maxPerformance);
+        LastPerformance.text = MaxPerformance.ToString();
+        float width = (performanceWidth / (NoPoints / SampleSize));
+        int startIndex = MeanPerformances.Count - 1 - (MeanPerformances.Count % SampleSize);
+        for (int i = startIndex; i > SampleSize; i -= SampleSize)
         {
-            int index = i / sampleSize;
+            int index = i / SampleSize;
             GameObject line = Overviews[index];
-            float point1 = MeanPerformances[i], point2 = MeanPerformances[i + sampleSize];
-            float x1 = performanceMinX + (width * i / sampleSize) + (width / 2), x2 = x1 + width;
+            line.SetActive(true);
+            float point1 = MeanPerformances[i - SampleSize], point2 = MeanPerformances[i];
+            float x2 = (performanceMinX + performanceWidth) - ((width * (startIndex - i) / SampleSize) + (width / 2)), x1 = x2 - width;
             float y1 = performanceMinY + ((point1 / MaxPerformance) * performanceHeight);
             float y2 = performanceMinY + ((point2 / MaxPerformance) * performanceHeight);
             float m = (y2 - y1) / (x2 - x1);

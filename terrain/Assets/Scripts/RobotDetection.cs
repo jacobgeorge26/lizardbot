@@ -10,6 +10,11 @@ public class RobotDetection : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //if there are fewer than 25 robots then they will, by default, be in different layers
+        if(AIConfig.PopulationSize < 25)
+        {
+           Destroy(this);
+        }
         //find the expected number of colliders, to know if another robot is approaching
         int robotIndex = GetComponent<ObjectConfig>().RobotIndex;
         robotConfig = AIConfig.RobotConfigs[robotIndex];

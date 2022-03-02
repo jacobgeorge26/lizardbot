@@ -293,6 +293,7 @@ public class UI : MonoBehaviour
             //is currently showing overview, move to show individual
             UIE.IsOverview = !UIE.IsOverview;
             UIE.OverviewText.text = "Show Overview";
+            UIE.Overviews.ForEach(o => o.SetActive(false));
             SetupIndividualPerformance();
         }
     }
@@ -320,6 +321,7 @@ public class UI : MonoBehaviour
             RobotConfig robot = AIConfig.RobotConfigs.First(r => r.RobotIndex == robotIndex);
             UIE.SetIndividualHeight(robotIndex, robot.Performance, maxPerformance);
         }
+        if (maxChanging) MaxChanged(maxPerformance);
     }
 
     private void SetupOverviewPerformance()
@@ -332,8 +334,12 @@ public class UI : MonoBehaviour
     {
         while(IsEnabled && UIE.View == UIView.Performance && !UIE.IsCollapsed && UIE.IsOverview)
         {
+            float maxPerformance = AIConfig.RobotConfigs.Max(r => r.Performance);
+            maxPerformance = (float)Math.Max(10, Math.Ceiling(maxPerformance / 10) * 10);
+            bool maxChanging = maxPerformance > UIE.MaxPerformance;
+            UIE.GenerateGraph(maxPerformance);
+            if (maxChanging) MaxChanged(maxPerformance);
             yield return new WaitForSeconds(0.5f);
-            UIE.GenerateGraph();
         }
     }
 
@@ -402,44 +408,21 @@ public class UI : MonoBehaviour
 
     private IEnumerator LogPerformance()
     {
-        bool LastRobotsReady = false;
-        List<RobotConfig> robots = new List<RobotConfig>();
         while (true)
         {
             yield return new WaitForSeconds(0.5f);
             if(AIConfig.RobotConfigs.Count == AIConfig.PopulationSize)
             {
-                //at first it will need to use the performance of the actual robots
-                //then it will move to use the LastRobots instead
-                if (!LastRobotsReady)
-                {
-                    robots.Clear();
-                    bool ready = true;
-                    for (int i = 0; i < AIConfig.RobotConfigs.Count; i++)
-                    {
-                        if (AIConfig.LastRobots[i] == null)
-                        {
-                            robots.Add(AIConfig.RobotConfigs.First(r => r.RobotIndex == i));
-                            ready = false;
-                        }
-                        else
-                        {
-                            robots.Add(AIConfig.LastRobots[i]);
-                        }
-                    }
-                    LastRobotsReady = ready;
-                }
-                else
-                {
-                    robots = AIConfig.LastRobots.ToList();
-                }
-
                 //calculate average
                 //robots have been generated
-                float average = robots.Average(r => r.Performance);
-                if (UIE.MeanPerformances.Count == UIE.GraphPoints)
+                float average = AIConfig.RobotConfigs.Average(r => r.Performance);
+                if (UIE.MeanPerformances.Count == UIConfig.NoPoints)
                 {
-                    UIE.MeanPerformances.RemoveAt(0);
+                    for (int i = 0; i < UIConfig.SampleSize; i++)
+                    {
+                        UIE.MeanPerformances.RemoveAt(0);
+                    }
+                   
                     UIE.MeanPerformances.Add(average);
                 }
                 else
