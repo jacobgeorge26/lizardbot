@@ -21,7 +21,8 @@ public static class GeneticAlgorithm : object
         if (AIConfig.LastRobots[stuckRobot.RobotIndex] == null) AIConfig.LastRobots[stuckRobot.RobotIndex] = stuckRobot;
         //clone better performing between the stuck (mutated) robot and its predecessor
         RobotConfig oldRobot = stuckRobot.MutationCount == AIConfig.MutationCycle ? CompareRobots(stuckRobot, ref newVersion) : stuckRobot;
-        if(stuckRobot.RobotIndex == CameraConfig.CamFollow) CameraConfig.Hat.transform.parent = CameraConfig.RobotCamera.transform; //avoid the hat being cloned too
+
+        if (stuckRobot.RobotIndex == CameraConfig.CamFollow) CameraConfig.Hat.transform.parent = CameraConfig.RobotCamera.transform; //avoid the hat being cloned too
         ObjectConfig firstObjConfig = oldRobot.Configs.First();
         GameObject newRobotObj = firstObjConfig.Clone(oldRobot.Object);
         RobotConfig newRobot = new RobotConfig(oldRobot.RobotIndex, newRobotObj);
@@ -34,15 +35,14 @@ public static class GeneticAlgorithm : object
         {
             genes = GetGenes(newRobot, true);
         }
-
-        if(AIConfig.MutationRate > 0) Mutate(genes);
+        if (AIConfig.MutationRate > 0) Mutate(genes);
 
         UpdateBody(oldRobot, newRobot);
-        if(stuckRobot.MutationCount != AIConfig.MutationCycle && stuckRobot.Version != 0)
+        if (stuckRobot.MutationCount != AIConfig.MutationCycle && stuckRobot.Version != 0)
         {
             //need access to info from original, leave disabled
             //otherwise destroy
-            if (oldRobot.Version > 0) oldRobot.Configs.First().Remove(oldRobot.Object); 
+            if (oldRobot.Version > 0) oldRobot.Configs.First().Remove(oldRobot.Object);
             newRobot.MutationCount++;
         }
 
@@ -51,6 +51,7 @@ public static class GeneticAlgorithm : object
 
         //respawn
         newRobot.Object.SetActive(true);
+
     }
 
     private static List<Gene> Recombine(RobotConfig robot, RobotConfig old)
@@ -228,10 +229,16 @@ public static class GeneticAlgorithm : object
     private static void Freeze(RobotConfig robot)
     {
         robot.Object.SetActive(false);
-        GameObject prevObject = null;
         //pause objects       
-        foreach (Transform child in robot.Object.transform)
+        foreach (ObjectConfig childConfig in robot.Configs.OrderBy(o => o.Type))
         {
+            Transform child = childConfig.gameObject.transform;
+            GameObject prevObject = null;
+            if(!(childConfig.Type == BodyPart.Body && childConfig.Index == 0))
+            {
+                int index = childConfig.Type == BodyPart.Body ? childConfig.Index - 1 : robot.NoSections.Value - 1;
+                prevObject = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == index).gameObject;
+            }
             child.rotation = Quaternion.Euler(Vector3.zero);
             child.position = new Vector3(0, robot.GetYPos(), robot.GetZPos(prevObject, child.gameObject));
 
@@ -240,7 +247,6 @@ public static class GeneticAlgorithm : object
             {
                 childBody.velocity = Vector3.zero;
                 childBody.angularVelocity = Vector3.zero;
-                prevObject = child.gameObject;
             }
 
             //look through granchildren

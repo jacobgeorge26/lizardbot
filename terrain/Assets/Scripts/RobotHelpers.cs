@@ -268,7 +268,7 @@ public static class RobotHelpers : object
     {
         if (prevObject == null) return 0;
         //determine the position of this section by the location of the prev section, and size of both
-        float zPos = prevObject.transform.position.z;
+        float zPos = prevObject.transform.localPosition.z;
         zPos += -1 * (prevObject.transform.localScale.z / 2 + thisObject.transform.localScale.z / 2 + 0.1f);
         return zPos;
     }

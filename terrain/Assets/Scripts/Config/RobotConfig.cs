@@ -47,7 +47,7 @@ namespace Config
             this.Version = version;
             this.IsEnabled = false;
             this.Performance = 0;
-            this.MutationCount = 0;
+            this.MutationCount = robot.MutationCount;
             this.Original = robot.Original;
             this.NoSections.Value = robot.NoSections.Value;
             this.IsTailEnabled.Value = robot.IsTailEnabled.Value;

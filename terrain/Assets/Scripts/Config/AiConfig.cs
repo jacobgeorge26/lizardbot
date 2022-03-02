@@ -38,10 +38,9 @@ namespace Config
         //the mutation rate accounts for whether the robot will mutate this generation
         //for no mutation set mutation rate to 0
         //2 decimal places recommmended
-        public static float MutationRate = 0f;
 
         //options for which genes will be mutated
-        public static Mutation MutationType = Mutation.Both;
+        public static Mutation MutationType = Mutation.Physical;
 
         //value for k - how many should be considered in the recombination?
         public static int SelectionSize = 1;

@@ -1,4 +1,5 @@
 using Config;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,8 @@ public class OverviewCamPos : MonoBehaviour
     void Update()
     {
         Transform oldPos = CameraConfig.OverviewCamera.transform;
-        Vector3 newPos = new Vector3(0, TerrainConfig.GetTerrainWidth(), 0);
+        int minHeight = 30;
+        Vector3 newPos = new Vector3(0, minHeight, 0);
         Vector3 origin = new Vector3(0, TerrainConfig.GetTerrainHeight() / 2, 0);
         Collider[] allColliders = Physics.OverlapBox(origin, TerrainConfig.GetTerrainSize() / 2);
         for (int i = TerrainConfig.GetTerrainWidth() - 10; i > 0; i -= 10)
@@ -19,7 +21,7 @@ public class OverviewCamPos : MonoBehaviour
             var outsideRadius = allColliders.Except(innerColliders);
             if(outsideRadius.Count() > 0)
             {
-                newPos = new Vector3(0, i + 20, 0);
+                newPos = new Vector3(0, Math.Max(minHeight, i + 20), 0);
                 break;
             }
         }
