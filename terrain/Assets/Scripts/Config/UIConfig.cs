@@ -19,18 +19,12 @@ public class UIConfig : MonoBehaviour
     public bool IsCollapsed = true;
     [HideInInspector]
     public bool IsOriginal = false;
-    [HideInInspector]
-    public bool IsOverview = true;
-    //two samples taken per second
-    public static int NoPoints = 240;
-    public static int SampleSize = 10;
 
     [Header("General Objects")]
     public GameObject panel;
     public Dropdown UIOption;
     public Button Toggle;
     public GameObject RobotOptions;
-    public GameObject PerformanceOptions;
     //Helpers for both
     [HideInInspector]
     public Text ToggleText;
@@ -66,25 +60,6 @@ public class UIConfig : MonoBehaviour
     [HideInInspector]
     public TailUI Tail;
 
-    [Header("Performance Objects")]
-    public Button Overview;
-    public Text FirstX;
-    public Text LastX;
-    public Text FirstPerformance;
-    public Text LastPerformance;
-
-    //Text objects for performance display
-    [HideInInspector]
-    public Text OverviewText;
-    [HideInInspector]
-    public List<float> MeanPerformances = new List<float>();
-    [HideInInspector]
-    public List<GameObject> Individuals = new List<GameObject>();
-    [HideInInspector]
-    public List<GameObject> Overviews = new List<GameObject>();
-    [HideInInspector]
-    public float MaxPerformance = 0;
-
 
     void Awake()
     {
@@ -96,7 +71,6 @@ public class UIConfig : MonoBehaviour
         VersionText = Version.GetComponentInChildren<Text>();
         CurrentPerformanceText = CurrentPerformance.GetComponentInChildren<Text>();
         BestPerformanceText = BestPerformance.GetComponentInChildren<Text>();
-        OverviewText = Overview.GetComponentInChildren<Text>();
     }
 
     //-------------------------------------------------------------------------------------------
@@ -105,8 +79,6 @@ public class UIConfig : MonoBehaviour
     private float scalemin = 0.7f, scalemax = 0.9f;
     private float massmin = 0.2f, massmax = 0.7f;
     private float lengthmin = 160, lengthmax = 250;
-    private float performanceWidth = 1755, performanceHeight = 250;
-    private float performanceMinX = -835, performanceMinY = -140;
 
     public void SetupBodies(int max)
     {
@@ -292,97 +264,6 @@ public class UIConfig : MonoBehaviour
         return newAngle != originalAngle;
     }
 
-    public void SetupIndividuals()
-    {
-        //if individuals is empty then this is the first time this is being called
-        //create all the objects
-        if(Individuals.Count == 0)
-        {
-            float width = (performanceWidth / AIConfig.PopulationSize) - 5;
-            float initY = 10;
-            for (int i = 0; i < AIConfig.PopulationSize; i++)
-            {
-                GameObject graph = MonoBehaviour.Instantiate(Resources.Load<GameObject>("IndividualPerformanceUI"));
-                Individuals.Add(graph);
-                //update parent
-                graph.transform.SetParent(PerformanceOptions.transform);
-                //update size
-                RectTransform transform = graph.GetComponent<RectTransform>();
-                transform.localScale = new Vector3(1, 1, 1);
-                transform.sizeDelta = new Vector2(width, initY);
-                //update position
-                float thisX = performanceMinX + ((width + 5) * i) + (width / 2) + 5;
-                graph.transform.localPosition = new Vector3(thisX, performanceMinY + (initY / 2), 0);
-                graph.name = $"Robot {i + 1}";
-            }
-        }
-        FirstX.text = $"Robot 1";
-        LastX.text = $"Robot {AIConfig.PopulationSize}";
-        LastPerformance.text = MaxPerformance.ToString();
-    }
-
-    public void SetIndividualHeight(int index, float performance, float maxPerformance)
-    {
-        MaxPerformance = Math.Max(MaxPerformance, maxPerformance);
-        LastPerformance.text = MaxPerformance.ToString();
-        GameObject graph = Individuals[index];
-        graph.SetActive(true);
-        RectTransform transform = graph.GetComponent<RectTransform>();
-        float value = performance / MaxPerformance;
-        float newHeight = value * performanceHeight;
-        transform.sizeDelta = new Vector2(transform.rect.width, newHeight);
-        float thisY = performanceMinY + (newHeight / 2);
-        graph.transform.localPosition = new Vector3(graph.transform.localPosition.x, thisY, 0);
-    }
-
-    public void SetupOverview()
-    {
-        if(Overviews.Count == 0)
-        {
-            for (int i = 0; i < NoPoints / SampleSize; i++)
-            {
-                GameObject graph = MonoBehaviour.Instantiate(Resources.Load<GameObject>("GraphLineUI"));
-                Overviews.Add(graph);
-                //update parent
-                graph.transform.SetParent(PerformanceOptions.transform);
-                graph.name = $"Line {i}";
-                RectTransform transform = graph.GetComponent<RectTransform>();
-                transform.localScale = new Vector3(1, 1, 1);
-                transform.sizeDelta = new Vector2(10, 10);
-            }
-        }
-        FirstX.text = $"-{NoPoints / 2}s";
-        LastX.text = "0s";
-
-
-    }
-
-    public void GenerateGraph(float maxPerformance)
-    {
-        MaxPerformance = Math.Max(MaxPerformance, maxPerformance);
-        LastPerformance.text = MaxPerformance.ToString();
-        float width = (performanceWidth / (NoPoints / SampleSize));
-        int startIndex = MeanPerformances.Count - 1 - (MeanPerformances.Count % SampleSize);
-        for (int i = startIndex; i > SampleSize; i -= SampleSize)
-        {
-            int index = i / SampleSize;
-            GameObject line = Overviews[index];
-            line.SetActive(true);
-            float point1 = MeanPerformances[i - SampleSize], point2 = MeanPerformances[i];
-            float x2 = (performanceMinX + performanceWidth) - ((width * (startIndex - i) / SampleSize) + (width / 2)), x1 = x2 - width;
-            float y1 = performanceMinY + ((point1 / MaxPerformance) * performanceHeight);
-            float y2 = performanceMinY + ((point2 / MaxPerformance) * performanceHeight);
-            float m = (y2 - y1) / (x2 - x1);
-
-            float distance = Vector3.Distance(new Vector3(x1, y1, 0), new Vector3(x2, y2, 0));
-            double radians = Math.Atan(m);
-            double angle = radians * (180 / Math.PI);
-
-            line.transform.localPosition = new Vector3((x1 + x2) / 2, (y1 + y2) / 2, 0);
-            line.transform.rotation = Quaternion.Euler(0, 0, (float)angle);
-            line.GetComponent<RectTransform>().sizeDelta = new Vector2(distance, 10);
-        }
-    }
 }
 
 

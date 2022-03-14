@@ -17,7 +17,6 @@ public class UIDisplay : MonoBehaviour
     {
         UIE = this.gameObject.GetComponent<UIConfig>();
         UIE.panel.SetActive(false);
-        StartCoroutine(LogPerformance());
     }
 
     private void SetupUIOptions()
@@ -30,7 +29,7 @@ public class UIDisplay : MonoBehaviour
         UIE.UIOption.ClearOptions();
         UIE.UIOption.AddOptions(options);
         UIE.UIOption.onValueChanged.AddListener(delegate { SelectOption(UIE.View); });
-        UIE.Overview.onClick.AddListener(delegate { ToggleOverview(); });
+        SetupRobotSelector();
         SelectOption(UIE.DefaultView);
     }
 
@@ -42,15 +41,19 @@ public class UIDisplay : MonoBehaviour
         {
             case UIView.Robot:
                 ToggleEnable();
-                SetupRobotSelector();
+                UIE.IsCollapsed = !UIE.IsCollapsed;
+                ToggleUI();
+                SelectRobot(CameraConfig.CamFollow == -1 ? "1" : (CameraConfig.CamFollow + 1).ToString());
                 CameraConfig.RobotCamera.SetActive(true);
                 CameraConfig.OverviewCamera.SetActive(false);
                 CameraConfig.Hat.SetActive(true);
                 break;
             case UIView.Performance:
+                if (!UIE.IsCollapsed)
+                {
+                    ToggleUI(true);
+                }
                 ToggleEnable();
-                UIE.IsOverview = !UIE.IsOverview;
-                ToggleOverview();
                 CameraConfig.OverviewCamera.SetActive(true);
                 CameraConfig.RobotCamera.SetActive(false);
                 CameraConfig.RobotCamera.GetComponent<CameraPosition>().Clear();
@@ -62,7 +65,7 @@ public class UIDisplay : MonoBehaviour
     }
 
     //--------------------------------------------Toggle-------------------------------------
-    private void ToggleUI()
+    private void ToggleUI(bool skipToggle = false)
     {
         Text text = UIE.ToggleText;
         //toggle IsCollapsed
@@ -70,7 +73,7 @@ public class UIDisplay : MonoBehaviour
         {
             //UI is currently down, needs to go up
             float up = 440;
-            UIE.IsCollapsed = !UIE.IsCollapsed;
+            if (!skipToggle) UIE.IsCollapsed = !UIE.IsCollapsed;
             UIE.panel.GetComponent<Image>().color = new Color(0, 0, 0, 0.5f);
             UIE.UIOption.transform.localPosition = new Vector3(-800, up, 0);
             UIE.RobotNumber.transform.localPosition = new Vector3(-525, up, 0);
@@ -81,17 +84,12 @@ public class UIDisplay : MonoBehaviour
             {
                 SelectRobot(UIE.RobotNumber.text);
             }
-            else
-            {
-                UIE.IsOverview = !UIE.IsOverview;
-                ToggleOverview();
-            }
         }
         else
         {
             //UI is currently up, needs to go down
             float down = -450;
-            UIE.IsCollapsed = !UIE.IsCollapsed;
+            if(!skipToggle) UIE.IsCollapsed = !UIE.IsCollapsed;
             ToggleEnable();
             UIE.panel.GetComponent<Image>().color = new Color(0, 0, 0, 0.01f);
             UIE.UIOption.transform.localPosition = new Vector3(-800, down, 0);
@@ -104,10 +102,8 @@ public class UIDisplay : MonoBehaviour
     //------------------------------Robot Options--------------------------------
     private void SetupRobotSelector()
     {
-        ToggleEnable();
         UIE.RobotNumber.onEndEdit.AddListener(delegate { SelectRobot(UIE.RobotNumber.text); });
         UIE.Original.onClick.AddListener(delegate { ToggleOriginal(); });
-        SelectRobot(CameraConfig.CamFollow == -1 ? "1" : (CameraConfig.CamFollow + 1).ToString());
     }
 
     private void SelectRobot(string robotText)
@@ -276,81 +272,13 @@ public class UIDisplay : MonoBehaviour
         
     }
 
-    //-------------------------------Performance Options-----------------------------------
-
-    private void ToggleOverview()
-    {
-        if (!UIE.IsOverview)
-        {
-            //is currently showing individual, move to show overview
-            UIE.IsOverview = !UIE.IsOverview;
-            UIE.OverviewText.text = "Show Breakdown";
-            UIE.Individuals.ForEach(o => o.SetActive(false));
-            SetupOverviewPerformance();
-        }
-        else
-        {
-            //is currently showing overview, move to show individual
-            UIE.IsOverview = !UIE.IsOverview;
-            UIE.OverviewText.text = "Show Overview";
-            UIE.Overviews.ForEach(o => o.SetActive(false));
-            SetupIndividualPerformance();
-        }
-    }
-
-    private void SetupIndividualPerformance()
-    {
-        UIE.SetupIndividuals();
-        float  maxPerformance = AIConfig.RobotConfigs.Max(r => r.Performance);
-        maxPerformance = (float)Math.Max(10, Math.Ceiling(maxPerformance / 10) * 10);
-        for (int i = 0; i < AIConfig.PopulationSize; i++)
-        {
-            RobotConfig robot = AIConfig.RobotConfigs.First(r => r.RobotIndex == i);
-            UIE.SetIndividualHeight(robot.RobotIndex, robot.Performance, maxPerformance);
-        }
-    }
-
-    private void IndividualUpdate(int robotIndex)
-    {
-        float maxPerformance = AIConfig.RobotConfigs.Max(r => r.Performance);
-        maxPerformance = (float)Math.Max(10, Math.Ceiling(maxPerformance / 10) * 10);
-        bool maxChanging = maxPerformance > UIE.MaxPerformance;
-        if (maxPerformance > UIE.MaxPerformance) SetupIndividualPerformance();
-        else 
-        {
-            RobotConfig robot = AIConfig.RobotConfigs.First(r => r.RobotIndex == robotIndex);
-            UIE.SetIndividualHeight(robotIndex, robot.Performance, maxPerformance);
-        }
-        if (maxChanging) MaxChanged(maxPerformance);
-    }
-
-    private void SetupOverviewPerformance()
-    {
-        UIE.SetupOverview();
-        StartCoroutine(UpdateOverview());
-    }
-
-    private IEnumerator UpdateOverview()
-    {
-        while(IsEnabled && UIE.View == UIView.Performance && !UIE.IsCollapsed && UIE.IsOverview)
-        {
-            float maxPerformance = AIConfig.RobotConfigs.Max(r => r.Performance);
-            maxPerformance = (float)Math.Max(10, Math.Ceiling(maxPerformance / 10) * 10);
-            bool maxChanging = maxPerformance > UIE.MaxPerformance;
-            UIE.GenerateGraph(maxPerformance);
-            if (maxChanging) MaxChanged(maxPerformance);
-            yield return new WaitForSeconds(0.5f);
-        }
-    }
-
     //-----------------------------------------------All Helpers----------------------------
     private void ToggleEnable()
     {
         bool IsRobotView = UIE.View == UIView.Robot;
         UIE.RobotOptions.SetActive(IsRobotView && !UIE.IsCollapsed);
         UIE.RobotNumber.gameObject.SetActive(IsRobotView);
-
-        UIE.PerformanceOptions.SetActive(!IsRobotView && !UIE.IsCollapsed);
+        UIE.Toggle.gameObject.SetActive(IsRobotView);
     }
 
     private IEnumerator ValueChanged(Button button, int robotIndex)
@@ -389,48 +317,11 @@ public class UIDisplay : MonoBehaviour
         }
     }
 
-    private IEnumerator MaxChanged(float maxPerformance)
-    {
-        UIE.LastPerformance.color = Color.red;
-        yield return new WaitForSeconds(5f);
-        if(UIE.MaxPerformance == maxPerformance)
-        {
-            UIE.LastPerformance.color = Color.white;
-        }
-    }
-
     private float GetRelativeAngleMagnitude(Vector3 vector, float min, float max)
     {
         float magnitudeMax = new Vector3(max, max, max).magnitude;
         float magnitudeMin = new Vector3(min, min, min).magnitude;
         return (vector.magnitude - magnitudeMin) / (magnitudeMax - magnitudeMin);
-    }
-
-    private IEnumerator LogPerformance()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(0.5f);
-            if(AIConfig.RobotConfigs.Count == AIConfig.PopulationSize)
-            {
-                //calculate average
-                //robots have been generated
-                float average = AIConfig.RobotConfigs.Average(r => r.Performance);
-                if (UIE.MeanPerformances.Count == UIConfig.NoPoints)
-                {
-                    for (int i = 0; i < UIConfig.SampleSize; i++)
-                    {
-                        UIE.MeanPerformances.RemoveAt(0);
-                    }
-                   
-                    UIE.MeanPerformances.Add(average);
-                }
-                else
-                {
-                    UIE.MeanPerformances.Add(average);
-                }
-            }
-        }
     }
 
     //------------------------------------------Accessed by GA &&|| TrappedAlgorithm------------------------------
@@ -464,10 +355,6 @@ public class UIDisplay : MonoBehaviour
             text.text = Math.Round(best, 2).ToString();
             text = UIE.CurrentPerformanceText;
             text.text = Math.Round(current, 2).ToString();
-        }
-        else if(IsEnabled && UIE.View == UIView.Performance && !UIE.IsOverview && !UIE.IsCollapsed)
-        {
-            IndividualUpdate(robotIndex);
         }
     }
 

@@ -23,8 +23,8 @@ public class GenerateTerrain : MonoBehaviour
             terrain.transform.position = GetPosition(i, terrain);
             terrain.SetActive(true);
         }
-        CameraConfig.OverviewCamera.transform.position = new Vector3((TerrainConfig.minX() + TerrainConfig.maxX()) / 2, Math.Max(30f, TerrainConfig.NoTerrains * TerrainConfig.GetTerrainWidth() / 4), (TerrainConfig.minZ() + TerrainConfig.maxZ()) / 2);
-        CameraConfig.OverviewCamera.GetComponent<Camera>().farClipPlane = (TerrainConfig.NoTerrains * TerrainConfig.GetTerrainWidth() / 2) + 30;
+        CameraConfig.OverviewCamera.transform.position = new Vector3((TerrainConfig.minX() + TerrainConfig.maxX()) / 2, (TerrainConfig.minY() + TerrainConfig.maxY()) / 2, (TerrainConfig.minZ() + TerrainConfig.maxZ()) / 2);
+        CameraConfig.OverviewCamera.GetComponent<Camera>().farClipPlane = TerrainConfig.maxY() + 20;
         if (AIConfig.PopulationSize > 0)
         {
             GameObject robotController = new GameObject(name = "Robot Controller");
