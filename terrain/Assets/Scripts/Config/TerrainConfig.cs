@@ -12,6 +12,8 @@ namespace Config
 
         public static float CellSize = 0.5f;
 
+        public static int Gap = 10;
+
         private static int TerrainWidth = 100;
 
         public static int GetTerrainWidth()

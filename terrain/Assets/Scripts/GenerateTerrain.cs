@@ -19,7 +19,11 @@ public class GenerateTerrain : MonoBehaviour
             terrain.transform.parent = gameObject.transform;
             terrain.transform.position = GetPosition(i, terrain);
         }
-
+        float min = AIConfig.SpawnPoints[0].x - (TerrainConfig.GetTerrainWidth() / 2);
+        float max = min + (grid * TerrainConfig.GetTerrainWidth()) + ((grid - 1) * TerrainConfig.Gap);
+        float centre = (min + max) / 2;
+        CameraConfig.OverviewCamera.transform.position = new Vector3(centre, noTerrains * TerrainConfig.GetTerrainWidth() / 4, centre);
+        CameraConfig.OverviewCamera.GetComponent<Camera>().farClipPlane = (noTerrains * TerrainConfig.GetTerrainWidth() / 2) + 30;
         if (AIConfig.PopulationSize > 0)
         {
             GameObject robotController = new GameObject(name = "Robot Controller");
@@ -38,10 +42,7 @@ public class GenerateTerrain : MonoBehaviour
         Vector3 current = terrain.transform.position;
         int row = Mathf.FloorToInt(index / grid);
         int col = index % grid;
-        Vector3 newLoc = new Vector3(current.x + (col * TerrainConfig.GetTerrainWidth()) + 20, 0, current.z + (row * TerrainConfig.GetTerrainWidth()) + 20);
-        if (Mathf.CeilToInt(noTerrains / 2) == index - 1){
-            CameraConfig.OverviewCamera.transform.position = new Vector3(newLoc.x, TerrainConfig.GetTerrainHeight() + 50, newLoc.z);
-        }
+        Vector3 newLoc = new Vector3(current.x + (col * (TerrainConfig.GetTerrainWidth() + TerrainConfig.Gap)), 0, current.z + (row * (TerrainConfig.GetTerrainWidth() + TerrainConfig.Gap)));
         AIConfig.SpawnPoints[index] = newLoc;
         return newLoc;
     }
