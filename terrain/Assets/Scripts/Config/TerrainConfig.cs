@@ -9,7 +9,7 @@ namespace Config
 {
     public static class TerrainConfig : object
     {
-        private static Queue<Surface> SurfaceType { get; set; } = new Queue<Surface> ( new Surface[] { Surface.Rough, Surface.Uneven, Surface.Smooth } );
+        private static Queue<Surface> SurfaceType { get; set; } = new Queue<Surface> ( new Surface[] { Surface.Rough} );
 
         private static int[] Surfaces;
 

@@ -2,6 +2,7 @@ using Config;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 
@@ -144,7 +145,6 @@ public static class RobotHelpers : object
             tailConfig.Remove();
             robot.Configs.Remove(tailConfig);
         }
-
     }
 
     //setup the joints to have the correct angle constraints and be attached to the correct rigidbody before it in the body
@@ -342,14 +342,22 @@ public static class RobotHelpers : object
         //allowed difference = (max - min) / 10 * difference
         if (robot.IsTailEnabled.Value)
         {
-            TailConfig tail = robot.Configs.Where(o => o.Type == BodyPart.Tail).First().Tail;
+            if(robot.Configs.Where(o => o.Type == BodyPart.Tail).ToList().Count == 0)
+            {
+                Debug.LogWarning($"The tail is missing for robot {robot.RobotIndex + 1} whilst getting robots physically similar to it. The tail is being created before the recombination continues");
+                robot.CreateTail();
+            }
+            TailConfig tail = robot.Configs.First(o => o.Type == BodyPart.Tail).Tail;
             float allowedDifference = (tail.TailMassMultiplier.Max - tail.TailMassMultiplier.Min) * (difference + 1) / 10;
             for (int i = similar.Count - 1; i >= 0; i--)
             {
                 List<ObjectConfig> tails = similar[i].Configs.Where(o => o.Type == BodyPart.Tail).ToList();
                 if(tails.Count != 1)
                 {
-                    throw new Exception($"The tail is missing for robot {similar[i].RobotIndex} whilst getting physically similar robots");
+                    Debug.LogWarning($"The tail is missing for robot {similar[i].RobotIndex + 1} whilst getting physically similar robots. The tail is being created and this robot will not be considered for recombination.");
+                    similar[i].CreateTail();
+                    similar.RemoveAt(i);
+                    continue;
                 }
                 TailConfig otherTail = tails.First().Tail;
                 if (Math.Abs(otherTail.TailMassMultiplier.Value - tail.TailMassMultiplier.Value) > allowedDifference)

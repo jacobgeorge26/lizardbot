@@ -1,6 +1,5 @@
 using Config;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -84,25 +83,34 @@ public static class GeneticAlgorithm : object
             CombineGenes(GetGenes(robot, body), GetGenes(best1, body1), GetGenes(best2, body2), ref newRobotGenes);
         }
         //tail
+        //there are some unnecessary calls to CreateTail in here
+        //for some reason very occasionally robots lose their tails
+        //it's stumping me - and only crops up here
+        //I've chosen to fix the issue and skip the recombination where necessary
+        //not ideal, I know
         if (robot.IsTailEnabled.Value)
         {
-            if(robot.Configs.Where(o => o.Type == BodyPart.Tail).ToList().Count != 1)
+            if(robot.Configs.Where(o => o.Type == BodyPart.Tail).ToList().Count == 0)
             {
-                int x = 2;
+                robot.CreateTail();
+                Debug.LogWarning($"An issue was found with robot {robot.RobotIndex + 1} whilst recombining it. The tail is being created and recombination skipped.");
+                return new List<Gene>();
             }
             ObjectConfig tail = robot.Configs.First(o => o.Type == BodyPart.Tail);
             if(best1 != null && best1.IsTailEnabled.Value)
             {
-                if(best1.Configs.Where(o => o.Type == BodyPart.Tail).ToList().Count != 1)
+                if(best1.Configs.Where(o => o.Type == BodyPart.Tail).ToList().Count == 0)
                 {
-                    int x = 2;
+                    best1.CreateTail();
+                    Debug.LogWarning($"An issue was found with robot {best1.RobotIndex + 1} whilst recombining it. The tail is being created before recombination of {robot.RobotIndex + 1} continues.");
                 }
             }
             if (best2 != null && best2.IsTailEnabled.Value)
             {
-                if (best2.Configs.Where(o => o.Type == BodyPart.Tail).ToList().Count != 1)
+                if (best2.Configs.Where(o => o.Type == BodyPart.Tail).ToList().Count == 0)
                 {
-                    int x = 2;
+                    best2.CreateTail();
+                    Debug.LogWarning($"An issue was found with robot {best2.RobotIndex + 1} whilst recombining it. The tail is being created before recombination of {robot.RobotIndex + 1} continues.");
                 }
             }
             ObjectConfig tail1 = best1 != null && best1.IsTailEnabled.Value ? best1.Configs.First(o => o.Type == BodyPart.Tail) : null;
@@ -317,7 +325,7 @@ public static class GeneticAlgorithm : object
             newRobot.RemoveBody(index);
         }
         //does the tail need to be added?
-        if (!oldRobot.IsTailEnabled.Value && newRobot.IsTailEnabled.Value) newRobot.CreateTail();
+        if(newRobot.IsTailEnabled.Value && newRobot.Configs.Where(o => o.Type == BodyPart.Tail).ToList().Count == 0) newRobot.CreateTail();
         //does the tail need to be removed?
         else if (oldRobot.IsTailEnabled.Value && !newRobot.IsTailEnabled.Value) newRobot.RemoveTail();
 

@@ -2,10 +2,13 @@ using Config;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using UnityEngine;
 
 public class GeneratePopulation : MonoBehaviour
 {
+    private StreamWriter writer;
     public void CreatePopulation()
     {
         StartCoroutine(GenerateRobots());
@@ -37,7 +40,32 @@ public class GeneratePopulation : MonoBehaviour
         }
         //enable UI
         ui.Enable();
-        //destroy this script now that it's finished
-        Destroy(this.gameObject);
+        StartCoroutine(LogPerformance());
+    }
+
+
+    public IEnumerator LogPerformance()
+    {
+        int attempt = PlayerPrefs.GetInt("Attempt") + 1;
+        PlayerPrefs.SetInt("Attempt", attempt);
+        string filePath = "../terrain/Report/Data/PerformanceLogs.csv";
+        writer = File.Exists(filePath) ? File.AppendText(filePath) : File.CreateText(filePath);
+        writer.WriteLine($"ATTEMPT NO {attempt}");
+        writer.WriteLine("Time, Mean Performance");
+        while (true)
+        {
+            yield return new WaitForSeconds(0.5f);
+            if (AIConfig.RobotConfigs.Count == AIConfig.PopulationSize)
+            {
+                //calculate average
+                float average = AIConfig.RobotConfigs.Average(r => r.Performance);
+                writer.WriteLine($"{Time.realtimeSinceStartup.ToString()}, {average}");
+            }
+        }
+    }
+
+    void OnApplicationQuit()
+    {
+        writer.Close();
     }
 }
