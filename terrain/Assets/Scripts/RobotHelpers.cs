@@ -335,7 +335,7 @@ public static class RobotHelpers : object
             r.RobotIndex != robot.RobotIndex && 
             Math.Abs(r.NoSections.Value - robot.NoSections.Value) <= difference &&
             r.IsTailEnabled.Value == robot.IsTailEnabled.Value &&
-            r.Object.activeSelf).ToList();
+            r.IsEnabled).ToList();
         //remove those whose tail is very different
         //allowed difference = (max - min) / 10 * difference
         if (robot.IsTailEnabled.Value)
@@ -367,7 +367,8 @@ public static class RobotHelpers : object
         //find all robots that are also preserving serpentine motion
         similar = AIConfig.RobotConfigs.Where(r =>
             r.RobotIndex != robot.RobotIndex &&
-            r.MaintainSerpentine.Value == robot.MaintainSerpentine.Value).ToList();
+            r.MaintainSerpentine.Value == robot.MaintainSerpentine.Value &&
+            r.IsEnabled).ToList();
         float thisDriveVelocity = 0;
         if(similar.Count > 0)
         {

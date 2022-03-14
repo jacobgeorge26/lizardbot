@@ -22,7 +22,8 @@ public class GenerateRobot : MonoBehaviour
         //setup overall robot
         GameObject robot = this.gameObject;
         robot.name = $"Robot {robotConfig.RobotIndex + 1} V {robotConfig.Version}";
-        robot.transform.position = new Vector3(0, robotConfig.GetYPos(), 0);
+        Vector3 spawnPoint = AIConfig.SpawnPoints[Mathf.FloorToInt(robotConfig.RobotIndex / 25)];
+        robot.transform.position = new Vector3(spawnPoint.x, robotConfig.GetYPos(), spawnPoint.z);
 
         //get layer for this robot
         layer = LayerMask.NameToLayer($"Robot{(robotConfig.RobotIndex % 25) + 1}");

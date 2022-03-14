@@ -1,7 +1,8 @@
 using Config;
 using ProceduralToolkit.Samples.UI;
+using System;
 using UnityEngine;
-
+using Random = UnityEngine.Random;
 namespace ProceduralToolkit.Samples
 {
     /// <summary>
@@ -18,6 +19,7 @@ namespace ProceduralToolkit.Samples
         {
             Generate();
             SetupSkyboxAndPalette();
+            Destroy(this);
         }
 
         public void Generate(bool randomizeConfig = false)
@@ -37,5 +39,7 @@ namespace ProceduralToolkit.Samples
             AssignDraftToMeshFilter(draft, terrainMeshFilter, ref terrainMesh);
             terrainMeshCollider.sharedMesh = terrainMesh;
         }
+
+
     }
 }

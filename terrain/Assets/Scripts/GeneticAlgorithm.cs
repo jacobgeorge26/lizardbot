@@ -8,11 +8,12 @@ using Random = UnityEngine.Random;
 
 public static class GeneticAlgorithm : object
 {
-    private static UI ui;
+    private static UIDisplay ui;
 
     public static void RobotIsStuck(this RobotConfig stuckRobot)
     {
-        ui ??= UIConfig.UIContainer.GetComponent<UI>();
+        stuckRobot.IsEnabled = false;
+        ui ??= UIConfig.UIContainer.GetComponent<UIDisplay>();
         //pause stuck robot
         Freeze(stuckRobot);
 
@@ -85,6 +86,20 @@ public static class GeneticAlgorithm : object
         if (robot.IsTailEnabled.Value)
         {
             ObjectConfig tail = robot.Configs.First(o => o.Type == BodyPart.Tail);
+            if(best1 != null && best1.IsTailEnabled.Value)
+            {
+                if(best1.Configs.Where(o => o.Type == BodyPart.Tail).ToList().Count != 1)
+                {
+                    int x = 2;
+                }
+            }
+            if (best2 != null && best2.IsTailEnabled.Value)
+            {
+                if (best2.Configs.Where(o => o.Type == BodyPart.Tail).ToList().Count != 1)
+                {
+                    int x = 2;
+                }
+            }
             ObjectConfig tail1 = best1 != null && best1.IsTailEnabled.Value ? best1.Configs.First(o => o.Type == BodyPart.Tail) : null;
             ObjectConfig tail2 = best2 != null && best2.IsTailEnabled.Value ? best2.Configs.First(o => o.Type == BodyPart.Tail) : null;
             CombineGenes(GetGenes(robot, tail), GetGenes(best1, tail1), GetGenes(best2, tail2), ref newRobotGenes);
@@ -228,6 +243,7 @@ public static class GeneticAlgorithm : object
     private static void Freeze(RobotConfig robot)
     {
         robot.Object.SetActive(false);
+        Vector3 spawnPoint = AIConfig.SpawnPoints[Mathf.FloorToInt(robot.RobotIndex / 25)];
         //pause objects       
         foreach (ObjectConfig childConfig in robot.Configs.OrderBy(o => o.Type))
         {
@@ -239,7 +255,7 @@ public static class GeneticAlgorithm : object
                 prevObject = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == index).gameObject;
             }
             child.rotation = Quaternion.Euler(Vector3.zero);
-            child.position = new Vector3(0, robot.GetYPos(), robot.GetZPos(prevObject, child.gameObject));
+            child.position = new Vector3(spawnPoint.x, robot.GetYPos(), spawnPoint.z + robot.GetZPos(prevObject, child.gameObject));
 
             Rigidbody childBody = child.gameObject.GetComponent<Rigidbody>();
             if (childBody != null)

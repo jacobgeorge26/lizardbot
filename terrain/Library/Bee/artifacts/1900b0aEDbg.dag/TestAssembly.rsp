@@ -318,6 +318,7 @@
 "Assets/Scripts/Collisions.cs"
 "Assets/Scripts/GeneratePopulation.cs"
 "Assets/Scripts/GenerateRobot.cs"
+"Assets/Scripts/GenerateTerrain.cs"
 "Assets/Scripts/GeneticAlgorithm.cs"
 "Assets/Scripts/MoveBody.cs"
 "Assets/Scripts/MoveTail.cs"
@@ -336,7 +337,7 @@
 "Assets/Scripts/RobotDetection.cs"
 "Assets/Scripts/RobotHelpers.cs"
 "Assets/Scripts/TrappedAlgorithm.cs"
-"Assets/Scripts/UI.cs"
+"Assets/Scripts/UIDisplay.cs"
 -langversion:8.0
 
 /deterministic

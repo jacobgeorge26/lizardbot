@@ -10,7 +10,7 @@ public class TrappedAlgorithm : MonoBehaviour
     private Queue<Vector3> locations = new Queue<Vector3>();
     private Queue<float> volumes = new Queue<float>();
     private RobotConfig robotConfig;
-    private UI ui;
+    private UIDisplay ui;
 
 
     //these are used to prevent data being collected too soon 
@@ -45,7 +45,7 @@ public class TrappedAlgorithm : MonoBehaviour
         ObjectConfig objConfig = this.gameObject.GetComponent<ObjectConfig>();
         robotConfig = AIConfig.RobotConfigs.Where(r => r.RobotIndex == objConfig.RobotIndex).First();
 
-        ui ??= UIConfig.UIContainer.GetComponent<UI>();
+        ui ??= UIConfig.UIContainer.GetComponent<UIDisplay>();
 
         StartCoroutine(IsTrapped());
     }

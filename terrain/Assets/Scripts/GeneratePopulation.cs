@@ -6,8 +6,7 @@ using UnityEngine;
 
 public class GeneratePopulation : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void CreatePopulation()
     {
         StartCoroutine(GenerateRobots());
     }
@@ -15,8 +14,6 @@ public class GeneratePopulation : MonoBehaviour
     IEnumerator GenerateRobots()
     {
         //setup camera
-        CameraConfig.OverviewCamera = Camera.main.gameObject;
-        CameraConfig.OverviewCamera.name = "Overview Camera";
         CameraConfig.Hat = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Hat"));
         CameraConfig.Hat.name = "hat";
         CameraConfig.Hat.SetActive(false);
@@ -25,7 +22,7 @@ public class GeneratePopulation : MonoBehaviour
         cam.SetActive(false);
         CameraConfig.RobotCamera = cam;
         //setup UI
-        UI ui = FindObjectOfType<UI>();
+        UIDisplay ui = FindObjectOfType<UIDisplay>();
         if (ui != null && UIConfig.IsUIEnabled) ui.enabled = true;
         else UIConfig.UIContainer.SetActive(false);
         //generate population, leaving a gap between them
@@ -41,6 +38,6 @@ public class GeneratePopulation : MonoBehaviour
         //enable UI
         ui.Enable();
         //destroy this script now that it's finished
-        Destroy(this);
+        Destroy(this.gameObject);
     }
 }
