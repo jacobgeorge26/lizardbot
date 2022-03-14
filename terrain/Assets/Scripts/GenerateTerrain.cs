@@ -2,28 +2,29 @@ using Config;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GenerateTerrain : MonoBehaviour
 {
-    private int grid, noTerrains = Mathf.CeilToInt(AIConfig.PopulationSize / 25f);
+    private int grid;
     void Start()
     {
-        grid = Math.Max(1, Mathf.CeilToInt(Mathf.Sqrt(noTerrains)));
+        grid = Math.Max(1, Mathf.CeilToInt(Mathf.Sqrt(TerrainConfig.NoTerrains)));
         CameraConfig.OverviewCamera = Camera.main.gameObject;
         CameraConfig.OverviewCamera.name = "Overview Camera";
-        for (int i = 0; i < Math.Max(1, noTerrains); i++)
+        TerrainConfig.SetupSurfaces();
+        for (int i = 0; i < Math.Max(1, TerrainConfig.NoTerrains); i++)
         {
             GameObject terrain = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Terrain"));
+            terrain.SetActive(false);
             terrain.name = $"Terrain {i + 1}";
             terrain.transform.parent = gameObject.transform;
             terrain.transform.position = GetPosition(i, terrain);
+            terrain.SetActive(true);
         }
-        float min = AIConfig.SpawnPoints[0].x - (TerrainConfig.GetTerrainWidth() / 2);
-        float max = min + (grid * TerrainConfig.GetTerrainWidth()) + ((grid - 1) * TerrainConfig.Gap);
-        float centre = (min + max) / 2;
-        CameraConfig.OverviewCamera.transform.position = new Vector3(centre, noTerrains * TerrainConfig.GetTerrainWidth() / 4, centre);
-        CameraConfig.OverviewCamera.GetComponent<Camera>().farClipPlane = (noTerrains * TerrainConfig.GetTerrainWidth() / 2) + 30;
+        CameraConfig.OverviewCamera.transform.position = new Vector3((TerrainConfig.minX() + TerrainConfig.maxX()) / 2, Math.Max(30f, TerrainConfig.NoTerrains * TerrainConfig.GetTerrainWidth() / 4), (TerrainConfig.minZ() + TerrainConfig.maxZ()) / 2);
+        CameraConfig.OverviewCamera.GetComponent<Camera>().farClipPlane = (TerrainConfig.NoTerrains * TerrainConfig.GetTerrainWidth() / 2) + 30;
         if (AIConfig.PopulationSize > 0)
         {
             GameObject robotController = new GameObject(name = "Robot Controller");

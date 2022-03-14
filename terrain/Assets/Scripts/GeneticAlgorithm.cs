@@ -15,7 +15,7 @@ public static class GeneticAlgorithm : object
         stuckRobot.IsEnabled = false;
         ui ??= UIConfig.UIContainer.GetComponent<UIDisplay>();
         //pause stuck robot
-        Freeze(stuckRobot);
+        stuckRobot.Object.SetActive(false);
 
         int newVersion = stuckRobot.Version + 1;
         //init LastRobots if this is first iteration
@@ -51,6 +51,7 @@ public static class GeneticAlgorithm : object
         ui.UpdateRobotUI(newRobot);
 
         //respawn
+        Reset(newRobot);
         newRobot.Object.SetActive(true);
     }
 
@@ -85,6 +86,10 @@ public static class GeneticAlgorithm : object
         //tail
         if (robot.IsTailEnabled.Value)
         {
+            if(robot.Configs.Where(o => o.Type == BodyPart.Tail).ToList().Count != 1)
+            {
+                int x = 2;
+            }
             ObjectConfig tail = robot.Configs.First(o => o.Type == BodyPart.Tail);
             if(best1 != null && best1.IsTailEnabled.Value)
             {
@@ -193,17 +198,14 @@ public static class GeneticAlgorithm : object
     private static RobotConfig BestLizardRobot(RobotConfig robot)
     {
         int attempts = 1;
-        List<GameObject> nearby = new List<GameObject>();
         List<RobotConfig> robots = new List<RobotConfig>();
         //look for robots nearby until selection size is met
-        while (nearby.Count < AIConfig.SelectionSize && attempts <= 5)
+        while (robots.Count < AIConfig.SelectionSize && attempts <= 5)
         {
             //get robots in that vicinity
-            nearby = robot.GetNearbyRobots(attempts * 10);
+            robots = robot.GetNearbyRobots(attempts * 10);
             attempts++;
         }
-        //nearby currently contains the heads, I need the robot to get the RobotConfig
-        nearby.ForEach(r => robots.Add(r.transform.parent.gameObject.GetComponent<RobotConfig>()));
         //return robot with best body colour
         robots.OrderBy(r => r.BodyColour);
         return robots.Count > 0 ? robots.First() : null;
@@ -240,9 +242,8 @@ public static class GeneticAlgorithm : object
         return robots.Count > 0 ? robots.Last() : null;
     }
 
-    private static void Freeze(RobotConfig robot)
+    private static void Reset(RobotConfig robot)
     {
-        robot.Object.SetActive(false);
         Vector3 spawnPoint = AIConfig.SpawnPoints[Mathf.FloorToInt(robot.RobotIndex / 25)];
         //pause objects       
         foreach (ObjectConfig childConfig in robot.Configs.OrderBy(o => o.Type))

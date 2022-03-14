@@ -259,7 +259,7 @@ public static class RobotHelpers : object
     //accessed by GenerateRobot on init and GeneticAlgorithm when respawning
     internal static float GetYPos(this RobotConfig robot)
     {
-        return TerrainConfig.GetTerrainHeight() + 1f;
+        return TerrainConfig.GetTerrainHeight(Mathf.FloorToInt(robot.RobotIndex / 25)) + 1f;
     }
 
     //get what the Z position param should be on spawn - called for each body part
@@ -306,23 +306,25 @@ public static class RobotHelpers : object
     }
 
     //get all robots within a radius
-    internal static List<GameObject> GetNearbyRobots(this RobotConfig robot, int radius)
+    internal static List<RobotConfig> GetNearbyRobots(this RobotConfig robot, int radius)
     {
-        Collider[] potential = Physics.OverlapSphere(robot.Object.transform.position, radius);
-        List<GameObject> incoming = new List<GameObject>();
-        if (potential.Length > robot.GetExpectedColliders())
-        {    
-            foreach (var item in potential)
+        Vector3 thisInitPos = AIConfig.SpawnPoints[Mathf.FloorToInt(robot.RobotIndex / 25)];
+        Vector3 thisRelPos = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == 0).gameObject.transform.position - thisInitPos;
+        List<RobotConfig> nearby = new List<RobotConfig>();
+        AIConfig.RobotConfigs.ForEach(r =>
+        {
+            if (r.IsEnabled)
             {
-                //only interested in the heads - as these are tagged
-                if (item.gameObject.tag == "Robot" && item.gameObject != robot.Object)
+                GameObject head = r.Configs.First(o => o.Type == BodyPart.Body && o.Index == 0).gameObject;
+                Vector3 initPos = AIConfig.SpawnPoints[Mathf.FloorToInt(r.RobotIndex / 25)];
+                Vector3 relativePos = head.transform.position - initPos;
+                if (Vector3.Distance(relativePos, thisRelPos) <= radius)
                 {
-                    //there is another robot in the area
-                    incoming.Add(item.gameObject);
+                    nearby.Add(r);
                 }
             }
-        }
-        return incoming;
+        });
+        return nearby;
     }
 
     //get all robots that are physically similar, within a set accepted range of difference

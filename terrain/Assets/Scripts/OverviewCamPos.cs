@@ -11,18 +11,6 @@ public class OverviewCamPos : MonoBehaviour
     public float dragSpeed = 2;
     private Vector3 dragOrigin;
 
-    private float noTerrains, minHeight, maxHeight, minEdge, maxEdge;
-
-    void Start()
-    {
-        noTerrains = Mathf.CeilToInt(AIConfig.PopulationSize / 25f);
-        int grid = Math.Max(1, Mathf.CeilToInt(Mathf.Sqrt(noTerrains)));
-        minHeight = 20f;
-        maxHeight = noTerrains * TerrainConfig.GetTerrainWidth() / 2;
-        minEdge = AIConfig.SpawnPoints[0].x - (TerrainConfig.GetTerrainWidth() / 2);
-        maxEdge = minEdge + (grid * TerrainConfig.GetTerrainWidth()) + ((grid - 1) * TerrainConfig.Gap);
-    }
-
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -38,8 +26,8 @@ public class OverviewCamPos : MonoBehaviour
             //scroll - zoom in or out
             pos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
             move = new Vector3(0, Input.mouseScrollDelta.y * -dragSpeed, 0);
-            move.y = move.y > 0 && this.transform.position.y > maxHeight ? 0 : move.y;
-            move.y = move.y < 0 && this.transform.position.y < minHeight ? 0 : move.y;
+            move.y = move.y > 0 && this.transform.position.y > TerrainConfig.maxY() ? 0 : move.y;
+            move.y = move.y < 0 && this.transform.position.y < TerrainConfig.minY() ? 0 : move.y;
         }
         else
         {
@@ -48,13 +36,13 @@ public class OverviewCamPos : MonoBehaviour
             move = new Vector3(pos.x * -dragSpeed, 0, pos.y * -dragSpeed);
             if (move.x != 0f)
             {
-                move.x = move.x > 0 && this.transform.position.x > maxEdge ? 0 : move.x;
-                move.x = move.x < 0 && this.transform.position.x < minEdge ? 0 : move.x;
+                move.x = move.x > 0 && this.transform.position.x > TerrainConfig.maxX() ? 0 : move.x;
+                move.x = move.x < 0 && this.transform.position.x < TerrainConfig.minX() ? 0 : move.x;
             }
             if (move.z != 0f)
             {
-                move.z = move.z > 0 && this.transform.position.z > maxEdge ? 0 : move.z;
-                move.z = move.z < 0 && this.transform.position.z < minEdge ? 0 : move.z;
+                move.z = move.z > 0 && this.transform.position.z > TerrainConfig.maxZ() ? 0 : move.z;
+                move.z = move.z < 0 && this.transform.position.z < TerrainConfig.minZ() ? 0 : move.z;
             }
         }
         transform.Translate(move, Space.World);

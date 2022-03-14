@@ -16,11 +16,8 @@ public class TrappedAlgorithm : MonoBehaviour
     //these are used to prevent data being collected too soon 
     //the robot needs time to hit the terrain and react
     private bool ShowTrail = false;
-    private bool ShowStuckPoints = false;
 
     private bool IsEnabled = true;
-
-    private GameObject pointsContainer;
 
     //if the gradient of the variance of the magnitude of the coordinates dips below the limit then the robot is classed as stuck
     //this can be due to many different behaviours:
@@ -30,17 +27,10 @@ public class TrappedAlgorithm : MonoBehaviour
     //bouncing between the same locations
     void Start()
     {
-        string name = "Stuck Points";
-        bool containerCreated = false;
-        foreach (Transform item in gameObject.transform.parent)
+        if (AIConfig.StuckPoints == null && AIConfig.ShowStuckPoints)
         {
-            if (item.name == name) containerCreated = true;
-        }
-        if (!containerCreated)
-        {
-            pointsContainer = new GameObject();
-            pointsContainer.name = name;
-            pointsContainer.transform.parent = GetComponent<Transform>().parent;
+            AIConfig.StuckPoints = new GameObject();
+            AIConfig.StuckPoints.name = "Stuck Points";
         }
         ObjectConfig objConfig = this.gameObject.GetComponent<ObjectConfig>();
         robotConfig = AIConfig.RobotConfigs.Where(r => r.RobotIndex == objConfig.RobotIndex).First();
@@ -97,11 +87,11 @@ public class TrappedAlgorithm : MonoBehaviour
                 //Grapher.Log(variance, "Variance", Color.red);
                 if (Math.Round(variance) == 0)
                 {
-                    if (ShowStuckPoints)
+                    if (AIConfig.ShowStuckPoints)
                     {
                         GameObject p = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Stuck"));
                         p.transform.position = currentLocation;
-                        p.transform.parent = pointsContainer.transform;
+                        p.transform.parent = AIConfig.StuckPoints.transform;
                     }
                     IsEnabled = false;
                     robotConfig.RobotIsStuck();     
@@ -110,7 +100,7 @@ public class TrappedAlgorithm : MonoBehaviour
                 {
                     GameObject p = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Point"));
                     p.transform.position = currentLocation;
-                    p.transform.parent = pointsContainer.transform;
+                    p.transform.parent = AIConfig.StuckPoints.transform;
                 }
             }              
 
