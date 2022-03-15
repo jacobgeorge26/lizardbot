@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 namespace Config
@@ -33,8 +34,8 @@ namespace Config
         {
             string line = "";
             line += $"0, ";
-            line += $"\"{AngleConstraint.Value}\", ";
-            line += $"\"{RotationMultiplier.Value}\", ";
+            line += $"{Regex.Replace(AngleConstraint.Value.ToString(), @",\s", " - ")}, ";
+            line += $"{Regex.Replace(RotationMultiplier.Value.ToString(), @",\s", " - ")}, ";
             line += $"\"{TailMassMultiplier.Value}\", ";
             line += $"{Length.Value}, ";
             return line;

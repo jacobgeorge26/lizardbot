@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 public class GeneratePopulation : MonoBehaviour
@@ -40,6 +41,7 @@ public class GeneratePopulation : MonoBehaviour
         }
         //enable UI
         if(UIConfig.IsUIEnabled) ui.Enable();
+        if (AIConfig.LogPerformanceData || AIConfig.LogRobotData) UpdateAttempt();
         if(AIConfig.LogPerformanceData || AIConfig.Debugging) StartCoroutine(LogPerformance());
     }
 
@@ -81,13 +83,17 @@ public class GeneratePopulation : MonoBehaviour
         }
     }
 
-    private void SetupPerformanceWriter()
+    private void UpdateAttempt()
     {
         int attempt = PlayerPrefs.GetInt("Attempt") + 1;
         PlayerPrefs.SetInt("Attempt", attempt);
+    }
+
+    private void SetupPerformanceWriter()
+    {
         string filePath = "../terrain/Report/Data/PerformanceLogs.csv";
         writer = File.Exists(filePath) ? File.AppendText(filePath) : File.CreateText(filePath);
-        writer.WriteLine($"ATTEMPT NO {attempt}");
+        writer.WriteLine($"ATTEMPT NO {PlayerPrefs.GetInt("Attempt")}");
         writer.WriteLine("Time, Mean Performance");
     }
 
@@ -95,8 +101,8 @@ public class GeneratePopulation : MonoBehaviour
     {
         string filePath = "../terrain/Report/Data/BestRobots.csv";
         writer = File.Exists(filePath) ? File.AppendText(filePath) : File.CreateText(filePath);
-        writer.WriteLine($"ATTEMPT NO {PlayerPrefs.GetInt("Attempt")}");
-        string header = "";
+        writer.WriteLine();
+        string header = "ATTEMPT, ";
         header += AIConfig.GetHeader();
         header += AIConfig.BestRobot.GetHeader();
         writer.WriteLine(header);
@@ -108,7 +114,7 @@ public class GeneratePopulation : MonoBehaviour
         if (AIConfig.LogRobotData && AIConfig.BestRobot != null)
         {
             SetupRobotWriter();
-            string data = "";
+            string data = $"{ PlayerPrefs.GetInt("Attempt")}, ";
             data += AIConfig.GetData();
             data += AIConfig.BestRobot.GetData();
             writer.WriteLine(data);

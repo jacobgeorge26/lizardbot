@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 namespace Config
@@ -96,12 +97,12 @@ namespace Config
         {
             string line = "";
             line += $"{index}, ";
-            line += $"{AngleConstraint.Value.x} \",\" {AngleConstraint.Value.y} \",\" {AngleConstraint.Value.z}, ";
-            line += $"\"{RotationMultiplier.Value}\", ";
+            line += $"{Regex.Replace(AngleConstraint.Value.ToString(), @",\s", " - ")}, ";
+            line += $"{Regex.Replace(RotationMultiplier.Value.ToString(), @",\s", " - ")}, ";
             line += $"{IsRotating.Value}, ";
             line += $"{UseSin.Value}, ";
             line += $"{IsDriving.Value}, ";
-            line += $"\"{DriveVelocity.Value}\", ";
+            line += $"{DriveVelocity.Value}, ";
             line += $"{Size.Value}, ";
             line += $"{Mass.Value}, ";
             return line;

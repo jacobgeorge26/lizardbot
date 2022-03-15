@@ -9,7 +9,7 @@ namespace Config
 {
     public static class TerrainConfig : object
     {
-        private static Queue<Surface> SurfaceType { get; set; } = new Queue<Surface> ( new Surface[] { Surface.Rough} );
+        private static Queue<Surface> SurfaceType { get; set; } = new Queue<Surface> ( new Surface[] { Surface.Rough, Surface.Smooth} );
 
         private static int[] Surfaces;
 
@@ -41,6 +41,12 @@ namespace Config
             Surface surface = SurfaceType.Dequeue();
             SurfaceType.Enqueue(surface);
             Surfaces[index] = (int)surface;
+        }
+
+        public static Surface GetTerrainType(int robotIndex)
+        {
+            int index = Mathf.FloorToInt(robotIndex / 25);
+            return (Surface)Surfaces[index];
         }
 
         public static float GetTerrainHeight(int index)
