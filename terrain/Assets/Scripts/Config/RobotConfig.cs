@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Config
@@ -53,6 +54,47 @@ namespace Config
             this.IsTailEnabled.Value = robot.IsTailEnabled.Value;
             this.BodyColour.Value = robot.BodyColour.Value;
             this.MaintainSerpentine.Value = robot.MaintainSerpentine.Value;
+        }
+
+        public string GetHeader()
+        {
+            string line = "";
+            line += $"{nameof(Version)}, ";
+            line += $"{nameof(Performance)}, ";
+            line += $"{nameof(NoSections)}, ";
+            line += $"{nameof(IsTailEnabled)}, ";
+            line += $"{nameof(BodyColour)}, ";
+            line += $"{nameof(MaintainSerpentine)}, ";
+            BodyConfig tempBody = new BodyConfig();
+            for (int i = 0; i < NoSections.Max; i++)
+            {
+                line += tempBody.GetHeader();
+            }
+            line += new TailConfig().GetHeader();
+            return line;
+        }
+
+
+        public string GetData()
+        {
+            string line = "";
+            line += $"{Version}, ";
+            line += $"{Performance}, ";
+            line += $"{NoSections.Value}, ";
+            line += $"{IsTailEnabled.Value}, ";
+            line += $"{BodyColour.Value}, ";
+            line += $"{MaintainSerpentine.Value}, ";
+            BodyConfig tempBody = new BodyConfig();
+            for (int i = 0; i < NoSections.Max; i++)
+            {
+                var body = Configs.Where(o => o.Type == BodyPart.Body && o.Index == i).ToList();
+                if (body.Count != 0) line += body.First().Body.GetData(i);
+                else line += tempBody.GetEmptyData(i);
+            }
+            var tail = Configs.Where(o => o.Type == BodyPart.Tail).ToList();
+            if (tail.Count != 0) line += tail.First().Tail.GetData();
+            else line += new TailConfig().GetEmptyData();
+            return line;
         }
 
     }

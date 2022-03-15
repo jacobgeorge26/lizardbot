@@ -21,7 +21,7 @@ namespace NWH
             GUILayout.Space(3);
 
             // Time window
-            GraphSettings.HorizontalResolution = FloatField("Horizontal resolution (time)", GraphSettings.HorizontalResolution, 0.5f, 120);
+            GraphSettings.HorizontalResolution = FloatField("Horizontal resolution (time)", GraphSettings.HorizontalResolution, 0.5f, 300);
 
             // Shared Y Range
             GraphSettings.SharedVerticalResolution = (int)FloatField("Share vertical resolution", GraphSettings.SharedVerticalResolution, 0, 1);

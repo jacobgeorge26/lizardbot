@@ -110,7 +110,7 @@ public class TrappedAlgorithm : MonoBehaviour
         float currentPerformance = Vector3.Distance(currentLocation, spawnPoint);
         robotConfig.Performance = currentPerformance > robotConfig.Performance ? currentPerformance : robotConfig.Performance;
         //update performance in UI
-        ui.UpdatePerformance(robotConfig.RobotIndex, currentPerformance, robotConfig.Performance);
+        if (UIConfig.IsUIEnabled) ui.UpdatePerformance(robotConfig.RobotIndex, currentPerformance, robotConfig.Performance);
     }
 
     private float GetVolume()

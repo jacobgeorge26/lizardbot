@@ -16,6 +16,12 @@ public static class GeneticAlgorithm : object
         //pause stuck robot
         stuckRobot.Object.SetActive(false);
 
+        //update BestRobot
+        if (AIConfig.LogRobotData && (AIConfig.BestRobot == null || stuckRobot.Performance > AIConfig.BestRobot.Performance))
+        {
+            AIConfig.BestRobot = stuckRobot;
+        }
+
         int newVersion = stuckRobot.Version + 1;
         //init LastRobots if this is first iteration
         if (AIConfig.LastRobots[stuckRobot.RobotIndex] == null) AIConfig.LastRobots[stuckRobot.RobotIndex] = stuckRobot;

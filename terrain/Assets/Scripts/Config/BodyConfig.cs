@@ -24,7 +24,7 @@ namespace Config
         //>3 is too fast and can be hard to follow / limit the effects of rotation as it's constantly just bouncing off the terrain
         //<1 is too slow and will trigger the robot being stuck more easily - especially in the rough terrain
         [Range(0, 3)]
-        public Gene DriveVelocity = new Gene(1f, 0f, 2f, Variable.DriveVelocity);
+        public Gene DriveVelocity = new Gene(1f, 0f, 1.5f, Variable.DriveVelocity);
 
         /*-------------------------------------------------------------------------------------------------------*/
 
@@ -75,6 +75,51 @@ namespace Config
                 default:
                     throw new Exception("There was an issue updating the body config. Invalid gene type.");
             }
+        }
+
+        internal string GetHeader()
+        {
+            string line = "";
+            line += $"Section No, ";
+            line += $"{nameof(AngleConstraint)}, ";
+            line += $"{nameof(RotationMultiplier)}, ";
+            line += $"{nameof(IsRotating)}, ";
+            line += $"{nameof(UseSin)}, ";
+            line += $"{nameof(IsDriving)}, ";
+            line += $"{nameof(DriveVelocity)}, ";
+            line += $"{nameof(Size)}, ";
+            line += $"{nameof(Mass)}, ";
+            return line;
+        }
+
+        internal string GetData(int index)
+        {
+            string line = "";
+            line += $"{index}, ";
+            line += $"{AngleConstraint.Value.x} \",\" {AngleConstraint.Value.y} \",\" {AngleConstraint.Value.z}, ";
+            line += $"\"{RotationMultiplier.Value}\", ";
+            line += $"{IsRotating.Value}, ";
+            line += $"{UseSin.Value}, ";
+            line += $"{IsDriving.Value}, ";
+            line += $"\"{DriveVelocity.Value}\", ";
+            line += $"{Size.Value}, ";
+            line += $"{Mass.Value}, ";
+            return line;
+        }
+
+        internal string GetEmptyData(int index)
+        {
+            string line = "";
+            line += $"{index}, ";
+            line += $"-, ";
+            line += $"-, ";
+            line += $"-, ";
+            line += $"-, ";
+            line += $"-, ";
+            line += $"-, ";
+            line += $"-, ";
+            line += $"-, ";
+            return line;
         }
     }
 }

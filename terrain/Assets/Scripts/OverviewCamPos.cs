@@ -8,7 +8,7 @@ using UnityEngine;
 public class OverviewCamPos : MonoBehaviour
 {
     //Documentation - https://forum.unity.com/threads/click-drag-camera-movement.39513/
-    public float dragSpeed = 2;
+    public float dragSpeed = 2, zoomSpeed = 4;
     private Vector3 dragOrigin;
 
     void Update()
@@ -25,7 +25,7 @@ public class OverviewCamPos : MonoBehaviour
         {
             //scroll - zoom in or out
             pos = Camera.main.ScreenToViewportPoint(Input.mousePosition);
-            move = new Vector3(0, Input.mouseScrollDelta.y * -dragSpeed, 0);
+            move = new Vector3(0, Input.mouseScrollDelta.y * -zoomSpeed, 0);
             move.y = move.y > 0 && this.transform.position.y > TerrainConfig.maxY() ? 0 : move.y;
             move.y = move.y < 0 && this.transform.position.y < TerrainConfig.minY() ? 0 : move.y;
         }

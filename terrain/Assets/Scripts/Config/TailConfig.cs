@@ -17,6 +17,39 @@ namespace Config
             RotationMultiplier.Value = oldConfig.RotationMultiplier.Value;
             TailMassMultiplier.Value = oldConfig.TailMassMultiplier.Value;
         }
+
+        internal string GetHeader()
+        {
+            string line = "";
+            line += $"Tail No, ";
+            line += $"{nameof(AngleConstraint)}, ";
+            line += $"{nameof(RotationMultiplier)}, ";
+            line += $"{nameof(TailMassMultiplier)}, ";
+            line += $"{nameof(Length)}, ";
+            return line;
+        }
+
+        internal string GetData()
+        {
+            string line = "";
+            line += $"0, ";
+            line += $"\"{AngleConstraint.Value}\", ";
+            line += $"\"{RotationMultiplier.Value}\", ";
+            line += $"\"{TailMassMultiplier.Value}\", ";
+            line += $"{Length.Value}, ";
+            return line;
+        }
+
+        internal string GetEmptyData()
+        {
+            string line = "";
+            line += $"0, ";
+            line += $"-, ";
+            line += $"-, ";
+            line += $"-, ";
+            line += $"-, ";
+            return line;
+        }
     }
 }
 

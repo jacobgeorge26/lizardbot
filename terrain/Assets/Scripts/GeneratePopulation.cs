@@ -36,15 +36,52 @@ public class GeneratePopulation : MonoBehaviour
             GameObject version = new GameObject();
             version.transform.parent = robot.transform;
             version.AddComponent<GenerateRobot>();
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.2f);
         }
         //enable UI
-        ui.Enable();
-        StartCoroutine(LogPerformance());
+        if(UIConfig.IsUIEnabled) ui.Enable();
+        if(AIConfig.LogPerformanceData || AIConfig.Debugging) StartCoroutine(LogPerformance());
     }
 
 
     public IEnumerator LogPerformance()
+    {
+        //debugging overrides AIConfig.LogData - only shows data on grapher
+        bool firstLineWritten = false;
+        if (AIConfig.LogPerformanceData) SetupPerformanceWriter();
+        while (true)
+        {
+            yield return new WaitForSeconds(3f);
+            if (AIConfig.RobotConfigs.Count == AIConfig.PopulationSize)
+            {
+                if (AIConfig.LogPerformanceData)
+                {
+                    string line = "Time, ";
+                    if (!firstLineWritten)
+                    {
+                        firstLineWritten = true;
+                        AIConfig.RobotConfigs.ForEach(r => line += $"Robot {r.RobotIndex + 1}, ");
+                        writer.WriteLine(line);
+                    }
+                    line = $"{Time.realtimeSinceStartup.ToString()}";
+                    AIConfig.RobotConfigs.ForEach(r => line += $"{r.Performance}, ");
+                    writer.WriteLine(line);
+                }
+
+                //debugging
+                if (AIConfig.Debugging)
+                {
+                    List<RobotConfig> ordered = AIConfig.RobotConfigs.OrderByDescending(r => r.Performance).ToList();
+                    float max = ordered.Take(AIConfig.PopulationSize / 10).Average(r => r.Performance);
+                    Grapher.Log(max, "Top 10%", Color.red);
+                    max = ordered.Take(AIConfig.PopulationSize / 4).Average(r => r.Performance);
+                    Grapher.Log(max, "Top 25%", Color.black);
+                }
+            }
+        }
+    }
+
+    private void SetupPerformanceWriter()
     {
         int attempt = PlayerPrefs.GetInt("Attempt") + 1;
         PlayerPrefs.SetInt("Attempt", attempt);
@@ -52,20 +89,32 @@ public class GeneratePopulation : MonoBehaviour
         writer = File.Exists(filePath) ? File.AppendText(filePath) : File.CreateText(filePath);
         writer.WriteLine($"ATTEMPT NO {attempt}");
         writer.WriteLine("Time, Mean Performance");
-        while (true)
-        {
-            yield return new WaitForSeconds(0.5f);
-            if (AIConfig.RobotConfigs.Count == AIConfig.PopulationSize)
-            {
-                //calculate average
-                float average = AIConfig.RobotConfigs.Average(r => r.Performance);
-                writer.WriteLine($"{Time.realtimeSinceStartup.ToString()}, {average}");
-            }
-        }
+    }
+
+    private void SetupRobotWriter()
+    {
+        string filePath = "../terrain/Report/Data/BestRobots.csv";
+        writer = File.Exists(filePath) ? File.AppendText(filePath) : File.CreateText(filePath);
+        writer.WriteLine($"ATTEMPT NO {PlayerPrefs.GetInt("Attempt")}");
+        string header = "";
+        header += AIConfig.GetHeader();
+        header += AIConfig.BestRobot.GetHeader();
+        writer.WriteLine(header);
     }
 
     void OnApplicationQuit()
     {
-        writer.Close();
+        if (writer != null) writer.Close();
+        if (AIConfig.LogRobotData && AIConfig.BestRobot != null)
+        {
+            SetupRobotWriter();
+            string data = "";
+            data += AIConfig.GetData();
+            data += AIConfig.BestRobot.GetData();
+            writer.WriteLine(data);
+            writer.Close();
+        }
     }
+
+
 }
