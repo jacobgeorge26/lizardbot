@@ -26,7 +26,7 @@ public class GeneratePopulation : MonoBehaviour
         cam.SetActive(false);
         CameraConfig.RobotCamera = cam;
         //setup UI
-        UIDisplay ui = FindObjectOfType<UIDisplay>();
+        UIDisplay ui = UIConfig.UIContainer.gameObject.GetComponent<UIDisplay>();
         if (ui != null && UIConfig.IsUIEnabled) ui.enabled = true;
         else UIConfig.UIContainer.SetActive(false);
         //generate population, leaving a gap between them
@@ -83,7 +83,7 @@ public class GeneratePopulation : MonoBehaviour
         }
     }
 
-    private void UpdateAttempt()
+    internal void UpdateAttempt()
     {
         int attempt = PlayerPrefs.GetInt("Attempt") + 1;
         PlayerPrefs.SetInt("Attempt", attempt);
@@ -108,7 +108,7 @@ public class GeneratePopulation : MonoBehaviour
         writer.WriteLine(header);
     }
 
-    void OnApplicationQuit()
+    void OnDestroy()
     {
         if (writer != null) writer.Close();
         if (AIConfig.LogRobotData && AIConfig.BestRobot != null)

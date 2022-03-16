@@ -8,7 +8,7 @@ using UnityEngine;
 public class GenerateTerrain : MonoBehaviour
 {
     private int grid;
-    void Start()
+    void Awake()
     {
         grid = Math.Max(1, Mathf.CeilToInt(Mathf.Sqrt(TerrainConfig.NoTerrains)));
         CameraConfig.OverviewCamera = Camera.main.gameObject;
@@ -25,17 +25,8 @@ public class GenerateTerrain : MonoBehaviour
         }
         CameraConfig.OverviewCamera.transform.position = new Vector3((TerrainConfig.minX() + TerrainConfig.maxX()) / 2, (TerrainConfig.minY() + TerrainConfig.maxY()) / 2, (TerrainConfig.minZ() + TerrainConfig.maxZ()) / 2);
         CameraConfig.OverviewCamera.GetComponent<Camera>().farClipPlane = TerrainConfig.maxY() + 20;
-        if (AIConfig.PopulationSize > 0)
-        {
-            GameObject robotController = new GameObject(name = "Robot Controller");
-            GeneratePopulation generate = robotController.AddComponent<GeneratePopulation>();
-            generate.CreatePopulation();
-        }
-        else
-        {
-            UIDisplay ui = FindObjectOfType<UIDisplay>();
-            if (ui != null) ui.gameObject.SetActive(false);
-        }
+        UIDisplay ui = FindObjectOfType<UIDisplay>();
+        if (ui != null) ui.gameObject.SetActive(false);
     }
 
     public Vector3 GetPosition(int index, GameObject terrain)

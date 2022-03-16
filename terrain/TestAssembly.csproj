@@ -78,6 +78,7 @@
     <Compile Include="Assets\Scripts\retired\MoveJointLerp.cs" />
     <Compile Include="Assets\Scripts\retired\MoveLerp.cs" />
     <Compile Include="Assets\Scripts\CameraPosition.cs" />
+    <Compile Include="Assets\Scripts\GameController.cs" />
     <Compile Include="Assets\Scripts\MoveBody.cs" />
     <Compile Include="Assets\Scripts\retired\Move.cs" />
   </ItemGroup>

@@ -13,7 +13,7 @@ public class UIDisplay : MonoBehaviour
     private RobotConfig Robot;
     private bool IsEnabled = false;
 
-    void Start()
+    void Awake()
     {
         UIE = this.gameObject.GetComponent<UIConfig>();
         UIE.panel.SetActive(false);
@@ -329,6 +329,7 @@ public class UIDisplay : MonoBehaviour
     internal void Enable()
     {
         IsEnabled = true;
+        UIConfig.UIContainer.SetActive(true);
         UIE.panel.SetActive(true);
         SetupUIOptions();
         //setup toggle
