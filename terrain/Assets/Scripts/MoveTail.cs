@@ -18,13 +18,14 @@ public class MoveTail : MonoBehaviour
         objectConfig = this.gameObject.GetComponent<ObjectConfig>();
         config = objectConfig.Tail;
         try { robotConfig = AIConfig.RobotConfigs.Where(c => c.RobotIndex == objectConfig.RobotIndex).First(); }
-        catch (Exception ex) { GameController.Controller.Respawn(ex.ToString()); }
+        catch (Exception ex) { GameController.Controller.TotalRespawn(ex.ToString()); return; }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (robotConfig.IsEnabled)
+        if (robotConfig.Object == null) this.enabled = false;
+        else if (robotConfig.IsEnabled)
         {
             Move();
         }

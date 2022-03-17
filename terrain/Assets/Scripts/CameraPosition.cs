@@ -26,7 +26,7 @@ public class CameraPosition : MonoBehaviour
             CameraConfig.Hat.transform.localPosition = new Vector3(0, 0.3f, -0.15f);
             CameraConfig.Hat.transform.localRotation = Quaternion.Euler(-10, 0, 0);
         }
-        catch (Exception ex) { GameController.Controller.Respawn(ex.ToString()); }
+        catch (Exception ex) { GameController.Controller.TotalRespawn(ex.ToString()); return; }
     }
 
     private void UpdateHeadTail()
@@ -44,7 +44,7 @@ public class CameraPosition : MonoBehaviour
             Head = head;
             Tail = robot.IsTailEnabled.Value ? tail : back;
         }
-        catch (Exception ex) { GameController.Controller.Respawn(ex.ToString()); }
+        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot);  return; }
     }
 
 

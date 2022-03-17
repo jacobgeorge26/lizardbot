@@ -167,7 +167,7 @@ public class UIDisplay : MonoBehaviour
             BodyUI body = UIE.Bodies[i];
             BodyConfig bodyConfig = null;
             try { bodyConfig = config.Configs.First(o => o.Type == BodyPart.Body && o.Index == i).Body; }
-            catch (Exception ex) { GameController.Controller.Respawn(ex.ToString()); }
+            catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), config); return; }
 
             //size - affects position so call first
             float value = (bodyConfig.Size.Value - bodyConfig.Size.Min) / (bodyConfig.Size.Max - bodyConfig.Size.Min);
@@ -214,7 +214,7 @@ public class UIDisplay : MonoBehaviour
             TailUI tail = UIE.Tail;
             TailConfig tailConfig = null;
             try { tailConfig = config.Configs.First(o => o.Type == BodyPart.Tail).Tail; }
-            catch (Exception ex) { GameController.Controller.Respawn(ex.ToString()); }
+            catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), config); return; }
 
             //Length
             float value = (tailConfig.Length.Value - tailConfig.Length.Min) / (tailConfig.Length.Max - tailConfig.Length.Min);

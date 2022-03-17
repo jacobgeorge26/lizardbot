@@ -17,6 +17,9 @@ public static class GeneticAlgorithm : object
         //pause stuck robot
         stuckRobot.Object.SetActive(false);
 
+        try { int x = new List<int>().First(); }
+        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), stuckRobot); return; }
+
         //update BestRobot
         if (AIConfig.LogRobotData && (AIConfig.BestRobot == null || stuckRobot.Performance > AIConfig.BestRobot.Performance))
         {
@@ -33,7 +36,7 @@ public static class GeneticAlgorithm : object
 
         ObjectConfig firstObjConfig = null;
         try { firstObjConfig = oldRobot.Configs.First(); }
-        catch (Exception ex) { GameController.Controller.Respawn(ex.ToString()); }
+        catch (Exception ex) { GameController.Controller.TotalRespawn(ex.ToString()); return; }
         GameObject newRobotObj = firstObjConfig.Clone(oldRobot.Object);
         RobotConfig newRobot = new RobotConfig(oldRobot.RobotIndex, newRobotObj);
         newRobot = Init(newRobot, oldRobot, newVersion);
@@ -53,7 +56,7 @@ public static class GeneticAlgorithm : object
             //need access to info from original, leave disabled
             //otherwise destroy
             try { if (oldRobot.Version > 0) oldRobot.Configs.First().Remove(oldRobot.Object); }
-            catch (Exception ex) { GameController.Controller.Respawn(ex.ToString()); }
+            catch (Exception ex) { GameController.Controller.TotalRespawn(ex.ToString()); return; }
             
             newRobot.MutationCount++;
         }
@@ -90,13 +93,13 @@ public static class GeneticAlgorithm : object
         {
             //because the nosections might have just been increased it cannot be assumed that a config for this section exists yet
             ObjectConfig body = null, body1 = null, body2 = null;
-            try
-            {
-                body = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == i);
-                body1 = best1 != null && best1.NoSections.Value > i ? best1.Configs.First(o => o.Type == BodyPart.Body && o.Index == i) : null;
-                body2 = best2 != null && best2.NoSections.Value > i ? best2.Configs.First(o => o.Type == BodyPart.Body && o.Index == i) : null;
-            }
-            catch (Exception ex) { GameController.Controller.Respawn(ex.ToString()); }
+            try { body = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == i); }
+            catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return new List<Gene>(); }
+            try { body1 = best1 != null && best1.NoSections.Value > i ? best1.Configs.First(o => o.Type == BodyPart.Body && o.Index == i) : null; }
+            catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), best1); return new List<Gene>(); }
+            try { body2 = best2 != null && best2.NoSections.Value > i ? best2.Configs.First(o => o.Type == BodyPart.Body && o.Index == i) : null; }
+            catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), best2); return new List<Gene>(); }
+
             CombineGenes(GetGenes(robot, body), GetGenes(best1, body1), GetGenes(best2, body2), ref newRobotGenes);
         }
         //tail
@@ -108,13 +111,13 @@ public static class GeneticAlgorithm : object
         if (robot.IsTailEnabled.Value)
         {
             ObjectConfig tail = null, tail1 = null, tail2 = null;
-            try
-            {
-                tail = robot.Configs.First(o => o.Type == BodyPart.Tail);
-                tail1 = best1 != null && best1.IsTailEnabled.Value ? best1.Configs.First(o => o.Type == BodyPart.Tail) : null;
-                tail2 = best2 != null && best2.IsTailEnabled.Value ? best2.Configs.First(o => o.Type == BodyPart.Tail) : null;
-            }
-            catch (Exception ex) { GameController.Controller.Respawn(ex.ToString()); }
+            try { tail = robot.Configs.First(o => o.Type == BodyPart.Tail); }
+            catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return new List<Gene>(); }
+            try { tail1 = best1 != null && best1.IsTailEnabled.Value ? best1.Configs.First(o => o.Type == BodyPart.Tail) : null; }
+            catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), best1); return new List<Gene>(); }
+            try { tail2 = best2 != null && best2.IsTailEnabled.Value ? best2.Configs.First(o => o.Type == BodyPart.Tail) : null; }
+            catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), best2); return new List<Gene>(); }
+
             CombineGenes(GetGenes(robot, tail), GetGenes(best1, tail1), GetGenes(best2, tail2), ref newRobotGenes);
         }
         //robot
@@ -137,7 +140,7 @@ public static class GeneticAlgorithm : object
                 if(genes2.Count > 0 && genes3.Count > 0)
                 {
                     try { newGene = Random.value < 0.5f ? genes2.First(g => g.Type == oldGene.Type) : genes3.First(g => g.Type == oldGene.Type); }
-                    catch (Exception ex) { GameController.Controller.Respawn(ex.ToString()); }
+                    catch (Exception ex) { GameController.Controller.TotalRespawn(ex.ToString()); return; }
                 }
                 else
                 {
@@ -147,7 +150,7 @@ public static class GeneticAlgorithm : object
                         : genes3.Count > 0 ? genes3.First(g => g.Type == oldGene.Type)
                             : oldGene;
                     }
-                    catch (Exception ex) { GameController.Controller.Respawn(ex.ToString()); }
+                    catch (Exception ex) { GameController.Controller.TotalRespawn(ex.ToString()); return; }
                 }
                 oldGene.Value = newGene.Real;
                 newGenes.Add(newGene);
@@ -267,7 +270,7 @@ public static class GeneticAlgorithm : object
             {
                 int index = childConfig.Type == BodyPart.Body ? childConfig.Index - 1 : robot.NoSections.Value - 1;
                 try { prevObject = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == index).gameObject; }
-                catch (Exception ex) { GameController.Controller.Respawn(ex.ToString()); }
+                catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
             }
             child.rotation = Quaternion.Euler(Vector3.zero);
             child.position = new Vector3(spawnPoint.x, robot.GetYPos(), spawnPoint.z + robot.GetZPos(prevObject, child.gameObject));
@@ -305,7 +308,7 @@ public static class GeneticAlgorithm : object
         {
             AIConfig.LastRobots[index] = robot2;
             try { robot1.Configs.First().Remove(robot1.Object); }
-            catch (Exception ex) { GameController.Controller.Respawn(ex.ToString()); }
+            catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot1); return null; }
             
             return robot2;
         }
@@ -313,7 +316,7 @@ public static class GeneticAlgorithm : object
         {
             AIConfig.LastRobots[index] = robot1;
             try { robot2.Configs.First().Remove(robot2.Object); }
-            catch (Exception ex) { GameController.Controller.Respawn(ex.ToString()); }     
+            catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot2); return null; }     
             return robot1;
         }
     }
@@ -365,7 +368,7 @@ public static class GeneticAlgorithm : object
         //replace stuck robot with new robot in RobotConfigs
         int index = -1;
         try { index = AIConfig.RobotConfigs.IndexOf(AIConfig.RobotConfigs.First(c => c.RobotIndex.Equals(newRobot.RobotIndex))); }
-        catch (Exception ex) { GameController.Controller.Respawn(ex.ToString()); }    
+        catch (Exception ex) { GameController.Controller.TotalRespawn(ex.ToString()); return null; }    
         AIConfig.RobotConfigs[index] = newRobot;
 
         //fill RobotConfig.Configs with the ObjectConfigs of each body part
@@ -378,7 +381,7 @@ public static class GeneticAlgorithm : object
                 try {
                     oldObjConfig = oldRobot.Configs.First(o => o.Type == objConfig.Type && o.Index == objConfig.Index);
                 }
-                catch (Exception ex) { GameController.Controller.Respawn(ex.ToString()); }
+                catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), oldRobot); return null; }
                 
                 if (objConfig.Type == BodyPart.Body)
                 {

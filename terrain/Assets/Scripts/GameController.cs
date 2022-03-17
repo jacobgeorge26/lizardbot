@@ -21,6 +21,9 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        ////////////////////////
+        PlayerPrefs.SetInt("Attempt", 50);
+
         Controller = this;
         attemptCount = AIConfig.NoAttempts;
         //setup writers with headers
@@ -35,11 +38,13 @@ public class GameController : MonoBehaviour
 
     private IEnumerator GenerateAttempt()
     {
-        PlayerPrefs.SetInt("Attempt", 8);
         if (AIConfig.PopulationSize > 0)
         {         
-            for (int i = 0; i < attemptCount; i++)
+            for (int i = attemptCount; i > 0; i--)
             {
+                //IMPORTANT delay needed to allow unity to stop running scripts attached to newly disabled objects
+                yield return new WaitForSeconds(3f);
+                attemptCount--;
                 UpdateAttempt(1);
                 if(pauseTime == 0) SetupAIParams();
                 generate = gameObject.AddComponent<GeneratePopulation>();
@@ -119,7 +124,7 @@ public class GameController : MonoBehaviour
         return robotWriter;
     }
 
-    internal void Respawn(string exception)
+    internal void TotalRespawn(string exception)
     {
         //stop all execution - an error has occurred
         AIConfig.RobotConfigs.ForEach(r => {
@@ -135,6 +140,10 @@ public class GameController : MonoBehaviour
         attemptCount++;
         UpdateAttempt(-1);
         StartCoroutine(GenerateAttempt());
+    }
+
+    internal void SingleRespawn(string exception, RobotConfig robot)
+    {
     }
 
     private IEnumerator Deconstruct(bool delay)

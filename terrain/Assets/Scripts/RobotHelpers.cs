@@ -36,7 +36,7 @@ public static class RobotHelpers : object
         GameObject body = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Section"));
         GameObject prevSection = null;
         try { prevSection = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == index - 1).gameObject; }
-        catch (Exception ex) { GameController.Controller.Respawn(ex.ToString()); }
+        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
         body.name = $"section{index}";
         body.transform.parent = robot.Object.transform;
         body.transform.localPosition = new Vector3(0, 0, robot.GetZPos(prevSection, body));
@@ -62,7 +62,7 @@ public static class RobotHelpers : object
         tail.transform.parent = robot.Object.transform;
         GameObject lastSection = null;
         try { lastSection = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == robot.NoSections.Value - 1).gameObject; }
-        catch (Exception ex) { GameController.Controller.Respawn(ex.ToString()); }
+        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); }
         
         tail.transform.localPosition = new Vector3(0, 0, robot.GetZPos(lastSection, tail));
 
@@ -102,7 +102,7 @@ public static class RobotHelpers : object
                             .Where(o => o.Type == BodyPart.Body && o.Index == index - 1)
                             .First().gameObject;
                     }
-                    catch (Exception ex) { GameController.Controller.Respawn(ex.ToString()); }
+                    catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
  
                     BodyConfig bodyConfig = objConfig.Body;
                     var renderer = objConfig.gameObject.GetComponent<Renderer>();
@@ -117,7 +117,7 @@ public static class RobotHelpers : object
                         .Where(o => o.Type == BodyPart.Body && o.Index == robot.NoSections.Value - 1)
                         .First().gameObject;
                 }
-                catch (Exception ex) { GameController.Controller.Respawn(ex.ToString()); }
+                catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
                 //set mass to be equal to rest of body
                 TailConfig tailConfig = objConfig.Tail;
                 objConfig.gameObject.GetComponent<Rigidbody>().mass = robot.GetTotalMass() * tailConfig.TailMassMultiplier.Value;
@@ -142,7 +142,7 @@ public static class RobotHelpers : object
             bodyConfig.Remove();
             robot.Configs.Remove(bodyConfig);
         }
-        catch (Exception ex) { GameController.Controller.Respawn(ex.ToString()); }
+        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
     }
 
     //remove the tail
@@ -155,7 +155,7 @@ public static class RobotHelpers : object
         {
             ObjectConfig tailConfig = null;
             try { tailConfig = tailConfigs.First(); }
-            catch (Exception ex) { GameController.Controller.Respawn(ex.ToString()); }
+            catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
             tailConfig.Remove();
             robot.Configs.Remove(tailConfig);
         }
@@ -324,7 +324,7 @@ public static class RobotHelpers : object
     {
         Vector3 thisInitPos = AIConfig.SpawnPoints[Mathf.FloorToInt(robot.RobotIndex / 25)], thisRelPos = Vector3.zero;
         try { thisRelPos = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == 0).gameObject.transform.position - thisInitPos; }
-        catch (Exception ex) { GameController.Controller.Respawn(ex.ToString()); }
+        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return null; }
         List<RobotConfig> nearby = new List<RobotConfig>();
         AIConfig.RobotConfigs.ForEach(r =>
         {
@@ -332,7 +332,7 @@ public static class RobotHelpers : object
             {
                 GameObject head = null;
                 try { head = r.Configs.First(o => o.Type == BodyPart.Body && o.Index == 0).gameObject; }
-                catch (Exception ex) { GameController.Controller.Respawn(ex.ToString()); }
+                catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
                        
                 Vector3 initPos = AIConfig.SpawnPoints[Mathf.FloorToInt(r.RobotIndex / 25)];
                 Vector3 relativePos = head.transform.position - initPos;
@@ -367,7 +367,7 @@ public static class RobotHelpers : object
             }
             TailConfig tail = null;
             try { tail = robot.Configs.First(o => o.Type == BodyPart.Tail).Tail; }
-            catch (Exception ex) { GameController.Controller.Respawn(ex.ToString()); }
+            catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return null; }
             
             float allowedDifference = (tail.TailMassMultiplier.Max - tail.TailMassMultiplier.Min) * (difference + 1) / 10;
             for (int i = similar.Count - 1; i >= 0; i--)
@@ -382,7 +382,7 @@ public static class RobotHelpers : object
                 }
                 TailConfig otherTail = null;
                 try { otherTail = tails.First().Tail; }
-                catch (Exception ex) { GameController.Controller.Respawn(ex.ToString()); }
+                catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return null; }
                 
                 if (Math.Abs(otherTail.TailMassMultiplier.Value - tail.TailMassMultiplier.Value) > allowedDifference)
                 {

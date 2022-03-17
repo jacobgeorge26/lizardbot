@@ -20,7 +20,7 @@ public class Collisions : MonoBehaviour
                 RobotConfig robot = AIConfig.RobotConfigs.Where(r => r.RobotIndex == objConfig.RobotIndex).First();
                 if (robot != null) robot.IsEnabled = true;
             }
-            catch (Exception ex) { GameController.Controller.Respawn(ex.ToString()); }
+            catch (Exception ex) { GameController.Controller.TotalRespawn(ex.ToString()); return; }
 
         }
         else if(collider.tag == "Finish")
@@ -31,7 +31,7 @@ public class Collisions : MonoBehaviour
                 RobotConfig robot = AIConfig.RobotConfigs.First(r => r.RobotIndex == objConfig.RobotIndex);
                 robot.RobotIsStuck();
             }
-            catch (Exception ex) { GameController.Controller.Respawn(ex.ToString()); }
+            catch (Exception ex) { GameController.Controller.TotalRespawn(ex.ToString()); return; }
             Destroy(this);
         }
     }

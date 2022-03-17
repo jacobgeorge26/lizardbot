@@ -34,7 +34,7 @@ public class TrappedAlgorithm : MonoBehaviour
         }
         ObjectConfig objConfig = this.gameObject.GetComponent<ObjectConfig>();
         try { robotConfig = AIConfig.RobotConfigs.First(r => r.RobotIndex == objConfig.RobotIndex); }
-        catch (Exception ex) { GameController.Controller.Respawn(ex.ToString()); }
+        catch (Exception ex) { GameController.Controller.TotalRespawn(ex.ToString()); return; }
         
         ui ??= UIConfig.UIContainer.GetComponent<UIDisplay>();
 

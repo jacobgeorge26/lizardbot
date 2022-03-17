@@ -30,7 +30,8 @@ public class GenerateRobot : MonoBehaviour
 
         //setup overall robot
         GameObject robot = this.gameObject;
-        robot.name = $"Robot {robotConfig.RobotIndex + 1} V {robotConfig.Version}";
+        string prefix = oldRobot == null ? "" : "NEW";
+        robot.name = $"{prefix} Robot {robotConfig.RobotIndex + 1} V {robotConfig.Version}";
         Vector3 spawnPoint = AIConfig.SpawnPoints[Mathf.FloorToInt(robotConfig.RobotIndex / 25)];
         robot.transform.position = new Vector3(spawnPoint.x, robotConfig.GetYPos(), spawnPoint.z);
 
