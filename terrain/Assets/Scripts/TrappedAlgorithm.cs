@@ -33,8 +33,9 @@ public class TrappedAlgorithm : MonoBehaviour
             AIConfig.StuckPoints.name = "Stuck Points";
         }
         ObjectConfig objConfig = this.gameObject.GetComponent<ObjectConfig>();
-        robotConfig = AIConfig.RobotConfigs.Where(r => r.RobotIndex == objConfig.RobotIndex).First();
-
+        try { robotConfig = AIConfig.RobotConfigs.First(r => r.RobotIndex == objConfig.RobotIndex); }
+        catch (Exception ex) { GameController.Controller.Respawn(ex.ToString()); }
+        
         ui ??= UIConfig.UIContainer.GetComponent<UIDisplay>();
 
         StartCoroutine(IsTrapped());

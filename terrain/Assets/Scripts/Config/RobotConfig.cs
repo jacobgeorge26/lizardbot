@@ -16,6 +16,8 @@ namespace Config
 
         public bool IsEnabled = false;
 
+        public List<ObjectConfig> Configs { get; set; } = new List<ObjectConfig>();
+
         public float Performance = 0;
 
         public int MutationCount = 0;
@@ -32,13 +34,22 @@ namespace Config
         //when changes are made, should serpentine motion be preserved
         public Gene MaintainSerpentine = new Gene(true, Variable.MaintainSerpentine);
 
+        //clone variables applicable to starting again from a scrapped attempt - different to a fresh copy
+        public void Clone(RobotConfig oldRobot)
+        {
+            Version = oldRobot.Version;
+            MutationCount = oldRobot.MutationCount;
+            NoSections.Value = oldRobot.NoSections.Value;
+            IsTailEnabled.Value = oldRobot.IsTailEnabled.Real;
+            BodyColour.Value = oldRobot.BodyColour.Value;
+            MaintainSerpentine.Value = oldRobot.MaintainSerpentine.Real;
+        }
+
         public RobotConfig(int _index, GameObject _object)
         {
             this.RobotIndex = _index;
             this.Object = _object;
         }
-
-        public List<ObjectConfig> Configs { get; set; } = new List<ObjectConfig>();
 
         //not directly a copy, a clean copy without the default / random init
         //excludes object, this should have been setup with the constructor

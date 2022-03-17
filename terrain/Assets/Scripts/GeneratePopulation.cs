@@ -9,7 +9,7 @@ using UnityEngine;
 
 public class GeneratePopulation : MonoBehaviour
 {
-    private StreamWriter writer;
+    private StreamWriter performanceWriter;
     public void CreatePopulation()
     {
         StartCoroutine(GenerateRobots());
@@ -41,7 +41,6 @@ public class GeneratePopulation : MonoBehaviour
         }
         //enable UI
         if(UIConfig.IsUIEnabled) ui.Enable();
-        if (AIConfig.LogPerformanceData || AIConfig.LogRobotData) UpdateAttempt();
         if(AIConfig.LogPerformanceData || AIConfig.Debugging) StartCoroutine(LogPerformance());
     }
 
@@ -63,11 +62,11 @@ public class GeneratePopulation : MonoBehaviour
                     {
                         firstLineWritten = true;
                         AIConfig.RobotConfigs.ForEach(r => line += $"Robot {r.RobotIndex + 1}, ");
-                        writer.WriteLine(line);
+                        performanceWriter.WriteLine(line);
                     }
                     line = $"{Time.realtimeSinceStartup.ToString()}";
                     AIConfig.RobotConfigs.ForEach(r => line += $"{r.Performance}, ");
-                    writer.WriteLine(line);
+                    performanceWriter.WriteLine(line);
                 }
 
                 //debugging
@@ -83,43 +82,17 @@ public class GeneratePopulation : MonoBehaviour
         }
     }
 
-    internal void UpdateAttempt()
-    {
-        int attempt = PlayerPrefs.GetInt("Attempt") + 1;
-        PlayerPrefs.SetInt("Attempt", attempt);
-    }
-
     private void SetupPerformanceWriter()
     {
         string filePath = "../terrain/Report/Data/PerformanceLogs.csv";
-        writer = File.Exists(filePath) ? File.AppendText(filePath) : File.CreateText(filePath);
-        writer.WriteLine($"ATTEMPT NO {PlayerPrefs.GetInt("Attempt")}");
-        writer.WriteLine("Time, Mean Performance");
-    }
-
-    private void SetupRobotWriter()
-    {
-        string filePath = "../terrain/Report/Data/BestRobots.csv";
-        writer = File.Exists(filePath) ? File.AppendText(filePath) : File.CreateText(filePath);
-        writer.WriteLine();
-        string header = "ATTEMPT, ";
-        header += AIConfig.GetHeader();
-        header += AIConfig.BestRobot.GetHeader();
-        writer.WriteLine(header);
+        performanceWriter = File.Exists(filePath) ? File.AppendText(filePath) : File.CreateText(filePath);
+        performanceWriter.WriteLine($"ATTEMPT NO {PlayerPrefs.GetInt("Attempt")}");
+        performanceWriter.WriteLine("Time, Mean Performance");
     }
 
     void OnDestroy()
     {
-        if (writer != null) writer.Close();
-        if (AIConfig.LogRobotData && AIConfig.BestRobot != null)
-        {
-            SetupRobotWriter();
-            string data = $"{ PlayerPrefs.GetInt("Attempt")}, ";
-            data += AIConfig.GetData();
-            data += AIConfig.BestRobot.GetData();
-            writer.WriteLine(data);
-            writer.Close();
-        }
+        if (performanceWriter != null) performanceWriter.Close();
     }
 
 

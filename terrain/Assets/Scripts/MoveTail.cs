@@ -17,7 +17,8 @@ public class MoveTail : MonoBehaviour
         tail = GetComponent<Rigidbody>();
         objectConfig = this.gameObject.GetComponent<ObjectConfig>();
         config = objectConfig.Tail;
-        robotConfig = AIConfig.RobotConfigs.Where(c => c.RobotIndex == objectConfig.RobotIndex).First();
+        try { robotConfig = AIConfig.RobotConfigs.Where(c => c.RobotIndex == objectConfig.RobotIndex).First(); }
+        catch (Exception ex) { GameController.Controller.Respawn(ex.ToString()); }
     }
 
     // Update is called once per frame

@@ -14,9 +14,14 @@ namespace Config
         //population can be >25, but in rougher terrain where the robot isn't making progress, expect some warnings and interaction between them
         public static int PopulationSize = 50;
 
-        public static int NoAttempts = 10;
+        public static int NoAttempts = 3;
+
+        public static int AttemptLength = 600;
 
         public static RobotConfig[] LastRobots = new RobotConfig[PopulationSize];
+
+        //used by error handling to recreate the population
+        public static List<RobotConfig> InitRobots;
 
         public static Vector3[] SpawnPoints = new Vector3[Mathf.CeilToInt(PopulationSize / 25f)];
 
@@ -58,11 +63,11 @@ namespace Config
         //should the stuck points be shown
         public static bool ShowStuckPoints = false;
 
-        //recommend one or the other for LogData and Debugging
+        //recommend one or the other for LogPerformanceData and Debugging
         //if true then data will be extracted to csv files in the Report folder
         public static bool LogPerformanceData = false;
 
-        public static bool LogRobotData = false;
+        public static bool LogRobotData = true;
 
         public static bool LogAIData = true;
 

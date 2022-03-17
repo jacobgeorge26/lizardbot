@@ -10,13 +10,22 @@ public class GenerateRobot : MonoBehaviour
 {
     private RobotConfig robotConfig;
     private int layer;
+    private RobotConfig oldRobot;
 
     void Awake()
     {
         //setup robot config
         robotConfig = new RobotConfig(AIConfig.RobotConfigs.Count, this.gameObject);
-
-        robotConfig.Original = robotConfig;
+        if (AIConfig.InitRobots != null)
+        {
+            //if this is a restart from an errored attempt then start the robot as it left off
+            oldRobot = AIConfig.InitRobots[AIConfig.RobotConfigs.Count];
+            robotConfig.Clone(oldRobot);
+        }
+        else
+        {
+            robotConfig.Original = robotConfig;
+        }
         AIConfig.RobotConfigs.Add(robotConfig);
 
         //setup overall robot
@@ -33,7 +42,13 @@ public class GenerateRobot : MonoBehaviour
 
         //TODO: setup legs
 
-        if (robotConfig.IsTailEnabled.Value) robotConfig.CreateTail();
+        if (robotConfig.IsTailEnabled.Value)
+        {
+            ObjectConfig tail;
+            try { tail = oldRobot.Configs.First(o => o.Type == BodyPart.Tail);  }
+            catch (Exception) { tail = null; }
+            robotConfig.CreateTail(tail);
+        }
 
         robotConfig.SetChildLayer(layer);
 
@@ -43,15 +58,17 @@ public class GenerateRobot : MonoBehaviour
 
     private void SetupBody(GameObject robot)
     {
-        List<BodyConfig> rotatingSections = new List<BodyConfig>();
         //initialise with random colour
-        robotConfig.BodyColour.Value = Random.Range(30, 70);
+        if(oldRobot == null) robotConfig.BodyColour.Value = Random.Range(30, 70);
         for (int i = 0; i < robotConfig.NoSections.Value; i++)
         {
-            if (i == 0) robotConfig.CreateHead();
-            else robotConfig.CreateBody(i);
+            ObjectConfig body;
+            try { body = oldRobot.Configs.First(o => o.Type == BodyPart.Body && o.Index == i); }
+            catch (Exception) { body = null; }
+            if (i == 0) robotConfig.CreateHead(body);
+            else robotConfig.CreateBody(i, body);
         }
-        if (robotConfig.MaintainSerpentine.Value) robotConfig.MakeSerpentine(!AIConfig.RandomInitValues);
+        if (robotConfig.MaintainSerpentine.Value && oldRobot == null) robotConfig.MakeSerpentine(!AIConfig.RandomInitValues);
     }
 
 

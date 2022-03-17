@@ -2,54 +2,59 @@ using Config;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 using Random = UnityEngine.Random;
 
 public class GameController : MonoBehaviour
 {
 
-    StreamWriter performanceWriter, aiWriter;
-    int attemptTime = 600;
-    // Start is called before the first frame update
+    public static GameController Controller;
+
+    StreamWriter aiPerformanceWriter, aiWriter, robotWriter;
+    GeneratePopulation generate;
+    int attemptCount;
+    float startTime = 0, pauseTime = 0, elapsedTime = 0;
+
     void Start()
     {
+        Controller = this;
+        attemptCount = AIConfig.NoAttempts;
+        //setup writers with headers
+        string filePath = "../terrain/Report/Data/AIPerformance.csv";
+        aiPerformanceWriter = File.Exists(filePath) ? File.AppendText(filePath) : File.CreateText(filePath);
+        aiPerformanceWriter.WriteLine($"ATTEMPT, Time, Performance");
+        filePath = "../terrain/Report/Data/AIConfig.csv";
+        aiWriter = File.Exists(filePath) ? File.AppendText(filePath) : File.CreateText(filePath);
+        aiWriter.WriteLine($"ATTEMPT, {AIConfig.GetHeader()}");
         StartCoroutine(GenerateAttempt());
     }
 
     private IEnumerator GenerateAttempt()
     {
+        PlayerPrefs.SetInt("Attempt", 8);
         if (AIConfig.PopulationSize > 0)
-        {
-            string filePath = "../terrain/Report/Data/AIPerformance.csv";
-            performanceWriter = File.Exists(filePath) ? File.AppendText(filePath) : File.CreateText(filePath);
-            performanceWriter.WriteLine($"ATTEMPT, Time, Performance");
-            filePath = "../terrain/Report/Data/AIConfig.csv";
-            aiWriter = File.Exists(filePath) ? File.AppendText(filePath) : File.CreateText(filePath);
-            aiWriter.WriteLine($"ATTEMPT, {AIConfig.GetHeader()}");
-            for (int i = 0; i < AIConfig.NoAttempts; i++)
+        {         
+            for (int i = 0; i < attemptCount; i++)
             {
-                SetupAIParams();
-                GeneratePopulation generate = gameObject.AddComponent<GeneratePopulation>();
-                generate.UpdateAttempt();
+                UpdateAttempt(1);
+                if(pauseTime == 0) SetupAIParams();
+                generate = gameObject.AddComponent<GeneratePopulation>();
                 Debug.Log($"ATTEMPT {PlayerPrefs.GetInt("Attempt")}");
                 generate.CreatePopulation();
+                pauseTime = pauseTime == 0 ? 0 : Time.realtimeSinceStartup; //update pause time after respawn
                 StartCoroutine(SaveAttemptData());
-                yield return new WaitForSeconds(attemptTime);
-                Destroy(generate);
-                Destroy(CameraConfig.RobotCamera);
-                Destroy(CameraConfig.Hat);
+                yield return new WaitForSeconds(AIConfig.AttemptLength - elapsedTime);
+                pauseTime = 0;
+                elapsedTime = 0;
                 AIConfig.RobotConfigs.ForEach(r => {
-                    Destroy(r.Object.transform.parent.gameObject);
-                    r.Configs.ForEach(o => {
-                        o.Body = null;
-                        o.Tail = null;
-                    });
+                    r.Object.transform.parent.gameObject.SetActive(false);
                 });
-                AIConfig.RobotConfigs = new List<RobotConfig>();
-                AIConfig.BestRobot = null;
-                AIConfig.LastRobots = new RobotConfig[AIConfig.PopulationSize];
+                if (AIConfig.LogRobotData) LogBestRobot();
+                StartCoroutine(Deconstruct(false));
             }
         }
     }
@@ -67,24 +72,102 @@ public class GameController : MonoBehaviour
     private IEnumerator SaveAttemptData()
     {
         int attempt = PlayerPrefs.GetInt("Attempt");
-        float startTime = Time.realtimeSinceStartup;
+        startTime = pauseTime == 0 ? startTime : Time.realtimeSinceStartup;
         while (PlayerPrefs.GetInt("Attempt") == attempt)
         {
             yield return new WaitForSeconds(10f);
             if (AIConfig.RobotConfigs.Count == AIConfig.PopulationSize)
             {               
                 List<RobotConfig> ordered = AIConfig.RobotConfigs.OrderByDescending(r => r.Performance).ToList();
-                float performance = ordered.Take(AIConfig.PopulationSize / 4).Average(r => r.Performance);
-                performanceWriter.WriteLine($"{attempt}, {Time.realtimeSinceStartup - startTime}, {performance}");
+                int take = Mathf.CeilToInt(AIConfig.PopulationSize / 4f);
+                float performance = ordered.Take(take).Average(r => r.Performance);
+                float time = pauseTime == 0 ? Time.realtimeSinceStartup - startTime : Time.realtimeSinceStartup - pauseTime + elapsedTime;
+                aiPerformanceWriter.WriteLine($"{attempt}, {time}, {performance}");
             }
         }
 
     }
 
+    private void UpdateAttempt(int add)
+    {
+        int attempt = PlayerPrefs.GetInt("Attempt") + add;
+        PlayerPrefs.SetInt("Attempt", attempt);
+    }
+
+    private void LogBestRobot()
+    {
+        if (AIConfig.BestRobot == null && AIConfig.RobotConfigs.Count > 0) AIConfig.BestRobot = AIConfig.RobotConfigs.OrderByDescending(r => r.Performance).First();
+        if (AIConfig.BestRobot != null)
+        {
+            if (robotWriter == null) SetupRobotWriter();
+            string data = $"{ PlayerPrefs.GetInt("Attempt")}, ";
+            data += AIConfig.GetData();
+            data += AIConfig.BestRobot.GetData();
+            robotWriter.WriteLine(data);
+        }
+    }
+
+    private StreamWriter SetupRobotWriter()
+    {
+        string filePath = "../terrain/Report/Data/BestRobots.csv";
+        robotWriter = File.Exists(filePath) ? File.AppendText(filePath) : File.CreateText(filePath);
+        robotWriter.WriteLine();
+        string header = "ATTEMPT, ";
+        header += AIConfig.GetHeader();
+        header += AIConfig.BestRobot.GetHeader();
+        robotWriter.WriteLine(header);
+        return robotWriter;
+    }
+
+    internal void Respawn(string exception)
+    {
+        //stop all execution - an error has occurred
+        AIConfig.RobotConfigs.ForEach(r => {
+            r.Object.transform.parent.gameObject.SetActive(false);
+        });
+        Debug.LogWarning($"Respawning attempt {PlayerPrefs.GetInt("Attempt")}. \n {exception}");
+        StopAllCoroutines();
+        pauseTime = Time.realtimeSinceStartup;
+        elapsedTime += pauseTime - startTime;
+        AIConfig.InitRobots = AIConfig.RobotConfigs;
+        StartCoroutine(Deconstruct(true));
+        //get ready to restart attempt
+        attemptCount++;
+        UpdateAttempt(-1);
+        StartCoroutine(GenerateAttempt());
+    }
+
+    private IEnumerator Deconstruct(bool delay)
+    {
+        Destroy(CameraConfig.RobotCamera);
+        Destroy(CameraConfig.Hat);
+        Destroy(generate);
+        AIConfig.RobotConfigs.ForEach(r => {
+            r.Configs.ForEach(o => {
+                if(AIConfig.InitRobots == null)
+                {
+                    Destroy(r.Object.transform.parent.gameObject);
+                    o.Body = null;
+                    o.Tail = null;
+                }
+            });
+        });
+        AIConfig.RobotConfigs = new List<RobotConfig>();
+        AIConfig.BestRobot = null;
+        AIConfig.LastRobots = new RobotConfig[AIConfig.PopulationSize];
+        if(AIConfig.InitRobots != null)
+        {
+            yield return new WaitUntil(() => AIConfig.InitRobots.Count == AIConfig.RobotConfigs.Count);
+            AIConfig.InitRobots.ForEach(r => Destroy(r.Object.transform.parent.gameObject));
+            AIConfig.InitRobots = null;
+        }
+    }
+
     void OnApplicationQuit()
     {
-        if (performanceWriter != null) performanceWriter.Close();
+        if (aiPerformanceWriter != null) aiPerformanceWriter.Close();
         if (aiWriter != null) aiWriter.Close();
+        if(robotWriter != null) robotWriter.Close();
     }
 
 }

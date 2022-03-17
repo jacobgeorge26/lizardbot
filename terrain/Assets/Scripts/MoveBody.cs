@@ -21,7 +21,8 @@ public class MoveBody : MonoBehaviour
         body = GetComponent<Rigidbody>();
         objectConfig = this.gameObject.GetComponent<ObjectConfig>();
         config = objectConfig.Body;
-        robotConfig = AIConfig.RobotConfigs.Where(c => c.RobotIndex.Equals(objectConfig.RobotIndex)).First();
+        try { robotConfig = AIConfig.RobotConfigs.Where(c => c.RobotIndex.Equals(objectConfig.RobotIndex)).First(); }
+        catch (Exception ex) { GameController.Controller.Respawn(ex.ToString()); }
         SetupRotatingSections();
     }
 
@@ -114,6 +115,7 @@ public class MoveBody : MonoBehaviour
     //rounds to int by default as common use of this method is validation about whether to continue turning. 
     public Vector3 GetRelativeAngle(bool round = true)
     {
+        if (body == null) Destroy(this);
         Vector3 angle = body.rotation.eulerAngles;
 
         //update for range -180 - 180
