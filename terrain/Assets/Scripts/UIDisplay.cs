@@ -19,6 +19,7 @@ public class UIDisplay : MonoBehaviour
         UIE.panel.SetActive(false);
     }
 
+    private bool viewListenerSet = false;
     private void SetupUIOptions()
     {
         List<Dropdown.OptionData> options = new List<Dropdown.OptionData>();
@@ -28,12 +29,15 @@ public class UIDisplay : MonoBehaviour
         }
         UIE.UIOption.ClearOptions();
         UIE.UIOption.AddOptions(options);
-        UIE.UIOption.onValueChanged.AddListener(delegate { SelectOption(UIE.View); });
+        if (!viewListenerSet) {
+            viewListenerSet = true;
+            UIE.UIOption.onValueChanged.AddListener(delegate { SelectOption(UIE.View); });
+        }
         SetupRobotSelector();
         SelectOption(UIE.DefaultView);
     }
 
-    private void SelectOption(UIView selection)
+    internal void SelectOption(UIView selection)
     {
         //disable other objects
         UIE.View = selection;
@@ -58,6 +62,7 @@ public class UIDisplay : MonoBehaviour
                 CameraConfig.RobotCamera.SetActive(false);
                 CameraConfig.RobotCamera.GetComponent<CameraPosition>().Clear();
                 CameraConfig.Hat.SetActive(false);
+                CameraConfig.Hat.transform.parent = CameraConfig.RobotCamera.transform;
                 break;
             default:
                 break;
@@ -100,10 +105,18 @@ public class UIDisplay : MonoBehaviour
     }
 
     //------------------------------Robot Options--------------------------------
+    private bool numberListenerSet = false, originalListenerSet = false;
     private void SetupRobotSelector()
     {
-        UIE.RobotNumber.onEndEdit.AddListener(delegate { SelectRobot(UIE.RobotNumber.text); });
-        UIE.Original.onClick.AddListener(delegate { ToggleOriginal(); });
+        if (!numberListenerSet) {
+            numberListenerSet = true;
+            UIE.RobotNumber.onEndEdit.AddListener(delegate { SelectRobot(UIE.RobotNumber.text); });
+        }
+        if (!originalListenerSet)
+        {
+            originalListenerSet = true;
+            UIE.Original.onClick.AddListener(delegate { ToggleOriginal(); });
+        }
     }
 
     private void SelectRobot(string robotText)
@@ -128,11 +141,9 @@ public class UIDisplay : MonoBehaviour
             ToggleOriginal();
             //ToggleOriginal will in turn call RobotUpdate
         }
-        //setup camera if not already done
-        if(CameraConfig.CamFollow != Robot.RobotIndex)
-        {
-            Robot.AttachCam();
-        }
+        //let robot cam know where to look
+        //needs repeating in case this is after a respawn - robot index would still be the same
+        Robot.AttachCam(); 
     }
 
     private void RobotUpdate(RobotConfig config, bool showChanges)
@@ -329,7 +340,7 @@ public class UIDisplay : MonoBehaviour
     }
 
     //------------------------------------------Accessed by GA &&|| TrappedAlgorithm------------------------------
-
+    private bool toggleListenerSet = false;
     internal void Enable()
     {
         IsEnabled = true;
@@ -337,10 +348,21 @@ public class UIDisplay : MonoBehaviour
         UIE.panel.SetActive(true);
         SetupUIOptions();
         //setup toggle
-        UIE.Toggle.onClick.AddListener(delegate { ToggleUI(); });
+        if (!toggleListenerSet)
+        {
+            toggleListenerSet = true;
+            UIE.Toggle.onClick.AddListener(delegate { ToggleUI(); });
+        }
         //flip so that it will flip back to the default state
         UIE.IsCollapsed = !UIE.IsCollapsed;
         ToggleUI();
+    }
+
+    internal void Disable()
+    {
+        IsEnabled = false;
+        UIConfig.UIContainer.SetActive(false);
+        UIE.panel.SetActive(false);
     }
 
     public void UpdateRobotUI(RobotConfig config)

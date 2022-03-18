@@ -19,6 +19,8 @@ public class GameController : MonoBehaviour
     int attemptCount;
     float startTime = 0, pauseTime = 0, elapsedTime = 0;
 
+    private static UIDisplay ui;
+
     void Start()
     {
         ////////////////////////
@@ -59,7 +61,7 @@ public class GameController : MonoBehaviour
                     r.Object.transform.parent.gameObject.SetActive(false);
                 });
                 if (AIConfig.LogRobotData) LogBestRobot();
-                StartCoroutine(Deconstruct(false));
+                StartCoroutine(TotalDeconstruct());
             }
         }
     }
@@ -135,7 +137,7 @@ public class GameController : MonoBehaviour
         pauseTime = Time.realtimeSinceStartup;
         elapsedTime += pauseTime - startTime;
         AIConfig.InitRobots = AIConfig.RobotConfigs;
-        StartCoroutine(Deconstruct(true));
+        StartCoroutine(TotalDeconstruct());
         //get ready to restart attempt
         attemptCount++;
         UpdateAttempt(-1);
@@ -144,16 +146,53 @@ public class GameController : MonoBehaviour
 
     internal void SingleRespawn(string exception, RobotConfig robot)
     {
+        //stop execution for this robot - an error has occurred
+        if(robot.Object == null || AIConfig.PopulationSize == AIConfig.InitRobots.Count - 1)
+        {
+            //if there is an issue getting the associated robot objects, or all the robots are malfunctioning
+            //do a total respawn instead
+            TotalRespawn(exception);
+            return;
+        }
+        robot.Object.gameObject.SetActive(false);
+        ui ??= UIConfig.UIContainer.GetComponent<UIDisplay>();
+        if (ui != null)
+        {
+            //move to overview cam and then disable until respawn is complete
+            ui.SelectOption(UIView.Performance);
+            ui.Disable();
+        }
+        Debug.LogWarning($"Respawning robot {robot.RobotIndex + 1} in attempt {PlayerPrefs.GetInt("Attempt")}. \n {exception}");
+        AIConfig.InitRobots.Add(robot);
+        if (AIConfig.InitRobots.Count == 1) StartCoroutine(ReenableUI()); //only needed if this is the first in a cluster of single respawns
+        generate.RespawnRobot(robot);
     }
 
-    private IEnumerator Deconstruct(bool delay)
+    private IEnumerator ReenableUI()
     {
+        ui ??= UIConfig.UIContainer.GetComponent<UIDisplay>();
+        if (ui != null && UIConfig.IsUIEnabled)
+        {
+            yield return new WaitUntil(() => AIConfig.InitRobots.Count == 0);
+            ui.Enable();
+        }
+    }
+
+    private IEnumerator TotalDeconstruct()
+    {
+        ui ??= UIConfig.UIContainer.GetComponent<UIDisplay>();
+        if(ui != null)
+        {
+            //move to overview cam and then disable until respawn is complete
+            ui.SelectOption(UIView.Performance);
+            ui.Disable();
+        }
         Destroy(CameraConfig.RobotCamera);
         Destroy(CameraConfig.Hat);
         Destroy(generate);
         AIConfig.RobotConfigs.ForEach(r => {
             r.Configs.ForEach(o => {
-                if(AIConfig.InitRobots == null)
+                if(AIConfig.InitRobots.Count == 0)
                 {
                     Destroy(r.Object.transform.parent.gameObject);
                     o.Body = null;
@@ -164,11 +203,11 @@ public class GameController : MonoBehaviour
         AIConfig.RobotConfigs = new List<RobotConfig>();
         AIConfig.BestRobot = null;
         AIConfig.LastRobots = new RobotConfig[AIConfig.PopulationSize];
-        if(AIConfig.InitRobots != null)
+        if (AIConfig.InitRobots.Count > 0)
         {
             yield return new WaitUntil(() => AIConfig.InitRobots.Count == AIConfig.RobotConfigs.Count);
             AIConfig.InitRobots.ForEach(r => Destroy(r.Object.transform.parent.gameObject));
-            AIConfig.InitRobots = null;
+            AIConfig.InitRobots = new List<RobotConfig>();
         }
     }
 

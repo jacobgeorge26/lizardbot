@@ -12,7 +12,7 @@ namespace Config
         //there is a hard limit of 25 layers available
         //RobotDetection works to prevent robots in the same area being in the same layer
         //population can be >25, but in rougher terrain where the robot isn't making progress, expect some warnings and interaction between them
-        public static int PopulationSize = 50;
+        public static int PopulationSize = 5; ////////////////////
 
         public static int NoAttempts = 3;
 
@@ -21,7 +21,7 @@ namespace Config
         public static RobotConfig[] LastRobots = new RobotConfig[PopulationSize];
 
         //used by error handling to recreate the population
-        public static List<RobotConfig> InitRobots;
+        public static List<RobotConfig> InitRobots = new List<RobotConfig>();
 
         public static Vector3[] SpawnPoints = new Vector3[Mathf.CeilToInt(PopulationSize / 25f)];
 

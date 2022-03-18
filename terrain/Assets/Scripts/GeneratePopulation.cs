@@ -44,6 +44,14 @@ public class GeneratePopulation : MonoBehaviour
         if(AIConfig.LogPerformanceData || AIConfig.Debugging) StartCoroutine(LogPerformance());
     }
 
+    internal void RespawnRobot(RobotConfig oldRobot)
+    {
+        GameObject version = new GameObject();
+        version.transform.parent = oldRobot.Object.transform.parent;
+        version.name = oldRobot.Object.name;
+        version.AddComponent<GenerateRobot>();
+    }
+
 
     public IEnumerator LogPerformance()
     {

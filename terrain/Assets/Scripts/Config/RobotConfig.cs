@@ -37,7 +37,9 @@ namespace Config
         //clone variables applicable to starting again from a scrapped attempt - different to a fresh copy
         public void Clone(RobotConfig oldRobot)
         {
+            RobotIndex = oldRobot.RobotIndex;
             Version = oldRobot.Version;
+            Original = oldRobot.Original;
             MutationCount = oldRobot.MutationCount;
             NoSections.Value = oldRobot.NoSections.Value;
             IsTailEnabled.Value = oldRobot.IsTailEnabled.Real;

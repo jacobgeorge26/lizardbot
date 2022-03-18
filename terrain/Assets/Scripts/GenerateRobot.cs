@@ -16,17 +16,25 @@ public class GenerateRobot : MonoBehaviour
     {
         //setup robot config
         robotConfig = new RobotConfig(AIConfig.RobotConfigs.Count, this.gameObject);
-        if (AIConfig.InitRobots != null)
+        if (AIConfig.InitRobots.Count == AIConfig.PopulationSize)
         {
-            //if this is a restart from an errored attempt then start the robot as it left off
+            //if this is a total respawn then start the robot as it left off
             oldRobot = AIConfig.InitRobots[AIConfig.RobotConfigs.Count];
             robotConfig.Clone(oldRobot);
+            AIConfig.RobotConfigs.Add(robotConfig);
+        }
+        else if(AIConfig.InitRobots.Count > 0 && AIConfig.InitRobots.Count < AIConfig.PopulationSize)
+        {
+            oldRobot = AIConfig.InitRobots.First();
+            robotConfig.Clone(oldRobot);
+            AIConfig.RobotConfigs[AIConfig.RobotConfigs.IndexOf(oldRobot)] = robotConfig;
+            AIConfig.InitRobots.Remove(oldRobot);
         }
         else
         {
             robotConfig.Original = robotConfig;
+            AIConfig.RobotConfigs.Add(robotConfig);
         }
-        AIConfig.RobotConfigs.Add(robotConfig);
 
         //setup overall robot
         GameObject robot = this.gameObject;
@@ -52,6 +60,9 @@ public class GenerateRobot : MonoBehaviour
         }
 
         robotConfig.SetChildLayer(layer);
+
+        //if old robot exists - this is a respawn - then that can now be deleted
+        if(oldRobot != null) Destroy(oldRobot.Object.gameObject);
 
         //destroy GenerateRobot so that a duplicate clone isn't created when this robot is cloned
         Destroy(this);
