@@ -33,13 +33,10 @@ public class CameraPosition : MonoBehaviour
     {
         //validate objects have been organised correctly
         GameObject head, tail = robot.Object, back;
-        //all body parts
-        List<ObjectConfig> Sections = robot.Configs.Where(o => o.Type == BodyPart.Body).ToList();
-        if (Sections.Count != robot.NoSections.Value) throw new Exception($"There are {Sections.Count} sections set up where there should be {robot.NoSections.Value}.");
         try { 
-            head = Sections.First(o => o.Index == 0).gameObject; //head
+            head = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == 0).gameObject; //head
             if (robot.IsTailEnabled.Value) tail = robot.Configs.First(o => o.Type == BodyPart.Tail).gameObject; //tail
-            back = Sections.First(o => o.Index == robot.NoSections.Value - 1).gameObject; //last section
+            back = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == robot.NoSections.Value - 1).gameObject; //last section
             //give camera the objects it needs
             Head = head;
             Tail = robot.IsTailEnabled.Value ? tail : back;

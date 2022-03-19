@@ -73,8 +73,9 @@ namespace Config
                 case Variable.Mass:
                     Mass = newGene;
                     break;
-                default:
-                    throw new Exception("There was an issue updating the body config. Invalid gene type.");
+                default:                    
+                    Debug.LogWarning("There was an issue updating the body config. Invalid gene type.");
+                    break;
             }
         }
 

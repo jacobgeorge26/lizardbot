@@ -148,17 +148,11 @@ public static class RobotHelpers : object
     //remove the tail
     internal static void RemoveTail(this RobotConfig robot)
     {
-        List<ObjectConfig> tailConfigs = robot.Configs.Where(o => o.Type == BodyPart.Tail).ToList();
-        if (tailConfigs.Count > 1) throw new Exception("There are multiple tails that fit the criteria for the part being removed after mutation.");
-        else if (tailConfigs.Count == 0) throw new Exception("There are no tails that fit the criteria for the part being removed after mutation.");
-        else
-        {
-            ObjectConfig tailConfig = null;
-            try { tailConfig = tailConfigs.First(); }
-            catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
-            tailConfig.Remove();
-            robot.Configs.Remove(tailConfig);
-        }
+        ObjectConfig tailConfig = null;
+        try { tailConfig = robot.Configs.First(o => o.Type == BodyPart.Tail); }
+        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
+        tailConfig.Remove();
+        robot.Configs.Remove(tailConfig);
     }
 
     //setup the joints to have the correct angle constraints and be attached to the correct rigidbody before it in the body
@@ -316,7 +310,6 @@ public static class RobotHelpers : object
                 }
             }
         }
-        //Debug.Log($"Moving {gameObject.name} from layer {LayerMask.LayerToName(oldLayer)} to layer {LayerMask.LayerToName(newLayer)}");
     }
 
     //get all robots within a radius
@@ -324,7 +317,7 @@ public static class RobotHelpers : object
     {
         Vector3 thisInitPos = AIConfig.SpawnPoints[Mathf.FloorToInt(robot.RobotIndex / 25)], thisRelPos = Vector3.zero;
         try { thisRelPos = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == 0).gameObject.transform.position - thisInitPos; }
-        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return null; }
+        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return new List<RobotConfig>(); }
         List<RobotConfig> nearby = new List<RobotConfig>();
         AIConfig.RobotConfigs.ForEach(r =>
         {
@@ -332,7 +325,7 @@ public static class RobotHelpers : object
             {
                 GameObject head = null;
                 try { head = r.Configs.First(o => o.Type == BodyPart.Body && o.Index == 0).gameObject; }
-                catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
+                catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); nearby = new List<RobotConfig>(); return; }
                        
                 Vector3 initPos = AIConfig.SpawnPoints[Mathf.FloorToInt(r.RobotIndex / 25)];
                 Vector3 relativePos = head.transform.position - initPos;
@@ -360,11 +353,6 @@ public static class RobotHelpers : object
         //allowed difference = (max - min) / 10 * difference
         if (robot.IsTailEnabled.Value)
         {
-            if(robot.Configs.Where(o => o.Type == BodyPart.Tail).ToList().Count == 0)
-            {
-                Debug.LogWarning($"The tail is missing for robot {robot.RobotIndex + 1} whilst getting robots physically similar to it. The tail is being created before the recombination continues");
-                robot.CreateTail();
-            }
             TailConfig tail = null;
             try { tail = robot.Configs.First(o => o.Type == BodyPart.Tail).Tail; }
             catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return null; }
@@ -372,17 +360,9 @@ public static class RobotHelpers : object
             float allowedDifference = (tail.TailMassMultiplier.Max - tail.TailMassMultiplier.Min) * (difference + 1) / 10;
             for (int i = similar.Count - 1; i >= 0; i--)
             {
-                List<ObjectConfig> tails = similar[i].Configs.Where(o => o.Type == BodyPart.Tail).ToList();
-                if(tails.Count != 1)
-                {
-                    Debug.LogWarning($"The tail is missing for robot {similar[i].RobotIndex + 1} whilst getting physically similar robots. The tail is being created and this robot will not be considered for recombination.");
-                    similar[i].CreateTail();
-                    similar.RemoveAt(i);
-                    continue;
-                }
                 TailConfig otherTail = null;
-                try { otherTail = tails.First().Tail; }
-                catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return null; }
+                try { otherTail = similar[i].Configs.First(o => o.Type == BodyPart.Tail).Tail; }
+                catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); similar.Clear(); return null; }
                 
                 if (Math.Abs(otherTail.TailMassMultiplier.Value - tail.TailMassMultiplier.Value) > allowedDifference)
                 {
@@ -432,16 +412,5 @@ public static class RobotHelpers : object
             if (Math.Abs((thisDriveVelocity / robot.NoSections.Value) - (otherDriveVelocity / similar[i].NoSections.Value)) > allowedDifference) similar.RemoveAt(i);
         }
         return similar;
-    }
-
-    //get the expected number of colliders that would be within the range of the robot anyway (such as the terrain and the size of the robot itself)
-    private static int GetExpectedColliders(this RobotConfig robot)
-    {
-        int expectedColliders = 0;
-        expectedColliders = robot.NoSections.Value; //one for each section of the body
-        expectedColliders++; //terrain
-        expectedColliders++; //sphere contained in head for collision detection
-        expectedColliders += robot.IsTailEnabled.Value ? 1 : 0; //tail
-        return expectedColliders;
     }
 }

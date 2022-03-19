@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2540199310551860519}
   - component: {fileID: 1398510606950706283}
   - component: {fileID: 7115726027441166749}
-  - component: {fileID: 6886529486323690361}
+  - component: {fileID: 1512762564406260033}
   m_Layer: 0
   m_Name: Plane2
   m_TagString: Finish
@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 5194029369685928066}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 50, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 1, z: 10}
+  m_LocalScale: {x: 1, y: 1, z: 10}
   m_Children: []
   m_Father: {fileID: 7631966302691879988}
   m_RootOrder: 2
@@ -83,8 +83,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6886529486323690361
-MeshCollider:
+--- !u!65 &1512762564406260033
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -93,10 +93,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+  serializedVersion: 2
+  m_Size: {x: 150, y: 2.2204466e-16, z: 10}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5692286233720946999
 GameObject:
   m_ObjectHideFlags: 0
@@ -108,7 +107,7 @@ GameObject:
   - component: {fileID: 8726112580652286034}
   - component: {fileID: 653270207514351846}
   - component: {fileID: 6277794991863276969}
-  - component: {fileID: 2318262015293639118}
+  - component: {fileID: 2949629063164803973}
   m_Layer: 0
   m_Name: Plane3
   m_TagString: Finish
@@ -125,7 +124,7 @@ Transform:
   m_GameObject: {fileID: 5692286233720946999}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: -50}
-  m_LocalScale: {x: 10, y: 1, z: 5}
+  m_LocalScale: {x: 10, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7631966302691879988}
   m_RootOrder: 3
@@ -180,8 +179,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2318262015293639118
-MeshCollider:
+--- !u!65 &2949629063164803973
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -190,10 +189,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+  serializedVersion: 2
+  m_Size: {x: 10, y: 2.2204466e-16, z: 150}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5718983658631723278
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,7 +203,7 @@ GameObject:
   - component: {fileID: 1172301131375255627}
   - component: {fileID: 6475738010516273877}
   - component: {fileID: 3021415195004448530}
-  - component: {fileID: 3731883634439439194}
+  - component: {fileID: 9018135560335764872}
   m_Layer: 0
   m_Name: Plane1
   m_TagString: Finish
@@ -222,7 +220,7 @@ Transform:
   m_GameObject: {fileID: 5718983658631723278}
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
   m_LocalPosition: {x: -50, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 1, z: 10}
+  m_LocalScale: {x: 1, y: 1, z: 10}
   m_Children: []
   m_Father: {fileID: 7631966302691879988}
   m_RootOrder: 1
@@ -277,8 +275,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3731883634439439194
-MeshCollider:
+--- !u!65 &9018135560335764872
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -287,10 +285,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+  serializedVersion: 2
+  m_Size: {x: 150, y: 2.2204466e-16, z: 10}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5836726046139432993
 GameObject:
   m_ObjectHideFlags: 0
@@ -302,7 +299,7 @@ GameObject:
   - component: {fileID: 8213872606531221763}
   - component: {fileID: 1076710906503896938}
   - component: {fileID: 9140270849100836817}
-  - component: {fileID: 8071471062443879951}
+  - component: {fileID: 167123919750253713}
   m_Layer: 0
   m_Name: Plane4
   m_TagString: Finish
@@ -319,7 +316,7 @@ Transform:
   m_GameObject: {fileID: 5836726046139432993}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 50}
-  m_LocalScale: {x: 10, y: 1, z: 5}
+  m_LocalScale: {x: 10, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7631966302691879988}
   m_RootOrder: 4
@@ -374,8 +371,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8071471062443879951
-MeshCollider:
+--- !u!65 &167123919750253713
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -384,10 +381,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+  serializedVersion: 2
+  m_Size: {x: 10, y: 2.2204466e-16, z: 150}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7631966302691879990
 GameObject:
   m_ObjectHideFlags: 0

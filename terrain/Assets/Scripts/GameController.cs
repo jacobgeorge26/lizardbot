@@ -17,15 +17,13 @@ public class GameController : MonoBehaviour
     StreamWriter aiPerformanceWriter, aiWriter, robotWriter;
     GeneratePopulation generate;
     int attemptCount;
-    float startTime = 0, pauseTime = 0, elapsedTime = 0;
+    float startTime = 0;
 
     private static UIDisplay ui;
 
     void Start()
     {
-        ////////////////////////
-        PlayerPrefs.SetInt("Attempt", 50);
-
+        PlayerPrefs.SetInt("Attempt", 33);
         Controller = this;
         attemptCount = AIConfig.NoAttempts;
         //setup writers with headers
@@ -35,51 +33,58 @@ public class GameController : MonoBehaviour
         filePath = "../terrain/Report/Data/AIConfig.csv";
         aiWriter = File.Exists(filePath) ? File.AppendText(filePath) : File.CreateText(filePath);
         aiWriter.WriteLine($"ATTEMPT, {AIConfig.GetHeader()}");
-        StartCoroutine(GenerateAttempt());
+        StartCoroutine(GenerateAttempt(false));
     }
 
-    private IEnumerator GenerateAttempt()
+    private IEnumerator GenerateAttempt(bool isRespawn)
     {
         if (AIConfig.PopulationSize > 0)
         {         
             for (int i = attemptCount; i > 0; i--)
             {
                 //IMPORTANT delay needed to allow unity to stop running scripts attached to newly disabled objects
-                yield return new WaitForSeconds(3f);
+                yield return new WaitForSeconds(5f);
                 attemptCount--;
                 UpdateAttempt(1);
-                if(pauseTime == 0) SetupAIParams();
+                if(!isRespawn) SetupAIParams();
                 generate = gameObject.AddComponent<GeneratePopulation>();
                 Debug.Log($"ATTEMPT {PlayerPrefs.GetInt("Attempt")}");
                 generate.CreatePopulation();
-                pauseTime = pauseTime == 0 ? 0 : Time.realtimeSinceStartup; //update pause time after respawn
-                StartCoroutine(SaveAttemptData());
-                yield return new WaitForSeconds(AIConfig.AttemptLength - elapsedTime);
-                pauseTime = 0;
-                elapsedTime = 0;
+                StartCoroutine(SaveAttemptData(isRespawn));
+                yield return new WaitUntil(() => Time.realtimeSinceStartup - startTime >= AIConfig.AttemptLength);
+                AIConfig.InitRobots.ForEach(r => { if (r.Object != null) r.Object.SetActive(false); });
+                AIConfig.InitRobots.Clear(); //if in the middle of a respawn, scrap that
                 AIConfig.RobotConfigs.ForEach(r => {
                     r.Object.transform.parent.gameObject.SetActive(false);
                 });
                 if (AIConfig.LogRobotData) LogBestRobot();
                 StartCoroutine(TotalDeconstruct());
             }
+            Application.Quit();
         }
     }
 
+    private bool firstRandom = false;
     private void SetupAIParams()
     {
-        AIConfig.MutationCycle = (int)Random.Range(0, 10);
-        AIConfig.RecombinationRate = Random.value;
-        AIConfig.MutationRate = Random.value;
-        AIConfig.SelectionSize = Random.Range(1, 20);
+        int noRandoms = firstRandom ? 1 : 2;
+        //run twice the first time because for some reason it produces the same results the first time it's run
+        for (int i = 0; i < noRandoms; i++)
+        {
+            firstRandom = true;
+            AIConfig.MutationCycle = (int)Random.Range(0, 10);
+            AIConfig.RecombinationRate = Random.value;
+            AIConfig.MutationRate = Random.value;
+            AIConfig.SelectionSize = Random.Range(1, 20);
+        }
         int attempt = PlayerPrefs.GetInt("Attempt");
         aiWriter.WriteLine($"{attempt}, {AIConfig.GetData()}");
     }
 
-    private IEnumerator SaveAttemptData()
+    private IEnumerator SaveAttemptData(bool isRespawn)
     {
         int attempt = PlayerPrefs.GetInt("Attempt");
-        startTime = pauseTime == 0 ? startTime : Time.realtimeSinceStartup;
+        if(!isRespawn) startTime = Time.realtimeSinceStartup;
         while (PlayerPrefs.GetInt("Attempt") == attempt)
         {
             yield return new WaitForSeconds(10f);
@@ -88,8 +93,7 @@ public class GameController : MonoBehaviour
                 List<RobotConfig> ordered = AIConfig.RobotConfigs.OrderByDescending(r => r.Performance).ToList();
                 int take = Mathf.CeilToInt(AIConfig.PopulationSize / 4f);
                 float performance = ordered.Take(take).Average(r => r.Performance);
-                float time = pauseTime == 0 ? Time.realtimeSinceStartup - startTime : Time.realtimeSinceStartup - pauseTime + elapsedTime;
-                aiPerformanceWriter.WriteLine($"{attempt}, {time}, {performance}");
+                aiPerformanceWriter.WriteLine($"{attempt}, {Time.realtimeSinceStartup - startTime}, {performance}");
             }
         }
 
@@ -134,14 +138,12 @@ public class GameController : MonoBehaviour
         });
         Debug.LogWarning($"Respawning attempt {PlayerPrefs.GetInt("Attempt")}. \n {exception}");
         StopAllCoroutines();
-        pauseTime = Time.realtimeSinceStartup;
-        elapsedTime += pauseTime - startTime;
         AIConfig.InitRobots = AIConfig.RobotConfigs;
         StartCoroutine(TotalDeconstruct());
         //get ready to restart attempt
         attemptCount++;
         UpdateAttempt(-1);
-        StartCoroutine(GenerateAttempt());
+        StartCoroutine(GenerateAttempt(true));
     }
 
     internal void SingleRespawn(string exception, RobotConfig robot)
@@ -153,7 +155,7 @@ public class GameController : MonoBehaviour
             //do a total respawn instead
             TotalRespawn(exception);
             return;
-        }
+        }       
         robot.Object.gameObject.SetActive(false);
         ui ??= UIConfig.UIContainer.GetComponent<UIDisplay>();
         if (ui != null)
@@ -162,10 +164,11 @@ public class GameController : MonoBehaviour
             ui.SelectOption(UIView.Performance);
             ui.Disable();
         }
+        AIConfig.IsTotalRespawn = false;
         Debug.LogWarning($"Respawning robot {robot.RobotIndex + 1} in attempt {PlayerPrefs.GetInt("Attempt")}. \n {exception}");
         AIConfig.InitRobots.Add(robot);
         if (AIConfig.InitRobots.Count == 1) StartCoroutine(ReenableUI()); //only needed if this is the first in a cluster of single respawns
-        generate.RespawnRobot(robot);
+        StartCoroutine(generate.RespawnRobot(robot));
     }
 
     private IEnumerator ReenableUI()
@@ -203,10 +206,10 @@ public class GameController : MonoBehaviour
         AIConfig.RobotConfigs = new List<RobotConfig>();
         AIConfig.BestRobot = null;
         AIConfig.LastRobots = new RobotConfig[AIConfig.PopulationSize];
+        AIConfig.IsTotalRespawn = true;
         if (AIConfig.InitRobots.Count > 0)
         {
             yield return new WaitUntil(() => AIConfig.InitRobots.Count == AIConfig.RobotConfigs.Count);
-            AIConfig.InitRobots.ForEach(r => Destroy(r.Object.transform.parent.gameObject));
             AIConfig.InitRobots = new List<RobotConfig>();
         }
     }

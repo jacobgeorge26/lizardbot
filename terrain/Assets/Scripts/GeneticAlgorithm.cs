@@ -17,9 +17,6 @@ public static class GeneticAlgorithm : object
         //pause stuck robot
         stuckRobot.Object.SetActive(false);
 
-        try { int x = new List<int>().First(); }
-        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), stuckRobot); return; }
-
         //update BestRobot
         if (AIConfig.LogRobotData && (AIConfig.BestRobot == null || stuckRobot.Performance > AIConfig.BestRobot.Performance))
         {
@@ -250,6 +247,9 @@ public static class GeneticAlgorithm : object
         {
             //get robots that are similar
             robots = robot.GetPhysicallySimilarRobots(attempts);
+            if (robots == null) {
+                return null; //an exception has occurred and the robot is being respawned
+            }
             //out of those robots, 
             attempts++;
         }
@@ -308,7 +308,7 @@ public static class GeneticAlgorithm : object
         {
             AIConfig.LastRobots[index] = robot2;
             try { robot1.Configs.First().Remove(robot1.Object); }
-            catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot1); return null; }
+            catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot1); }
             
             return robot2;
         }
@@ -316,7 +316,7 @@ public static class GeneticAlgorithm : object
         {
             AIConfig.LastRobots[index] = robot1;
             try { robot2.Configs.First().Remove(robot2.Object); }
-            catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot2); return null; }     
+            catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot2); }     
             return robot1;
         }
     }
@@ -368,7 +368,7 @@ public static class GeneticAlgorithm : object
         //replace stuck robot with new robot in RobotConfigs
         int index = -1;
         try { index = AIConfig.RobotConfigs.IndexOf(AIConfig.RobotConfigs.First(c => c.RobotIndex.Equals(newRobot.RobotIndex))); }
-        catch (Exception ex) { GameController.Controller.TotalRespawn(ex.ToString()); return null; }    
+        catch (Exception ex) { GameController.Controller.TotalRespawn(ex.ToString()); return newRobot; }    
         AIConfig.RobotConfigs[index] = newRobot;
 
         //fill RobotConfig.Configs with the ObjectConfigs of each body part
@@ -381,7 +381,7 @@ public static class GeneticAlgorithm : object
                 try {
                     oldObjConfig = oldRobot.Configs.First(o => o.Type == objConfig.Type && o.Index == objConfig.Index);
                 }
-                catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), oldRobot); return null; }
+                catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), oldRobot); return newRobot; }
                 
                 if (objConfig.Type == BodyPart.Body)
                 {

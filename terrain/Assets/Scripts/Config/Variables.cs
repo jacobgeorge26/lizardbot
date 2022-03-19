@@ -31,7 +31,10 @@ namespace Config
             Value = defaultValue;
             if (minValue > maxValue)
             {
-                throw new Exception("GeneVariable has been assigned a min value that is greater than the max value.");
+                Debug.LogWarning("GeneVariable has been assigned a min value that is greater than the max value.");
+                //swap values
+                this.Min = maxValue;
+                this.Max = minValue;
             }
             //now we know if there are any issues, we can generate a random value if necessary
             if (AIConfig.RandomInitValues) currentValue = GenerateValue();
@@ -70,9 +73,9 @@ namespace Config
                     }
                     CheckType();
                 }
-                catch (System.Exception)
+                catch (System.Exception ex)
                 {
-                    throw new System.Exception("There was an issue setting the value of a GeneVariable.");
+                    Debug.LogWarning($"There was an issue setting the value of a GeneVariable. \n {ex}");
                 }
 
             }
@@ -172,7 +175,7 @@ namespace Config
         {
             if (!compatibleTypes.Contains(currentValue.GetType()))
             {
-                throw new Exception($"GeneVariable has been assigned a variable with non-compatible type {currentValue.GetType()}.");
+                Debug.LogWarning($"GeneVariable has been assigned a variable with non-compatible type {currentValue.GetType()}.");
             }
         }
 

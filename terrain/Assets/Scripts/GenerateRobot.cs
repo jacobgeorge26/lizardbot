@@ -16,18 +16,27 @@ public class GenerateRobot : MonoBehaviour
     {
         //setup robot config
         robotConfig = new RobotConfig(AIConfig.RobotConfigs.Count, this.gameObject);
-        if (AIConfig.InitRobots.Count == AIConfig.PopulationSize)
+        if (AIConfig.InitRobots.Count > 0 && AIConfig.IsTotalRespawn) //total respawn
         {
             //if this is a total respawn then start the robot as it left off
             oldRobot = AIConfig.InitRobots[AIConfig.RobotConfigs.Count];
             robotConfig.Clone(oldRobot);
             AIConfig.RobotConfigs.Add(robotConfig);
         }
-        else if(AIConfig.InitRobots.Count > 0 && AIConfig.InitRobots.Count < AIConfig.PopulationSize)
+        else if(AIConfig.InitRobots.Count > 0) //single respawn
         {
             oldRobot = AIConfig.InitRobots.First();
             robotConfig.Clone(oldRobot);
-            AIConfig.RobotConfigs[AIConfig.RobotConfigs.IndexOf(oldRobot)] = robotConfig;
+            int index = AIConfig.RobotConfigs.IndexOf(oldRobot);
+            if(index < 0)
+            {
+                //respawn has been called 2+ times in quick succession before the method had a chance to disable the scripts
+                //multiple robots have been created - currently just an empty gameobject
+                //delete and move on
+                Destroy(this.gameObject);
+                return;
+            }
+            AIConfig.RobotConfigs[index] = robotConfig;
             AIConfig.InitRobots.Remove(oldRobot);
         }
         else
@@ -38,8 +47,7 @@ public class GenerateRobot : MonoBehaviour
 
         //setup overall robot
         GameObject robot = this.gameObject;
-        string prefix = oldRobot == null ? "" : "NEW";
-        robot.name = $"{prefix} Robot {robotConfig.RobotIndex + 1} V {robotConfig.Version}";
+        robot.name = $"Robot {robotConfig.RobotIndex + 1} V {robotConfig.Version}";
         Vector3 spawnPoint = AIConfig.SpawnPoints[Mathf.FloorToInt(robotConfig.RobotIndex / 25)];
         robot.transform.position = new Vector3(spawnPoint.x, robotConfig.GetYPos(), spawnPoint.z);
 
@@ -62,7 +70,11 @@ public class GenerateRobot : MonoBehaviour
         robotConfig.SetChildLayer(layer);
 
         //if old robot exists - this is a respawn - then that can now be deleted
-        if(oldRobot != null) Destroy(oldRobot.Object.gameObject);
+        if (oldRobot != null)
+        {
+            if (AIConfig.IsTotalRespawn) Destroy(oldRobot.Object.transform.parent.gameObject);
+            else Destroy(oldRobot.Object.gameObject);
+        }
 
         //destroy GenerateRobot so that a duplicate clone isn't created when this robot is cloned
         Destroy(this);
