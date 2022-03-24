@@ -46,14 +46,14 @@ public class DynamicMovement : MonoBehaviour
             yield return new WaitForSeconds(DynMovConfig.AdjustRate);
             Vector3 newPosition = robot.GetAveragePosition(); //worldspace, not local
             Vector3 spawnPoint = TerrainConfig.SpawnPoints[Mathf.FloorToInt(robot.RobotIndex / 25)];
-            List<Vector3> adjustedVectors = AdjustSphere(newPosition);
             Vector3 forwardVector = newPosition - spawnPoint; //which direction is most efficiently away from the spawn point
             //filter for the adjustment sensitivity, then order by how close to this vector each sphere point is
-            List<Vector3> filteredVectors = adjustedVectors.Where(p => Vector3.Angle(p, forwardVector) <= DynMovConfig.AdjustSensitivity).OrderBy(p => Vector3.Angle(p, forwardVector)).ToList();
+            List<Vector3> filteredVectors = DynMovConfig.SpherePoints.Where(p => Vector3.Angle(p, forwardVector) <= DynMovConfig.AdjustSensitivity).OrderBy(p => Vector3.Angle(p, forwardVector)).ToList();
             for (int i = filteredVectors.Count - 1; i > 0; i--)
             {
-                int index = adjustedVectors.IndexOf(filteredVectors[i]);
-                if (robot.Configs.Where(o => {
+                int index = DynMovConfig.SpherePoints.ToList().IndexOf(filteredVectors[i]);
+                if (robot.Configs.Where(o =>
+                {
                     if (o.Type == BodyPart.Body && o.Body != null) return o.Body.Velocities[index].magnitude > 0;
                     else if (o.Type == BodyPart.Tail && o.Tail != null) return o.Tail.Velocities[index].magnitude > 0;
                     else return false;
@@ -62,24 +62,41 @@ public class DynamicMovement : MonoBehaviour
                     filteredVectors.Remove(filteredVectors[i]);
                 }
             }
-            foreach (Vector3 item in adjustedVectors)
-            {
-                GameObject turn = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Point"));
-                turn.transform.localScale = new Vector3(1f, 1f, 1f);
-                turn.transform.position = item;
-            }
-            Vector3 pointVector = DynMovConfig.SpherePoints.OrderBy(p => Vector3.Angle(p, new Vector3(0, 0, 90))).First();
-            GameObject point = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Stuck"));
-            point.transform.localScale = new Vector3(1f, 1f, 1f);
-            point.transform.position = pointVector + newPosition;
-            //if(filteredVectors.Count > 0)
-            //{
-            //    Vector3 point = filteredVectors.First();
-            //    int index = adjustedVectors.IndexOf(point);
-            //    ////////////////////////
 
-            //    robot.SetDynMovVelocities(index);
-            //}
+            RaycastHit hit;
+            Ray ray = new Ray(new Vector3(0, 20, 0), Vector3.down);
+            var x = FindObjectOfType<MeshCollider>();
+            if (x.Raycast(ray, out hit, 2.0f * 20))
+            {
+                Debug.Log("Hit point: " + hit.point);
+            }
+
+            //if there are viable options available then move toward the best option
+            if (filteredVectors.Count > 0)
+            {
+                Vector3 point = filteredVectors.First();
+                int index = DynMovConfig.SpherePoints.ToList().IndexOf(point);
+                robot.SetDynMovVelocities(index);
+                //////////////////////// visualise this
+                //origin
+                GameObject origin = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Stuck"));
+                origin.transform.localScale = new Vector3(1f, 1f, 1f);
+                origin.transform.position = spawnPoint;
+                //trajectory
+                GameObject direction = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Stuck"));
+                direction.transform.localScale = new Vector3(1f, 1f, 1f);
+                direction.transform.position = point + newPosition;
+                //whole sphere
+                foreach (Vector3 item in DynMovConfig.SpherePoints)
+                {
+                    if(Vector3.Angle(item, forwardVector) <= 45)
+                    {
+                        GameObject spherePoint = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Point"));
+                        spherePoint.transform.localScale = new Vector3(1f, 1f, 1f);
+                        spherePoint.transform.position = item + newPosition;
+                    }
+                }
+            }
         }
         IsEnabled = false;
     }
@@ -98,11 +115,10 @@ public class DynamicMovement : MonoBehaviour
 
             //adjust the vector points for the current rotation
             Vector3 newPosition = robot.GetAveragePosition(); //worldspace, not local
-            List<Vector3> adjustedVectors = AdjustSphere(newPosition);
             Vector3 movementVector = newPosition - oldPosition;
             //get sphere point closest to the movement Vector
-            Vector3 point = adjustedVectors.OrderBy(p => Vector3.Angle(p, movementVector)).First();
-            int index = adjustedVectors.IndexOf(point);
+            Vector3 point = DynMovConfig.SpherePoints.OrderBy(p => Vector3.Angle(p, movementVector)).First();
+            int index = DynMovConfig.SpherePoints.ToList().IndexOf(point);
             //if this movement covered more distance in this direction then update velocities for this index
             float distance = Vector3.Distance(oldPosition, newPosition);
             if (robot.Distances[index] < distance)
@@ -129,22 +145,5 @@ public class DynamicMovement : MonoBehaviour
         }
     }
 
-    private List<Vector3> AdjustSphere(Vector3 centre)
-    {
-        Vector3[] adjustedVectors = new Vector3[DynMovConfig.NoSphereSamples];
-        Vector3 rotation = robot.GetAverageRotation(); //worldspace, not local
-        for (int i = 0; i < DynMovConfig.NoSphereSamples; i++)
-        {
-            adjustedVectors[i] = RotatePointAroundPivot(DynMovConfig.SpherePoints[i] + centre, centre, rotation);
-        }
-        return adjustedVectors.ToList();
-    }
-
-    //This method was taken from this unity forum post
-    //https://answers.unity.com/questions/532297/rotate-a-vector-around-a-certain-point.html
-    private Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot, Vector3 angles)
-    {
-        return Quaternion.Euler(angles) * (point - pivot) + pivot;
-    }
 
 }

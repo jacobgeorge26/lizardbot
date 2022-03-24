@@ -23,6 +23,8 @@ namespace Config
 
         public static Vector3[] SpawnPoints = new Vector3[Mathf.CeilToInt(AIConfig.PopulationSize / 25f)];
 
+        public static Terrain[] Terrains = new Terrain[Mathf.CeilToInt(AIConfig.PopulationSize / 25f)];
+
         public static int GetTerrainWidth()
         {
             return TerrainWidth;
