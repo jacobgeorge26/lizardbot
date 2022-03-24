@@ -21,6 +21,8 @@ namespace Config
 
         public static int NoTerrains = Mathf.CeilToInt(AIConfig.PopulationSize / 25f);
 
+        public static Vector3[] SpawnPoints = new Vector3[Mathf.CeilToInt(AIConfig.PopulationSize / 25f)];
+
         public static int GetTerrainWidth()
         {
             return TerrainWidth;
@@ -82,10 +84,10 @@ namespace Config
         }
 
         public static float minX() {
-            return AIConfig.SpawnPoints.Min(p => p.x) - (TerrainConfig.GetTerrainWidth() / 2);
+            return SpawnPoints.Min(p => p.x) - (TerrainConfig.GetTerrainWidth() / 2);
         }
         public static float maxX() {
-            return AIConfig.SpawnPoints.Max(p => p.x) + (TerrainConfig.GetTerrainWidth() / 2);
+            return SpawnPoints.Max(p => p.x) + (TerrainConfig.GetTerrainWidth() / 2);
         }
         public static float minY() {
             return 20f;
@@ -94,10 +96,10 @@ namespace Config
             return Math.Max(100f, NoTerrains * TerrainConfig.GetTerrainWidth() / 2);
         }
         public static float minZ() {
-            return AIConfig.SpawnPoints.Min(p => p.z) - (TerrainConfig.GetTerrainWidth() / 2);
+            return SpawnPoints.Min(p => p.z) - (TerrainConfig.GetTerrainWidth() / 2);
         }
         public static float maxZ() {
-            return AIConfig.SpawnPoints.Max(p => p.z) + (TerrainConfig.GetTerrainWidth() / 2);
+            return SpawnPoints.Max(p => p.z) + (TerrainConfig.GetTerrainWidth() / 2);
         }
     }
 }

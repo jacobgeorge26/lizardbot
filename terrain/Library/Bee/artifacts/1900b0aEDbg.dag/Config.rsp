@@ -316,6 +316,8 @@
 "Assets/Scripts/Config/AIConfig.cs"
 "Assets/Scripts/Config/BodyConfig.cs"
 "Assets/Scripts/Config/CameraConfig.cs"
+"Assets/Scripts/Config/DebugConfig.cs"
+"Assets/Scripts/Config/DynMovConfig.cs"
 "Assets/Scripts/Config/JointConfig.cs"
 "Assets/Scripts/Config/ObjectConfig.cs"
 "Assets/Scripts/Config/RobotConfig.cs"

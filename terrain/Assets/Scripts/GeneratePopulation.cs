@@ -12,7 +12,28 @@ public class GeneratePopulation : MonoBehaviour
     private StreamWriter performanceWriter;
     public void CreatePopulation()
     {
+        DynMovConfig.SpherePoints = GetSpherePoints();
         StartCoroutine(GenerateRobots());
+    }
+
+    //This method was taken from this stackoverflow post
+    //https://stackoverflow.com/questions/9600801/evenly-distributing-n-points-on-a-sphere
+    private Vector3[] GetSpherePoints()
+    {
+        int radius = 10;
+        Vector3[] points = new Vector3[DynMovConfig.NoSphereSamples];
+        var phi = Mathf.PI * (3 - Mathf.Sqrt(5));
+        for (int i = 0; i < DynMovConfig.NoSphereSamples; i++)
+        {
+            var y = 1 - (i / (DynMovConfig.NoSphereSamples - 1f)) * 2;
+            var r = Mathf.Sqrt(1 - y * y);
+            var theta = phi * i;
+            var x = Mathf.Cos(theta) * r;
+            var z = Mathf.Sin(theta) * r;
+
+            points[i] = new Vector3(x, y, z) * radius;
+        }
+        return points;
     }
 
     IEnumerator GenerateRobots()
@@ -41,7 +62,7 @@ public class GeneratePopulation : MonoBehaviour
         }
         //enable UI
         if(UIConfig.IsUIEnabled) ui.Enable();
-        if(AIConfig.LogPerformanceData || AIConfig.Debugging) StartCoroutine(LogPerformance());
+        if(DebugConfig.LogPerformanceData || DebugConfig.IsDebugging) StartCoroutine(LogPerformance());
     }
 
     internal IEnumerator RespawnRobot(RobotConfig oldRobot)
@@ -58,13 +79,13 @@ public class GeneratePopulation : MonoBehaviour
     {
         //debugging overrides AIConfig.LogData - only shows data on grapher
         bool firstLineWritten = false;
-        if (AIConfig.LogPerformanceData) SetupPerformanceWriter();
+        if (DebugConfig.LogPerformanceData) SetupPerformanceWriter();
         while (true)
         {
             yield return new WaitForSeconds(3f);
             if (AIConfig.RobotConfigs.Count == AIConfig.PopulationSize)
             {
-                if (AIConfig.LogPerformanceData)
+                if (DebugConfig.LogPerformanceData)
                 {
                     string line = "Time, ";
                     if (!firstLineWritten)
@@ -79,7 +100,7 @@ public class GeneratePopulation : MonoBehaviour
                 }
 
                 //debugging
-                if (AIConfig.Debugging)
+                if (DebugConfig.IsDebugging)
                 {
                     List<RobotConfig> ordered = AIConfig.RobotConfigs.OrderByDescending(r => r.Performance).ToList();
                     float max = ordered.Take(AIConfig.PopulationSize / 10).Average(r => r.Performance);

@@ -12,20 +12,13 @@ namespace Config
         //there is a hard limit of 25 layers available
         //RobotDetection works to prevent robots in the same area being in the same layer
         //population can be >25, but in rougher terrain where the robot isn't making progress, expect some warnings and interaction between them
-        public static int PopulationSize = 50;
+        public static int PopulationSize = 1;
 
         public static int NoAttempts = 5;
 
         public static int AttemptLength = 600;
 
         public static RobotConfig[] LastRobots = new RobotConfig[PopulationSize];
-
-        //used by error handling to recreate the population
-        public static List<RobotConfig> InitRobots = new List<RobotConfig>();
-
-        public static bool IsTotalRespawn = false;
-
-        public static Vector3[] SpawnPoints = new Vector3[Mathf.CeilToInt(PopulationSize / 25f)];
 
         //should the robots be randomly generated
         //false uses the preset defaults
@@ -57,55 +50,5 @@ namespace Config
 
         //value for k - how many should be considered in the recombination?
         public static int SelectionSize = 5;
-
-        //DEBUGGING
-        //used to show points where a robot got stuck
-        public static GameObject StuckPoints;
-
-        //should the stuck points be shown
-        public static bool ShowStuckPoints = false;
-
-        //recommend one or the other for LogPerformanceData and Debugging
-        //if true then data will be extracted to csv files in the Report folder
-        public static bool LogPerformanceData = false;
-
-        public static bool LogRobotData = true;
-
-        public static bool LogAIData = true;
-
-        public static RobotConfig BestRobot;
-
-        //if true then data will be shown in grapher
-        public static bool Debugging = false;
-
-        public static string GetHeader()
-        {
-            string line = "";
-            line += $"{nameof(PopulationSize)}, ";
-            line += $"{nameof(RandomInitValues)}, ";
-            line += $"{nameof(Sensitivity)}, ";
-            line += $"{nameof(MutationCycle)}, ";
-            line += $"{nameof(RecombinationRate)}, ";
-            line += $"{nameof(RecombinationType)}, ";
-            line += $"{nameof(MutationRate)}, ";
-            line += $"{nameof(MutationType)}, ";
-            line += $"{nameof(SelectionSize)}, ";
-            return line;
-        }
-
-        public static string GetData()
-        {
-            string line = "";
-            line += $"{PopulationSize}, ";
-            line += $"{RandomInitValues}, ";
-            line += $"{Sensitivity}, ";
-            line += $"{MutationCycle}, ";
-            line += $"{RecombinationRate}, ";
-            line += $"{RecombinationType}, ";
-            line += $"{MutationRate}, ";
-            line += $"{MutationType}, ";
-            line += $"{SelectionSize}, ";
-            return line;
-        }
     }
 }

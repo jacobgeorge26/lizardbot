@@ -316,6 +316,8 @@
 -r:"Library/Bee/artifacts/1900b0aEDbg.dag/UnityEngine.UI.ref.dll"
 "Assets/Scripts/CameraPosition.cs"
 "Assets/Scripts/Collisions.cs"
+"Assets/Scripts/DivideSphere.cs"
+"Assets/Scripts/DynamicMovement.cs"
 "Assets/Scripts/GameController.cs"
 "Assets/Scripts/GeneratePopulation.cs"
 "Assets/Scripts/GenerateRobot.cs"

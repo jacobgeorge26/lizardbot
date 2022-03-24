@@ -34,6 +34,9 @@ namespace Config
         //when changes are made, should serpentine motion be preserved
         public Gene MaintainSerpentine = new Gene(true, Variable.MaintainSerpentine);
 
+        //how far did the robot move for each vector index
+        public float[] Distances = new float[DynMovConfig.NoSphereSamples];
+
         //clone variables applicable to starting again from a scrapped attempt - different to a fresh copy
         public void Clone(RobotConfig oldRobot)
         {

@@ -293,6 +293,59 @@ public static class RobotHelpers : object
         return sumMass;
     }
 
+    //get the average rotation of the robot - relative to world not to robot
+    internal static Vector3 GetAverageRotation(this RobotConfig robot)
+    {
+        Vector3 sumRotation = Vector3.zero;
+        foreach (ObjectConfig objectConfig in robot.Configs)
+        {
+            sumRotation += objectConfig.gameObject.transform.eulerAngles;
+        }
+        return sumRotation / robot.Configs.Count;
+    }
+
+    //set each config with the current velocity
+    internal static void GetDynMovVelocities(this RobotConfig robot)
+    {
+        foreach (ObjectConfig objConfig in robot.Configs)
+        {
+            if (objConfig.Type == BodyPart.Body && objConfig.Body != null)
+            {
+                objConfig.Body.CurrentVelocity = objConfig.gameObject.GetComponent<Rigidbody>().velocity;
+            }
+            else if (objConfig.Type == BodyPart.Tail && objConfig.Tail != null)
+            {
+                objConfig.Tail.CurrentVelocity = objConfig.gameObject.GetComponent<Rigidbody>().velocity;
+            }
+        }
+    }
+
+    internal static void SetDynMovVelocities(this RobotConfig robot, int index)
+    {
+        foreach (ObjectConfig objConfig in robot.Configs)
+        {
+            if (objConfig.Type == BodyPart.Body && objConfig.Body != null)
+            {
+                objConfig.gameObject.GetComponent<Rigidbody>().velocity = objConfig.Body.Velocities[index] * DynMovConfig.ActivationRate;
+            }
+            else if (objConfig.Type == BodyPart.Tail && objConfig.Tail != null)
+            {
+                objConfig.gameObject.GetComponent<Rigidbody>().velocity = objConfig.Tail.Velocities[index] * DynMovConfig.ActivationRate;
+            }
+        }
+    }
+
+    //get ther average position of the robot - relative to world not to robot
+    internal static Vector3 GetAveragePosition(this RobotConfig robot)
+    {
+        Vector3 sumPosition = Vector3.zero;
+        foreach (ObjectConfig objectConfig in robot.Configs)
+        {
+            sumPosition += objectConfig.gameObject.transform.position;
+        }
+        return sumPosition / robot.Configs.Count;
+    }
+
     //when changing the layer of a robot, update each child to also use this layer
     internal static void SetChildLayer(this RobotConfig robot, int newLayer)
     {
@@ -315,7 +368,7 @@ public static class RobotHelpers : object
     //get all robots within a radius
     internal static List<RobotConfig> GetNearbyRobots(this RobotConfig robot, int radius)
     {
-        Vector3 thisInitPos = AIConfig.SpawnPoints[Mathf.FloorToInt(robot.RobotIndex / 25)], thisRelPos = Vector3.zero;
+        Vector3 thisInitPos = TerrainConfig.SpawnPoints[Mathf.FloorToInt(robot.RobotIndex / 25)], thisRelPos = Vector3.zero;
         try { thisRelPos = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == 0).gameObject.transform.position - thisInitPos; }
         catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return new List<RobotConfig>(); }
         List<RobotConfig> nearby = new List<RobotConfig>();
@@ -327,7 +380,7 @@ public static class RobotHelpers : object
                 try { head = r.Configs.First(o => o.Type == BodyPart.Body && o.Index == 0).gameObject; }
                 catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); nearby = new List<RobotConfig>(); return; }
                        
-                Vector3 initPos = AIConfig.SpawnPoints[Mathf.FloorToInt(r.RobotIndex / 25)];
+                Vector3 initPos = TerrainConfig.SpawnPoints[Mathf.FloorToInt(r.RobotIndex / 25)];
                 Vector3 relativePos = head.transform.position - initPos;
                 if (Vector3.Distance(relativePos, thisRelPos) <= radius)
                 {

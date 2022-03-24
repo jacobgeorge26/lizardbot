@@ -18,9 +18,9 @@ public static class GeneticAlgorithm : object
         stuckRobot.Object.SetActive(false);
 
         //update BestRobot
-        if (AIConfig.LogRobotData && (AIConfig.BestRobot == null || stuckRobot.Performance > AIConfig.BestRobot.Performance))
+        if (DebugConfig.LogRobotData && (DebugConfig.BestRobot == null || stuckRobot.Performance > DebugConfig.BestRobot.Performance))
         {
-            AIConfig.BestRobot = stuckRobot;
+            DebugConfig.BestRobot = stuckRobot;
         }
 
         int newVersion = stuckRobot.Version + 1;
@@ -260,7 +260,7 @@ public static class GeneticAlgorithm : object
 
     private static void Reset(RobotConfig robot)
     {
-        Vector3 spawnPoint = AIConfig.SpawnPoints[Mathf.FloorToInt(robot.RobotIndex / 25)];
+        Vector3 spawnPoint = TerrainConfig.SpawnPoints[Mathf.FloorToInt(robot.RobotIndex / 25)];
         //pause objects       
         foreach (ObjectConfig childConfig in robot.Configs.OrderBy(o => o.Type))
         {
@@ -282,7 +282,7 @@ public static class GeneticAlgorithm : object
                 childBody.angularVelocity = Vector3.zero;
             }
 
-            //look through granchildren
+            //look through grandchildren
             if (child.childCount > 0)
             {
                 foreach (Transform grandchild in child.gameObject.transform)

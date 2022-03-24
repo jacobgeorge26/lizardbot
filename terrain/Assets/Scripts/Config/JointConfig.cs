@@ -23,5 +23,11 @@ namespace Config
         [Tooltip("Range 0 <= x <= 1")]
         public Gene RotationMultiplier = new Gene(new Vector3(0.5f, 1f, 0.5f), 0f, 1f, Variable.RotationMultiplier);
 
+        //used by dynamic movement, each index corresponds to the initial velocity that was used to move a certain direction
+        public Vector3[] Velocities = new Vector3[DynMovConfig.NoSphereSamples];
+
+        //store the initial velocity - used to see if this movement was more efficient than a previous
+        public Vector3 CurrentVelocity = Vector3.zero;
+
     }
 }

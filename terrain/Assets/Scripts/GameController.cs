@@ -23,16 +23,17 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        /////////////////////////////////////
         PlayerPrefs.SetInt("Attempt", 33);
         Controller = this;
         attemptCount = AIConfig.NoAttempts;
         //setup writers with headers
         string filePath = "../terrain/Report/Data/AIPerformance.csv";
         aiPerformanceWriter = File.Exists(filePath) ? File.AppendText(filePath) : File.CreateText(filePath);
-        aiPerformanceWriter.WriteLine($"ATTEMPT, Time, Performance");
+        if(DebugConfig.LogAIData) aiPerformanceWriter.WriteLine($"ATTEMPT, Time, Performance");
         filePath = "../terrain/Report/Data/AIConfig.csv";
         aiWriter = File.Exists(filePath) ? File.AppendText(filePath) : File.CreateText(filePath);
-        aiWriter.WriteLine($"ATTEMPT, {AIConfig.GetHeader()}");
+        if (DebugConfig.LogAIData) aiWriter.WriteLine($"ATTEMPT, {DebugConfig.GetHeader()}");
         StartCoroutine(GenerateAttempt(false));
     }
 
@@ -50,14 +51,14 @@ public class GameController : MonoBehaviour
                 generate = gameObject.AddComponent<GeneratePopulation>();
                 Debug.Log($"ATTEMPT {PlayerPrefs.GetInt("Attempt")}");
                 generate.CreatePopulation();
-                StartCoroutine(SaveAttemptData(isRespawn));
+                if(DebugConfig.LogAIData) StartCoroutine(SaveAttemptData(isRespawn));
                 yield return new WaitUntil(() => Time.realtimeSinceStartup - startTime >= AIConfig.AttemptLength);
-                AIConfig.InitRobots.ForEach(r => { if (r.Object != null) r.Object.SetActive(false); });
-                AIConfig.InitRobots.Clear(); //if in the middle of a respawn, scrap that
+                DebugConfig.InitRobots.ForEach(r => { if (r.Object != null) r.Object.SetActive(false); });
+                DebugConfig.InitRobots.Clear(); //if in the middle of a respawn, scrap that
                 AIConfig.RobotConfigs.ForEach(r => {
                     r.Object.transform.parent.gameObject.SetActive(false);
                 });
-                if (AIConfig.LogRobotData) LogBestRobot();
+                if (DebugConfig.LogRobotData) LogBestRobot();
                 StartCoroutine(TotalDeconstruct());
             }
             Application.Quit();
@@ -78,7 +79,7 @@ public class GameController : MonoBehaviour
             AIConfig.SelectionSize = Random.Range(1, 20);
         }
         int attempt = PlayerPrefs.GetInt("Attempt");
-        aiWriter.WriteLine($"{attempt}, {AIConfig.GetData()}");
+        aiWriter.WriteLine($"{attempt}, {DebugConfig.GetData()}");
     }
 
     private IEnumerator SaveAttemptData(bool isRespawn)
@@ -107,13 +108,13 @@ public class GameController : MonoBehaviour
 
     private void LogBestRobot()
     {
-        if (AIConfig.BestRobot == null && AIConfig.RobotConfigs.Count > 0) AIConfig.BestRobot = AIConfig.RobotConfigs.OrderByDescending(r => r.Performance).First();
-        if (AIConfig.BestRobot != null)
+        if (DebugConfig.BestRobot == null && AIConfig.RobotConfigs.Count > 0) DebugConfig.BestRobot = AIConfig.RobotConfigs.OrderByDescending(r => r.Performance).First();
+        if (DebugConfig.BestRobot != null)
         {
             if (robotWriter == null) SetupRobotWriter();
             string data = $"{ PlayerPrefs.GetInt("Attempt")}, ";
-            data += AIConfig.GetData();
-            data += AIConfig.BestRobot.GetData();
+            data += DebugConfig.GetData();
+            data += DebugConfig.BestRobot.GetData();
             robotWriter.WriteLine(data);
         }
     }
@@ -124,8 +125,8 @@ public class GameController : MonoBehaviour
         robotWriter = File.Exists(filePath) ? File.AppendText(filePath) : File.CreateText(filePath);
         robotWriter.WriteLine();
         string header = "ATTEMPT, ";
-        header += AIConfig.GetHeader();
-        header += AIConfig.BestRobot.GetHeader();
+        header += DebugConfig.GetHeader();
+        header += DebugConfig.BestRobot.GetHeader();
         robotWriter.WriteLine(header);
         return robotWriter;
     }
@@ -138,7 +139,7 @@ public class GameController : MonoBehaviour
         });
         Debug.LogWarning($"Respawning attempt {PlayerPrefs.GetInt("Attempt")}. \n {exception}");
         StopAllCoroutines();
-        AIConfig.InitRobots = AIConfig.RobotConfigs;
+        DebugConfig.InitRobots = AIConfig.RobotConfigs;
         StartCoroutine(TotalDeconstruct());
         //get ready to restart attempt
         attemptCount++;
@@ -149,7 +150,7 @@ public class GameController : MonoBehaviour
     internal void SingleRespawn(string exception, RobotConfig robot)
     {
         //stop execution for this robot - an error has occurred
-        if(robot.Object == null || AIConfig.PopulationSize == AIConfig.InitRobots.Count - 1)
+        if(robot.Object == null || AIConfig.PopulationSize == DebugConfig.InitRobots.Count - 1)
         {
             //if there is an issue getting the associated robot objects, or all the robots are malfunctioning
             //do a total respawn instead
@@ -164,10 +165,10 @@ public class GameController : MonoBehaviour
             ui.SelectOption(UIView.Performance);
             ui.Disable();
         }
-        AIConfig.IsTotalRespawn = false;
+        DebugConfig.IsTotalRespawn = false;
         Debug.LogWarning($"Respawning robot {robot.RobotIndex + 1} in attempt {PlayerPrefs.GetInt("Attempt")}. \n {exception}");
-        AIConfig.InitRobots.Add(robot);
-        if (AIConfig.InitRobots.Count == 1) StartCoroutine(ReenableUI()); //only needed if this is the first in a cluster of single respawns
+        DebugConfig.InitRobots.Add(robot);
+        if (DebugConfig.InitRobots.Count == 1) StartCoroutine(ReenableUI()); //only needed if this is the first in a cluster of single respawns
         StartCoroutine(generate.RespawnRobot(robot));
     }
 
@@ -176,7 +177,7 @@ public class GameController : MonoBehaviour
         ui ??= UIConfig.UIContainer.GetComponent<UIDisplay>();
         if (ui != null && UIConfig.IsUIEnabled)
         {
-            yield return new WaitUntil(() => AIConfig.InitRobots.Count == 0);
+            yield return new WaitUntil(() => DebugConfig.InitRobots.Count == 0);
             ui.Enable();
         }
     }
@@ -195,7 +196,7 @@ public class GameController : MonoBehaviour
         Destroy(generate);
         AIConfig.RobotConfigs.ForEach(r => {
             r.Configs.ForEach(o => {
-                if(AIConfig.InitRobots.Count == 0)
+                if(DebugConfig.InitRobots.Count == 0)
                 {
                     Destroy(r.Object.transform.parent.gameObject);
                     o.Body = null;
@@ -204,13 +205,13 @@ public class GameController : MonoBehaviour
             });
         });
         AIConfig.RobotConfigs = new List<RobotConfig>();
-        AIConfig.BestRobot = null;
+        DebugConfig.BestRobot = null;
         AIConfig.LastRobots = new RobotConfig[AIConfig.PopulationSize];
-        AIConfig.IsTotalRespawn = true;
-        if (AIConfig.InitRobots.Count > 0)
+        DebugConfig.IsTotalRespawn = true;
+        if (DebugConfig.InitRobots.Count > 0)
         {
-            yield return new WaitUntil(() => AIConfig.InitRobots.Count == AIConfig.RobotConfigs.Count);
-            AIConfig.InitRobots = new List<RobotConfig>();
+            yield return new WaitUntil(() => DebugConfig.InitRobots.Count == AIConfig.RobotConfigs.Count);
+            DebugConfig.InitRobots = new List<RobotConfig>();
         }
     }
 

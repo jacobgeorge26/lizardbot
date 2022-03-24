@@ -57,11 +57,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Config\BodyConfig.cs" />
+    <Compile Include="Assets\Scripts\Config\DynMovConfig.cs" />
     <Compile Include="Assets\Scripts\Config\TailConfig.cs" />
     <Compile Include="Assets\Scripts\Config\JointConfig.cs" />
     <Compile Include="Assets\Scripts\Config\ObjectConfig.cs" />
     <Compile Include="Assets\Scripts\Config\TerrainConfig.cs" />
     <Compile Include="Assets\Scripts\Config\UIConfig.cs" />
+    <Compile Include="Assets\Scripts\Config\DebugConfig.cs" />
     <Compile Include="Assets\Scripts\Config\AIConfig.cs" />
     <Compile Include="Assets\Scripts\Config\Variables.cs" />
     <Compile Include="Assets\Scripts\Config\RobotConfig.cs" />

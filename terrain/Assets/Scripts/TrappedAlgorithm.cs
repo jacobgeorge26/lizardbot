@@ -27,10 +27,10 @@ public class TrappedAlgorithm : MonoBehaviour
     //bouncing between the same locations
     void Start()
     {
-        if (AIConfig.StuckPoints == null && AIConfig.ShowStuckPoints)
+        if (DebugConfig.StuckPoints == null && DebugConfig.ShowStuckPoints)
         {
-            AIConfig.StuckPoints = new GameObject();
-            AIConfig.StuckPoints.name = "Stuck Points";
+            DebugConfig.StuckPoints = new GameObject();
+            DebugConfig.StuckPoints.name = "Stuck Points";
         }
         ObjectConfig objConfig = this.gameObject.GetComponent<ObjectConfig>();
         try { robotConfig = AIConfig.RobotConfigs.First(r => r.RobotIndex == objConfig.RobotIndex); }
@@ -88,11 +88,11 @@ public class TrappedAlgorithm : MonoBehaviour
                 //Grapher.Log(variance, "Variance", Color.red);
                 if (Math.Round(variance) == 0)
                 {
-                    if (AIConfig.ShowStuckPoints)
+                    if (DebugConfig.ShowStuckPoints)
                     {
                         GameObject p = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Stuck"));
                         p.transform.position = currentLocation;
-                        p.transform.parent = AIConfig.StuckPoints.transform;
+                        p.transform.parent = DebugConfig.StuckPoints.transform;
                     }
                     IsEnabled = false;
                     robotConfig.RobotIsStuck();     
@@ -101,13 +101,13 @@ public class TrappedAlgorithm : MonoBehaviour
                 {
                     GameObject p = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Point"));
                     p.transform.position = currentLocation;
-                    p.transform.parent = AIConfig.StuckPoints.transform;
+                    p.transform.parent = DebugConfig.StuckPoints.transform;
                 }
             }              
 
         }
         //important - update robot with its performance metric for AI to use
-        Vector3 spawnPoint = AIConfig.SpawnPoints[Mathf.FloorToInt(robotConfig.RobotIndex / 25)];
+        Vector3 spawnPoint = TerrainConfig.SpawnPoints[Mathf.FloorToInt(robotConfig.RobotIndex / 25)];
         float currentPerformance = Vector3.Distance(currentLocation, spawnPoint);
         robotConfig.Performance = currentPerformance > robotConfig.Performance ? currentPerformance : robotConfig.Performance;
         //update performance in UI
