@@ -320,17 +320,18 @@ public static class RobotHelpers : object
         }
     }
 
-    internal static void SetDynMovVelocities(this RobotConfig robot, int index)
+    internal static void SetDynMovVelocities(this RobotConfig robot, int index, bool isJump)
     {
+        float activation = isJump ? 3 : DynMovConfig.ActivationRate;
         foreach (ObjectConfig objConfig in robot.Configs)
         {
             if (objConfig.Type == BodyPart.Body && objConfig.Body != null)
             {
-                objConfig.gameObject.GetComponent<Rigidbody>().velocity = objConfig.Body.Velocities[index] * DynMovConfig.ActivationRate;
+                objConfig.gameObject.GetComponent<Rigidbody>().velocity = objConfig.Body.Velocities[index] * activation;
             }
             else if (objConfig.Type == BodyPart.Tail && objConfig.Tail != null)
             {
-                objConfig.gameObject.GetComponent<Rigidbody>().velocity = objConfig.Tail.Velocities[index] * DynMovConfig.ActivationRate;
+                objConfig.gameObject.GetComponent<Rigidbody>().velocity = objConfig.Tail.Velocities[index] * activation;
             }
         }
     }
