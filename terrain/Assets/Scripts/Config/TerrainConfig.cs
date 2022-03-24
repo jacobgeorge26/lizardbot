@@ -2,34 +2,66 @@ using ProceduralToolkit;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Config
 {
     public static class TerrainConfig : object
     {
-        public static Surface SurfaceType { get; set; } = Surface.Rough;
+        private static Queue<Surface> SurfaceType { get; set; } = new Queue<Surface> ( new Surface[] { Surface.Uneven} );
+
+        private static int[] Surfaces;
 
         public static float CellSize = 0.5f;
 
+        public static int Gap = 10;
+
         private static int TerrainWidth = 100;
 
-        public static Vector3 GetTerrainSize()
+        public static int NoTerrains = Mathf.CeilToInt(AIConfig.PopulationSize / 25f);
+
+        public static Vector3[] SpawnPoints = new Vector3[Mathf.CeilToInt(AIConfig.PopulationSize / 25f)];
+
+        public static int GetTerrainWidth()
         {
-            return new Vector3(TerrainWidth, GetTerrainHeight(), TerrainWidth);
+            return TerrainWidth;
         }
 
-        public static float GetTerrainHeight()
+        public static Vector3 GetTerrainSize(int index)
         {
-            return (int)SurfaceType * 8f;
+            return new Vector3(TerrainWidth, GetTerrainHeight(index), TerrainWidth);
         }
 
-        public static float GetNoiseFrequency()
+        public static void SetupSurfaces()
         {
-            return ((int)SurfaceType * TerrainWidth * 0.02f) + 0.04f;
+            Surfaces = new int[NoTerrains];
         }
 
-        public static Gradient GetGradient()
+        public static void SetTerrainType(int index)
+        {
+            Surface surface = SurfaceType.Dequeue();
+            SurfaceType.Enqueue(surface);
+            Surfaces[index] = (int)surface;
+        }
+
+        public static Surface GetTerrainType(int robotIndex)
+        {
+            int index = Mathf.FloorToInt(robotIndex / 25);
+            return (Surface)Surfaces[index];
+        }
+
+        public static float GetTerrainHeight(int index)
+        {
+            return Surfaces[index] * 8f;
+        }
+
+        public static float GetNoiseFrequency(int index)
+        {
+            return (Surfaces[index] * TerrainWidth * 0.02f) + 0.04f;
+        }
+
+        public static Gradient GetGradient(int index)
         {
             Color darkGreen = new Color(0.027f, 0.368f, 0.076f, 1f);
             Color darkBrown = new Color(0.3647f, 0.2275f, 0.102f, 1f);
@@ -38,7 +70,7 @@ namespace Config
             Color sandyRed = new Color(0.867f, 0.389f, 0.314f, 1f);
             Color lightRed = new Color(1f, 0.58f, 0.46f, 1f);
             Color lightYellow = new Color(0.283f, 0.069f, 0.036f, 1f);
-            switch (SurfaceType)
+            switch ((Surface)Surfaces[index])
             {
                 case Surface.Smooth:
                     return ColorE.Gradient(lightYellow, darkYellow);
@@ -49,6 +81,25 @@ namespace Config
                 default:
                     return ColorE.Gradient(Color.black, Color.white);
             }
+        }
+
+        public static float minX() {
+            return SpawnPoints.Min(p => p.x) - (TerrainConfig.GetTerrainWidth() / 2);
+        }
+        public static float maxX() {
+            return SpawnPoints.Max(p => p.x) + (TerrainConfig.GetTerrainWidth() / 2);
+        }
+        public static float minY() {
+            return 20f;
+        }
+        public static float maxY() {
+            return Math.Max(100f, NoTerrains * TerrainConfig.GetTerrainWidth() / 2);
+        }
+        public static float minZ() {
+            return SpawnPoints.Min(p => p.z) - (TerrainConfig.GetTerrainWidth() / 2);
+        }
+        public static float maxZ() {
+            return SpawnPoints.Max(p => p.z) + (TerrainConfig.GetTerrainWidth() / 2);
         }
     }
 }

@@ -1,0 +1,30 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{\numberline {1}Introduction}{3}{}%
+\contentsline {section}{\numberline {2}Project Aims}{4}{}%
+\contentsline {subsection}{\numberline {2.1}Primary Objectives}{4}{}%
+\contentsline {subsubsection}{\numberline {2.1.1}Robot Design}{4}{}%
+\contentsline {subsubsection}{\numberline {2.1.2}Robot Movement}{4}{}%
+\contentsline {subsubsection}{\numberline {2.1.3}Terrain Generation}{4}{}%
+\contentsline {subsubsection}{\numberline {2.1.4}AI}{4}{}%
+\contentsline {subsection}{\numberline {2.2}Extension Objectives}{4}{}%
+\contentsline {subsubsection}{\numberline {2.2.1}Vision}{4}{}%
+\contentsline {subsubsection}{\numberline {2.2.2}Terrain Friction}{4}{}%
+\contentsline {subsubsection}{\numberline {2.2.3}UI}{4}{}%
+\contentsline {subsubsection}{\numberline {2.2.4}Flexible Tail}{5}{}%
+\contentsline {section}{\numberline {3}Project Relevance}{6}{}%
+\contentsline {subsection}{\numberline {3.1}Salamandra Robotica II}{6}{}%
+\contentsline {subsection}{\numberline {3.2}Agama Robot}{6}{}%
+\contentsline {subsection}{\numberline {3.3}tbc}{6}{}%
+\contentsline {section}{\numberline {4}Requirements Analysis}{7}{}%
+\contentsline {section}{\numberline {5}Professional and Ethical Considerations}{8}{}%
+\contentsline {section}{\numberline {6}Implementation}{9}{}%
+\contentsline {subsection}{\numberline {6.1}Body}{9}{}%
+\contentsline {subsection}{\numberline {6.2}Tail}{9}{}%
+\contentsline {subsection}{\numberline {6.3}Legs}{9}{}%
+\contentsline {subsection}{\numberline {6.4}Terrain}{9}{}%
+\contentsline {subsection}{\numberline {6.5}Performance}{9}{}%
+\contentsline {section}{\numberline {7}Results}{10}{}%
+\contentsline {section}{\numberline {8}Conclusion}{11}{}%
+\contentsline {section}{\numberline {9}References}{12}{}%
+\contentsline {section}{\numberline {10}Appendices}{13}{}%
+\contentsline {subsection}{\numberline {10.1}Code of Conduct}{13}{}%

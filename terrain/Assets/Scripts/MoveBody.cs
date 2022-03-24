@@ -21,7 +21,8 @@ public class MoveBody : MonoBehaviour
         body = GetComponent<Rigidbody>();
         objectConfig = this.gameObject.GetComponent<ObjectConfig>();
         config = objectConfig.Body;
-        robotConfig = AIConfig.RobotConfigs.Where(c => c.RobotIndex.Equals(objectConfig.RobotIndex)).First();
+        try { robotConfig = AIConfig.RobotConfigs.Where(c => c.RobotIndex.Equals(objectConfig.RobotIndex)).First(); }
+        catch (Exception ex) { GameController.Controller.TotalRespawn(ex.ToString()); return; }
         SetupRotatingSections();
     }
 
@@ -61,7 +62,7 @@ public class MoveBody : MonoBehaviour
         Vector3 angleVelocity = new Vector3();
         Vector3 prevSecAngle = new Vector3();
         //determine initial velocity
-        List<ObjectConfig> prevRotating = RotatingConfigs.Where(o => o.Index < objectConfig.Index).ToList();
+        List<ObjectConfig> prevRotating = RotatingConfigs.Where(o => o.Index < objectConfig.Index).OrderBy(o => o.Index).ToList();
         if (prevRotating.Count > 0)
         {
             GameObject previousSection = prevRotating.Last().gameObject;
@@ -114,6 +115,7 @@ public class MoveBody : MonoBehaviour
     //rounds to int by default as common use of this method is validation about whether to continue turning. 
     public Vector3 GetRelativeAngle(bool round = true)
     {
+        ////////////////////error here
         Vector3 angle = body.rotation.eulerAngles;
 
         //update for range -180 - 180

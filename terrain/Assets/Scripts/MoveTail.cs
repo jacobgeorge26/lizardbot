@@ -17,13 +17,15 @@ public class MoveTail : MonoBehaviour
         tail = GetComponent<Rigidbody>();
         objectConfig = this.gameObject.GetComponent<ObjectConfig>();
         config = objectConfig.Tail;
-        robotConfig = AIConfig.RobotConfigs.Where(c => c.RobotIndex == objectConfig.RobotIndex).First();
+        try { robotConfig = AIConfig.RobotConfigs.Where(c => c.RobotIndex == objectConfig.RobotIndex).First(); }
+        catch (Exception ex) { GameController.Controller.TotalRespawn(ex.ToString()); return; }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (robotConfig.IsEnabled)
+        if (robotConfig.Object == null) this.enabled = false;
+        else if (robotConfig.IsEnabled)
         {
             Move();
         }
@@ -41,7 +43,10 @@ public class MoveTail : MonoBehaviour
             targetVelocity[i] = bodyMomentum[i] / (r * tail.mass * -1);
             addVelocity[i] = targetVelocity[i] - tail.velocity[i];
             //adjust for rotation multiplier
-            addVelocity[i] *= config.RotationMultiplier.Value[i];
+            ////////////////////error here
+            addVelocity[i] *= config.RotationMultiplier.Value[i] * 0.5f;
+            addVelocity[i] = Math.Min(addVelocity[i], 100);
+            addVelocity[i] = addVelocity[i] == 0 ? 0.01f : addVelocity[i];
         }
         tail.AddForce(addVelocity, ForceMode.VelocityChange);
     }

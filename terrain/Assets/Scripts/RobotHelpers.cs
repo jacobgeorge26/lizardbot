@@ -2,6 +2,7 @@ using Config;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ public static class RobotHelpers : object
 {
     //create the head - has less to it than setting up a main body section
     //should only be called at start as the head should never be removed - NoSections > 0
-    internal static void CreateHead(this RobotConfig robot)
+    internal static void CreateHead(this RobotConfig robot, ObjectConfig existingBody = null)
     {
         GameObject head = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Head"));
         head.name = "head";
@@ -18,6 +19,7 @@ public static class RobotHelpers : object
 
         //setup BodyConfig for MoveBody script
         BodyConfig config = new BodyConfig();
+        if (existingBody != null) config.Clone(existingBody.Body);
 
         ObjectConfig objConfig = head.GetComponent<ObjectConfig>();
         if (objConfig == null) objConfig = head.AddComponent<ObjectConfig>();
@@ -29,16 +31,19 @@ public static class RobotHelpers : object
     }
 
     //create a body section and attach it to the previous section
-    internal static void CreateBody(this RobotConfig robot, int index)
+    internal static void CreateBody(this RobotConfig robot, int index, ObjectConfig existingBody = null)
     {
         GameObject body = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Section"));
-        GameObject prevSection = robot.Configs.Where(o => o.Type == BodyPart.Body && o.Index == index - 1).First().gameObject;
+        GameObject prevSection = null;
+        try { prevSection = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == index - 1).gameObject; }
+        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
         body.name = $"section{index}";
         body.transform.parent = robot.Object.transform;
         body.transform.localPosition = new Vector3(0, 0, robot.GetZPos(prevSection, body));
 
         //setup BodyConfig for MoveBody script
         BodyConfig config = new BodyConfig();
+        if (existingBody != null) config.Clone(existingBody.Body);
 
         ObjectConfig objConfig = body.GetComponent<ObjectConfig>();
         if (objConfig == null) objConfig = body.AddComponent<ObjectConfig>();
@@ -50,20 +55,25 @@ public static class RobotHelpers : object
     }
 
     //create a tail - only ever one
-    internal static void CreateTail(this RobotConfig robot)
+    internal static void CreateTail(this RobotConfig robot, ObjectConfig existingTail = null)
     {
         GameObject tail = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Tail"));
         tail.name = "tail";
         tail.transform.parent = robot.Object.transform;
-        GameObject lastSection = robot.Configs.Where(o => o.Type == BodyPart.Body && o.Index == robot.NoSections.Value - 1).First().gameObject;
+        GameObject lastSection = null;
+        try { lastSection = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == robot.NoSections.Value - 1).gameObject; }
+        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); }
+        
         tail.transform.localPosition = new Vector3(0, 0, robot.GetZPos(lastSection, tail));
 
         TailConfig config = new TailConfig();
+        if (existingTail != null) config.Clone(existingTail.Tail);
+
         //setup config - different defaults for tail
         if (!AIConfig.RandomInitValues)
         {
-            config.AngleConstraint = new GeneVariable(new Vector3(60, 60, 60), 0, 180, Variable.AngleConstraint);
-            config.RotationMultiplier = new GeneVariable(new Vector3(1f, 1f, 1f), 0.5f, 1f, Variable.RotationMultiplier);
+            config.AngleConstraint = new Gene(new Vector3(60, 60, 60), 0, 180, Variable.AngleConstraint);
+            config.RotationMultiplier = new Gene(new Vector3(1f, 1f, 1f), 0.5f, 1f, Variable.RotationMultiplier);
         }
 
         //setup object config
@@ -87,9 +97,13 @@ public static class RobotHelpers : object
             case BodyPart.Body:
                 if (index > 0)
                 {
-                    prevSection = robot.Configs
-                        .Where(o => o.Type == BodyPart.Body && o.Index == index - 1)
-                        .First().gameObject;
+                    try {
+                        prevSection = robot.Configs
+                            .Where(o => o.Type == BodyPart.Body && o.Index == index - 1)
+                            .First().gameObject;
+                    }
+                    catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
+ 
                     BodyConfig bodyConfig = objConfig.Body;
                     var renderer = objConfig.gameObject.GetComponent<Renderer>();
                     renderer.material.SetColor("_Color", new Color(robot.BodyColour.Value / 100f, robot.BodyColour.Value / 100f, 1f));
@@ -98,9 +112,12 @@ public static class RobotHelpers : object
                 }
                 break;
             case BodyPart.Tail:
-                prevSection = robot.Configs
-                .Where(o => o.Type == BodyPart.Body && o.Index == robot.NoSections.Value - 1)
-                .First().gameObject;
+                try {
+                    prevSection = robot.Configs
+                        .Where(o => o.Type == BodyPart.Body && o.Index == robot.NoSections.Value - 1)
+                        .First().gameObject;
+                }
+                catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
                 //set mass to be equal to rest of body
                 TailConfig tailConfig = objConfig.Tail;
                 objConfig.gameObject.GetComponent<Rigidbody>().mass = robot.GetTotalMass() * tailConfig.TailMassMultiplier.Value;
@@ -120,31 +137,22 @@ public static class RobotHelpers : object
     //remove a body section
     internal static void RemoveBody(this RobotConfig robot, int index)
     {
-        List<ObjectConfig> bodyConfigs = robot.Configs.Where(o => o.Type == BodyPart.Body && o.Index == index).ToList();
-        if (bodyConfigs.Count > 1) throw new Exception("There are multiple body parts that fit the criteria for the part being removed after mutation.");
-        else if (bodyConfigs.Count == 0) throw new Exception("There are no body parts that fit the criteria for the part being removed after mutation.");
-        else
-        {
-            ObjectConfig bodyConfig = bodyConfigs.First();
+        try {
+            ObjectConfig bodyConfig = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == index);
             bodyConfig.Remove();
             robot.Configs.Remove(bodyConfig);
         }
-
+        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
     }
 
     //remove the tail
     internal static void RemoveTail(this RobotConfig robot)
     {
-        List<ObjectConfig> tailConfigs = robot.Configs.Where(o => o.Type == BodyPart.Tail).ToList();
-        if (tailConfigs.Count > 1) throw new Exception("There are multiple tails that fit the criteria for the part being removed after mutation.");
-        else if (tailConfigs.Count == 0) throw new Exception("There are no tails that fit the criteria for the part being removed after mutation.");
-        else
-        {
-            ObjectConfig tailConfig = tailConfigs.First();
-            tailConfig.Remove();
-            robot.Configs.Remove(tailConfig);
-        }
-
+        ObjectConfig tailConfig = null;
+        try { tailConfig = robot.Configs.First(o => o.Type == BodyPart.Tail); }
+        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
+        tailConfig.Remove();
+        robot.Configs.Remove(tailConfig);
     }
 
     //setup the joints to have the correct angle constraints and be attached to the correct rigidbody before it in the body
@@ -166,13 +174,13 @@ public static class RobotHelpers : object
         List<ObjectConfig> prevBody = robot.Configs.Where(o => o.Type == BodyPart.Body).OrderBy(o => o.Index).ToList();
         ObjectConfig last = prevBody.Last();
         prevBody.Remove(last);
-        List<GeneVariable> allGenes = new List<GeneVariable>();
+        List<Gene> allGenes = new List<Gene>();
         foreach (var objConfig in prevBody)
         {
             allGenes = allGenes.Concat(robot.GetVariables(objConfig.Body)).ToList();
         }
         //get all the genes for the last body section
-        List<GeneVariable> newGenes = new List<GeneVariable>();
+        List<Gene> newGenes = new List<Gene>();
         BodyConfig newBody = last.Body;
         newGenes = newGenes.Concat(robot.GetVariables(newBody)).ToList();
         //now there's a list of all the genes that need to be updated (newGenes) and all the genes of the rest of the body (allGenes)
@@ -227,16 +235,17 @@ public static class RobotHelpers : object
     }
 
     //get a list of all the genevariables for a config (e.g. BodyConfig)
-    internal static List<GeneVariable> GetVariables(this RobotConfig robot, dynamic config)
+    internal static List<Gene> GetVariables(this RobotConfig robot, dynamic config)
     {
-        List<GeneVariable> genes = new List<GeneVariable>();
+        List<Gene> genes = new List<Gene>();
+        if (config == null) return genes;
         var allFields = config.GetType().GetFields();
         foreach (var item in allFields)
         {
-            if (item.FieldType == typeof(GeneVariable))
+            if (item.FieldType == typeof(Gene))
             {
                 var f = item.GetValue(config);
-                genes.Add((GeneVariable)f);
+                genes.Add((Gene)f);
             }
         }
         return genes;
@@ -258,7 +267,7 @@ public static class RobotHelpers : object
     //accessed by GenerateRobot on init and GeneticAlgorithm when respawning
     internal static float GetYPos(this RobotConfig robot)
     {
-        return TerrainConfig.GetTerrainHeight() + 1f;
+        return TerrainConfig.GetTerrainHeight(Mathf.FloorToInt(robot.RobotIndex / 25)) + 1f;
     }
 
     //get what the Z position param should be on spawn - called for each body part
@@ -267,7 +276,7 @@ public static class RobotHelpers : object
     {
         if (prevObject == null) return 0;
         //determine the position of this section by the location of the prev section, and size of both
-        float zPos = prevObject.transform.position.z;
+        float zPos = prevObject.transform.localPosition.z;
         zPos += -1 * (prevObject.transform.localScale.z / 2 + thisObject.transform.localScale.z / 2 + 0.1f);
         return zPos;
     }
@@ -282,6 +291,59 @@ public static class RobotHelpers : object
             sumMass += objConfig.gameObject.GetComponent<Rigidbody>().mass;
         }
         return sumMass;
+    }
+
+    //get the average rotation of the robot - relative to world not to robot
+    internal static Vector3 GetAverageRotation(this RobotConfig robot)
+    {
+        Vector3 sumRotation = Vector3.zero;
+        foreach (ObjectConfig objectConfig in robot.Configs)
+        {
+            sumRotation += objectConfig.gameObject.transform.eulerAngles;
+        }
+        return sumRotation / robot.Configs.Count;
+    }
+
+    //set each config with the current velocity
+    internal static void GetDynMovVelocities(this RobotConfig robot)
+    {
+        foreach (ObjectConfig objConfig in robot.Configs)
+        {
+            if (objConfig.Type == BodyPart.Body && objConfig.Body != null)
+            {
+                objConfig.Body.CurrentVelocity = objConfig.gameObject.GetComponent<Rigidbody>().velocity;
+            }
+            else if (objConfig.Type == BodyPart.Tail && objConfig.Tail != null)
+            {
+                objConfig.Tail.CurrentVelocity = objConfig.gameObject.GetComponent<Rigidbody>().velocity;
+            }
+        }
+    }
+
+    internal static void SetDynMovVelocities(this RobotConfig robot, int index)
+    {
+        foreach (ObjectConfig objConfig in robot.Configs)
+        {
+            if (objConfig.Type == BodyPart.Body && objConfig.Body != null)
+            {
+                objConfig.gameObject.GetComponent<Rigidbody>().velocity = objConfig.Body.Velocities[index] * DynMovConfig.ActivationRate;
+            }
+            else if (objConfig.Type == BodyPart.Tail && objConfig.Tail != null)
+            {
+                objConfig.gameObject.GetComponent<Rigidbody>().velocity = objConfig.Tail.Velocities[index] * DynMovConfig.ActivationRate;
+            }
+        }
+    }
+
+    //get ther average position of the robot - relative to world not to robot
+    internal static Vector3 GetAveragePosition(this RobotConfig robot)
+    {
+        Vector3 sumPosition = Vector3.zero;
+        foreach (ObjectConfig objectConfig in robot.Configs)
+        {
+            sumPosition += objectConfig.gameObject.transform.position;
+        }
+        return sumPosition / robot.Configs.Count;
     }
 
     //when changing the layer of a robot, update each child to also use this layer
@@ -301,27 +363,32 @@ public static class RobotHelpers : object
                 }
             }
         }
-        //Debug.Log($"Moving {gameObject.name} from layer {LayerMask.LayerToName(oldLayer)} to layer {LayerMask.LayerToName(newLayer)}");
     }
 
     //get all robots within a radius
-    internal static List<GameObject> GetNearbyRobots(this RobotConfig robot, int radius)
+    internal static List<RobotConfig> GetNearbyRobots(this RobotConfig robot, int radius)
     {
-        Collider[] potential = Physics.OverlapSphere(robot.Object.transform.position, radius);
-        List<GameObject> incoming = new List<GameObject>();
-        if (potential.Length > robot.GetExpectedColliders())
-        {    
-            foreach (var item in potential)
+        Vector3 thisInitPos = TerrainConfig.SpawnPoints[Mathf.FloorToInt(robot.RobotIndex / 25)], thisRelPos = Vector3.zero;
+        try { thisRelPos = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == 0).gameObject.transform.position - thisInitPos; }
+        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return new List<RobotConfig>(); }
+        List<RobotConfig> nearby = new List<RobotConfig>();
+        AIConfig.RobotConfigs.ForEach(r =>
+        {
+            if (r.IsEnabled)
             {
-                //only interested in the heads - as these are tagged
-                if (item.gameObject.tag == "Robot" && item.gameObject != robot.Object)
+                GameObject head = null;
+                try { head = r.Configs.First(o => o.Type == BodyPart.Body && o.Index == 0).gameObject; }
+                catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); nearby = new List<RobotConfig>(); return; }
+                       
+                Vector3 initPos = TerrainConfig.SpawnPoints[Mathf.FloorToInt(r.RobotIndex / 25)];
+                Vector3 relativePos = head.transform.position - initPos;
+                if (Vector3.Distance(relativePos, thisRelPos) <= radius)
                 {
-                    //there is another robot in the area
-                    incoming.Add(item.gameObject);
+                    nearby.Add(r);
                 }
             }
-        }
-        return incoming;
+        });
+        return nearby;
     }
 
     //get all robots that are physically similar, within a set accepted range of difference
@@ -333,16 +400,23 @@ public static class RobotHelpers : object
         similar = AIConfig.RobotConfigs.Where(r => 
             r.RobotIndex != robot.RobotIndex && 
             Math.Abs(r.NoSections.Value - robot.NoSections.Value) <= difference &&
-            r.IsTailEnabled.Value == robot.IsTailEnabled.Value).ToList();
+            r.IsTailEnabled.Value == robot.IsTailEnabled.Value &&
+            r.IsEnabled).ToList();
         //remove those whose tail is very different
         //allowed difference = (max - min) / 10 * difference
         if (robot.IsTailEnabled.Value)
         {
-            TailConfig tail = robot.Configs.Where(o => o.Type == BodyPart.Tail).First().Tail;
+            TailConfig tail = null;
+            try { tail = robot.Configs.First(o => o.Type == BodyPart.Tail).Tail; }
+            catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return null; }
+            
             float allowedDifference = (tail.TailMassMultiplier.Max - tail.TailMassMultiplier.Min) * (difference + 1) / 10;
             for (int i = similar.Count - 1; i >= 0; i--)
             {
-                TailConfig otherTail = similar[i].Configs.First(o => o.Type == BodyPart.Tail).Tail;
+                TailConfig otherTail = null;
+                try { otherTail = similar[i].Configs.First(o => o.Type == BodyPart.Tail).Tail; }
+                catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); similar.Clear(); return null; }
+                
                 if (Math.Abs(otherTail.TailMassMultiplier.Value - tail.TailMassMultiplier.Value) > allowedDifference)
                 {
                     similar.RemoveAt(i);
@@ -360,7 +434,8 @@ public static class RobotHelpers : object
         //find all robots that are also preserving serpentine motion
         similar = AIConfig.RobotConfigs.Where(r =>
             r.RobotIndex != robot.RobotIndex &&
-            r.MaintainSerpentine.Value == robot.MaintainSerpentine.Value).ToList();
+            r.MaintainSerpentine.Value == robot.MaintainSerpentine.Value &&
+            r.IsEnabled).ToList();
         float thisDriveVelocity = 0;
         if(similar.Count > 0)
         {
@@ -390,16 +465,5 @@ public static class RobotHelpers : object
             if (Math.Abs((thisDriveVelocity / robot.NoSections.Value) - (otherDriveVelocity / similar[i].NoSections.Value)) > allowedDifference) similar.RemoveAt(i);
         }
         return similar;
-    }
-
-    //get the expected number of colliders that would be within the range of the robot anyway (such as the terrain and the size of the robot itself)
-    private static int GetExpectedColliders(this RobotConfig robot)
-    {
-        int expectedColliders = 0;
-        expectedColliders = robot.NoSections.Value; //one for each section of the body
-        expectedColliders++; //terrain
-        expectedColliders++; //sphere contained in head for collision detection
-        expectedColliders += robot.IsTailEnabled.Value ? 1 : 0; //tail
-        return expectedColliders;
     }
 }

@@ -13,9 +13,9 @@ namespace ProceduralToolkit.Samples
     /// </summary>
     public static class LowPolyTerrainGenerator
     {
-        public static MeshDraft TerrainDraft()
-        {
-            Vector3 terrainSize = TerrainConfig.GetTerrainSize();
+        public static MeshDraft TerrainDraft(int index)
+        {       
+            Vector3 terrainSize = TerrainConfig.GetTerrainSize(index);
             Assert.IsTrue(terrainSize.x > 0);
             Assert.IsTrue(terrainSize.z > 0);
             Assert.IsTrue(TerrainConfig.CellSize > 0);
@@ -47,7 +47,7 @@ namespace ProceduralToolkit.Samples
 
             var noise = new FastNoise();
             noise.SetNoiseType(FastNoise.NoiseType.SimplexFractal);
-            noise.SetFrequency(TerrainConfig.GetNoiseFrequency());
+            noise.SetFrequency(TerrainConfig.GetNoiseFrequency(index));
 
             for (int x = 0; x < xSegments; x++)
             {
@@ -77,7 +77,7 @@ namespace ProceduralToolkit.Samples
                     draft.vertices[index4] = vertex11;
                     draft.vertices[index5] = vertex10;
 
-                    Gradient gradient = TerrainConfig.GetGradient();
+                    Gradient gradient = TerrainConfig.GetGradient(index);
                     draft.colors[index0] = gradient.Evaluate(height00);
                     draft.colors[index1] = gradient.Evaluate(height01);
                     draft.colors[index2] = gradient.Evaluate(height11);

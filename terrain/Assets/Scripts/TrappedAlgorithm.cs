@@ -10,18 +10,14 @@ public class TrappedAlgorithm : MonoBehaviour
     private Queue<Vector3> locations = new Queue<Vector3>();
     private Queue<float> volumes = new Queue<float>();
     private RobotConfig robotConfig;
-    private UI ui;
+    private UIDisplay ui;
 
-    //how many locations are analysed (2 per second)
-    private int locationsSize = 20; 
+
     //these are used to prevent data being collected too soon 
     //the robot needs time to hit the terrain and react
     private bool ShowTrail = false;
-    private bool ShowStuckPoints = false;
 
     private bool IsEnabled = true;
-
-    private GameObject pointsContainer;
 
     //if the gradient of the variance of the magnitude of the coordinates dips below the limit then the robot is classed as stuck
     //this can be due to many different behaviours:
@@ -31,22 +27,16 @@ public class TrappedAlgorithm : MonoBehaviour
     //bouncing between the same locations
     void Start()
     {
-        string name = "Stuck Points";
-        bool containerCreated = false;
-        foreach (Transform item in gameObject.transform.parent)
+        if (DebugConfig.StuckPoints == null && DebugConfig.ShowStuckPoints)
         {
-            if (item.name == name) containerCreated = true;
-        }
-        if (!containerCreated)
-        {
-            pointsContainer = new GameObject();
-            pointsContainer.name = name;
-            pointsContainer.transform.parent = GetComponent<Transform>().parent;
+            DebugConfig.StuckPoints = new GameObject();
+            DebugConfig.StuckPoints.name = "Stuck Points";
         }
         ObjectConfig objConfig = this.gameObject.GetComponent<ObjectConfig>();
-        robotConfig = AIConfig.RobotConfigs.Where(r => r.RobotIndex == objConfig.RobotIndex).First();
-
-        ui ??= UIConfig.UIContainer.GetComponent<UI>();
+        try { robotConfig = AIConfig.RobotConfigs.First(r => r.RobotIndex == objConfig.RobotIndex); }
+        catch (Exception ex) { GameController.Controller.TotalRespawn(ex.ToString()); return; }
+        
+        ui ??= UIConfig.UIContainer.GetComponent<UIDisplay>();
 
         StartCoroutine(IsTrapped());
     }
@@ -73,36 +63,36 @@ public class TrappedAlgorithm : MonoBehaviour
         //add this to locations
         locations.Enqueue(currentLocation);
         //locations is full, bring back to size then check if robot is stuck
-        if (locations.Count > locationsSize)
+        if (locations.Count > AIConfig.Sensitivity)
         {
             int count = 100;
             //only store as many samples in locations as determined in AI config
-            while (locations.Count > locationsSize && count > 0)
+            while (locations.Count > AIConfig.Sensitivity && count > 0)
             {
                 count--;
                 locations.Dequeue();
             }
         }
-        if(locations.Count == locationsSize)
+        if(locations.Count == AIConfig.Sensitivity)
         {
             float volume = GetVolume();
             //Grapher.Log(volume, "Volume", Color.white);
             volumes.Enqueue(volume);
-            if(volumes.Count > locationsSize)
+            if(volumes.Count > AIConfig.Sensitivity)
             {
                 volumes.Dequeue();
             }
-            if(volumes.Count == locationsSize)
+            if(volumes.Count == AIConfig.Sensitivity)
             {
                 float variance = GetVariance();
                 //Grapher.Log(variance, "Variance", Color.red);
                 if (Math.Round(variance) == 0)
                 {
-                    if (ShowStuckPoints)
+                    if (DebugConfig.ShowStuckPoints)
                     {
                         GameObject p = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Stuck"));
                         p.transform.position = currentLocation;
-                        p.transform.parent = pointsContainer.transform;
+                        p.transform.parent = DebugConfig.StuckPoints.transform;
                     }
                     IsEnabled = false;
                     robotConfig.RobotIsStuck();     
@@ -111,16 +101,17 @@ public class TrappedAlgorithm : MonoBehaviour
                 {
                     GameObject p = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Point"));
                     p.transform.position = currentLocation;
-                    p.transform.parent = pointsContainer.transform;
+                    p.transform.parent = DebugConfig.StuckPoints.transform;
                 }
             }              
 
         }
         //important - update robot with its performance metric for AI to use
-        float currentPerformance = currentLocation.magnitude;
+        Vector3 spawnPoint = TerrainConfig.SpawnPoints[Mathf.FloorToInt(robotConfig.RobotIndex / 25)];
+        float currentPerformance = Vector3.Distance(currentLocation, spawnPoint);
         robotConfig.Performance = currentPerformance > robotConfig.Performance ? currentPerformance : robotConfig.Performance;
         //update performance in UI
-        ui.UpdatePerformance(robotConfig.RobotIndex, currentPerformance, robotConfig.Performance);
+        if (UIConfig.IsUIEnabled) ui.UpdatePerformance(robotConfig.RobotIndex, currentPerformance, robotConfig.Performance);
     }
 
     private float GetVolume()
