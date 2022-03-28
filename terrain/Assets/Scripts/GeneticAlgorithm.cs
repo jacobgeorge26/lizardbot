@@ -119,7 +119,28 @@ public static class GeneticAlgorithm : object
         }
         //robot
         CombineGenes(GetGenes(robot, false), GetGenes(best1, false), GetGenes(best2, false), ref newRobotGenes);
+        if (type == Recombination.Lizard) CombineBodyColour(robot, best1, best2, ref newRobotGenes);
         return newRobotGenes;
+    }
+
+    private static void CombineBodyColour(RobotConfig robot, RobotConfig best1, RobotConfig best2, ref List<Gene> newRobotGenes)
+    {
+        Gene colourGene;
+        try { colourGene = newRobotGenes.First(g => g.Type == Variable.BodyColour); }
+        catch (Exception ex) { GameController.Controller.TotalRespawn(ex.ToString()); return; }
+        //get min and max of recombination
+        float min = 255, max = 0;
+        min = robot.BodyColour.Value < min ? robot.BodyColour.Value : min;
+        min = best1 != null && best1.BodyColour.Value < min ? best1.BodyColour.Value : min;
+        min = best2 != null && best2.BodyColour.Value < min ? best2.BodyColour.Value : min;
+        max = robot.BodyColour.Value > max ? robot.BodyColour.Value : max;
+        max = best1 != null && best1.BodyColour.Value > max ? best1.BodyColour.Value : max;
+        max = best2 != null && best2.BodyColour.Value > max ? best2.BodyColour.Value : max;
+        //add 5% of range either side to account for variation
+        max = max + ((robot.BodyColour.Max - robot.BodyColour.Min) * 0.05f);
+        min = min - ((robot.BodyColour.Max - robot.BodyColour.Min) * 0.05f);
+        //set the body colour as a random value within this range
+        colourGene.Value = Random.Range(min, max);
     }
 
     private static void CombineGenes(List<Gene> genes1, List<Gene> genes2, List<Gene> genes3, ref List<Gene> newGenes)
