@@ -24,7 +24,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
         /////////////////////////////////////
-        PlayerPrefs.SetInt("Attempt", 33);
+        PlayerPrefs.SetInt("Attempt", 50);
         Controller = this;
         attemptCount = AIConfig.NoAttempts;
         //setup writers with headers

@@ -95,6 +95,7 @@ public static class RobotHelpers : object
         switch (type)
         {
             case BodyPart.Body:
+                BodyConfig bodyConfig = objConfig.Body;
                 if (index > 0)
                 {
                     try {
@@ -103,13 +104,14 @@ public static class RobotHelpers : object
                             .First().gameObject;
                     }
                     catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
- 
-                    BodyConfig bodyConfig = objConfig.Body;
                     var renderer = objConfig.gameObject.GetComponent<Renderer>();
                     renderer.material.SetColor("_Color", new Color(robot.BodyColour.Value / 100f, robot.BodyColour.Value / 100f, 1f));
                     //setup joint
                     robot.SetupConfigurableJoint(objConfig.gameObject, bodyConfig, prevSection);
                 }
+                //set size and mass
+                objConfig.gameObject.transform.localScale = new Vector3(bodyConfig.Size.Value, bodyConfig.Size.Value, bodyConfig.Size.Value);
+                objConfig.gameObject.GetComponent<Rigidbody>().mass = bodyConfig.Mass.Value;
                 break;
             case BodyPart.Tail:
                 try {
@@ -121,6 +123,8 @@ public static class RobotHelpers : object
                 //set mass to be equal to rest of body
                 TailConfig tailConfig = objConfig.Tail;
                 objConfig.gameObject.GetComponent<Rigidbody>().mass = robot.GetTotalMass() * tailConfig.TailMassMultiplier.Value;
+                //set length
+                objConfig.transform.localScale = new Vector3(objConfig.transform.localScale.x, objConfig.transform.localScale.y, tailConfig.Length.Value);
                 //setup joint
                 robot.SetupConfigurableJoint(objConfig.gameObject, tailConfig, prevSection);
                 //reset position in case a section has been removed
