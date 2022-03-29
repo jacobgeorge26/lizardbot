@@ -7,7 +7,7 @@ namespace Config
 {
     public static class DynMovConfig : object
     {
-        public static bool UseDynamicMovement = true;
+        public static bool UseDynamicMovement = false;
 
         //how many points around the robot should be analysed in the dynamic movement
         public static int NoSphereSamples = 50;

@@ -69,8 +69,12 @@ public class GeneratePopulation : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         GameObject version = new GameObject();
-        version.transform.parent = oldRobot.Object.transform.parent;
-        version.name = oldRobot.Object.name;
+        try
+        {
+            version.transform.parent = oldRobot.Object.transform.parent;
+            version.name = oldRobot.Object.name;
+        }
+        catch (Exception ex) { GameController.Controller.TotalRespawn(ex.ToString()); yield break; }
         version.AddComponent<GenerateRobot>();
     }
 
