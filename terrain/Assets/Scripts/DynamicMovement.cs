@@ -103,7 +103,7 @@ public class DynamicMovement : MonoBehaviour
     private void RemoveTooLowVectors(List<Vector3> filteredVectors, Vector3 position)
     {
         RaycastHit hit;
-        MeshCollider terrain = FindObjectOfType<MeshCollider>(); //TODO: improve this
+        MeshCollider terrain = TerrainConfig.GetTerrainMesh(robot.RobotIndex);
         for (int index = filteredVectors.Count - 1; index > 0; index--)
         {
             Vector3 point = filteredVectors[index];

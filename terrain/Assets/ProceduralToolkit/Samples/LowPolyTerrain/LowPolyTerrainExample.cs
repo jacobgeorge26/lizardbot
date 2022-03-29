@@ -43,6 +43,7 @@ namespace ProceduralToolkit.Samples
             draft.Move(Vector3.left*TerrainConfig.GetTerrainSize(index).x/2 + Vector3.back*TerrainConfig.GetTerrainSize(index).z/2);
             AssignDraftToMeshFilter(draft, terrainMeshFilter, ref terrainMesh);
             terrainMeshCollider.sharedMesh = terrainMesh;
+            TerrainConfig.SetTerrainMesh(index, terrainMeshCollider);
         }
 
 

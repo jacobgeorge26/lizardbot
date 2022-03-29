@@ -21,9 +21,9 @@ namespace Config
 
         public static int NoTerrains = Mathf.CeilToInt(AIConfig.PopulationSize / 25f);
 
-        public static Vector3[] SpawnPoints = new Vector3[Mathf.CeilToInt(AIConfig.PopulationSize / 25f)];
+        private static Vector3[] SpawnPoints = new Vector3[Mathf.CeilToInt(AIConfig.PopulationSize / 25f)];
 
-        public static Terrain[] Terrains = new Terrain[Mathf.CeilToInt(AIConfig.PopulationSize / 25f)];
+        public static MeshCollider[] Meshes = new MeshCollider[Mathf.CeilToInt(AIConfig.PopulationSize / 25f)];
 
         public static int GetTerrainWidth()
         {
@@ -52,10 +52,24 @@ namespace Config
             int index = Mathf.FloorToInt(robotIndex / 25);
             return (Surface)Surfaces[index];
         }
+        public static void SetSpawnPoint(int index, Vector3 newLoc)
+        {
+            SpawnPoints[index] = newLoc;
+        }
 
         public static Vector3 GetSpawnPoint(int robotIndex)
         {
             return SpawnPoints[Mathf.FloorToInt(robotIndex / 25)];
+        }
+
+        public static void SetTerrainMesh(int index, MeshCollider mesh)
+        {
+            Meshes[index] = mesh;
+        }
+
+        public static MeshCollider GetTerrainMesh(int robotIndex)
+        {
+            return Meshes[Mathf.FloorToInt(robotIndex / 25)];
         }
 
         public static float GetTerrainHeight(int index)
