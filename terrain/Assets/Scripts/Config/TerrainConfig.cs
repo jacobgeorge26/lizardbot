@@ -53,6 +53,11 @@ namespace Config
             return (Surface)Surfaces[index];
         }
 
+        public static Vector3 GetSpawnPoint(int robotIndex)
+        {
+            return SpawnPoints[Mathf.FloorToInt(robotIndex / 25)];
+        }
+
         public static float GetTerrainHeight(int index)
         {
             return Surfaces[index] * 8f;

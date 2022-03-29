@@ -116,8 +116,8 @@ MonoBehaviour:
     y: 30
     width: 1536
     height: 771
-  m_MinSize: {x: 679, y: 342}
-  m_MaxSize: {x: 12004, y: 8042}
+  m_MinSize: {x: 678, y: 342}
+  m_MaxSize: {x: 12003, y: 8042}
   vertical: 0
   controlID: 50
 --- !u!114 &6
@@ -269,8 +269,8 @@ MonoBehaviour:
     y: 0
     width: 518
     height: 771
-  m_MinSize: {x: 276, y: 71}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 17}
   m_Panes:
   - {fileID: 17}
@@ -398,7 +398,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 56fbffff
+      m_ExpandedIDs: 0249ebff0649ebff0837eeff0c37eeff5edcfdff62dcfdff56fbffff4e4a0000764a0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -458,9 +458,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 8.931105, y: 12.897644, z: 0.5395827}
+    m_Target: {x: 2.6616316, y: 4.702595, z: -2.4890747}
     speed: 2
-    m_Value: {x: 8.931105, y: 12.897644, z: 0.5395827}
+    m_Value: {x: 2.6616316, y: 4.702595, z: -2.4890747}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -507,13 +507,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.121197246, y: 0.8743909, z: -0.2814156, w: 0.37636834}
+    m_Target: {x: 0.037137266, y: 0.49058774, z: 0.020855285, w: -0.87041795}
     speed: 2
-    m_Value: {x: 0.12119143, y: 0.8743489, z: -0.28140208, w: 0.37635025}
+    m_Value: {x: 0.03713508, y: 0.49055886, z: 0.020854058, w: -0.8703667}
   m_Size:
-    m_Target: 9.42805
+    m_Target: 10.421979
     speed: 2
-    m_Value: 9.42805
+    m_Value: 10.421979
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -576,22 +576,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Resources
+    - Assets/Scripts/retired
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Resources
+  - Assets/Scripts/retired
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\lizardbot\terrain
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 14}
-    m_SelectedIDs: 4e520000
-    m_LastClickedID: 21070
-    m_ExpandedIDs: 00000000c64a0000c84a0000ca4a0000cc4a0000ce4a0000d04a0000
+    m_SelectedIDs: 844b0000
+    m_LastClickedID: 19332
+    m_ExpandedIDs: 00000000c64a0000c84a0000ca4a0000cc4a0000ce4a0000d04a0000524b0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -644,8 +644,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 
-    m_LastClickedInstanceID: 0
+    m_SelectedInstanceIDs: d4070000
+    m_LastClickedInstanceID: 2004
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000
     m_RenameOverlay:
@@ -671,7 +671,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 4}
+    m_ScrollPosition: {x: 0, y: 0}
     m_GridSize: 64
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 115

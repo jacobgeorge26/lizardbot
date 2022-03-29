@@ -373,7 +373,7 @@ public static class RobotHelpers : object
     //get all robots within a radius
     internal static List<RobotConfig> GetNearbyRobots(this RobotConfig robot, int radius)
     {
-        Vector3 thisInitPos = TerrainConfig.SpawnPoints[Mathf.FloorToInt(robot.RobotIndex / 25)], thisRelPos = Vector3.zero;
+        Vector3 thisInitPos = TerrainConfig.GetSpawnPoint(robot.RobotIndex), thisRelPos = Vector3.zero;
         try { thisRelPos = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == 0).gameObject.transform.position - thisInitPos; }
         catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return new List<RobotConfig>(); }
         List<RobotConfig> nearby = new List<RobotConfig>();
@@ -384,8 +384,8 @@ public static class RobotHelpers : object
                 GameObject head = null;
                 try { head = r.Configs.First(o => o.Type == BodyPart.Body && o.Index == 0).gameObject; }
                 catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); nearby = new List<RobotConfig>(); return; }
-                       
-                Vector3 initPos = TerrainConfig.SpawnPoints[Mathf.FloorToInt(r.RobotIndex / 25)];
+
+                Vector3 initPos = TerrainConfig.GetSpawnPoint(r.RobotIndex);
                 Vector3 relativePos = head.transform.position - initPos;
                 if (Vector3.Distance(relativePos, thisRelPos) <= radius)
                 {

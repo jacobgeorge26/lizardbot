@@ -126,7 +126,7 @@ public class TrappedAlgorithm : MonoBehaviour
 
         }
         //important - update robot with its performance metric for AI to use
-        Vector3 spawnPoint = TerrainConfig.SpawnPoints[Mathf.FloorToInt(robotConfig.RobotIndex / 25)];
+        Vector3 spawnPoint = TerrainConfig.GetSpawnPoint(robotConfig.RobotIndex);
         float currentPerformance = Vector3.Distance(currentLocation, spawnPoint);
         robotConfig.Performance = currentPerformance > robotConfig.Performance ? currentPerformance : robotConfig.Performance;
         //update performance in UI

@@ -281,7 +281,7 @@ public static class GeneticAlgorithm : object
 
     private static void Reset(RobotConfig robot)
     {
-        Vector3 spawnPoint = TerrainConfig.SpawnPoints[Mathf.FloorToInt(robot.RobotIndex / 25)];
+        Vector3 spawnPoint = TerrainConfig.GetSpawnPoint(robot.RobotIndex);
         //pause objects       
         foreach (ObjectConfig childConfig in robot.Configs.OrderBy(o => o.Type))
         {
