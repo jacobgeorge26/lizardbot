@@ -10,9 +10,8 @@ namespace Config
         public static List<RobotConfig> RobotConfigs = new List<RobotConfig>();
 
         //there is a hard limit of 25 layers available
-        //RobotDetection works to prevent robots in the same area being in the same layer
-        //population can be >25, but in rougher terrain where the robot isn't making progress, expect some warnings and interaction between them
-        public static int PopulationSize = 50;
+        //to work within this the population will be split to 25 per terrain
+        public static int PopulationSize = 10;
 
         public static int NoAttempts = 1;
 

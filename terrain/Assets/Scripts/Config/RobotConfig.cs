@@ -27,6 +27,8 @@ namespace Config
 
         public float StartTime = 0;
 
+        public int PenaltyCount = 0;
+
         //GENES
 
         public RobotConfig Original;
@@ -49,6 +51,7 @@ namespace Config
             Original = oldRobot.Original;
             MutationCount = oldRobot.MutationCount;
             StartTime = oldRobot.StartTime;
+            PenaltyCount = oldRobot.PenaltyCount;
             NoSections.Value = oldRobot.NoSections.Value;
             IsTailEnabled.Value = oldRobot.IsTailEnabled.Real;
             BodyColour.Value = oldRobot.BodyColour.Value;
@@ -72,6 +75,7 @@ namespace Config
             this.Performance = 0;
             this.MutationCount = robot.MutationCount;
             this.StartTime = Time.time;
+            this.PenaltyCount = 0;
             this.Original = robot.Original;
             this.NoSections.Value = robot.NoSections.Value;
             this.IsTailEnabled.Value = robot.IsTailEnabled.Value;

@@ -9,6 +9,7 @@ public class Collisions : MonoBehaviour
 {
     static bool[] started = new bool[AIConfig.PopulationSize];
     static bool[] finished = new bool[AIConfig.PopulationSize];
+    internal static float[] StartTimes = new float[AIConfig.PopulationSize];
 
     private int robotIndex;
 
@@ -28,7 +29,11 @@ public class Collisions : MonoBehaviour
             started[robotIndex] = true;
             RobotConfig robot = AIConfig.RobotConfigs[robotIndex];
             //currently in sphere attached to head, find head, its associated ObjectConfig and we've got the whole robot
-            if (robot != null) robot.IsEnabled = true;
+            if (robot != null)
+            {
+                StartTimes[robot.RobotIndex] = Time.realtimeSinceStartup;
+                robot.IsEnabled = true;
+            }
         }
         else if(collider.tag == "Finish" && !finished[robotIndex])
         {

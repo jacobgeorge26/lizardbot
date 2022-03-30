@@ -63,7 +63,6 @@ public static class RobotHelpers : object
         GameObject lastSection = null;
         try { lastSection = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == robot.NoSections.Value - 1).gameObject; }
         catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); }
-        
         tail.transform.localPosition = new Vector3(0, 0, robot.GetZPos(lastSection, tail));
 
         TailConfig config = new TailConfig();
@@ -96,6 +95,10 @@ public static class RobotHelpers : object
         {
             case BodyPart.Body:
                 BodyConfig bodyConfig = objConfig.Body;
+                //set size and mass
+                objConfig.gameObject.transform.localScale = new Vector3(bodyConfig.Size.Value, bodyConfig.Size.Value, bodyConfig.Size.Value);
+                objConfig.gameObject.GetComponent<Rigidbody>().mass = bodyConfig.Mass.Value;
+                //if this is not the head then the joint and colour needs to be set up
                 if (index > 0)
                 {
                     try {
@@ -104,14 +107,14 @@ public static class RobotHelpers : object
                             .First().gameObject;
                     }
                     catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
+                    //set body colour
                     var renderer = objConfig.gameObject.GetComponent<Renderer>();
                     renderer.material.SetColor("_Color", new Color(robot.BodyColour.Value / 100f, robot.BodyColour.Value / 100f, 1f));
+                    //update position in case the size has changed
+                    objConfig.gameObject.transform.localPosition = new Vector3(0, 0, robot.GetZPos(prevSection, objConfig.gameObject));
                     //setup joint
                     robot.SetupConfigurableJoint(objConfig.gameObject, bodyConfig, prevSection);
                 }
-                //set size and mass
-                objConfig.gameObject.transform.localScale = new Vector3(bodyConfig.Size.Value, bodyConfig.Size.Value, bodyConfig.Size.Value);
-                objConfig.gameObject.GetComponent<Rigidbody>().mass = bodyConfig.Mass.Value;
                 break;
             case BodyPart.Tail:
                 try {
@@ -125,10 +128,10 @@ public static class RobotHelpers : object
                 objConfig.gameObject.GetComponent<Rigidbody>().mass = robot.GetTotalMass() * tailConfig.TailMassMultiplier.Value;
                 //set length
                 objConfig.transform.localScale = new Vector3(objConfig.transform.localScale.x, objConfig.transform.localScale.y, tailConfig.Length.Value);
+                //reset position in case the length has changed
+                objConfig.gameObject.transform.localPosition = new Vector3(0, 0, robot.GetZPos(prevSection, objConfig.gameObject));
                 //setup joint
                 robot.SetupConfigurableJoint(objConfig.gameObject, tailConfig, prevSection);
-                //reset position in case a section has been removed
-                objConfig.gameObject.transform.localPosition = new Vector3(0, 0, robot.GetZPos(prevSection, objConfig.gameObject));
                 break;
             case BodyPart.Leg:
                 break;
@@ -472,7 +475,10 @@ public static class RobotHelpers : object
         return similar;
     }
 
-
+    //set the performance
+    //uses the distance the robot has travelled from the spawn
+    //multiplied by the speed of the robot
+    //subtract any penalties
     internal static float SetPerformance(this RobotConfig robot)
     {
         //get current location and spawn point
@@ -484,9 +490,19 @@ public static class RobotHelpers : object
         float timeToPoint = Time.time - robot.StartTime;
         //multiply by speed robot has taken to get here
         currentPerformance *= currentPerformance / timeToPoint;
+        //deduct any penalties accrued
+        currentPerformance *= Mathf.Pow(0.9f, robot.PenaltyCount);
+
         //if current performance is higher then replace it in RobotConfig
         robot.Performance = currentPerformance > robot.Performance ? currentPerformance : robot.Performance;
+
         //return current performance for UI's sake
         return currentPerformance;
+    }
+
+    internal static void PenalisePerformance(this RobotConfig robot)
+    {
+        //loses 10% as a penalty
+        robot.Performance *= 0.9f;
     }
 }

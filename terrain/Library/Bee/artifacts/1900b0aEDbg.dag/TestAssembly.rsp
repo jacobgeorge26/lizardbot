@@ -322,6 +322,7 @@
 "Assets/Scripts/GenerateRobot.cs"
 "Assets/Scripts/GenerateTerrain.cs"
 "Assets/Scripts/GeneticAlgorithm.cs"
+"Assets/Scripts/ImpactMonitor.cs"
 "Assets/Scripts/MoveBody.cs"
 "Assets/Scripts/MoveTail.cs"
 "Assets/Scripts/OverviewCamPos.cs"
