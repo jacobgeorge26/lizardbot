@@ -60,7 +60,7 @@
     <Compile Include="Assets\Scripts\retired\EntireBodyConfig.cs" />
     <Compile Include="Assets\Scripts\RobotHelpers.cs" />
     <Compile Include="Assets\Scripts\retired\RobotDetection.cs" />
-    <Compile Include="Assets\Scripts\DivideSphere.cs" />
+    <Compile Include="Assets\Scripts\retired\DivideSphere.cs" />
     <Compile Include="Assets\Scripts\OverviewCamPos.cs" />
     <Compile Include="Assets\Scripts\GenerateTerrain.cs" />
     <Compile Include="Assets\Scripts\retired\JointSetup.cs" />
@@ -72,6 +72,7 @@
     <Compile Include="Assets\Scripts\retired\TerrainGeneration.cs" />
     <Compile Include="Assets\Scripts\retired\TestJointSetup.cs" />
     <Compile Include="Assets\Scripts\DynamicMovement.cs" />
+    <Compile Include="Assets\Scripts\ImpactMonitor.cs" />
     <Compile Include="Assets\Scripts\retired\MoveJoint.cs" />
     <Compile Include="Assets\Scripts\Collisions.cs" />
     <Compile Include="Assets\Scripts\retired\Helpers.cs" />

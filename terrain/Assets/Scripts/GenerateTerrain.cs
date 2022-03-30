@@ -46,7 +46,7 @@ public class GenerateTerrain : MonoBehaviour
         int row = Mathf.FloorToInt(index / grid);
         int col = index % grid;
         Vector3 newLoc = new Vector3(current.x + (col * (TerrainConfig.GetTerrainWidth() + TerrainConfig.Gap)), 0, current.z + (row * (TerrainConfig.GetTerrainWidth() + TerrainConfig.Gap)));
-        TerrainConfig.SpawnPoints[index] = newLoc;
+        TerrainConfig.SetSpawnPoint(index, newLoc);
         return newLoc;
     }
 

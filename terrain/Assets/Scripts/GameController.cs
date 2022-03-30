@@ -24,7 +24,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
         /////////////////////////////////////
-        PlayerPrefs.SetInt("Attempt", 33);
+        PlayerPrefs.SetInt("Attempt", 0);
         Controller = this;
         attemptCount = AIConfig.NoAttempts;
         //setup writers with headers
@@ -46,8 +46,10 @@ public class GameController : MonoBehaviour
                 //IMPORTANT delay needed to allow unity to stop running scripts attached to newly disabled objects
                 yield return new WaitForSeconds(5f);
                 attemptCount--;
-                UpdateAttempt(1);
-                if(!isRespawn) SetupAIParams();
+                ////////////////
+                //UpdateAttempt(1);
+                UpdateAttempt(0);
+                if (!isRespawn && DebugConfig.LogAIData) SetupAIParams();
                 generate = gameObject.AddComponent<GeneratePopulation>();
                 Debug.Log($"ATTEMPT {PlayerPrefs.GetInt("Attempt")}");
                 generate.CreatePopulation();
@@ -58,25 +60,25 @@ public class GameController : MonoBehaviour
                 AIConfig.RobotConfigs.ForEach(r => {
                     r.Object.transform.parent.gameObject.SetActive(false);
                 });
+                StopAllCoroutines();
                 if (DebugConfig.LogRobotData) LogBestRobot();
                 StartCoroutine(TotalDeconstruct());
+                //as all coroutines have been stopped - dodgy recursion but avoids issue if in middle of respawn
+                StartCoroutine(GenerateAttempt(false)); 
             }
-            Application.Quit();
         }
     }
 
-    private bool firstRandom = false;
     private void SetupAIParams()
     {
-        int noRandoms = firstRandom ? 1 : 2;
+        int noRandoms = (int)Random.Range(1, 5);
         //run twice the first time because for some reason it produces the same results the first time it's run
         for (int i = 0; i < noRandoms; i++)
         {
-            firstRandom = true;
             AIConfig.MutationCycle = (int)Random.Range(0, 10);
-            AIConfig.RecombinationRate = Random.value;
-            AIConfig.MutationRate = Random.value;
-            AIConfig.SelectionSize = Random.Range(1, 20);
+            AIConfig.RecombinationRate = Random.Range(0.75f, 0.85f);
+            AIConfig.MutationRate = Random.Range(0.15f, 0.35f);
+            AIConfig.SelectionSize = Random.Range(4, 10);
         }
         int attempt = PlayerPrefs.GetInt("Attempt");
         aiWriter.WriteLine($"{attempt}, {DebugConfig.GetData()}");
@@ -147,6 +149,7 @@ public class GameController : MonoBehaviour
         StartCoroutine(GenerateAttempt(true));
     }
 
+    //isSuccessfulRobot is used when the robot has reached the edge of the map and is being respawned but needs to maintain its performance
     internal void SingleRespawn(string exception, RobotConfig robot)
     {
         //stop execution for this robot - an error has occurred

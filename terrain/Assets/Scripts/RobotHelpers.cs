@@ -51,6 +51,8 @@ public static class RobotHelpers : object
         objConfig.Init(index, BodyPart.Body, config, robot.RobotIndex);
         robot.Configs.Add(objConfig);
 
+        if (robot.UniformBody.Value) robot.MakeBodyUniform(config);
+
         robot.UpdateBodyPart(objConfig, index, BodyPart.Body);
     }
 
@@ -63,7 +65,6 @@ public static class RobotHelpers : object
         GameObject lastSection = null;
         try { lastSection = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == robot.NoSections.Value - 1).gameObject; }
         catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); }
-        
         tail.transform.localPosition = new Vector3(0, 0, robot.GetZPos(lastSection, tail));
 
         TailConfig config = new TailConfig();
@@ -95,6 +96,11 @@ public static class RobotHelpers : object
         switch (type)
         {
             case BodyPart.Body:
+                BodyConfig bodyConfig = objConfig.Body;
+                //set size and mass
+                objConfig.gameObject.transform.localScale = new Vector3(bodyConfig.Size.Value, bodyConfig.Size.Value, bodyConfig.Size.Value);
+                objConfig.gameObject.GetComponent<Rigidbody>().mass = bodyConfig.Mass.Value;
+                //if this is not the head then the joint and colour needs to be set up
                 if (index > 0)
                 {
                     try {
@@ -103,10 +109,11 @@ public static class RobotHelpers : object
                             .First().gameObject;
                     }
                     catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
- 
-                    BodyConfig bodyConfig = objConfig.Body;
+                    //set body colour
                     var renderer = objConfig.gameObject.GetComponent<Renderer>();
                     renderer.material.SetColor("_Color", new Color(robot.BodyColour.Value / 100f, robot.BodyColour.Value / 100f, 1f));
+                    //update position in case the size has changed
+                    objConfig.gameObject.transform.localPosition = new Vector3(0, 0, robot.GetZPos(prevSection, objConfig.gameObject));
                     //setup joint
                     robot.SetupConfigurableJoint(objConfig.gameObject, bodyConfig, prevSection);
                 }
@@ -121,10 +128,12 @@ public static class RobotHelpers : object
                 //set mass to be equal to rest of body
                 TailConfig tailConfig = objConfig.Tail;
                 objConfig.gameObject.GetComponent<Rigidbody>().mass = robot.GetTotalMass() * tailConfig.TailMassMultiplier.Value;
+                //set length
+                objConfig.transform.localScale = new Vector3(objConfig.transform.localScale.x, objConfig.transform.localScale.y, tailConfig.Length.Value);
+                //reset position in case the length has changed
+                objConfig.gameObject.transform.localPosition = new Vector3(0, 0, robot.GetZPos(prevSection, objConfig.gameObject));
                 //setup joint
                 robot.SetupConfigurableJoint(objConfig.gameObject, tailConfig, prevSection);
-                //reset position in case a section has been removed
-                objConfig.gameObject.transform.localPosition = new Vector3(0, 0, robot.GetZPos(prevSection, objConfig.gameObject));
                 break;
             case BodyPart.Leg:
                 break;
@@ -234,6 +243,30 @@ public static class RobotHelpers : object
         }
     }
 
+    internal static void MakeBodyUniform(this RobotConfig robot, BodyConfig body = null)
+    {
+        //if uniform body is enabled then update this body config to reflect this
+        BodyConfig head;
+        try { head = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == 0).Body; }
+        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
+        if(body == null)
+        { 
+            //whole body needs adjusting
+            foreach (ObjectConfig objConfig in robot.Configs.Where(o => o.Type == BodyPart.Body && o.Index > 0))
+            {
+                objConfig.Body.Size.Value = head.Size.Value;
+                objConfig.Body.Mass.Value = head.Mass.Value;
+            }
+        }
+        else
+        {
+            //only a single section needs sorting
+            body.Size.Value = head.Size.Value;
+            body.Mass.Value = head.Mass.Value;
+        }
+
+    }
+
     //get a list of all the genevariables for a config (e.g. BodyConfig)
     internal static List<Gene> GetVariables(this RobotConfig robot, dynamic config)
     {
@@ -320,17 +353,18 @@ public static class RobotHelpers : object
         }
     }
 
-    internal static void SetDynMovVelocities(this RobotConfig robot, int index)
+    internal static void SetDynMovVelocities(this RobotConfig robot, int index, bool isJump)
     {
+        float activation = isJump ? 3 : DynMovConfig.ActivationRate;
         foreach (ObjectConfig objConfig in robot.Configs)
         {
             if (objConfig.Type == BodyPart.Body && objConfig.Body != null)
             {
-                objConfig.gameObject.GetComponent<Rigidbody>().velocity = objConfig.Body.Velocities[index] * DynMovConfig.ActivationRate;
+                objConfig.gameObject.GetComponent<Rigidbody>().velocity = objConfig.Body.Velocities[index] * activation;
             }
             else if (objConfig.Type == BodyPart.Tail && objConfig.Tail != null)
             {
-                objConfig.gameObject.GetComponent<Rigidbody>().velocity = objConfig.Tail.Velocities[index] * DynMovConfig.ActivationRate;
+                objConfig.gameObject.GetComponent<Rigidbody>().velocity = objConfig.Tail.Velocities[index] * activation;
             }
         }
     }
@@ -368,7 +402,7 @@ public static class RobotHelpers : object
     //get all robots within a radius
     internal static List<RobotConfig> GetNearbyRobots(this RobotConfig robot, int radius)
     {
-        Vector3 thisInitPos = TerrainConfig.SpawnPoints[Mathf.FloorToInt(robot.RobotIndex / 25)], thisRelPos = Vector3.zero;
+        Vector3 thisInitPos = TerrainConfig.GetSpawnPoint(robot.RobotIndex), thisRelPos = Vector3.zero;
         try { thisRelPos = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == 0).gameObject.transform.position - thisInitPos; }
         catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return new List<RobotConfig>(); }
         List<RobotConfig> nearby = new List<RobotConfig>();
@@ -379,12 +413,16 @@ public static class RobotHelpers : object
                 GameObject head = null;
                 try { head = r.Configs.First(o => o.Type == BodyPart.Body && o.Index == 0).gameObject; }
                 catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); nearby = new List<RobotConfig>(); return; }
-                       
-                Vector3 initPos = TerrainConfig.SpawnPoints[Mathf.FloorToInt(r.RobotIndex / 25)];
+
+                Vector3 initPos = TerrainConfig.GetSpawnPoint(r.RobotIndex);
                 Vector3 relativePos = head.transform.position - initPos;
                 if (Vector3.Distance(relativePos, thisRelPos) <= radius)
                 {
-                    nearby.Add(r);
+                    //limit to those within the same terrain type
+                    if(TerrainConfig.GetTerrainType(r.RobotIndex) == TerrainConfig.GetTerrainType(robot.RobotIndex))
+                    {
+                        nearby.Add(r);
+                    }
                 }
             }
         });
@@ -465,5 +503,36 @@ public static class RobotHelpers : object
             if (Math.Abs((thisDriveVelocity / robot.NoSections.Value) - (otherDriveVelocity / similar[i].NoSections.Value)) > allowedDifference) similar.RemoveAt(i);
         }
         return similar;
+    }
+
+    //set the performance
+    //uses the distance the robot has travelled from the spawn
+    //multiplied by the speed of the robot
+    //subtract any penalties
+    internal static float SetPerformance(this RobotConfig robot)
+    {
+        //get current location and spawn point
+        Vector3 currentLocation = robot.Object.transform.position;
+        Vector3 spawnPoint = TerrainConfig.GetSpawnPoint(robot.RobotIndex);
+        //how far has the robot travelled (magnitude)
+        float currentPerformance = Vector3.Distance(currentLocation, spawnPoint);
+        //how long has it taken to get there
+        float timeToPoint = Time.time - robot.StartTime;
+        //multiply by speed robot has taken to get here
+        currentPerformance *= currentPerformance / timeToPoint;
+        //deduct any penalties accrued
+        currentPerformance *= Mathf.Pow(0.9f, robot.PenaltyCount);
+
+        //if current performance is higher then replace it in RobotConfig
+        robot.Performance = currentPerformance > robot.Performance ? currentPerformance : robot.Performance;
+
+        //return current performance for UI's sake
+        return currentPerformance;
+    }
+
+    internal static void PenalisePerformance(this RobotConfig robot)
+    {
+        //loses 10% as a penalty
+        robot.Performance *= 0.9f;
     }
 }
