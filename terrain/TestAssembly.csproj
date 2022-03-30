@@ -72,6 +72,7 @@
     <Compile Include="Assets\Scripts\retired\TerrainGeneration.cs" />
     <Compile Include="Assets\Scripts\retired\TestJointSetup.cs" />
     <Compile Include="Assets\Scripts\DynamicMovement.cs" />
+    <Compile Include="Assets\Scripts\ImpactMonitor.cs" />
     <Compile Include="Assets\Scripts\retired\MoveJoint.cs" />
     <Compile Include="Assets\Scripts\Collisions.cs" />
     <Compile Include="Assets\Scripts\retired\Helpers.cs" />
@@ -83,7 +84,6 @@
     <Compile Include="Assets\Scripts\GameController.cs" />
     <Compile Include="Assets\Scripts\MoveBody.cs" />
     <Compile Include="Assets\Scripts\retired\Move.cs" />
-    <Compile Include="Assets\Scripts\ImpactMonitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\Scripts.asmdef" />

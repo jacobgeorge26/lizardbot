@@ -392,7 +392,11 @@ public static class RobotHelpers : object
                 Vector3 relativePos = head.transform.position - initPos;
                 if (Vector3.Distance(relativePos, thisRelPos) <= radius)
                 {
-                    nearby.Add(r);
+                    //limit to those within the same terrain type
+                    if(TerrainConfig.GetTerrainType(r.RobotIndex) == TerrainConfig.GetTerrainType(robot.RobotIndex))
+                    {
+                        nearby.Add(r);
+                    }
                 }
             }
         });
