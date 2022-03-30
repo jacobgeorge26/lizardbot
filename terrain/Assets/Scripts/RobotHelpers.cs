@@ -56,6 +56,35 @@ public static class RobotHelpers : object
         robot.UpdateBodyPart(objConfig, index, BodyPart.Body);
     }
 
+    internal static void CreateLeg(this RobotConfig robot, int index, int bodyIndex, int spawnIndex, ObjectConfig existingLeg = null)
+    {
+        GameObject leg = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Leg"));
+        //TODO: LEGS - move this to spawn points - determine which part it should be connected to
+        ObjectConfig prevSection = null;
+        try { prevSection = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == bodyIndex); }
+        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
+        Vector3 spawnPoint = prevSection.Body.LegPoints[spawnIndex];
+        leg.name = $"leg{index}";
+        leg.transform.parent = robot.Object.transform;
+        leg.transform.localPosition = new Vector3(robot.GetXPos(prevSection.gameObject, leg, spawnPoint), 0, prevSection.transform.localPosition.z);
+        int leftOrRight = spawnPoint.x - prevSection.transform.localPosition.x > 0 ? -1 : 1;
+        leg.transform.localRotation = Quaternion.Euler(0, 90 * leftOrRight, 0);
+
+        //setup LegConfig for MoveLeg script
+        LegConfig config = new LegConfig(prevSection.Index, spawnPoint);
+        if (existingLeg != null) config.Clone(existingLeg.Leg);
+
+        ObjectConfig objConfig = leg.GetComponent<ObjectConfig>();
+        if (objConfig == null) objConfig = leg.AddComponent<ObjectConfig>();
+        //important!!
+        objConfig.Init(index, BodyPart.Leg, config, robot.RobotIndex);
+        robot.Configs.Add(objConfig);
+
+        if (robot.UniformBody.Value) robot.MakeBodyUniform(null, config);
+
+        robot.UpdateBodyPart(objConfig, index, BodyPart.Leg);
+    }
+
     //create a tail - only ever one
     internal static void CreateTail(this RobotConfig robot, ObjectConfig existingTail = null)
     {
@@ -116,6 +145,8 @@ public static class RobotHelpers : object
                     objConfig.gameObject.transform.localPosition = new Vector3(0, 0, robot.GetZPos(prevSection, objConfig.gameObject));
                     //setup joint
                     robot.SetupConfigurableJoint(objConfig.gameObject, bodyConfig, prevSection);
+                    //create leg spawn points
+                    robot.CreateLegSpawnPoints(objConfig);
                 }
                 break;
             case BodyPart.Tail:
@@ -136,6 +167,18 @@ public static class RobotHelpers : object
                 robot.SetupConfigurableJoint(objConfig.gameObject, tailConfig, prevSection);
                 break;
             case BodyPart.Leg:
+                //TODO: LEGS - complete update body part for legs
+                try
+                {
+                    prevSection = robot.Configs
+                        .Where(o => o.Type == BodyPart.Body && o.Index == objConfig.Leg.AttachedBody)
+                        .First().gameObject;
+                }
+                catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
+                //TODO: LEGS - mass - length - redo position
+                LegConfig legConfig = objConfig.Leg;
+                //setup joint
+                robot.SetupConfigurableJoint(objConfig.gameObject, legConfig, prevSection);
                 break;
             default:
                 break;
@@ -164,6 +207,12 @@ public static class RobotHelpers : object
         robot.Configs.Remove(tailConfig);
     }
 
+    //remove a leg
+    internal static void RemoveLeg(this RobotConfig robot, int index)
+    {
+        //TODO: LEGS - implement this
+    }
+
     //setup the joints to have the correct angle constraints and be attached to the correct rigidbody before it in the body
     private static void SetupConfigurableJoint(this RobotConfig robot, GameObject section, JointConfig config, GameObject prevObject)
     {
@@ -173,6 +222,16 @@ public static class RobotHelpers : object
         joint.angularYLimit = new SoftJointLimit() { limit = config.AngleConstraint.Value[1] / 2 };
         joint.angularZLimit = new SoftJointLimit() { limit = config.AngleConstraint.Value[2] / 2 };
         joint.connectedBody = prevObject.GetComponent<Rigidbody>();
+    }
+
+    private static void CreateLegSpawnPoints(this RobotConfig robot, ObjectConfig body)
+    {
+        //TODO: LEGS - create spawn points around body
+        //How is the head going to be handled? Tail?
+        Vector3 bodyPosition = body.gameObject.transform.localPosition;
+        float gap = (body.transform.localScale.x / 2);
+        body.Body.LegPoints[0] = new Vector3(bodyPosition.x - gap, bodyPosition.y, bodyPosition.z);
+        body.Body.LegPoints[0] = new Vector3(bodyPosition.x + gap, bodyPosition.y, bodyPosition.z);
     }
 
     //used when creating a new body section for an existing robot
@@ -243,12 +302,13 @@ public static class RobotHelpers : object
         }
     }
 
-    internal static void MakeBodyUniform(this RobotConfig robot, BodyConfig body = null)
+    internal static void MakeBodyUniform(this RobotConfig robot, BodyConfig body = null, LegConfig leg = null)
     {
         //if uniform body is enabled then update this body config to reflect this
         BodyConfig head;
         try { head = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == 0).Body; }
         catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
+        //TODO: LEGS - complete uniform body method
         if(body == null)
         { 
             //whole body needs adjusting
@@ -264,7 +324,6 @@ public static class RobotHelpers : object
             body.Size.Value = head.Size.Value;
             body.Mass.Value = head.Mass.Value;
         }
-
     }
 
     //get a list of all the genevariables for a config (e.g. BodyConfig)
@@ -294,6 +353,12 @@ public static class RobotHelpers : object
         }
         CameraConfig.CamFollow = robot.RobotIndex;
         CameraConfig.RobotCamera.GetComponent<CameraPosition>().SetRobot(robot);
+    }
+
+    internal static float GetXPos(this RobotConfig robot, GameObject prevObject, GameObject thisObject, Vector3 spawnPoint)
+    {
+        int leftOrRight = spawnPoint.x - prevObject.transform.localPosition.x > 0 ? 1 : -1;
+        return spawnPoint.x + leftOrRight * (thisObject.transform.localScale.z / 2 + 0.1f);
     }
 
     //get what the Y position param should be on spawn

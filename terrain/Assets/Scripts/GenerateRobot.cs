@@ -57,7 +57,7 @@ public class GenerateRobot : MonoBehaviour
 
         SetupBody(robot);
 
-        //TODO: setup legs
+        SetupLegs(robot);
 
         if (robotConfig.IsTailEnabled.Value)
         {
@@ -100,6 +100,35 @@ public class GenerateRobot : MonoBehaviour
             else robotConfig.CreateBody(i, body);
         }
         if (robotConfig.MaintainSerpentine.Value && oldRobot == null) robotConfig.MakeSerpentine(!AIConfig.RandomInitValues);
+    }
+
+    private void SetupLegs(GameObject robot)
+    {
+        //TODO: LEGS - am I changing this to include the head? Maybe have a variable somewhere else that specifies the number of valid spawn points per section
+        int NoSpawnPoints = 2;
+        List<int> legIndexes = robotConfig.UniformBody.Value ? Enumerable.Range(1, (int)robotConfig.NoSections.Value - 1).ToList() : Enumerable.Range(2, (int)(robotConfig.NoSections.Value - 1) * 2).ToList();
+        for (int i = 0; i < robotConfig.NoLegs.Value; i++)
+        {
+            int index = legIndexes[Random.Range(0, legIndexes.Count - 1)];
+            legIndexes.Remove(index);
+            if (robotConfig.UniformBody.Value)
+            {
+                for (int spawnIndex = 0; spawnIndex < NoSpawnPoints; spawnIndex++)
+                {
+                    ObjectConfig leg;
+                    try { leg = oldRobot.Configs.First(o => o.Type == BodyPart.Leg && o.Index == i); }
+                    catch (Exception) { leg = null; }
+                    robotConfig.CreateLeg(i, Mathf.FloorToInt(index), spawnIndex, leg); i++;
+                }
+            }
+            else
+            {
+                ObjectConfig leg;
+                try { leg = oldRobot.Configs.First(o => o.Type == BodyPart.Leg && o.Index == i); }
+                catch (Exception) { leg = null; }
+                robotConfig.CreateLeg(i, Mathf.FloorToInt(index / NoSpawnPoints), index % NoSpawnPoints, leg);
+            }
+        }
     }
 
 

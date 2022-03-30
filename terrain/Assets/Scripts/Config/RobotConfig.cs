@@ -33,24 +33,31 @@ namespace Config
 
         public RobotConfig Original;
 
-        public Gene NoSections = new Gene(5, 1, 10, Variable.NoSections);
+        public Gene NoSections = new Gene(3, 1, 10, Variable.NoSections);
 
-        public Gene IsTailEnabled = new Gene(true, Variable.IsTailEnabled);
+        //TODO: LEGS - add to robot config clone
+        public Gene NoLegs = new Gene(3, 1, 20, Variable.NoLegs);
+
+        public Gene IsTailEnabled = new Gene(false, Variable.IsTailEnabled);
 
         //lower the better
         public Gene BodyColour = new Gene(150, 0, 255, Variable.BodyColour);
 
         //when changes are made, should serpentine motion be preserved
-        public Gene MaintainSerpentine = new Gene(true, Variable.MaintainSerpentine);
+        public Gene MaintainSerpentine = new Gene(false, Variable.MaintainSerpentine);
 
         //should the size & mass be maintained across the body
-        public Gene UniformBody = new Gene(true, Variable.UniformBody);
+        public Gene UniformBody = new Gene(false, Variable.UniformBody);
 
         public RobotConfig(int _index, GameObject _object)
         {
             this.RobotIndex = _index;
             this.Object = _object;
             this.StartTime = Time.time;
+            //TODO: LEGS - what if the no sections changes in a mutation? Include head?
+            NoLegs.Max = (NoSections.Value - 1) * 2;
+            NoLegs.Value = NoLegs.Real; //assign so that the value will bounce if over the max
+            if (UniformBody.Value) NoLegs.Value = ((int)NoLegs.Value / 2) * 2;
         }
 
         //RESPAWN

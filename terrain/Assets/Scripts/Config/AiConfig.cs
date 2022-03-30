@@ -11,7 +11,7 @@ namespace Config
 
         //there is a hard limit of 25 layers available
         //to work within this the population will be split to 25 per terrain
-        public static int PopulationSize = 10;
+        public static int PopulationSize = 1;
 
         public static int NoAttempts = 1;
 
@@ -21,7 +21,7 @@ namespace Config
 
         //should the robots be randomly generated
         //false uses the preset defaults
-        public static bool RandomInitValues = true;
+        public static bool RandomInitValues = false;
 
         //how many locations are analysed (2 per second)
         public static int Sensitivity = 20;
