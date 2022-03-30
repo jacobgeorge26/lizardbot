@@ -376,6 +376,8 @@ public static class GeneticAlgorithm : object
         //does the tail need to be removed?
         else if (oldRobot.IsTailEnabled.Value && !newRobot.IsTailEnabled.Value) newRobot.RemoveTail();
 
+        if (newRobot.UniformBody.Value) newRobot.MakeBodyUniform();
+
         //update existing configs
         foreach (ObjectConfig item in newRobot.Configs)
         {
@@ -388,6 +390,7 @@ public static class GeneticAlgorithm : object
                 newRobot.UpdateBodyPart(item, 0, BodyPart.Tail);
             }
         }
+
         if (newRobot.MaintainSerpentine.Value) newRobot.MakeSerpentine(false);
         //if the robot camera is following this robot then update its Head & Tail variables
         if (CameraConfig.CamFollow == newRobot.RobotIndex && CameraConfig.RobotCamera.activeSelf == true) CameraConfig.RobotCamera.GetComponent<CameraPosition>().SetRobot(newRobot);

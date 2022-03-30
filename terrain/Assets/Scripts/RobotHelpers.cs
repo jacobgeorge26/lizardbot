@@ -51,6 +51,8 @@ public static class RobotHelpers : object
         objConfig.Init(index, BodyPart.Body, config, robot.RobotIndex);
         robot.Configs.Add(objConfig);
 
+        if (robot.UniformBody.Value) robot.MakeBodyUniform(config);
+
         robot.UpdateBodyPart(objConfig, index, BodyPart.Body);
     }
 
@@ -239,6 +241,30 @@ public static class RobotHelpers : object
                 useSin = !useSin;
             }
         }
+    }
+
+    internal static void MakeBodyUniform(this RobotConfig robot, BodyConfig body = null)
+    {
+        //if uniform body is enabled then update this body config to reflect this
+        BodyConfig head;
+        try { head = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == 0).Body; }
+        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
+        if(body == null)
+        { 
+            //whole body needs adjusting
+            foreach (ObjectConfig objConfig in robot.Configs.Where(o => o.Type == BodyPart.Body && o.Index > 0))
+            {
+                objConfig.Body.Size.Value = head.Size.Value;
+                objConfig.Body.Mass.Value = head.Mass.Value;
+            }
+        }
+        else
+        {
+            //only a single section needs sorting
+            body.Size.Value = head.Size.Value;
+            body.Mass.Value = head.Mass.Value;
+        }
+
     }
 
     //get a list of all the genevariables for a config (e.g. BodyConfig)

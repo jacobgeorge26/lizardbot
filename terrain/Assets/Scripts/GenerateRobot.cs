@@ -39,7 +39,7 @@ public class GenerateRobot : MonoBehaviour
             AIConfig.RobotConfigs[index] = robotConfig;
             DebugConfig.InitRobots.Remove(oldRobot);
         }
-        else
+        else //new robot
         {
             robotConfig.Original = robotConfig;
             AIConfig.RobotConfigs.Add(robotConfig);

@@ -10,6 +10,7 @@ public enum Variable
     Size = -6, 
     Mass = -7,
     Length = -8,
+    UniformBody = -9,
     //positive = movement
     IsRotating = 1, 
     UseSin = 2, 

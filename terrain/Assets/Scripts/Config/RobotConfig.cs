@@ -43,6 +43,17 @@ namespace Config
         //when changes are made, should serpentine motion be preserved
         public Gene MaintainSerpentine = new Gene(true, Variable.MaintainSerpentine);
 
+        //should the size & mass be maintained across the body
+        public Gene UniformBody = new Gene(true, Variable.UniformBody);
+
+        public RobotConfig(int _index, GameObject _object)
+        {
+            this.RobotIndex = _index;
+            this.Object = _object;
+            this.StartTime = Time.time;
+        }
+
+        //RESPAWN
         //clone variables applicable to starting again from a scrapped attempt - different to a fresh copy
         public void Clone(RobotConfig oldRobot)
         {
@@ -56,15 +67,10 @@ namespace Config
             IsTailEnabled.Value = oldRobot.IsTailEnabled.Real;
             BodyColour.Value = oldRobot.BodyColour.Value;
             MaintainSerpentine.Value = oldRobot.MaintainSerpentine.Real;
+            UniformBody.Value = oldRobot.UniformBody.Real;
         }
 
-        public RobotConfig(int _index, GameObject _object)
-        {
-            this.RobotIndex = _index;
-            this.Object = _object;
-            this.StartTime = Time.time;
-        }
-
+        //NEW
         //not directly a copy, a clean copy without the default / random init
         //excludes object, this should have been setup with the constructor
         public void FreshCopy(RobotConfig robot, int version)
@@ -81,6 +87,7 @@ namespace Config
             this.IsTailEnabled.Value = robot.IsTailEnabled.Value;
             this.BodyColour.Value = robot.BodyColour.Value;
             this.MaintainSerpentine.Value = robot.MaintainSerpentine.Value;
+            this.UniformBody.Value = robot.UniformBody.Value;
         }
 
         public string GetHeader()
@@ -94,6 +101,7 @@ namespace Config
             line += $"{nameof(IsTailEnabled)}, ";
             line += $"{nameof(BodyColour)}, ";
             line += $"{nameof(MaintainSerpentine)}, ";
+            line += $"{nameof(UniformBody)}, ";
             BodyConfig tempBody = new BodyConfig();
             for (int i = 0; i < NoSections.Max; i++)
             {
@@ -115,6 +123,7 @@ namespace Config
             line += $"{IsTailEnabled.Value}, ";
             line += $"{BodyColour.Value}, ";
             line += $"{MaintainSerpentine.Value}, ";
+            line += $"{UniformBody.Value}, ";
             BodyConfig tempBody = new BodyConfig();
             for (int i = 0; i < NoSections.Max; i++)
             {

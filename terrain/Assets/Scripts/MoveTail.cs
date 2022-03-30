@@ -43,7 +43,7 @@ public class MoveTail : MonoBehaviour
             targetVelocity[i] = bodyMomentum[i] / (r * tail.mass * -1);
             addVelocity[i] = targetVelocity[i] - tail.velocity[i];
             //adjust for rotation multiplier
-            ////////////////////error here
+            //TODO: investigate occasional error here
             addVelocity[i] *= config.RotationMultiplier.Value[i] * 0.5f;
             addVelocity[i] = Math.Min(addVelocity[i], 100);
             addVelocity[i] = addVelocity[i] == 0 ? 0.01f : addVelocity[i];
