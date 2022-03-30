@@ -471,4 +471,22 @@ public static class RobotHelpers : object
         }
         return similar;
     }
+
+
+    internal static float SetPerformance(this RobotConfig robot)
+    {
+        //get current location and spawn point
+        Vector3 currentLocation = robot.Object.transform.position;
+        Vector3 spawnPoint = TerrainConfig.GetSpawnPoint(robot.RobotIndex);
+        //how far has the robot travelled (magnitude)
+        float currentPerformance = Vector3.Distance(currentLocation, spawnPoint);
+        //how long has it taken to get there
+        float timeToPoint = Time.time - robot.StartTime;
+        //multiply by speed robot has taken to get here
+        currentPerformance *= currentPerformance / timeToPoint;
+        //if current performance is higher then replace it in RobotConfig
+        robot.Performance = currentPerformance > robot.Performance ? currentPerformance : robot.Performance;
+        //return current performance for UI's sake
+        return currentPerformance;
+    }
 }

@@ -32,7 +32,7 @@ namespace Config
 
         public static bool LogRobotData = false;
 
-        public static bool LogAIData = true;
+        public static bool LogAIData = false;
 
         public static RobotConfig BestRobot;
 

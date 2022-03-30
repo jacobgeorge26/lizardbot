@@ -14,7 +14,7 @@ namespace Config
         //population can be >25, but in rougher terrain where the robot isn't making progress, expect some warnings and interaction between them
         public static int PopulationSize = 50;
 
-        public static int NoAttempts = 5;
+        public static int NoAttempts = 1;
 
         public static int AttemptLength = 600;
 

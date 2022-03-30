@@ -24,7 +24,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
         /////////////////////////////////////
-        PlayerPrefs.SetInt("Attempt", 47);
+        PlayerPrefs.SetInt("Attempt", 0);
         Controller = this;
         attemptCount = AIConfig.NoAttempts;
         //setup writers with headers
@@ -46,8 +46,10 @@ public class GameController : MonoBehaviour
                 //IMPORTANT delay needed to allow unity to stop running scripts attached to newly disabled objects
                 yield return new WaitForSeconds(5f);
                 attemptCount--;
-                UpdateAttempt(1);
-                if(!isRespawn) SetupAIParams();
+                ////////////////
+                //UpdateAttempt(1);
+                UpdateAttempt(0);
+                if (!isRespawn && DebugConfig.LogAIData) SetupAIParams();
                 generate = gameObject.AddComponent<GeneratePopulation>();
                 Debug.Log($"ATTEMPT {PlayerPrefs.GetInt("Attempt")}");
                 generate.CreatePopulation();
@@ -147,6 +149,7 @@ public class GameController : MonoBehaviour
         StartCoroutine(GenerateAttempt(true));
     }
 
+    //isSuccessfulRobot is used when the robot has reached the edge of the map and is being respawned but needs to maintain its performance
     internal void SingleRespawn(string exception, RobotConfig robot)
     {
         //stop execution for this robot - an error has occurred

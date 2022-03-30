@@ -61,7 +61,7 @@ public class TrappedAlgorithm : MonoBehaviour
     private void UpdateLocations()
     {
         //get 3D pythagoras of how far from the origin the robot has travelled
-        Vector3 currentLocation = GetComponent<Transform>().position;
+        Vector3 currentLocation = gameObject.transform.position;
         //add this to locations
         locations.Enqueue(currentLocation);
         //locations is full, bring back to size then check if robot is stuck
@@ -126,9 +126,7 @@ public class TrappedAlgorithm : MonoBehaviour
 
         }
         //important - update robot with its performance metric for AI to use
-        Vector3 spawnPoint = TerrainConfig.GetSpawnPoint(robotConfig.RobotIndex);
-        float currentPerformance = Vector3.Distance(currentLocation, spawnPoint);
-        robotConfig.Performance = currentPerformance > robotConfig.Performance ? currentPerformance : robotConfig.Performance;
+        float currentPerformance = robotConfig.SetPerformance();
         //update performance in UI
         if (UIConfig.IsUIEnabled) ui.UpdatePerformance(robotConfig.RobotIndex, currentPerformance, robotConfig.Performance);
     }

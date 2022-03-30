@@ -9,7 +9,7 @@ public static class GeneticAlgorithm : object
 {
     private static UIDisplay ui;
 
-    public static void RobotIsStuck(this RobotConfig stuckRobot)
+    public static void RobotIsStuck(this RobotConfig stuckRobot, bool respawnOnly = false)
     {
         stuckRobot.IsEnabled = false;
 
@@ -17,6 +17,17 @@ public static class GeneticAlgorithm : object
         //pause stuck robot
         stuckRobot.Object.SetActive(false);
 
+        RobotConfig newRobot;
+        if (!respawnOnly) newRobot = PerformGA(stuckRobot);
+        else newRobot = stuckRobot;
+
+        //respawn
+        Reset(newRobot);
+        newRobot.Object.SetActive(true);
+    }
+
+    private static RobotConfig PerformGA(RobotConfig stuckRobot)
+    {
         //update BestRobot
         if (DebugConfig.LogRobotData && (DebugConfig.BestRobot == null || stuckRobot.Performance > DebugConfig.BestRobot.Performance))
         {
@@ -33,7 +44,7 @@ public static class GeneticAlgorithm : object
 
         ObjectConfig firstObjConfig = null;
         try { firstObjConfig = oldRobot.Configs.First(); }
-        catch (Exception ex) { GameController.Controller.TotalRespawn(ex.ToString()); return; }
+        catch (Exception ex) { GameController.Controller.TotalRespawn(ex.ToString()); return stuckRobot; }
         GameObject newRobotObj = firstObjConfig.Clone(oldRobot.Object);
         RobotConfig newRobot = new RobotConfig(oldRobot.RobotIndex, newRobotObj);
         newRobot = Init(newRobot, oldRobot, newVersion);
@@ -53,17 +64,15 @@ public static class GeneticAlgorithm : object
             //need access to info from original, leave disabled
             //otherwise destroy
             try { if (oldRobot.Version > 0) oldRobot.Configs.First().Remove(oldRobot.Object); }
-            catch (Exception ex) { GameController.Controller.TotalRespawn(ex.ToString()); return; }
-            
+            catch (Exception ex) { GameController.Controller.TotalRespawn(ex.ToString()); return stuckRobot; }
+
             newRobot.MutationCount++;
         }
 
         //update UI for new
         ui.UpdateRobotUI(newRobot);
 
-        //respawn
-        Reset(newRobot);
-        newRobot.Object.SetActive(true);
+        return newRobot;
     }
 
     private static List<Gene> Recombine(RobotConfig robot, RobotConfig old)
@@ -312,11 +321,16 @@ public static class GeneticAlgorithm : object
                     SphereCollider collider = grandchild.gameObject.GetComponent<SphereCollider>();
                     if (collider != null && collider.isTrigger)
                     {
+                        //need to delete existing one first
+                        Collisions collisions = grandchild.gameObject.GetComponent<Collisions>();
+                        if (collisions != null) collisions.Remove();
                         grandchild.gameObject.AddComponent<Collisions>();
                     }
                 }
             }
         }
+        robot.SetChildLayer(robot.Object.layer);
+        robot.StartTime = Time.time;
     }
 
     private static RobotConfig CompareRobots(RobotConfig robot2, ref int v)

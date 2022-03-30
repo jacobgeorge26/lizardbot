@@ -22,6 +22,13 @@ namespace Config
 
         public int MutationCount = 0;
 
+        //how far did the robot move for each vector index
+        public float[] Distances = new float[DynMovConfig.NoSphereSamples];
+
+        public float StartTime = 0;
+
+        //GENES
+
         public RobotConfig Original;
 
         public Gene NoSections = new Gene(5, 1, 10, Variable.NoSections);
@@ -34,9 +41,6 @@ namespace Config
         //when changes are made, should serpentine motion be preserved
         public Gene MaintainSerpentine = new Gene(true, Variable.MaintainSerpentine);
 
-        //how far did the robot move for each vector index
-        public float[] Distances = new float[DynMovConfig.NoSphereSamples];
-
         //clone variables applicable to starting again from a scrapped attempt - different to a fresh copy
         public void Clone(RobotConfig oldRobot)
         {
@@ -44,6 +48,7 @@ namespace Config
             Version = oldRobot.Version;
             Original = oldRobot.Original;
             MutationCount = oldRobot.MutationCount;
+            StartTime = oldRobot.StartTime;
             NoSections.Value = oldRobot.NoSections.Value;
             IsTailEnabled.Value = oldRobot.IsTailEnabled.Real;
             BodyColour.Value = oldRobot.BodyColour.Value;
@@ -54,6 +59,7 @@ namespace Config
         {
             this.RobotIndex = _index;
             this.Object = _object;
+            this.StartTime = Time.time;
         }
 
         //not directly a copy, a clean copy without the default / random init
@@ -65,6 +71,7 @@ namespace Config
             this.IsEnabled = false;
             this.Performance = 0;
             this.MutationCount = robot.MutationCount;
+            this.StartTime = Time.time;
             this.Original = robot.Original;
             this.NoSections.Value = robot.NoSections.Value;
             this.IsTailEnabled.Value = robot.IsTailEnabled.Value;
