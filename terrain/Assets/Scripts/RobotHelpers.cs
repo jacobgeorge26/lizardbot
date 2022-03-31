@@ -54,32 +54,33 @@ public static class RobotHelpers : object
         if (robot.UniformBody.Value) robot.MakeBodyUniform(config);
 
         robot.UpdateBodyPart(objConfig, index, BodyPart.Body);
+
+        robot.ValidateLegParams();
     }
 
     internal static void CreateLeg(this RobotConfig robot, int index, int bodyIndex, int spawnIndex, ObjectConfig existingLeg = null)
     {
         GameObject leg = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Leg"));
-        //TODO: LEGS - move this to spawn points - determine which part it should be connected to
         ObjectConfig prevSection = null;
         try { prevSection = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == bodyIndex); }
         catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
-        Vector3 spawnPoint = prevSection.Body.LegPoints[spawnIndex];
+        Vector3 spawnPoint = prevSection.gameObject.transform.localPosition + prevSection.Body.LegPoints[spawnIndex];
         leg.name = $"leg{index}";
         leg.transform.parent = robot.Object.transform;
-        leg.transform.localPosition = new Vector3(robot.GetXPos(prevSection.gameObject, leg, spawnPoint), 0, prevSection.transform.localPosition.z);
 
         //setup LegConfig for MoveLeg script
         LegConfig config = new LegConfig(prevSection.Index, spawnPoint);
         if (existingLeg != null) config.Clone(existingLeg.Leg);
 
-        //setup rotation
-        int leftOrRight = spawnPoint.x - prevSection.transform.localPosition.x > 0 ? -1 : 1;
-        config.Origin = new Vector3(robot.GetXPos(prevSection.gameObject, leg, spawnPoint), 0, prevSection.transform.localPosition.z); //position before offset
-        leg.transform.localRotation = Quaternion.Euler(config.AngleOffset.Value, 90 * leftOrRight, 0);
-        leg.transform.localPosition = RotatePointAroundPivot(leg.transform.localPosition, spawnPoint, new Vector3(config.AngleOffset.Value, 0, 0));
+        //setup position & rotation
+        robot.SetLegPosition(leg, config, prevSection.gameObject);
 
-        //TODO: LEGS - add this into constructor for leg
-        config.AngleConstraint.Value = new Vector3(0, 0, 180);
+        //setup config - different defaults for legs
+        if (!AIConfig.RandomInitValues)
+        {
+            config.AngleConstraint = new Gene(new Vector3(0, 0, 180), 0, 180, Variable.AngleConstraint);
+            config.RotationMultiplier = new Gene(new Vector3(1f, 1f, 1f), 0.5f, 1f, Variable.RotationMultiplier);
+        }
 
         ObjectConfig objConfig = leg.GetComponent<ObjectConfig>();
         if (objConfig == null) objConfig = leg.AddComponent<ObjectConfig>();
@@ -131,6 +132,15 @@ public static class RobotHelpers : object
         robot.UpdateBodyPart(objConfig, 0, BodyPart.Tail);
     }
 
+    internal static void SetLegPosition(this RobotConfig robot, GameObject leg, LegConfig config, GameObject prevSection)
+    {
+        Vector3 spawnPoint = config.SpawnPoint;
+        leg.transform.localPosition = new Vector3(robot.GetXPos(prevSection.gameObject, leg, spawnPoint), 0, prevSection.transform.localPosition.z);
+        int leftOrRight = spawnPoint.x - prevSection.transform.localPosition.x > 0 ? -1 : 1;
+        leg.transform.localRotation = Quaternion.Euler(config.AngleOffset.Value, 90 * leftOrRight, 0);
+        leg.transform.localPosition = RotatePointAroundPivot(leg.transform.localPosition, spawnPoint, new Vector3(config.AngleOffset.Value, 0, 0));
+    }
+
     //works for all body types (body, tail etc.) - updates it for any changes to its associated config
     //must be called after creation too, to initialise it with the config params
     internal static void UpdateBodyPart(this RobotConfig robot, ObjectConfig objConfig, int index, BodyPart type)
@@ -160,7 +170,7 @@ public static class RobotHelpers : object
                     //setup joint
                     robot.SetupConfigurableJoint(objConfig.gameObject, bodyConfig, prevSection);
                     //create leg spawn points
-                    robot.CreateLegSpawnPoints(objConfig);
+                    robot.SetupLegSpawnPoints(objConfig);
                 }
                 break;
             case BodyPart.Tail:
@@ -181,7 +191,6 @@ public static class RobotHelpers : object
                 robot.SetupConfigurableJoint(objConfig.gameObject, tailConfig, prevSection);
                 break;
             case BodyPart.Leg:
-                //TODO: LEGS - complete update body part for legs
                 try
                 {
                     prevSection = robot.Configs
@@ -189,8 +198,13 @@ public static class RobotHelpers : object
                         .First().gameObject;
                 }
                 catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
-                //TODO: LEGS - mass - length - redo position
                 LegConfig legConfig = objConfig.Leg;
+                //mass
+                objConfig.gameObject.GetComponent<Rigidbody>().mass = legConfig.Mass.Value;
+                //length
+                objConfig.transform.localScale = new Vector3(objConfig.transform.localScale.x, objConfig.transform.localScale.y, legConfig.Length.Value);
+                //position in case the length has changed
+                robot.SetLegPosition(objConfig.gameObject, legConfig, prevSection);
                 //setup joint
                 robot.SetupConfigurableJoint(objConfig.gameObject, legConfig, prevSection);
                 break;
@@ -209,6 +223,7 @@ public static class RobotHelpers : object
             robot.Configs.Remove(bodyConfig);
         }
         catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
+        //TODO: LEGS - remove all attached legs
     }
 
     //remove the tail
@@ -224,7 +239,11 @@ public static class RobotHelpers : object
     //remove a leg
     internal static void RemoveLeg(this RobotConfig robot, int index)
     {
-        //TODO: LEGS - implement this
+        ObjectConfig legConfig = null;
+        try { legConfig = robot.Configs.First(o => o.Type == BodyPart.Leg && o.Index == index); }
+        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
+        legConfig.Remove();
+        robot.Configs.Remove(legConfig);
     }
 
     //setup the joints to have the correct angle constraints and be attached to the correct rigidbody before it in the body
@@ -238,14 +257,12 @@ public static class RobotHelpers : object
         joint.connectedBody = prevObject.GetComponent<Rigidbody>();
     }
 
-    private static void CreateLegSpawnPoints(this RobotConfig robot, ObjectConfig body)
+    private static void SetupLegSpawnPoints(this RobotConfig robot, ObjectConfig body)
     {
-        //TODO: LEGS - create spawn points around body
-        //How is the head going to be handled? Tail?
-        Vector3 bodyPosition = body.gameObject.transform.localPosition;
+        //spawn points relative to the body
         float gap = (body.transform.localScale.x / 2);
-        body.Body.LegPoints[0] = new Vector3(bodyPosition.x - gap, bodyPosition.y, bodyPosition.z);
-        body.Body.LegPoints[1] = new Vector3(bodyPosition.x + gap, bodyPosition.y, bodyPosition.z);
+        body.Body.LegPoints[0] = new Vector3(gap * -1, 0, 0);
+        body.Body.LegPoints[1] = new Vector3(gap, 0, 0);
     }
 
     //used when creating a new body section for an existing robot
@@ -322,7 +339,7 @@ public static class RobotHelpers : object
         BodyConfig head;
         try { head = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == 0).Body; }
         catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
-        //TODO: LEGS - complete uniform body method
+        //TODO: LEGS what if a body mutates into being uniform? How will that be handled with the legs?
         if(body == null)
         { 
             //whole body needs adjusting
@@ -338,6 +355,13 @@ public static class RobotHelpers : object
             body.Size.Value = head.Size.Value;
             body.Mass.Value = head.Mass.Value;
         }
+    }
+
+    internal static void ValidateLegParams(this RobotConfig robot)
+    {
+        robot.NoLegs.Max = (robot.NoSections.Value - 1) * 2;
+        robot.NoLegs.Value = robot.NoLegs.Real; //assign so that the value will bounce if over the max
+        if (robot.UniformBody.Value) robot.NoLegs.Value = ((int)robot.NoLegs.Value / 2) * 2;
     }
 
     //get a list of all the genevariables for a config (e.g. BodyConfig)
@@ -508,6 +532,7 @@ public static class RobotHelpers : object
         return nearby;
     }
 
+    //TODO: LEGS - add legs to physical params - also uniform?
     //get all robots that are physically similar, within a set accepted range of difference
     internal static List<RobotConfig> GetPhysicallySimilarRobots(this RobotConfig robot, int difference)
     {

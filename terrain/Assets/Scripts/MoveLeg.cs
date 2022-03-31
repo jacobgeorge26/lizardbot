@@ -19,13 +19,19 @@ public class MoveLeg : MonoBehaviour
     void Start()
     {
         leg = GetComponent<Rigidbody>();
-        objectConfig = this.gameObject.GetComponent<ObjectConfig>();
-        config = objectConfig.Leg;
+        try
+        {
+            objectConfig = this.gameObject.GetComponent<ObjectConfig>();
+            config = objectConfig.Leg;
+        }
+        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
+
         try { robot = AIConfig.RobotConfigs.Where(c => c.RobotIndex == objectConfig.RobotIndex).First(); }
         catch (Exception ex) { GameController.Controller.TotalRespawn(ex.ToString()); return; }
 
-        //TODO: LEGS - put this in try catch
-        body = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == config.AttachedBody).gameObject;
+        try { body = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == config.AttachedBody).gameObject; }
+        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
+        
         SetupCircle();
     }
 

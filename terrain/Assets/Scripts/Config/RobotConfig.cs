@@ -35,7 +35,6 @@ namespace Config
 
         public Gene NoSections = new Gene(5, 1, 10, Variable.NoSections);
 
-        //TODO: LEGS - add to robot config clone
         public Gene NoLegs = new Gene(4, 1, 20, Variable.NoLegs);
 
         public Gene IsTailEnabled = new Gene(true, Variable.IsTailEnabled);
@@ -54,10 +53,6 @@ namespace Config
             this.RobotIndex = _index;
             this.Object = _object;
             this.StartTime = Time.time;
-            //TODO: LEGS - what if the no sections changes in a mutation? Include head?
-            NoLegs.Max = (NoSections.Value - 1) * 2;
-            NoLegs.Value = NoLegs.Real; //assign so that the value will bounce if over the max
-            if (UniformBody.Value) NoLegs.Value = ((int)NoLegs.Value / 2) * 2;
         }
 
         //RESPAWN
@@ -71,6 +66,7 @@ namespace Config
             StartTime = oldRobot.StartTime;
             PenaltyCount = oldRobot.PenaltyCount;
             NoSections.Value = oldRobot.NoSections.Value;
+            NoLegs.Value = oldRobot.NoLegs.Value;
             IsTailEnabled.Value = oldRobot.IsTailEnabled.Real;
             BodyColour.Value = oldRobot.BodyColour.Value;
             MaintainSerpentine.Value = oldRobot.MaintainSerpentine.Real;
@@ -91,6 +87,7 @@ namespace Config
             this.PenaltyCount = 0;
             this.Original = robot.Original;
             this.NoSections.Value = robot.NoSections.Value;
+            this.NoLegs.Value = robot.NoLegs.Value;
             this.IsTailEnabled.Value = robot.IsTailEnabled.Value;
             this.BodyColour.Value = robot.BodyColour.Value;
             this.MaintainSerpentine.Value = robot.MaintainSerpentine.Value;
@@ -105,6 +102,7 @@ namespace Config
             line += $"Terrain, ";
             line += $"{nameof(RobotIndex)}, ";
             line += $"{nameof(NoSections)}, ";
+            line += $"{nameof(NoLegs)}, ";
             line += $"{nameof(IsTailEnabled)}, ";
             line += $"{nameof(BodyColour)}, ";
             line += $"{nameof(MaintainSerpentine)}, ";
@@ -127,6 +125,7 @@ namespace Config
             line += $"{TerrainConfig.GetTerrainType(RobotIndex)}, ";
             line += $"{RobotIndex}, ";
             line += $"{NoSections.Value}, ";
+            line += $"{NoLegs.Value}, ";
             line += $"{IsTailEnabled.Value}, ";
             line += $"{BodyColour.Value}, ";
             line += $"{MaintainSerpentine.Value}, ";

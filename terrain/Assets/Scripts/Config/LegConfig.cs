@@ -10,8 +10,6 @@ namespace Config
 
         public Vector3 SpawnPoint;
 
-        public Vector3 Origin;
-
         public Gene Length = new Gene(2f, 1f, 4f, Variable.Length);
 
         public Gene Mass = new Gene(1f, 0.5f, 1.5f, Variable.Mass);
@@ -26,7 +24,11 @@ namespace Config
 
         public void Clone(LegConfig oldConfig)
         {
-            //TODO: LEGS - complete this
+            AngleConstraint.Value = oldConfig.AngleConstraint.Value;
+            RotationMultiplier.Value = oldConfig.RotationMultiplier.Value;
+            Length.Value = oldConfig.Length.Value;
+            Mass.Value = oldConfig.Mass.Value;
+            AngleOffset.Value = oldConfig.Mass.Value;
         }
     }
 }

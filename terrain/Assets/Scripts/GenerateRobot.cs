@@ -57,6 +57,7 @@ public class GenerateRobot : MonoBehaviour
 
         SetupBody(robot);
 
+        robotConfig.ValidateLegParams();
         SetupLegs(robot);
 
         if (robotConfig.IsTailEnabled.Value)
@@ -104,9 +105,11 @@ public class GenerateRobot : MonoBehaviour
 
     private void SetupLegs(GameObject robot)
     {
-        //TODO: LEGS - am I changing this to include the head? Maybe have a variable somewhere else that specifies the number of valid spawn points per section
         int NoSpawnPoints = 2;
         List<int> legIndexes = robotConfig.UniformBody.Value ? Enumerable.Range(1, (int)robotConfig.NoSections.Value - 1).ToList() : Enumerable.Range(2, (int)(robotConfig.NoSections.Value - 1) * 2).ToList();
+        //3 sections
+        //uniform -> [1, 2]
+        //nonuniform -> [2, 3, 4, 5]
         for (int i = 0; i < robotConfig.NoLegs.Value; i++)
         {
             int index = legIndexes[Random.Range(0, legIndexes.Count - 1)];
