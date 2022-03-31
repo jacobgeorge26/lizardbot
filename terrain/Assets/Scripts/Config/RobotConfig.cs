@@ -33,12 +33,12 @@ namespace Config
 
         public RobotConfig Original;
 
-        public Gene NoSections = new Gene(3, 1, 10, Variable.NoSections);
+        public Gene NoSections = new Gene(5, 1, 10, Variable.NoSections);
 
         //TODO: LEGS - add to robot config clone
-        public Gene NoLegs = new Gene(3, 1, 20, Variable.NoLegs);
+        public Gene NoLegs = new Gene(4, 1, 20, Variable.NoLegs);
 
-        public Gene IsTailEnabled = new Gene(false, Variable.IsTailEnabled);
+        public Gene IsTailEnabled = new Gene(true, Variable.IsTailEnabled);
 
         //lower the better
         public Gene BodyColour = new Gene(150, 0, 255, Variable.BodyColour);
@@ -47,7 +47,7 @@ namespace Config
         public Gene MaintainSerpentine = new Gene(false, Variable.MaintainSerpentine);
 
         //should the size & mass be maintained across the body
-        public Gene UniformBody = new Gene(false, Variable.UniformBody);
+        public Gene UniformBody = new Gene(true, Variable.UniformBody);
 
         public RobotConfig(int _index, GameObject _object)
         {

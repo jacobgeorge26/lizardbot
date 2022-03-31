@@ -12,6 +12,7 @@ public enum Variable
     Length = -8,
     UniformBody = -9,
     NoLegs = -10,
+    AngleOffset = -11,
     //positive = movement
     IsRotating = 1, 
     UseSin = 2, 

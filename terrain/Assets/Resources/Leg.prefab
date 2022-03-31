@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 1066568862542967058}
   - component: {fileID: 8051372640463759652}
   - component: {fileID: 78865430079525544}
+  - component: {fileID: 7042645926165355784}
   m_Layer: 0
   m_Name: Leg
   m_TagString: Untagged
@@ -101,7 +102,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 16
   m_CollisionDetection: 0
 --- !u!136 &7695462533212471599
 CapsuleCollider:
@@ -238,5 +239,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b4a1b3e56afe45b4c935e0fb25310409, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7042645926165355784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 890151918394183710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9342405ae101a244290e3d2b4e4411e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

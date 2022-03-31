@@ -10,9 +10,13 @@ namespace Config
 
         public Vector3 SpawnPoint;
 
+        public Vector3 Origin;
+
         public Gene Length = new Gene(2f, 1f, 4f, Variable.Length);
 
         public Gene Mass = new Gene(1f, 0.5f, 1.5f, Variable.Mass);
+
+        public Gene AngleOffset = new Gene(20, 0, 80, Variable.AngleOffset);
 
         public LegConfig(int _attachedBody, Vector3 _spawnPoint)
         {

@@ -234,7 +234,8 @@ public static class GeneticAlgorithm : object
         {
             BodyPart.Body => robot.GetVariables(config.Body),
             BodyPart.Tail => robot.GetVariables(config.Tail),
-            _ => null
+            BodyPart.Leg => robot.GetVariables(config.Leg),
+            _ => new List<Gene>()
         };
     }
 

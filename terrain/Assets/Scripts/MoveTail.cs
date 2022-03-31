@@ -38,13 +38,14 @@ public class MoveTail : MonoBehaviour
         float r = (tail.transform.position + tail.centerOfMass - cog).magnitude;
         Vector3 addVelocity = new Vector3();
         Vector3 targetVelocity = new Vector3();
+        float force = 0.5f;
         for (int i = 0; i < 3; i++)
         {          
             targetVelocity[i] = bodyMomentum[i] / (r * tail.mass * -1);
             addVelocity[i] = targetVelocity[i] - tail.velocity[i];
             //adjust for rotation multiplier
             //TODO: investigate occasional error here
-            addVelocity[i] *= config.RotationMultiplier.Value[i] * 0.5f;
+            addVelocity[i] *= config.RotationMultiplier.Value[i] * force;
             addVelocity[i] = Math.Min(addVelocity[i], 100);
             addVelocity[i] = addVelocity[i] == 0 ? 0.01f : addVelocity[i];
         }

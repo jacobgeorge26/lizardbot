@@ -67,12 +67,19 @@ public static class RobotHelpers : object
         leg.name = $"leg{index}";
         leg.transform.parent = robot.Object.transform;
         leg.transform.localPosition = new Vector3(robot.GetXPos(prevSection.gameObject, leg, spawnPoint), 0, prevSection.transform.localPosition.z);
-        int leftOrRight = spawnPoint.x - prevSection.transform.localPosition.x > 0 ? -1 : 1;
-        leg.transform.localRotation = Quaternion.Euler(0, 90 * leftOrRight, 0);
 
         //setup LegConfig for MoveLeg script
         LegConfig config = new LegConfig(prevSection.Index, spawnPoint);
         if (existingLeg != null) config.Clone(existingLeg.Leg);
+
+        //setup rotation
+        int leftOrRight = spawnPoint.x - prevSection.transform.localPosition.x > 0 ? -1 : 1;
+        config.Origin = new Vector3(robot.GetXPos(prevSection.gameObject, leg, spawnPoint), 0, prevSection.transform.localPosition.z); //position before offset
+        leg.transform.localRotation = Quaternion.Euler(config.AngleOffset.Value, 90 * leftOrRight, 0);
+        leg.transform.localPosition = RotatePointAroundPivot(leg.transform.localPosition, spawnPoint, new Vector3(config.AngleOffset.Value, 0, 0));
+
+        //TODO: LEGS - add this into constructor for leg
+        config.AngleConstraint.Value = new Vector3(0, 0, 180);
 
         ObjectConfig objConfig = leg.GetComponent<ObjectConfig>();
         if (objConfig == null) objConfig = leg.AddComponent<ObjectConfig>();
@@ -83,6 +90,13 @@ public static class RobotHelpers : object
         if (robot.UniformBody.Value) robot.MakeBodyUniform(null, config);
 
         robot.UpdateBodyPart(objConfig, index, BodyPart.Leg);
+    }
+
+    //This method was taken from this unity forum post
+    //https://answers.unity.com/questions/532297/rotate-a-vector-around-a-certain-point.html
+    internal static Vector3 RotatePointAroundPivot(Vector3 point, Vector3 pivot, Vector3 angles)
+    {
+        return Quaternion.Euler(angles) * (point - pivot) + pivot;
     }
 
     //create a tail - only ever one
@@ -231,7 +245,7 @@ public static class RobotHelpers : object
         Vector3 bodyPosition = body.gameObject.transform.localPosition;
         float gap = (body.transform.localScale.x / 2);
         body.Body.LegPoints[0] = new Vector3(bodyPosition.x - gap, bodyPosition.y, bodyPosition.z);
-        body.Body.LegPoints[0] = new Vector3(bodyPosition.x + gap, bodyPosition.y, bodyPosition.z);
+        body.Body.LegPoints[1] = new Vector3(bodyPosition.x + gap, bodyPosition.y, bodyPosition.z);
     }
 
     //used when creating a new body section for an existing robot
