@@ -30,7 +30,7 @@ namespace Config
         //if true then data will be extracted to csv files in the Report folder
         public static bool LogPerformanceData = false;
 
-        public static bool LogRobotData = false;
+        public static bool LogRobotData = true;
 
         public static bool LogAIData = false;
 

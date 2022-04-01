@@ -31,7 +31,15 @@ public static class GeneticAlgorithm : object
         //update BestRobot
         if (DebugConfig.LogRobotData && (DebugConfig.BestRobot == null || stuckRobot.Performance > DebugConfig.BestRobot.Performance))
         {
+            RobotConfig prevBest = DebugConfig.BestRobot;
             DebugConfig.BestRobot = stuckRobot;
+
+            //delete other one
+            if(prevBest != null && prevBest.Object != null && prevBest.Version > 0)
+            {
+                try { prevBest.Configs.First().Remove(prevBest.Object); }
+                catch (Exception) { Debug.LogWarning($"Check that Robot{prevBest.RobotIndex + 1}V{prevBest.Version} has been deleted correctly. It has been replaced as the best robot."); }
+            }
         }
 
         int newVersion = stuckRobot.Version + 1;
@@ -48,8 +56,6 @@ public static class GeneticAlgorithm : object
         GameObject newRobotObj = firstObjConfig.Clone(oldRobot.Object);
         RobotConfig newRobot = new RobotConfig(oldRobot.RobotIndex, newRobotObj);
         newRobot = Init(newRobot, oldRobot, newVersion);
-        ///////////////
-        newRobot.UniformBody.Value = true;
 
         //mutate
         List<Gene> genes = new List<Gene>();
@@ -65,7 +71,12 @@ public static class GeneticAlgorithm : object
         {
             //need access to info from original, leave disabled
             //otherwise destroy
-            try { if (oldRobot.Version > 0) oldRobot.Configs.First().Remove(oldRobot.Object); }
+            try { 
+                if (oldRobot.Version > 0 && DebugConfig.BestRobot != oldRobot)
+                {
+                    oldRobot.Configs.First().Remove(oldRobot.Object);
+                }
+            }
             catch (Exception ex) { GameController.Controller.TotalRespawn(ex.ToString()); return stuckRobot; }
 
             newRobot.MutationCount++;
@@ -298,12 +309,16 @@ public static class GeneticAlgorithm : object
         foreach (ObjectConfig childConfig in robot.Configs.OrderBy(o => o.Type))
         {
             Transform child = childConfig.gameObject.transform;
-            GameObject prevObject = null;
+            ObjectConfig prevObj = null;
+            GameObject prevBody = null;
             if (childConfig.Type == BodyPart.Leg)
             {
-                try { prevObject = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == childConfig.Leg.AttachedBody).gameObject; }
+                try { 
+                    prevObj = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == childConfig.Leg.AttachedBody);
+                    prevBody = prevObj.gameObject;
+                }
                 catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
-                robot.SetLegPosition(childConfig.gameObject, childConfig.Leg, prevObject);
+                robot.SetLegPosition(childConfig.gameObject, childConfig.Leg, prevBody, prevObj.Body.LegPoints[(int)childConfig.Leg.Position]);
             }
             else
             {
@@ -311,11 +326,14 @@ public static class GeneticAlgorithm : object
                 if(!(childConfig.Type == BodyPart.Body && childConfig.Index == 0))
                 {
                     int index = childConfig.Type == BodyPart.Body ? childConfig.Index - 1 : robot.NoSections.Value - 1;
-                    try { prevObject = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == index).gameObject; }
+                    try { 
+                        prevObj = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == index);
+                        prevBody = prevObj.gameObject;
+                    }
                     catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
                 }
                 child.rotation = Quaternion.Euler(Vector3.zero);
-                child.position = new Vector3(spawnPoint.x, robot.GetYPos(), spawnPoint.z + robot.GetZPos(prevObject, child.gameObject));
+                child.position = new Vector3(spawnPoint.x, robot.GetYPos(), spawnPoint.z + robot.GetZPos(prevBody, child.gameObject));
             }
 
             //set zero velocity
@@ -402,7 +420,7 @@ public static class GeneticAlgorithm : object
                 if (newRobot.UniformBody.Value) legIndexes.Remove(leg.Leg.AttachedBody);
                 else
                 {
-                    if (leg.Leg.SpawnPoint.x < 0) legIndexes.Remove(leg.Leg.AttachedBody * 2);
+                    if (leg.Leg.Position == LegPosition.Left) legIndexes.Remove(leg.Leg.AttachedBody * 2);
                     else legIndexes.Remove((leg.Leg.AttachedBody * 2) + 1);
                 }
             }
@@ -493,7 +511,7 @@ public static class GeneticAlgorithm : object
                 }
                 else if(objConfig.Type == BodyPart.Leg)
                 {
-                    objConfig.Leg = new LegConfig(oldObjConfig.Leg.AttachedBody, oldObjConfig.Leg.SpawnPoint, (int)oldObjConfig.Leg.Position);
+                    objConfig.Leg = new LegConfig(oldObjConfig.Leg.AttachedBody, (int)oldObjConfig.Leg.Position);
                     objConfig.Leg.Clone(oldObjConfig.Leg);
                 }
                 newRobot.Configs.Add(objConfig);

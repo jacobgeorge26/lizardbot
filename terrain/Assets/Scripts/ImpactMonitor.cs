@@ -29,7 +29,6 @@ public class ImpactMonitor : MonoBehaviour
             {
                 AIConfig.RobotConfigs[robotIndex].PenaltyCount++;
                 AIConfig.RobotConfigs[robotIndex].PenalisePerformance();
-                Debug.LogWarning($"Adding a penalty to robot {AIConfig.RobotConfigs[robotIndex].Object.name}");
             }
         }
     }

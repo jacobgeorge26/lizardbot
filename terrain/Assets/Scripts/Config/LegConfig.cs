@@ -9,22 +9,20 @@ namespace Config
     {
         public int AttachedBody;
 
-        public Vector3 SpawnPoint;
-
         public LegPosition Position;
 
         public Gene Length = new Gene(2f, 1f, 2f, Variable.Length);
 
         public Gene Mass = new Gene(1f, 0.5f, 1.5f, Variable.Mass);
 
-        public Gene AngleOffset = new Gene(50, 0, 80, Variable.AngleOffset);
+        //known issue in math when offset is > 50 - hard max at 50 until I have time to revisit it
+        public Gene AngleOffset = new Gene(20, 0, 50, Variable.AngleOffset);
 
         public Gene GaitMultiplier = new Gene(1.5f, 1f, 2f, Variable.GaitMultiplier);
 
-        public LegConfig(int _attachedBody, Vector3 _spawnPoint, int _position)
+        public LegConfig(int _attachedBody, int _position)
         {
             AttachedBody = _attachedBody;
-            SpawnPoint = _spawnPoint;
             Position = (LegPosition)_position;
         }
 

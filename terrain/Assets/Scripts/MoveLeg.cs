@@ -49,7 +49,7 @@ public class MoveLeg : MonoBehaviour
         circle = new Vector3[circleResolution];
 
         //get origin point to left/right of body depending on spawn point
-        Vector3 sideOfBody = config.SpawnPoint.x > 0 ? body.transform.right : body.transform.right * -1;
+        Vector3 sideOfBody = config.Position == LegPosition.Right ? body.transform.right : body.transform.right * -1;
         Vector3 D = body.transform.localPosition + sideOfBody * config.Length.Value / 2;
 
         //get two points at 90* to each other from the origin point

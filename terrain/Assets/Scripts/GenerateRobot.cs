@@ -5,6 +5,7 @@ using Config;
 using System;
 using System.Linq;
 using Random = UnityEngine.Random;
+using UnityEditor;
 
 public class GenerateRobot : MonoBehaviour
 {
@@ -69,6 +70,8 @@ public class GenerateRobot : MonoBehaviour
         }
 
         robotConfig.SetChildLayer(layer);
+
+        if (robotConfig.UniformBody.Value) robotConfig.MakeBodyUniform();
 
         //if old robot exists - this is a respawn - then that can now be deleted
         if (oldRobot != null)
