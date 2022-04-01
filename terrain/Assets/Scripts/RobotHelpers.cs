@@ -233,13 +233,17 @@ public static class RobotHelpers : object
     //remove a body section
     internal static void RemoveBody(this RobotConfig robot, int index)
     {
+        List<ObjectConfig> attachedLegs = robot.Configs.Where(o => o.Type == BodyPart.Leg && o.Leg.AttachedBody == index).ToList();
+        attachedLegs.ForEach(l => {
+            robot.NoLegs.Value--;
+            robot.RemoveLeg(l.Index);
+        });
         try {
             ObjectConfig bodyConfig = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == index);
             bodyConfig.Remove();
             robot.Configs.Remove(bodyConfig);
         }
         catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
-        //TODO: LEGS - remove all attached legs
     }
 
     //remove the tail

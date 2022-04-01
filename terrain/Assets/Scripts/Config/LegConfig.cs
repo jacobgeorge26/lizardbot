@@ -16,7 +16,7 @@ namespace Config
 
         public Gene AngleOffset = new Gene(50, 0, 80, Variable.AngleOffset);
 
-        public Gene GaitMultiplier = new Gene(1.5f, 1, 2, Variable.GaitMultiplier);
+        public Gene GaitMultiplier = new Gene(1.5f, 1f, 2f, Variable.GaitMultiplier);
 
         public LegConfig(int _attachedBody, Vector3 _spawnPoint)
         {
