@@ -75,8 +75,7 @@ public class MoveLeg : MonoBehaviour
     private void Move()
     {
         //get origin point to left/right of body depending on spawn point
-        bool isRight = config.SpawnPoint.x > 0;
-        Vector3 sideOfBody = isRight ? body.transform.right : body.transform.right * -1;
+        Vector3 sideOfBody = config.Position == LegPosition.Right ? body.transform.right : body.transform.right * -1;
         Vector3 D = body.transform.localPosition + sideOfBody * config.Length.Value / 2;
 
         //get point in circle closest to where the leg is currently positioned
@@ -109,8 +108,8 @@ public class MoveLeg : MonoBehaviour
             //if body is moving right and leg is on the left then increase velocity
             //if body is moving left and leg is on the right then increase velocity
             addVelocity *= direction > 0
-                ? (isRight ? 1 / config.GaitMultiplier.Value : config.GaitMultiplier.Value) //body is moving right - what about the leg position?
-                : (isRight ? config.GaitMultiplier.Value : 1 / config.GaitMultiplier.Value); //body is moving left - what about the leg position?            
+                ? (config.Position == LegPosition.Right ? 1 / config.GaitMultiplier.Value : config.GaitMultiplier.Value) //body is moving right - what about the leg position?
+                : (config.Position == LegPosition.Right ? config.GaitMultiplier.Value : 1 / config.GaitMultiplier.Value); //body is moving left - what about the leg position?            
         }
 
         //add in rotation multiplier and avoid extreme velocity either way

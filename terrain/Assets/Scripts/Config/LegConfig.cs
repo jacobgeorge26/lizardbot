@@ -10,6 +10,8 @@ namespace Config
 
         public Vector3 SpawnPoint;
 
+        public LegPosition Position;
+
         public Gene Length = new Gene(2f, 1f, 4f, Variable.Length);
 
         public Gene Mass = new Gene(1f, 0.5f, 1.5f, Variable.Mass);
@@ -18,10 +20,11 @@ namespace Config
 
         public Gene GaitMultiplier = new Gene(1.5f, 1f, 2f, Variable.GaitMultiplier);
 
-        public LegConfig(int _attachedBody, Vector3 _spawnPoint)
+        public LegConfig(int _attachedBody, Vector3 _spawnPoint, int _position)
         {
             AttachedBody = _attachedBody;
             SpawnPoint = _spawnPoint;
+            Position = (LegPosition)_position;
         }
 
         public void Clone(LegConfig oldConfig)

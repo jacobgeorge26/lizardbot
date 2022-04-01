@@ -121,7 +121,8 @@ public class GenerateRobot : MonoBehaviour
                     ObjectConfig leg;
                     try { leg = oldRobot.Configs.First(o => o.Type == BodyPart.Leg && o.Index == i); }
                     catch (Exception) { leg = null; }
-                    robotConfig.CreateLeg(i, Mathf.FloorToInt(index), spawnIndex, leg); i++;
+                    robotConfig.CreateLeg(i, Mathf.FloorToInt(index), spawnIndex, leg); 
+                    i++;
                 }
             }
             else

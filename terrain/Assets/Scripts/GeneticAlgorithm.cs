@@ -48,6 +48,8 @@ public static class GeneticAlgorithm : object
         GameObject newRobotObj = firstObjConfig.Clone(oldRobot.Object);
         RobotConfig newRobot = new RobotConfig(oldRobot.RobotIndex, newRobotObj);
         newRobot = Init(newRobot, oldRobot, newVersion);
+        ///////////////
+        newRobot.UniformBody.Value = true;
 
         //mutate
         List<Gene> genes = new List<Gene>();
@@ -374,8 +376,8 @@ public static class GeneticAlgorithm : object
         for (int i = 0; i < newRobot.NoSections.Value - oldRobot.NoSections.Value; i++)
         {
             int index = oldRobot.NoSections.Value + i;
-            newRobot.CreateBody(index);
-            newRobot.AverageRestOfBody();
+            BodyConfig newBody = newRobot.CreateBody(index);
+            newRobot.AverageRestOfBody(newBody);
         }
         //are there fewer sections now?
         for (int i = 0; i < oldRobot.NoSections.Value - newRobot.NoSections.Value; i++)
@@ -409,37 +411,43 @@ public static class GeneticAlgorithm : object
             {
                 for (int spawnIndex = 0; spawnIndex < NoSpawnPoints; spawnIndex++)
                 {
-                    newRobot.CreateLeg(index, Mathf.FloorToInt(legIndex), spawnIndex); i++;
+                    LegConfig newLeg = newRobot.CreateLeg(index, Mathf.FloorToInt(legIndex), spawnIndex);
+                    newRobot.AverageRestOfLegs(newLeg);
+                    i++;
                 }
             }
             else
             {
-                newRobot.CreateLeg(index, Mathf.FloorToInt(legIndex / NoSpawnPoints), legIndex % NoSpawnPoints);
+                LegConfig newLeg = newRobot.CreateLeg(index, Mathf.FloorToInt(legIndex / NoSpawnPoints), legIndex % NoSpawnPoints);
+                newRobot.AverageRestOfLegs(newLeg);
             }
         }
         //are there fewer legs now?
         for (int i = 0; i < oldRobot.NoLegs.Value - newRobot.NoLegs.Value; i++)
         {
             int index = oldRobot.NoLegs.Value - 1 - i;
-            newRobot.RemoveLeg(index);
+            ObjectConfig leg = null;
+            try { leg = newRobot.Configs.First(o => o.Type == BodyPart.Leg && o.Index == index); }
+            catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), newRobot); }
+            newRobot.RemoveLeg(leg);
         }
 
-        if (newRobot.UniformBody.Value) newRobot.MakeBodyUniform();
+        if (newRobot.UniformBody.Value && !oldRobot.UniformBody.Value) newRobot.MakeBodyUniform();
 
         //update existing configs
         foreach (ObjectConfig item in newRobot.Configs)
         {
             if(item.Type == BodyPart.Body)
             {
-                newRobot.UpdateBodyPart(item, item.Index, BodyPart.Body);
+                newRobot.UpdateBodyPart(item, BodyPart.Body);
             }
             else if(item.Type == BodyPart.Tail)
             {
-                newRobot.UpdateBodyPart(item, 0, BodyPart.Tail);
+                newRobot.UpdateBodyPart(item, BodyPart.Tail);
             }
             else if(item.Type == BodyPart.Leg)
             {
-                newRobot.UpdateBodyPart(item, item.Index, BodyPart.Leg);
+                newRobot.UpdateBodyPart(item, BodyPart.Leg);
             }
         }
 
@@ -485,7 +493,7 @@ public static class GeneticAlgorithm : object
                 }
                 else if(objConfig.Type == BodyPart.Leg)
                 {
-                    objConfig.Leg = new LegConfig(oldObjConfig.Leg.AttachedBody, oldObjConfig.Leg.SpawnPoint);
+                    objConfig.Leg = new LegConfig(oldObjConfig.Leg.AttachedBody, oldObjConfig.Leg.SpawnPoint, (int)oldObjConfig.Leg.Position);
                     objConfig.Leg.Clone(oldObjConfig.Leg);
                 }
                 newRobot.Configs.Add(objConfig);

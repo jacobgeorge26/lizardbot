@@ -49,7 +49,7 @@ namespace Config
         public Gene MaintainGait = new Gene(true, Variable.MaintainGait);
 
         //should the size & mass be maintained across the body
-        public Gene UniformBody = new Gene(true, Variable.UniformBody);
+        public Gene UniformBody = new Gene(false, Variable.UniformBody);
 
         public RobotConfig(int _index, GameObject _object)
         {

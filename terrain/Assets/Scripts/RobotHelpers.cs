@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public static class RobotHelpers : object
 {
@@ -27,16 +28,16 @@ public static class RobotHelpers : object
         objConfig.Init(0, BodyPart.Body, config, robot.RobotIndex);
         robot.Configs.Add(objConfig);
 
-        robot.UpdateBodyPart(objConfig, 0, BodyPart.Body);
+        robot.UpdateBodyPart(objConfig, BodyPart.Body);
     }
 
     //create a body section and attach it to the previous section
-    internal static void CreateBody(this RobotConfig robot, int index, ObjectConfig existingBody = null)
+    internal static BodyConfig CreateBody(this RobotConfig robot, int index, ObjectConfig existingBody = null)
     {
         GameObject body = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Section"));
         GameObject prevSection = null;
         try { prevSection = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == index - 1).gameObject; }
-        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
+        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return null; }
         body.name = $"section{index}";
         body.transform.parent = robot.Object.transform;
         body.transform.localPosition = new Vector3(0, 0, robot.GetZPos(prevSection, body));
@@ -53,23 +54,26 @@ public static class RobotHelpers : object
 
         if (robot.UniformBody.Value) robot.MakeBodyUniform(config);
 
-        robot.UpdateBodyPart(objConfig, index, BodyPart.Body);
+        robot.UpdateBodyPart(objConfig, BodyPart.Body);
 
         robot.ValidateLegParams();
+
+        return config;
     }
 
-    internal static void CreateLeg(this RobotConfig robot, int index, int bodyIndex, int spawnIndex, ObjectConfig existingLeg = null)
+    internal static LegConfig CreateLeg(this RobotConfig robot, int index, int bodyIndex, int spawnIndex, ObjectConfig existingLeg = null)
     {
         GameObject leg = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Leg"));
         ObjectConfig prevSection = null;
         try { prevSection = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == bodyIndex); }
-        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
+        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return null; }
+        robot.SetupLegSpawnPoints(prevSection);
         Vector3 spawnPoint = prevSection.gameObject.transform.localPosition + prevSection.Body.LegPoints[spawnIndex];
         leg.name = $"leg{index}";
         leg.transform.parent = robot.Object.transform;
 
         //setup LegConfig for MoveLeg script
-        LegConfig config = new LegConfig(prevSection.Index, spawnPoint);
+        LegConfig config = new LegConfig(prevSection.Index, prevSection.Body.LegPoints[spawnIndex], spawnIndex);
         if (existingLeg != null) config.Clone(existingLeg.Leg);
 
         //setup position & rotation
@@ -91,7 +95,9 @@ public static class RobotHelpers : object
 
         if (robot.UniformBody.Value) robot.MakeBodyUniform(null, config);
 
-        robot.UpdateBodyPart(objConfig, index, BodyPart.Leg);
+        robot.UpdateBodyPart(objConfig, BodyPart.Leg);
+
+        return config;
     }
 
     //This method was taken from this unity forum post
@@ -130,7 +136,7 @@ public static class RobotHelpers : object
         objConfig.Init(0, BodyPart.Tail, config, robot.RobotIndex);
         robot.Configs.Add(objConfig);
 
-        robot.UpdateBodyPart(objConfig, 0, BodyPart.Tail);
+        robot.UpdateBodyPart(objConfig, BodyPart.Tail);
     }
 
     internal static void SetLegPosition(this RobotConfig robot, GameObject leg, LegConfig config, GameObject prevSection)
@@ -144,13 +150,11 @@ public static class RobotHelpers : object
         Vector3 position = new Vector3(robot.GetXPos(prevSection.gameObject, leg, spawnPoint), 0, prevSection.transform.localPosition.z);
         leg.transform.localPosition = position;
         //rotate leg for offset and 90* around the y for left or right leg
-        bool isRight = spawnPoint.x - prevSection.transform.localPosition.x > 0;
-        int leftOrRight = isRight ? -1 : 1;
-        leg.transform.localRotation = Quaternion.Euler(config.AngleOffset.Value, 90 * leftOrRight, 0);
+        leg.transform.localRotation = Quaternion.Euler(config.AngleOffset.Value, 90 * (config.Position == LegPosition.Right ? -1 : 1), 0);
         //adjust position after rotation
         float r = config.Length.Value / 2;
         float theta = (float)(Math.PI / 180f * config.AngleOffset.Value);
-        position.x += (r - r * Mathf.Cos(theta)) * (isRight ? -1 : 1); //x += r - rcosθ
+        position.x += (r - r * Mathf.Cos(theta)) * (config.Position == LegPosition.Right ? -1 : 1); //x += r - rcosθ
         position.y += (r * Mathf.Tan(theta)) * (config.AngleOffset.Value > 0 ? 1 : -1); //y += rtanθ
         leg.transform.localPosition = position;
         //reattach joint
@@ -159,7 +163,7 @@ public static class RobotHelpers : object
 
     //works for all body types (body, tail etc.) - updates it for any changes to its associated config
     //must be called after creation too, to initialise it with the config params
-    internal static void UpdateBodyPart(this RobotConfig robot, ObjectConfig objConfig, int index, BodyPart type)
+    internal static void UpdateBodyPart(this RobotConfig robot, ObjectConfig objConfig, BodyPart type)
     {
         GameObject prevSection = null;
         switch (type)
@@ -170,11 +174,11 @@ public static class RobotHelpers : object
                 objConfig.gameObject.transform.localScale = new Vector3(bodyConfig.Size.Value, bodyConfig.Size.Value, bodyConfig.Size.Value);
                 objConfig.gameObject.GetComponent<Rigidbody>().mass = bodyConfig.Mass.Value;
                 //if this is not the head then the joint and colour needs to be set up
-                if (index > 0)
+                if (objConfig.Index > 0)
                 {
                     try {
                         prevSection = robot.Configs
-                            .Where(o => o.Type == BodyPart.Body && o.Index == index - 1)
+                            .Where(o => o.Type == BodyPart.Body && o.Index == objConfig.Index - 1)
                             .First().gameObject;
                     }
                     catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
@@ -236,7 +240,7 @@ public static class RobotHelpers : object
         List<ObjectConfig> attachedLegs = robot.Configs.Where(o => o.Type == BodyPart.Leg && o.Leg.AttachedBody == index).ToList();
         attachedLegs.ForEach(l => {
             robot.NoLegs.Value--;
-            robot.RemoveLeg(l.Index);
+            robot.RemoveLeg(l);
         });
         try {
             ObjectConfig bodyConfig = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == index);
@@ -257,13 +261,10 @@ public static class RobotHelpers : object
     }
 
     //remove a leg
-    internal static void RemoveLeg(this RobotConfig robot, int index)
+    internal static void RemoveLeg(this RobotConfig robot, ObjectConfig leg)
     {
-        ObjectConfig legConfig = null;
-        try { legConfig = robot.Configs.First(o => o.Type == BodyPart.Leg && o.Index == index); }
-        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
-        legConfig.Remove();
-        robot.Configs.Remove(legConfig);
+        leg.Remove();
+        robot.Configs.Remove(leg);
     }
 
     //setup the joints to have the correct angle constraints and be attached to the correct rigidbody before it in the body
@@ -287,12 +288,11 @@ public static class RobotHelpers : object
 
     //used when creating a new body section for an existing robot
     //set it as an average of the existing body, so that it is 'up to date' with the evolution thus far
-    internal static void AverageRestOfBody(this RobotConfig robot)
+    internal static void AverageRestOfBody(this RobotConfig robot, BodyConfig newBody)
     {
         //get all the genes for the rest of the body
-        List<ObjectConfig> prevBody = robot.Configs.Where(o => o.Type == BodyPart.Body).OrderBy(o => o.Index).ToList();
-        ObjectConfig last = prevBody.Last();
-        prevBody.Remove(last);
+        List<ObjectConfig> prevBody = robot.Configs.Where(o => o.Type == BodyPart.Body && o.Body != newBody).OrderBy(o => o.Index).ToList();
+
         List<Gene> allGenes = new List<Gene>();
         foreach (var objConfig in prevBody)
         {
@@ -300,10 +300,40 @@ public static class RobotHelpers : object
         }
         //get all the genes for the last body section
         List<Gene> newGenes = new List<Gene>();
-        BodyConfig newBody = last.Body;
         newGenes = newGenes.Concat(robot.GetVariables(newBody)).ToList();
         //now there's a list of all the genes that need to be updated (newGenes) and all the genes of the rest of the body (allGenes)
-        foreach (var item in newGenes)
+        AverageGenes(allGenes, newGenes);
+        //if there is fixed alternating rotating sections, then set this up. The call for serpentine will be make in the GA
+        if (!AIConfig.RandomInitValues && prevBody.Count > 0)
+        {
+            BodyConfig prevBodyConfig = prevBody.Last().Body;
+            newBody.IsRotating.Value = !prevBodyConfig.IsRotating.Value;
+        }
+    }
+
+
+    //used when creating a new leg for an existing robot
+    //set it as an average of the existing legs, so that it is 'up to date' with the evolution thus far
+    internal static void AverageRestOfLegs(this RobotConfig robot, LegConfig newLeg)
+    {
+        //get all the genes for the rest of the the legs
+        List<ObjectConfig> prevLegs = robot.Configs.Where(o => o.Type == BodyPart.Leg && o.Leg != newLeg).OrderBy(o => o.Index).ToList();
+
+        List<Gene> allGenes = new List<Gene>();
+        foreach (var objConfig in prevLegs)
+        {
+            allGenes = allGenes.Concat(robot.GetVariables(objConfig.Leg)).ToList();
+        }
+        //get all the genes for the new leg
+        List<Gene> newGenes = new List<Gene>();
+        newGenes = newGenes.Concat(robot.GetVariables(newLeg)).ToList();
+        //now there's a list of all the genes that need to be updated (newGenes) and all the genes of the rest of the legs (allGenes)
+        AverageGenes(allGenes, newGenes);
+    }
+
+    private static void AverageGenes(List<Gene> allGenes, List<Gene> genes)
+    {
+        foreach (var item in genes)
         {
             int count = 0;
             if (item.Real.GetType() == typeof(Vector3))
@@ -319,12 +349,6 @@ public static class RobotHelpers : object
                 allGenes.Where(o => o.Type == item.Type).ToList().ForEach(o => { sum += o.Real; count++; });
                 item.Value = Convert.ChangeType(sum / count, item.Real.GetType());
             }
-        }
-        //if there is fixed alternating rotating sections, then set this up. The call for serpentine will be make in the GA
-        if (!AIConfig.RandomInitValues && prevBody.Count > 0)
-        {
-            BodyConfig prevBodyConfig = prevBody.Last().Body;
-            newBody.IsRotating.Value = !prevBodyConfig.IsRotating.Value;
         }
     }
 
@@ -359,8 +383,10 @@ public static class RobotHelpers : object
         BodyConfig head;
         try { head = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == 0).Body; }
         catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
-        //TODO: LEGS what if a body mutates into being uniform? How will that be handled with the legs?
-        if(body == null)
+        LegConfig firstLeg = null;
+        try { if(robot.NoLegs.Value > 0) firstLeg = robot.Configs.First(o => o.Type == BodyPart.Leg && o.Index == 0).Leg; }
+        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
+        if (body == null && leg == null)
         { 
             //whole body needs adjusting
             foreach (ObjectConfig objConfig in robot.Configs.Where(o => o.Type == BodyPart.Body && o.Index > 0))
@@ -368,21 +394,88 @@ public static class RobotHelpers : object
                 objConfig.Body.Size.Value = head.Size.Value;
                 objConfig.Body.Mass.Value = head.Mass.Value;
             }
-            //TODO: LEGS make legs same size too
+            List<ObjectConfig> Legs = robot.Configs.Where(o => o.Type == BodyPart.Leg).ToList();
+            foreach (ObjectConfig objConfig in  Legs)
+            {
+                if(objConfig.Index > 0) objConfig.Leg.Length.Value = firstLeg.Length.Value;
+                if(objConfig.Index > 0) objConfig.Leg.Mass.Value = firstLeg.Mass.Value;
+            }
+            robot.MakeLegsSymmetrical(Legs);
         }
-        else
+        else if(body != null)
         {
             //only a single section needs sorting
             body.Size.Value = head.Size.Value;
             body.Mass.Value = head.Mass.Value;
         }
+        else if(leg != null)
+        {
+            //only a single leg needs sorting
+            leg.Length.Value = firstLeg.Length.Value;
+            leg.Mass.Value = firstLeg.Mass.Value;
+        }
+    }
+
+    private static void MakeLegsSymmetrical(this RobotConfig robot, List<ObjectConfig> Legs)
+    {
+        //only look at those are not currently matched on the other side
+        List<ObjectConfig> left = new List<ObjectConfig>(), right = new List<ObjectConfig>();
+        List<int> legIndexes = Enumerable.Range(1, (int)robot.NoSections.Value - 1).ToList();
+        if (robot.NoLegs.Value % 2 != 0) robot.ValidateLegParams();
+        int legCount = 0;
+        //collect all single legs and split into left and right
+        foreach (ObjectConfig objConfig in Legs)
+        {
+            if(Legs.Where(l => l.Leg.AttachedBody == objConfig.Leg.AttachedBody && l.Index != objConfig.Index).Count() == 0)
+            {
+                if (objConfig.Leg.Position == LegPosition.Left) left.Add(objConfig);
+                if (objConfig.Leg.Position == LegPosition.Right) right.Add(objConfig);
+            }
+            else
+            {
+                legIndexes.Remove(objConfig.Leg.AttachedBody);
+                objConfig.Index = legCount;
+                objConfig.gameObject.name = $"leg{legCount}";
+                legCount++;
+            }
+        }
+        for (int i = legCount; i < robot.NoLegs.Value; i++)
+        {
+            if(left.Count == 0 || right.Count == 0)
+            {
+                //if either list is empty then create new leg pairs
+                int index = legIndexes[Random.Range(0, legIndexes.Count - 1)];
+                legIndexes.Remove(index);
+                LegConfig newLeg = robot.CreateLeg(i, Mathf.FloorToInt(index), 0);
+                robot.AverageRestOfLegs(newLeg);
+                i++;
+                newLeg = robot.CreateLeg(i, Mathf.FloorToInt(index), 1);
+                robot.AverageRestOfLegs(newLeg);
+            }
+            else
+            {
+                //move the right one to the same body section as the left
+                ObjectConfig leftLeg = left[Random.Range(0, left.Count - 1)];
+                left.Remove(leftLeg);
+                int index = leftLeg.Leg.AttachedBody;
+                legIndexes.Remove(index);
+
+                ObjectConfig rightLeg = right[Random.Range(0, right.Count - 1)];
+                right.Remove(rightLeg);
+                rightLeg.Leg.AttachedBody = leftLeg.Leg.AttachedBody;
+                rightLeg.Leg.SpawnPoint = leftLeg.Leg.SpawnPoint * -1;
+            }
+        }
+        left.ForEach(l => robot.RemoveLeg(l));
+        right.ForEach(l => robot.RemoveLeg(l));
+
     }
 
     internal static void ValidateLegParams(this RobotConfig robot)
     {
         robot.NoLegs.Max = (robot.NoSections.Value - 1) * 2;
         robot.NoLegs.Value = robot.NoLegs.Real; //assign so that the value will bounce if over the max
-        if (robot.UniformBody.Value) robot.NoLegs.Value = ((int)robot.NoLegs.Value / 2) * 2;
+        if (robot.UniformBody.Value) robot.NoLegs.Value = (int)(robot.NoLegs.Value / 2) * 2;
     }
 
     //get a list of all the genevariables for a config (e.g. BodyConfig)
