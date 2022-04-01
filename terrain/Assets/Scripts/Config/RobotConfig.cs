@@ -115,6 +115,11 @@ namespace Config
             {
                 line += tempBody.GetHeader();
             }
+            LegConfig tempLeg = new LegConfig(0, Vector3.zero, 0);
+            for (int i = 0; i < NoSections.Max * 2; i++)
+            {
+                line += tempLeg.GetHeader();
+            }
             line += new TailConfig().GetHeader();
             return line;
         }
@@ -138,6 +143,13 @@ namespace Config
             {
                 var body = Configs.Where(o => o.Type == BodyPart.Body && o.Index == i).ToList();
                 if (body.Count != 0) line += body.First().Body.GetData(i);
+                else line += tempBody.GetEmptyData(i);
+            }
+            for (int i = 0; i < NoSections.Max * 2; i++)
+            {
+                LegConfig tempLeg = new LegConfig(Mathf.FloorToInt(i / 2), Vector3.zero, i % 2);
+                var leg = Configs.Where(o => o.Type == BodyPart.Leg && o.Leg.AttachedBody == Mathf.FloorToInt(i / 2) && (int)o.Leg.Position == i % 2).ToList();
+                if (leg.Count != 0) line += leg.First().Leg.GetData(i);
                 else line += tempBody.GetEmptyData(i);
             }
             var tail = Configs.Where(o => o.Type == BodyPart.Tail).ToList();

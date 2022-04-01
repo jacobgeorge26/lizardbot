@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 namespace Config
@@ -34,6 +35,51 @@ namespace Config
             Length.Value = oldConfig.Length.Value;
             Mass.Value = oldConfig.Mass.Value;
             AngleOffset.Value = oldConfig.AngleOffset.Value;
+        }
+
+        internal string GetHeader()
+        {
+            string line = "";
+            line += $"Leg No, ";
+            line += $"{nameof(AttachedBody)}, ";
+            line += $"{nameof(Position)}, ";
+            line += $"{nameof(AngleConstraint)}, ";
+            line += $"{nameof(RotationMultiplier)}, ";
+            line += $"{nameof(Length)}, ";
+            line += $"{nameof(Mass)}, ";
+            line += $"{nameof(AngleOffset)}, ";
+            line += $"{nameof(GaitMultiplier)}, ";
+            return line;
+        }
+
+        internal string GetData(int index)
+        {
+            string line = "";
+            line += $"{index}, ";
+            line += $"{AttachedBody}, ";
+            line += $"{Position}, ";
+            line += $"{Regex.Replace(AngleConstraint.Value.ToString(), @",\s", " - ")}, ";
+            line += $"{Regex.Replace(RotationMultiplier.Value.ToString(), @",\s", " - ")}, ";
+            line += $"{Length.Value}, ";
+            line += $"{Mass.Value}, ";
+            line += $"{AngleOffset.Value}, ";
+            line += $"{GaitMultiplier.Value}, ";
+            return line;
+        }
+
+        internal string GetEmptyData(int index)
+        {
+            string line = "";
+            line += $"{index}, ";
+            line += $"{AttachedBody}, ";
+            line += $"{Position}, ";
+            line += $"-, ";
+            line += $"-, ";
+            line += $"-, ";
+            line += $"-, ";
+            line += $"-, ";
+            line += $"-, ";
+            return line;
         }
     }
 }
