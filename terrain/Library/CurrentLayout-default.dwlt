@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1536
     height: 820.8
   m_ShowMode: 4
-  m_Title: Project
+  m_Title: Game
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -119,7 +119,7 @@ MonoBehaviour:
   m_MinSize: {x: 679, y: 492}
   m_MaxSize: {x: 14002, y: 14042}
   vertical: 0
-  controlID: 81
+  controlID: 27
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_MinSize: {x: 403, y: 492}
   m_MaxSize: {x: 10001, y: 14042}
   vertical: 1
-  controlID: 82
+  controlID: 28
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -169,7 +169,7 @@ MonoBehaviour:
   m_MinSize: {x: 403, y: 221}
   m_MaxSize: {x: 8003, y: 4021}
   vertical: 0
-  controlID: 83
+  controlID: 29
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -396,9 +396,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: 16b8cbff7abfcbff7ebfcbff8659ceff8a59ceffc421d6ffe821d6ff6424d6ff888fd6ff0492d6ffb892d6ff30dde2ff50f9f9ff56fbffff7e490000124a00008e4a0000
+      m_SelectedIDs: 044c0000
+      m_LastClickedID: 19460
+      m_ExpandedIDs: b242ffffbe42ffff044c0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -450,17 +450,17 @@ MonoBehaviour:
   m_ShowContextualTools: 0
   m_WindowGUID: fdecc2dfd8a9c6f4fba416542586595c
   m_Gizmos: 1
-  m_OverrideSceneCullingMask: 6917529027641081856
-  m_SceneIsLit: 1
+  m_OverrideSceneCullingMask: 0
+  m_SceneIsLit: 0
   m_SceneLighting: 1
   m_2DMode: 0
   m_isRotationLocked: 0
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -0.0453192, y: 4.9635563, z: -1.8610972}
+    m_Target: {x: -336.5, y: 332.25, z: 0}
     speed: 2
-    m_Value: {x: -0.0453192, y: 4.9635563, z: -1.8610972}
+    m_Value: {x: -336.5, y: 332.25, z: 0}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -472,7 +472,7 @@ MonoBehaviour:
   m_SceneViewState:
     m_AlwaysRefresh: 0
     showFog: 1
-    showSkybox: 1
+    showSkybox: 0
     showFlares: 1
     showImageEffects: 1
     showParticleSystems: 1
@@ -507,13 +507,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.29271314, y: -0.56838083, z: 0.22620557, w: 0.7350488}
+    m_Target: {x: -0.008690895, y: 0.0014950278, z: 0.000031096362, w: 0.99998426}
     speed: 2
-    m_Value: {x: 0.29268336, y: -0.568323, z: 0.22618258, w: 0.734974}
+    m_Value: {x: -0.008690693, y: 0.0014949932, z: 0.000031095642, w: 0.99996114}
   m_Size:
-    m_Target: 3.4154663
+    m_Target: 162.57712
     speed: 2
-    m_Value: 3.4154663
+    m_Value: 162.57712
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -576,22 +576,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Materials
+    - Assets/Resources
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Materials
+  - Assets/Resources
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\lizardbot\terrain
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 18}
-    m_SelectedIDs: 584b0000
-    m_LastClickedID: 19288
-    m_ExpandedIDs: 00000000de4a0000e04a0000e24a0000e44a0000e64a0000e84a0000624b0000
+    scrollPos: {x: 0, y: 14}
+    m_SelectedIDs: 5e4b0000
+    m_LastClickedID: 19294
+    m_ExpandedIDs: 00000000e04a0000e24a0000e44a0000e64a0000e84a0000ea4a0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -619,7 +619,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000de4a0000e04a0000e24a0000e44a0000e64a0000e84a0000
+    m_ExpandedIDs: 00000000e04a0000e24a0000e44a0000e64a0000e84a0000ea4a0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

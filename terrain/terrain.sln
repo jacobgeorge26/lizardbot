@@ -19,11 +19,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayModeTests", "PlayModeTe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProceduralToolkit.LibTessDotNet", "ProceduralToolkit.LibTessDotNet.csproj", "{351DE337-5674-FA51-EE7E-748702B77FC5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UITemplates", "UITemplates.csproj", "{937A1AA3-2F8B-93E3-C784-EBB1FB8BAFAF}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProceduralToolkit.FastNoiseLib", "ProceduralToolkit.FastNoiseLib.csproj", "{F60FA557-4A30-B694-1F87-F224DD6ED463}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProceduralToolkit.ClipperLib", "ProceduralToolkit.ClipperLib.csproj", "{6A7A4159-A5AB-F496-85D9-1C5D94F1D6CF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UITemplates", "UITemplates.csproj", "{937A1AA3-2F8B-93E3-C784-EBB1FB8BAFAF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProceduralToolkit.Editor", "ProceduralToolkit.Editor.csproj", "{AF23C36D-B464-4862-07FE-CB5CBE9B4D2B}"
 EndProject
@@ -75,6 +75,10 @@ Global
 		{351DE337-5674-FA51-EE7E-748702B77FC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{351DE337-5674-FA51-EE7E-748702B77FC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{351DE337-5674-FA51-EE7E-748702B77FC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{937A1AA3-2F8B-93E3-C784-EBB1FB8BAFAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{937A1AA3-2F8B-93E3-C784-EBB1FB8BAFAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{937A1AA3-2F8B-93E3-C784-EBB1FB8BAFAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{937A1AA3-2F8B-93E3-C784-EBB1FB8BAFAF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F60FA557-4A30-B694-1F87-F224DD6ED463}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F60FA557-4A30-B694-1F87-F224DD6ED463}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F60FA557-4A30-B694-1F87-F224DD6ED463}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -83,10 +87,6 @@ Global
 		{6A7A4159-A5AB-F496-85D9-1C5D94F1D6CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A7A4159-A5AB-F496-85D9-1C5D94F1D6CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A7A4159-A5AB-F496-85D9-1C5D94F1D6CF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{937A1AA3-2F8B-93E3-C784-EBB1FB8BAFAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{937A1AA3-2F8B-93E3-C784-EBB1FB8BAFAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{937A1AA3-2F8B-93E3-C784-EBB1FB8BAFAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{937A1AA3-2F8B-93E3-C784-EBB1FB8BAFAF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AF23C36D-B464-4862-07FE-CB5CBE9B4D2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AF23C36D-B464-4862-07FE-CB5CBE9B4D2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF23C36D-B464-4862-07FE-CB5CBE9B4D2B}.Release|Any CPU.ActiveCfg = Release|Any CPU

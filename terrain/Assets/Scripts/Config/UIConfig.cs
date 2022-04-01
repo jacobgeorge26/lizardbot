@@ -95,6 +95,7 @@ namespace Config
                 newBody.transform.SetParent(RobotOptions.transform);
                 newBody.name = $"Body {i}";
             }
+            Bodies[0].Body.GetComponent<Image>().color = Color.black;
         }
 
         public bool SetBodyColour(float colour)
