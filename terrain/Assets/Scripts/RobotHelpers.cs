@@ -368,6 +368,7 @@ public static class RobotHelpers : object
                 objConfig.Body.Size.Value = head.Size.Value;
                 objConfig.Body.Mass.Value = head.Mass.Value;
             }
+            //TODO: LEGS make legs same size too
         }
         else
         {
@@ -599,6 +600,7 @@ public static class RobotHelpers : object
         similar = AIConfig.RobotConfigs.Where(r =>
             r.RobotIndex != robot.RobotIndex &&
             r.MaintainSerpentine.Value == robot.MaintainSerpentine.Value &&
+            r.MaintainGait.Value == robot.MaintainGait.Value &&
             r.IsEnabled).ToList();
         float thisDriveVelocity = 0;
         if(similar.Count > 0)
