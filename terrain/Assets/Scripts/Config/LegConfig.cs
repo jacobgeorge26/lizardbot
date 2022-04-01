@@ -14,7 +14,7 @@ namespace Config
 
         public Gene Mass = new Gene(1f, 0.5f, 1.5f, Variable.Mass);
 
-        public Gene AngleOffset = new Gene(20, 0, 80, Variable.AngleOffset);
+        public Gene AngleOffset = new Gene(50, 0, 80, Variable.AngleOffset);
 
         public Gene GaitMultiplier = new Gene(1.5f, 1, 2, Variable.GaitMultiplier);
 

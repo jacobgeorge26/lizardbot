@@ -11,7 +11,7 @@ namespace Config
         public Vector3[] LegPoints = new Vector3[2];
 
         //will this section be rotating (it can rotate AND drive if that is desirable)
-        public Gene IsRotating = new Gene(false, Variable.IsRotating);
+        public Gene IsRotating = new Gene(true, Variable.IsRotating);
 
         //will this section use sin or cos in the oscillation?
         [HideInInspector]
@@ -20,7 +20,7 @@ namespace Config
         /*-------------------------------------------------------------------------------------------------------*/
 
         //will this section be driving (it can rotate AND drive if that is desirable)
-        public Gene IsDriving = new Gene(false, Variable.IsDriving);
+        public Gene IsDriving = new Gene(true, Variable.IsDriving);
 
         //how fast should the section move forward
         //>3 is too fast and can be hard to follow / limit the effects of rotation as it's constantly just bouncing off the terrain

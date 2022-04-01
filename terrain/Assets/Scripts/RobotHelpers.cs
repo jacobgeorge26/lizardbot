@@ -1,4 +1,4 @@
-using Config;
+﻿using Config;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -78,7 +78,8 @@ public static class RobotHelpers : object
         //setup config - different defaults for legs
         if (!AIConfig.RandomInitValues)
         {
-            config.AngleConstraint = new Gene(new Vector3(0, 0, 180), 0, 180, Variable.AngleConstraint);
+            //z is free so irrelevant
+            config.AngleConstraint = new Gene(new Vector3(60, 30, 60), 0, 180, Variable.AngleConstraint);
             config.RotationMultiplier = new Gene(new Vector3(1f, 1f, 1f), 0.5f, 1f, Variable.RotationMultiplier);
         }
 
@@ -135,10 +136,25 @@ public static class RobotHelpers : object
     internal static void SetLegPosition(this RobotConfig robot, GameObject leg, LegConfig config, GameObject prevSection)
     {
         Vector3 spawnPoint = config.SpawnPoint;
-        leg.transform.localPosition = new Vector3(robot.GetXPos(prevSection.gameObject, leg, spawnPoint), 0, prevSection.transform.localPosition.z);
-        int leftOrRight = spawnPoint.x - prevSection.transform.localPosition.x > 0 ? -1 : 1;
+        //detach joint temporarily
+        ConfigurableJoint joint = leg.GetComponent<ConfigurableJoint>();
+        Rigidbody body = joint.connectedBody;
+        joint.connectedBody = null;
+        //set original position
+        Vector3 position = new Vector3(robot.GetXPos(prevSection.gameObject, leg, spawnPoint), 0, prevSection.transform.localPosition.z);
+        leg.transform.localPosition = position;
+        //rotate leg for offset and 90* around the y for left or right leg
+        bool isRight = spawnPoint.x - prevSection.transform.localPosition.x > 0;
+        int leftOrRight = isRight ? -1 : 1;
         leg.transform.localRotation = Quaternion.Euler(config.AngleOffset.Value, 90 * leftOrRight, 0);
-        leg.transform.localPosition = RotatePointAroundPivot(leg.transform.localPosition, spawnPoint, new Vector3(config.AngleOffset.Value, 0, 0));
+        //adjust position after rotation
+        float r = config.Length.Value / 2;
+        float theta = (float)(Math.PI / 180f * config.AngleOffset.Value);
+        position.x += (r - r * Mathf.Cos(theta)) * (isRight ? -1 : 1); //x += r - rcosθ
+        position.y += (r * Mathf.Tan(theta)) * (config.AngleOffset.Value > 0 ? 1 : -1); //y += rtanθ
+        leg.transform.localPosition = position;
+        //reattach joint
+        joint.connectedBody = body;
     }
 
     //works for all body types (body, tail etc.) - updates it for any changes to its associated config
