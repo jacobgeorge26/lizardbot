@@ -88,7 +88,8 @@ public class MoveLeg : MonoBehaviour
         Vector3 nextPoint = circle[nextIndex];
 
         //take into account how much force should be applied and deduct the existing force
-        Vector3 targetVelocity = (nextPoint - closestPoint);
+        float force = 0.1f;
+        Vector3 targetVelocity = (nextPoint - closestPoint) * force;
         Vector3 addVelocity = targetVelocity - leg.velocity;
 
         Rigidbody attachedBody = body.GetComponent<Rigidbody>();

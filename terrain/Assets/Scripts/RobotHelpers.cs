@@ -552,7 +552,6 @@ public static class RobotHelpers : object
         return nearby;
     }
 
-    //TODO: LEGS - add legs to physical params - also uniform?
     //get all robots that are physically similar, within a set accepted range of difference
     internal static List<RobotConfig> GetPhysicallySimilarRobots(this RobotConfig robot, int difference)
     {
@@ -562,7 +561,9 @@ public static class RobotHelpers : object
         similar = AIConfig.RobotConfigs.Where(r => 
             r.RobotIndex != robot.RobotIndex && 
             Math.Abs(r.NoSections.Value - robot.NoSections.Value) <= difference &&
+            Math.Abs(r.NoLegs.Value - robot.NoLegs.Value) <= difference &&
             r.IsTailEnabled.Value == robot.IsTailEnabled.Value &&
+            r.UniformBody.Value == robot.UniformBody.Value &&
             r.IsEnabled).ToList();
         //remove those whose tail is very different
         //allowed difference = (max - min) / 10 * difference
@@ -585,6 +586,7 @@ public static class RobotHelpers : object
                 }
             }
         }
+
         return similar;
     }
 
