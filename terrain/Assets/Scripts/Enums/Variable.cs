@@ -19,5 +19,7 @@ public enum Variable
     IsDriving = 3, 
     DriveVelocity = 4,
     RotationMultiplier = 5,
-    MaintainSerpentine = 6
+    MaintainSerpentine = 6,
+    MaintainGait = 7,
+    GaitMultiplier = 8
 }

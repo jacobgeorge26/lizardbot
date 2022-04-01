@@ -56,8 +56,9 @@ public class MoveLeg : MonoBehaviour
         Vector3 A = D + new Vector3(0, 1, 0);
         Vector3 B = D + new Vector3(0, 0, 1);
 
-        //get vectors from origin to each, with the desired radius of the axis circle
-        float r = 2;
+        //get vectors from origin to each, with the desired radius of the offset axis circle
+        float theta = (float)(Math.PI / 180f * config.AngleOffset.Value);
+        float r = 10 * Mathf.Tan(theta) * config.Length.Value / 2;
         Vector3 V = (A - D) * r;
         Vector3 U = (B - D) * r;
 
@@ -65,7 +66,7 @@ public class MoveLeg : MonoBehaviour
         //P = D + Vcos0 + Usin0
         for (int i = 0; i < circleResolution; i++)
         {
-            float theta = (float)(Math.PI / 180f * i * (360 / circleResolution));
+            theta = (float)(Math.PI / 180f * i * (360 / circleResolution));
             Vector3 P = (V * Mathf.Cos(theta)) + (U * Mathf.Sin(theta));
             circle[i] = P;
         }
@@ -74,7 +75,8 @@ public class MoveLeg : MonoBehaviour
     private void Move()
     {
         //get origin point to left/right of body depending on spawn point
-        Vector3 sideOfBody = config.SpawnPoint.x > 0 ? body.transform.right : body.transform.right * -1;
+        bool isRight = config.SpawnPoint.x > 0;
+        Vector3 sideOfBody = isRight ? body.transform.right : body.transform.right * -1;
         Vector3 D = body.transform.localPosition + sideOfBody * config.Length.Value / 2;
 
         //get point in circle closest to where the leg is currently positioned
@@ -86,9 +88,30 @@ public class MoveLeg : MonoBehaviour
         Vector3 nextPoint = circle[nextIndex];
 
         //take into account how much force should be applied and deduct the existing force
-        float force = 5;
+        float force = 3;
         Vector3 targetVelocity = (nextPoint - closestPoint) * force;
         Vector3 addVelocity = targetVelocity - leg.velocity;
+
+        Rigidbody attachedBody = body.GetComponent<Rigidbody>();
+        Vector3 bodyForward = body.transform.forward;
+        Vector3 bodyVelocity = attachedBody.velocity;
+
+        if (robot.MaintainGait.Value)
+        {
+            //get the direction of the body - is it rotating left or right?
+            //these two lines of code are taken from this stackoverflow page
+            //https://stackoverflow.com/questions/65794490/unity3d-check-if-a-point-is-to-the-left-or-right-of-a-vector
+            Vector3 delta = (body.transform.localPosition + bodyVelocity - body.transform.localPosition).normalized;
+            Vector3 cross = Vector3.Cross(delta, body.transform.localPosition + bodyForward);
+
+            double direction = Math.Round(cross.y); //>0 then right, <0 then left
+
+            //if body is moving right and leg is on the left then increase velocity
+            //if body is moving left and leg is on the right then increase velocity
+            addVelocity *= direction > 0
+                ? (isRight ? 1 / config.GaitMultiplier.Value : config.GaitMultiplier.Value) //body is moving right - what about the leg position?
+                : (isRight ? config.GaitMultiplier.Value : 1 / config.GaitMultiplier.Value); //body is moving left - what about the leg position?            
+        }
 
         //add in rotation multiplier and avoid extreme velocity either way
         for (int i = 0; i < 3; i++)

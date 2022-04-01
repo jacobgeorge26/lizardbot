@@ -107,7 +107,7 @@ public class GenerateRobot : MonoBehaviour
     {
         int NoSpawnPoints = 2;
         List<int> legIndexes = robotConfig.UniformBody.Value ? Enumerable.Range(1, (int)robotConfig.NoSections.Value - 1).ToList() : Enumerable.Range(2, (int)(robotConfig.NoSections.Value - 1) * 2).ToList();
-        //3 sections
+        //e.g. 3 sections
         //uniform -> [1, 2]
         //nonuniform -> [2, 3, 4, 5]
         for (int i = 0; i < robotConfig.NoLegs.Value; i++)
