@@ -305,7 +305,8 @@ public static class GeneticAlgorithm : object
             }
             else
             {
-                if(childConfig.Type == BodyPart.Body && childConfig.Index > 0)
+                //for tail and body parts past head, get the prevsection
+                if(!(childConfig.Type == BodyPart.Body && childConfig.Index == 0))
                 {
                     int index = childConfig.Type == BodyPart.Body ? childConfig.Index - 1 : robot.NoSections.Value - 1;
                     try { prevObject = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == index).gameObject; }
