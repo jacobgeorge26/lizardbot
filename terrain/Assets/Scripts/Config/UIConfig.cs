@@ -61,6 +61,8 @@ namespace Config
         public List<BodyUI> Bodies;
         [HideInInspector]
         public TailUI Tail;
+        [HideInInspector]
+        public List<LegUI> Legs;
 
 
         void Awake()
@@ -80,8 +82,9 @@ namespace Config
         private float anglemin = 0, anglemax = 60;
         private float scalemin = 0.7f, scalemax = 0.9f;
         private float massmin = 0.2f, massmax = 0.7f;
-        private float lengthmin = 160, lengthmax = 250;
-
+        private float taillengthmin = 160, taillengthmax = 250;
+        private float leglengthmin = 80, leglengthmax = 120;
+        //---------------------------BODY------------------------
         public void SetupBodies(int max)
         {
             for (int i = 0; i < max; i++)
@@ -109,28 +112,12 @@ namespace Config
             body.Body.transform.localPosition = new Vector3(x, (anglemax + anglemin) / 2, 0);
         }
 
-        private float GetXPos(Transform thisBody, float thisScale, Transform prevBody, float prevScale)
-        {
-            float prevWidth = prevBody == null ? 0 : prevBody.GetComponent<RectTransform>().rect.width;
-            float thisWidth = thisBody.GetComponent<RectTransform>().rect.width;
-            float x = prevBody == null ? -780 : prevBody.localPosition.x; //start point to work right from
-            x += prevBody == null ? 0 : ((prevScale * prevWidth) / 2) + ((thisScale * thisWidth) / 2) + 10; //get x position using scale & width, from previous object
-            return x;
-        }
-
         public bool SetPrimaryAxis(BodyUI body, Vector3 value, bool IsRotating)
         {
             string original = body.PrimaryRotation.text;
             body.PrimaryRotation.fontSize = 34;
             body.PrimaryRotation.text = IsRotating ? GetPrimaryAxis(value) : "";
             return body.PrimaryRotation.text != original;
-        }
-
-        private string GetPrimaryAxis(Vector3 vector)
-        {
-            if (vector.x > vector.y && vector.x > vector.y) return "X";
-            else if (vector.y > vector.z) return "Y";
-            else return "Z";
         }
 
         public bool SetIsRotating(BodyUI body, bool isRotating, bool isSin)
@@ -165,7 +152,7 @@ namespace Config
             return newScale != originalScale;
         }
 
-        public bool SetMass(BodyUI body, float value)
+        public bool SetBodyMass(BodyUI body, float value)
         {
             float originalMass = body.Body.GetComponent<Image>().pixelsPerUnitMultiplier;
             float newMass = value * (massmax - massmin) + massmin;
@@ -211,6 +198,7 @@ namespace Config
             return actualAngle;
         }
 
+        //-----------------------------------TAIL------------------------------
         public void SetupTail()
         {
             GameObject newTail = MonoBehaviour.Instantiate(Resources.Load<GameObject>("TailUI"));
@@ -224,7 +212,7 @@ namespace Config
         {
             RectTransform lengthObject = Tail.transform.GetComponent<RectTransform>();
             float originalLength = lengthObject.rect.width;
-            newLength = value * (lengthmax - lengthmin) + lengthmin;
+            newLength = value * (taillengthmax - taillengthmin) + taillengthmin;
             lengthObject.sizeDelta = new Vector2(newLength, lengthObject.rect.height);
             return newLength != originalLength;
         }
@@ -264,6 +252,92 @@ namespace Config
             float actualAngle = GetActualAngle(prevAngle, newAngle, ref angleDirectionUp);
             Tail.transform.localPosition = new Vector3(Tail.transform.localPosition.x, actualAngle, 0);
             return newAngle != originalAngle;
+        }
+
+        //--------------------------------LEGS--------------------------------------
+        public void SetupLegs(int max)
+        {
+            for (int i = 0; i < max; i++)
+            {
+                GameObject newLeg = MonoBehaviour.Instantiate(Resources.Load<GameObject>("LegUI"));
+                LegUI objects = newLeg.GetComponent<LegUI>();
+                Legs.Add(objects);
+                newLeg.transform.SetParent(RobotOptions.transform);
+                objects.Leg.transform.localScale = new Vector3(1, 1, 1);
+                newLeg.name = $"Leg {i}";
+            }
+        }
+
+        public bool SetLegLength(LegUI Leg, float value, ref float newLength)
+        {
+            RectTransform lengthObject = Leg.transform.GetComponent<RectTransform>();
+            float originalLength = lengthObject.rect.width;
+            newLength = value * (leglengthmax - leglengthmin) + leglengthmin;
+            lengthObject.sizeDelta = new Vector2(lengthObject.rect.width, newLength);
+            Leg.MassLengthChanged.transform.localPosition = new Vector3(0, -(newLength / 2) - 5, 0);
+            return newLength != originalLength;
+        }
+
+        public void SetLegPosition(LegUI Leg, BodyUI lastBody, float legLength, int leftOrRight)
+        {
+            float y = GetYPos(Leg.transform, Leg.RelativeScale, lastBody.Body.transform, lastBody.RelativeScale);
+            float width = Leg.transform.GetComponent<RectTransform>().rect.width;
+            float x = lastBody.gameObject.transform.localPosition.x + (((width / 2) + 5) * leftOrRight);
+            Leg.transform.localPosition = new Vector3(x, y, 0);
+            Leg.transform.localScale = new Vector3(1, 1, 1);
+        }
+
+        public bool SetLegMass(LegUI Leg, float value)
+        {
+            float originalMass = Leg.Leg.GetComponent<Image>().pixelsPerUnitMultiplier;
+            float newMass = value * (massmax - massmin) + massmin;
+            Leg.Leg.GetComponent<Image>().pixelsPerUnitMultiplier = newMass;
+            return newMass != originalMass;
+        }
+
+        public bool SetLegOffset(LegUI Leg, float value)
+        {
+            string original = Leg.Offset.text;
+            Leg.Offset.text = Math.Round(value).ToString();
+            return Leg.Offset.text != original;
+        }
+
+        public bool SetGaitMultiplier(LegUI Leg, float value)
+        {
+            string original = Leg.GaitMultiplier.text;
+            Leg.GaitMultiplier.text = Math.Round(value, 1).ToString();
+            return Leg.GaitMultiplier.text != original;
+        }
+
+        public bool SetLegMass(float value)
+        {
+            return false;
+        }
+
+        //---------------------------ALL HELPERS----------------------------
+        private float GetXPos(Transform thisBody, float thisScale, Transform prevBody, float prevScale)
+        {
+            float prevWidth = prevBody == null ? 0 : prevBody.GetComponent<RectTransform>().rect.width;
+            float thisWidth = thisBody.GetComponent<RectTransform>().rect.width;
+            float x = prevBody == null ? -780 : prevBody.localPosition.x; //start point to work right from
+            x += prevBody == null ? 0 : ((prevScale * prevWidth) / 2) + ((thisScale * thisWidth) / 2) + 10; //get x position using scale & width, from previous object
+            return x;
+        }
+
+        private float GetYPos(Transform thisBody, float thisScale, Transform prevBody, float prevScale)
+        {
+            float prevHeight = prevBody == null ? 0 : prevBody.GetComponent<RectTransform>().rect.height;
+            float thisHeight = thisBody.GetComponent<RectTransform>().rect.height;
+            float y = prevBody == null ? (anglemax + anglemin) / 2 : prevBody.localPosition.y; //start point to work right from
+            y -= prevBody == null ? 0 : ((prevScale * prevHeight) / 2) + ((thisScale * thisHeight) / 2) + 15; //get y position using scale & width, from previous object
+            return y;
+        }
+
+        private string GetPrimaryAxis(Vector3 vector)
+        {
+            if (vector.x > vector.y && vector.x > vector.y) return "X";
+            else if (vector.y > vector.z) return "Y";
+            else return "Z";
         }
 
     }

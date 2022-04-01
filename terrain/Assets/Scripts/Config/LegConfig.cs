@@ -12,7 +12,7 @@ namespace Config
 
         public LegPosition Position;
 
-        public Gene Length = new Gene(2f, 1f, 4f, Variable.Length);
+        public Gene Length = new Gene(2f, 1f, 2f, Variable.Length);
 
         public Gene Mass = new Gene(1f, 0.5f, 1.5f, Variable.Mass);
 
@@ -33,7 +33,7 @@ namespace Config
             RotationMultiplier.Value = oldConfig.RotationMultiplier.Value;
             Length.Value = oldConfig.Length.Value;
             Mass.Value = oldConfig.Mass.Value;
-            AngleOffset.Value = oldConfig.Mass.Value;
+            AngleOffset.Value = oldConfig.AngleOffset.Value;
         }
     }
 }

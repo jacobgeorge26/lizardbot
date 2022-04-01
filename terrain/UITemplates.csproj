@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\UITemplates\BodyUI.cs" />
     <Compile Include="Assets\Scripts\UITemplates\TailUI.cs" />
+    <Compile Include="Assets\Scripts\UITemplates\LegUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Scripts\UITemplates\UITemplates.asmdef" />

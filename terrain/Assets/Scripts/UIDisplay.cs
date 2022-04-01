@@ -206,7 +206,7 @@ public class UIDisplay : MonoBehaviour
 
             //mass
             value = (bodyConfig.Mass.Value - bodyConfig.Mass.Min) / (bodyConfig.Mass.Max - bodyConfig.Mass.Min);
-            bool massChanged = UIE.SetMass(body, value);
+            bool massChanged = UIE.SetBodyMass(body, value);
 
             if (showChanges && (sizeChanged || massChanged)) StartCoroutine(ValueChanged(body.SizeMassChanged, config.RobotIndex));
 
@@ -214,6 +214,52 @@ public class UIDisplay : MonoBehaviour
             value = GetRelativeAngleMagnitude(bodyConfig.AngleConstraint.Value, bodyConfig.AngleConstraint.Min, bodyConfig.AngleConstraint.Max);
             isChanged = UIE.SetAngleConstraint(body, value, ref angleDirectionUp, prevBody);
             if (showChanges && i > 0 && isChanged) StartCoroutine(ValueChanged(body.JointChanged, config.RobotIndex));
+        }
+
+        //LEGS
+        //if first time, set up legs
+        if (UIE.Legs.Count == 0) UIE.SetupLegs(config.NoSections.Max * 2);
+        List<ObjectConfig> legConfigs = config.Configs.Where(o => o.Type == BodyPart.Leg).OrderBy(o => o.Index).ToList();
+        for (int i = 0; i < config.NoSections.Max * 2; i++)
+        {
+            List<ObjectConfig> legs = legConfigs.Where(l => l.Leg.AttachedBody == Mathf.FloorToInt(i / 2) && (int)l.Leg.Position == i % 2).ToList();
+            LegUI leg = UIE.Legs[i];
+            //make sure the right number are enabled vs disabled
+            leg.Leg.gameObject.SetActive(legs.Count > 0);
+            if(legs.Count > 0)
+            {
+                //get leg
+                LegConfig legConfig = null;
+                try { legConfig = legs.First().Leg; }
+                catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), config); return; }
+                //get prevBody
+                ObjectConfig attachedBody = null;
+                try { attachedBody = config.Configs.First(o => o.Type == BodyPart.Body && o.Index == legConfig.AttachedBody); }
+                catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), config); return; }
+
+                //size - affects position so call first
+                float value = (legConfig.Length.Value - legConfig.Length.Min) / (legConfig.Length.Max - legConfig.Length.Min);
+                float legLength = 0;
+                bool lengthChanged = UIE.SetLegLength(leg, value, ref legLength);
+
+                //position
+                BodyUI prevBody = UIE.Bodies[attachedBody.Index];
+                UIE.SetLegPosition(leg, prevBody, legLength, (legConfig.Position == LegPosition.Left ? -1 : 1));
+
+                //mass
+                value = (legConfig.Mass.Value - legConfig.Mass.Min) / (legConfig.Mass.Max - legConfig.Mass.Min);
+                bool massChanged = UIE.SetLegMass(leg, value);
+
+                //offset
+                isChanged = UIE.SetLegOffset(leg, legConfig.AngleOffset.Value);
+                if (showChanges && isChanged) StartCoroutine(ValueChanged(leg.Offset, config.RobotIndex));
+
+                //gait multiplier
+                isChanged = UIE.SetGaitMultiplier(leg, legConfig.GaitMultiplier.Value);
+                if (showChanges && isChanged) StartCoroutine(ValueChanged(leg.GaitMultiplier, config.RobotIndex));
+
+                if (showChanges && (lengthChanged || massChanged)) StartCoroutine(ValueChanged(leg.MassLengthChanged, config.RobotIndex));
+            }
         }
 
         //TAIL

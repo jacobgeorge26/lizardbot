@@ -54,7 +54,7 @@ public class TrappedAlgorithm : MonoBehaviour
         while (IsEnabled)
         {
             yield return new WaitForSeconds(0.5f);
-            if (robotConfig.IsEnabled) UpdateLocations();
+            if (robotConfig.IsEnabled && Time.realtimeSinceStartup - Collisions.StartTimes[robotConfig.RobotIndex] > 2) UpdateLocations();
         }
     }
 
