@@ -115,8 +115,15 @@ public class GenerateRobot : MonoBehaviour
         //nonuniform -> [2, 3, 4, 5]
         for (int i = 0; i < robotConfig.NoLegs.Value; i++)
         {
+            if (legIndexes.Count == 0)
+            {
+                //weird bug here where sometimes the no legs is 1 when it should be zero
+                //haven't had time to track it down - doesn't seem to be an issue with ValidateParams
+                robotConfig.NoLegs.Value -= robotConfig.NoLegs.Value - i;
+                break;
+            }
             int index = legIndexes[Random.Range(0, legIndexes.Count - 1)];
-            legIndexes.Remove(index);
+            legIndexes.Remove(Random.Range(0, legIndexes.Count - 1));
             if (robotConfig.UniformBody.Value)
             {
                 for (int spawnIndex = 0; spawnIndex < NoSpawnPoints; spawnIndex++)

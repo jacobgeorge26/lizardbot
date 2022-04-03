@@ -119,7 +119,7 @@ public class UIDisplay : MonoBehaviour
         }
     }
 
-    private void SelectRobot(string robotText)
+    internal void SelectRobot(string robotText)
     {
         robotText = Regex.Match(robotText, @"\d+").Value;
         int robot = 0;
@@ -429,6 +429,11 @@ public class UIDisplay : MonoBehaviour
             text = UIE.CurrentPerformanceText;
             text.text = Math.Round(current, 2).ToString();
         }
+    }
+
+    public int GetCurrentRobot()
+    {
+        return Robot.RobotIndex;
     }
 
 

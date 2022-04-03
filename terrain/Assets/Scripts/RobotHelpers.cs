@@ -335,14 +335,14 @@ public static class RobotHelpers : object
             {
                 Vector3 sum = Vector3.zero;
                 allGenes.Where(o => o.Type == item.Type).ToList().ForEach(o => { sum += o.Value; count++; });
-                item.Value = sum / count;
+                if(count > 0) item.Value = sum / count;
             }
             else
             {
                 dynamic sum = item.Real;
                 sum = 0;
                 allGenes.Where(o => o.Type == item.Type).ToList().ForEach(o => { sum += o.Real; count++; });
-                item.Value = Convert.ChangeType(sum / count, item.Real.GetType());
+                if(count > 0) item.Value = Convert.ChangeType(sum / count, item.Real.GetType());
             }
         }
     }
@@ -424,6 +424,13 @@ public static class RobotHelpers : object
             if(left.Count == 0 || right.Count == 0)
             {
                 //if either list is empty then create new leg pairs
+                if(legIndexes.Count == 0)
+                {
+                    //weird bug here where sometimes the no legs is 1 when it should be zero
+                    //haven't had time to track it down - doesn't seem to be an issue with ValidateParams
+                    robot.NoLegs.Value -= robot.NoLegs.Value - i;
+                    break;
+                }
                 int index = legIndexes[Random.Range(0, legIndexes.Count - 1)];
                 legIndexes.Remove(index);
                 LegConfig newLeg = robot.CreateLeg(i, Mathf.FloorToInt(index), 0);
@@ -549,18 +556,17 @@ public static class RobotHelpers : object
         }
     }
 
-    internal static void SetDynMovVelocities(this RobotConfig robot, int index, bool isJump)
+    internal static void SetDynMovVelocities(this RobotConfig robot, int index, bool isJump, float activationRate)
     {
-        float activation = isJump ? 3 : DynMovConfig.ActivationRate;
         foreach (ObjectConfig objConfig in robot.Configs)
         {
             if (objConfig.Type == BodyPart.Body && objConfig.Body != null)
             {
-                objConfig.gameObject.GetComponent<Rigidbody>().velocity = objConfig.Body.Velocities[index] * activation;
+                objConfig.gameObject.GetComponent<Rigidbody>().velocity = objConfig.Body.Velocities[index] * activationRate;
             }
             else if (objConfig.Type == BodyPart.Tail && objConfig.Tail != null)
             {
-                objConfig.gameObject.GetComponent<Rigidbody>().velocity = objConfig.Tail.Velocities[index] * activation;
+                objConfig.gameObject.GetComponent<Rigidbody>().velocity = objConfig.Tail.Velocities[index] * activationRate;
             }
         }
     }

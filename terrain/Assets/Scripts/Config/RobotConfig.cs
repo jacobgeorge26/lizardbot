@@ -35,7 +35,7 @@ namespace Config
 
         public Gene NoSections = new Gene(5, 1, 10, Variable.NoSections);
 
-        public Gene NoLegs = new Gene(4, 1, 20, Variable.NoLegs);
+        public Gene NoLegs = new Gene(4, 0, 20, Variable.NoLegs);
 
         public Gene IsTailEnabled = new Gene(false, Variable.IsTailEnabled);
 

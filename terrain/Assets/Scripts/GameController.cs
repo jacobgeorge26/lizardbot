@@ -197,16 +197,25 @@ public class GameController : MonoBehaviour
         }       
         robot.Object.gameObject.SetActive(false);
         ui ??= UIConfig.UIContainer.GetComponent<UIDisplay>();
+        bool pauseUI = false;
         if (ui != null)
         {
-            //move to overview cam and then disable until respawn is complete
-            ui.SelectOption(UIView.Performance);
-            ui.Disable();
+            if(ui.GetCurrentRobot() == robot.RobotIndex && AIConfig.PopulationSize > 10)
+            {
+                ui.SelectRobot("1");
+            }
+            else if(AIConfig.PopulationSize < 10)
+            {
+                //move to overview cam and then disable until respawn is complete
+                pauseUI = true;
+                ui.SelectOption(UIView.Performance);
+                ui.Disable();
+            }
         }
         DebugConfig.IsTotalRespawn = false;
         Debug.LogWarning($"Respawning robot {robot.RobotIndex + 1} in attempt {PlayerPrefs.GetInt("Attempt")}. \n {exception}");
         DebugConfig.InitRobots.Add(robot);
-        if (DebugConfig.InitRobots.Count == 1) StartCoroutine(ReenableUI()); //only needed if this is the first in a cluster of single respawns
+        if (DebugConfig.InitRobots.Count == 1 && pauseUI) StartCoroutine(ReenableUI()); //only needed if this is the first in a cluster of single respawns
         StartCoroutine(generate.RespawnRobot(robot));
     }
 

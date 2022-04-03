@@ -46,12 +46,12 @@ public class DynamicMovement : MonoBehaviour
         while(IsEnabled && robot.IsEnabled)
         {
             yield return new WaitForSeconds(DynMovConfig.AdjustRate);
-            MakeAdjustment(false);
+            MakeAdjustment(false, DynMovConfig.ActivationRate);
         }
         IsEnabled = false;
     }
 
-    internal void MakeAdjustment(bool forceAdjustment)
+    internal void MakeAdjustment(bool forceAdjustment, float activationRate)
     {
         Vector3 newPosition = robot.GetAveragePosition(); //worldspace, not local
         Vector3 spawnPoint = TerrainConfig.GetSpawnPoint(robot.RobotIndex);
@@ -76,7 +76,7 @@ public class DynamicMovement : MonoBehaviour
         {
             Vector3 point = filteredVectors.First();
             int index = adjustedVectors.IndexOf(point);
-            robot.SetDynMovVelocities(index, forceAdjustment);
+            robot.SetDynMovVelocities(index, forceAdjustment, activationRate);
         }
     }
 

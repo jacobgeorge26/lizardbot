@@ -11,11 +11,11 @@ namespace Config
 
         //there is a hard limit of 25 layers available
         //to work within this the population will be split to 25 per terrain
-        public static int PopulationSize = 1;
+        public static int PopulationSize = 50;
 
-        public static int NoAttempts = 3;
+        public static int NoAttempts = 1;
 
-        public static int AttemptLength = 10;
+        public static int AttemptLength = 600;
 
         public static RobotConfig[] LastRobots = new RobotConfig[PopulationSize];
 

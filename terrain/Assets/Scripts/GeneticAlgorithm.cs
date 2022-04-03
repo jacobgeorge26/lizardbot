@@ -424,6 +424,13 @@ public static class GeneticAlgorithm : object
                     else legIndexes.Remove((leg.Leg.AttachedBody * 2) + 1);
                 }
             }
+            if (legIndexes.Count == 0)
+            {
+                //weird bug here where sometimes the no legs is 1 when it should be zero
+                //haven't had time to track it down - doesn't seem to be an issue with ValidateParams
+                newRobot.NoLegs.Value -= newRobot.NoLegs.Value - i;
+                break;
+            }
             int legIndex = legIndexes[Random.Range(0, legIndexes.Count - 1)];
             if (newRobot.UniformBody.Value)
             {
@@ -446,7 +453,7 @@ public static class GeneticAlgorithm : object
             int index = oldRobot.NoLegs.Value - 1 - i;
             ObjectConfig leg = null;
             try { leg = newRobot.Configs.First(o => o.Type == BodyPart.Leg && o.Index == index); }
-            catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), newRobot); }
+            catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), newRobot); return; }
             newRobot.RemoveLeg(leg);
         }
 
