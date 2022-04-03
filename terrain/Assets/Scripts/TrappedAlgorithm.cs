@@ -19,7 +19,9 @@ public class TrappedAlgorithm : MonoBehaviour
 
     private bool IsEnabled = true;
 
-    private bool JumpAttempted = false;
+    private int ActivationCount = 0;
+
+    private int NoActivationAttempts = 3;
 
     //if the gradient of the variance of the magnitude of the coordinates dips below the limit then the robot is classed as stuck
     //this can be due to many different behaviours:
@@ -54,7 +56,7 @@ public class TrappedAlgorithm : MonoBehaviour
         while (IsEnabled)
         {
             yield return new WaitForSeconds(0.5f);
-            if (robotConfig.IsEnabled) UpdateLocations();
+            if (robotConfig.IsEnabled && Time.realtimeSinceStartup - Collisions.StartTimes[robotConfig.RobotIndex] > 2) UpdateLocations();
         }
     }
 
@@ -87,7 +89,6 @@ public class TrappedAlgorithm : MonoBehaviour
             if(volumes.Count == AIConfig.Sensitivity)
             {
                 float variance = GetVariance();
-                //Grapher.Log(variance, "Variance", Color.red);
                 if (Math.Round(variance) == 0)
                 {
                     bool declareStuck = true;
@@ -97,16 +98,19 @@ public class TrappedAlgorithm : MonoBehaviour
                         p.transform.position = currentLocation;
                         p.transform.parent = DebugConfig.StuckPoints.transform;
                     }
-                    //attempt jump to make progress first
-                    if (!JumpAttempted && DynMovConfig.UseDynamicMovement)
+                    //attempt to make progress first
+                    if (DynMovConfig.UseDynamicMovement && ActivationCount < NoActivationAttempts)
                     {
-                        JumpAttempted = true;
                         DynamicMovement dynMov = robotConfig.Object.GetComponent<DynamicMovement>();
                         if(dynMov != null)
                         {
                             declareStuck = false; //only block declaring stuck if the dynamic movement script was found
                             locations.Clear(); //reset locations to reset clock on whether the robot is trapped
-                            dynMov.MakeAdjustment(true);
+                            //y = fe^x
+                            float activation = DynMovConfig.ActivationRate * (Mathf.Exp(ActivationCount / 2));
+                            //Debug.Log($"{robotConfig.Object.name} stuck for {ActivationCount} time. Activation: {activation}");
+                            ActivationCount++;
+                            dynMov.MakeAdjustment(true, activation);
                         }
                     }
                     if(declareStuck)
@@ -116,11 +120,16 @@ public class TrappedAlgorithm : MonoBehaviour
                         robotConfig.RobotIsStuck();
                     }  
                 }
-                else if(ShowTrail)
+                else 
                 {
-                    GameObject p = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Point"));
-                    p.transform.position = currentLocation;
-                    p.transform.parent = DebugConfig.StuckPoints.transform;
+                    //no longer stuck - reset dynamic movement
+                    ActivationCount = 0;
+                    if (ShowTrail)
+                    {
+                        GameObject p = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Point"));
+                        p.transform.position = currentLocation;
+                        p.transform.parent = DebugConfig.StuckPoints.transform;
+                    }
                 }
             }              
 

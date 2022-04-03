@@ -35,7 +35,9 @@ namespace Config
 
         public Gene NoSections = new Gene(5, 1, 10, Variable.NoSections);
 
-        public Gene IsTailEnabled = new Gene(true, Variable.IsTailEnabled);
+        public Gene NoLegs = new Gene(4, 0, 20, Variable.NoLegs);
+
+        public Gene IsTailEnabled = new Gene(false, Variable.IsTailEnabled);
 
         //lower the better
         public Gene BodyColour = new Gene(150, 0, 255, Variable.BodyColour);
@@ -43,8 +45,11 @@ namespace Config
         //when changes are made, should serpentine motion be preserved
         public Gene MaintainSerpentine = new Gene(true, Variable.MaintainSerpentine);
 
+        //should the legs maintain a lizardlike gait
+        public Gene MaintainGait = new Gene(true, Variable.MaintainGait);
+
         //should the size & mass be maintained across the body
-        public Gene UniformBody = new Gene(true, Variable.UniformBody);
+        public Gene UniformBody = new Gene(false, Variable.UniformBody);
 
         public RobotConfig(int _index, GameObject _object)
         {
@@ -64,6 +69,7 @@ namespace Config
             StartTime = oldRobot.StartTime;
             PenaltyCount = oldRobot.PenaltyCount;
             NoSections.Value = oldRobot.NoSections.Value;
+            NoLegs.Value = oldRobot.NoLegs.Value;
             IsTailEnabled.Value = oldRobot.IsTailEnabled.Real;
             BodyColour.Value = oldRobot.BodyColour.Value;
             MaintainSerpentine.Value = oldRobot.MaintainSerpentine.Real;
@@ -84,6 +90,7 @@ namespace Config
             this.PenaltyCount = 0;
             this.Original = robot.Original;
             this.NoSections.Value = robot.NoSections.Value;
+            this.NoLegs.Value = robot.NoLegs.Value;
             this.IsTailEnabled.Value = robot.IsTailEnabled.Value;
             this.BodyColour.Value = robot.BodyColour.Value;
             this.MaintainSerpentine.Value = robot.MaintainSerpentine.Value;
@@ -98,6 +105,7 @@ namespace Config
             line += $"Terrain, ";
             line += $"{nameof(RobotIndex)}, ";
             line += $"{nameof(NoSections)}, ";
+            line += $"{nameof(NoLegs)}, ";
             line += $"{nameof(IsTailEnabled)}, ";
             line += $"{nameof(BodyColour)}, ";
             line += $"{nameof(MaintainSerpentine)}, ";
@@ -106,6 +114,11 @@ namespace Config
             for (int i = 0; i < NoSections.Max; i++)
             {
                 line += tempBody.GetHeader();
+            }
+            LegConfig tempLeg = new LegConfig(0, 0);
+            for (int i = 0; i < NoSections.Max * 2; i++)
+            {
+                line += tempLeg.GetHeader();
             }
             line += new TailConfig().GetHeader();
             return line;
@@ -120,6 +133,7 @@ namespace Config
             line += $"{TerrainConfig.GetTerrainType(RobotIndex)}, ";
             line += $"{RobotIndex}, ";
             line += $"{NoSections.Value}, ";
+            line += $"{NoLegs.Value}, ";
             line += $"{IsTailEnabled.Value}, ";
             line += $"{BodyColour.Value}, ";
             line += $"{MaintainSerpentine.Value}, ";
@@ -129,6 +143,13 @@ namespace Config
             {
                 var body = Configs.Where(o => o.Type == BodyPart.Body && o.Index == i).ToList();
                 if (body.Count != 0) line += body.First().Body.GetData(i);
+                else line += tempBody.GetEmptyData(i);
+            }
+            for (int i = 0; i < NoSections.Max * 2; i++)
+            {
+                LegConfig tempLeg = new LegConfig(Mathf.FloorToInt(i / 2), i % 2);
+                var leg = Configs.Where(o => o.Type == BodyPart.Leg && o.Leg.AttachedBody == Mathf.FloorToInt(i / 2) && (int)o.Leg.Position == i % 2).ToList();
+                if (leg.Count != 0) line += leg.First().Leg.GetData(i);
                 else line += tempBody.GetEmptyData(i);
             }
             var tail = Configs.Where(o => o.Type == BodyPart.Tail).ToList();

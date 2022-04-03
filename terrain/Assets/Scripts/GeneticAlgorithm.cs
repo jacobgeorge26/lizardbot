@@ -31,7 +31,15 @@ public static class GeneticAlgorithm : object
         //update BestRobot
         if (DebugConfig.LogRobotData && (DebugConfig.BestRobot == null || stuckRobot.Performance > DebugConfig.BestRobot.Performance))
         {
+            RobotConfig prevBest = DebugConfig.BestRobot;
             DebugConfig.BestRobot = stuckRobot;
+
+            //delete other one
+            if(prevBest != null && prevBest.Object != null && prevBest.Version > 0)
+            {
+                try { prevBest.Configs.First().Remove(prevBest.Object); }
+                catch (Exception) { Debug.LogWarning($"Check that Robot{prevBest.RobotIndex + 1}V{prevBest.Version} has been deleted correctly. It has been replaced as the best robot."); }
+            }
         }
 
         int newVersion = stuckRobot.Version + 1;
@@ -63,7 +71,12 @@ public static class GeneticAlgorithm : object
         {
             //need access to info from original, leave disabled
             //otherwise destroy
-            try { if (oldRobot.Version > 0) oldRobot.Configs.First().Remove(oldRobot.Object); }
+            try { 
+                if (oldRobot.Version > 0 && DebugConfig.BestRobot != oldRobot)
+                {
+                    oldRobot.Configs.First().Remove(oldRobot.Object);
+                }
+            }
             catch (Exception ex) { GameController.Controller.TotalRespawn(ex.ToString()); return stuckRobot; }
 
             newRobot.MutationCount++;
@@ -234,7 +247,8 @@ public static class GeneticAlgorithm : object
         {
             BodyPart.Body => robot.GetVariables(config.Body),
             BodyPart.Tail => robot.GetVariables(config.Tail),
-            _ => null
+            BodyPart.Leg => robot.GetVariables(config.Leg),
+            _ => new List<Gene>()
         };
     }
 
@@ -295,16 +309,34 @@ public static class GeneticAlgorithm : object
         foreach (ObjectConfig childConfig in robot.Configs.OrderBy(o => o.Type))
         {
             Transform child = childConfig.gameObject.transform;
-            GameObject prevObject = null;
-            if(!(childConfig.Type == BodyPart.Body && childConfig.Index == 0))
+            ObjectConfig prevObj = null;
+            GameObject prevBody = null;
+            if (childConfig.Type == BodyPart.Leg)
             {
-                int index = childConfig.Type == BodyPart.Body ? childConfig.Index - 1 : robot.NoSections.Value - 1;
-                try { prevObject = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == index).gameObject; }
+                try { 
+                    prevObj = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == childConfig.Leg.AttachedBody);
+                    prevBody = prevObj.gameObject;
+                }
                 catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
+                robot.SetLegPosition(childConfig.gameObject, childConfig.Leg, prevBody, prevObj.Body.LegPoints[(int)childConfig.Leg.Position]);
             }
-            child.rotation = Quaternion.Euler(Vector3.zero);
-            child.position = new Vector3(spawnPoint.x, robot.GetYPos(), spawnPoint.z + robot.GetZPos(prevObject, child.gameObject));
+            else
+            {
+                //for tail and body parts past head, get the prevsection
+                if(!(childConfig.Type == BodyPart.Body && childConfig.Index == 0))
+                {
+                    int index = childConfig.Type == BodyPart.Body ? childConfig.Index - 1 : robot.NoSections.Value - 1;
+                    try { 
+                        prevObj = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == index);
+                        prevBody = prevObj.gameObject;
+                    }
+                    catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
+                }
+                child.rotation = Quaternion.Euler(Vector3.zero);
+                child.position = new Vector3(spawnPoint.x, robot.GetYPos(), spawnPoint.z + robot.GetZPos(prevBody, child.gameObject));
+            }
 
+            //set zero velocity
             Rigidbody childBody = child.gameObject.GetComponent<Rigidbody>();
             if (childBody != null)
             {
@@ -362,8 +394,8 @@ public static class GeneticAlgorithm : object
         for (int i = 0; i < newRobot.NoSections.Value - oldRobot.NoSections.Value; i++)
         {
             int index = oldRobot.NoSections.Value + i;
-            newRobot.CreateBody(index);
-            newRobot.AverageRestOfBody();
+            BodyConfig newBody = newRobot.CreateBody(index);
+            newRobot.AverageRestOfBody(newBody);
         }
         //are there fewer sections now?
         for (int i = 0; i < oldRobot.NoSections.Value - newRobot.NoSections.Value; i++)
@@ -376,18 +408,71 @@ public static class GeneticAlgorithm : object
         //does the tail need to be removed?
         else if (oldRobot.IsTailEnabled.Value && !newRobot.IsTailEnabled.Value) newRobot.RemoveTail();
 
-        if (newRobot.UniformBody.Value) newRobot.MakeBodyUniform();
+        newRobot.ValidateLegParams();
+        //are there more legs now?
+        for (int i = 0; i < newRobot.NoLegs.Value - oldRobot.NoLegs.Value; i++)
+        {
+            int index = oldRobot.NoLegs.Value + i;
+            int NoSpawnPoints = 2;
+            List<int> legIndexes = newRobot.UniformBody.Value ? Enumerable.Range(1, (int)newRobot.NoSections.Value - 1).ToList() : Enumerable.Range(2, (int)(newRobot.NoSections.Value - 1) * 2).ToList();
+            foreach (var leg in newRobot.Configs.Where(o => o.Type == BodyPart.Leg))
+            {
+                if (newRobot.UniformBody.Value) legIndexes.Remove(leg.Leg.AttachedBody);
+                else
+                {
+                    if (leg.Leg.Position == LegPosition.Left) legIndexes.Remove(leg.Leg.AttachedBody * 2);
+                    else legIndexes.Remove((leg.Leg.AttachedBody * 2) + 1);
+                }
+            }
+            if (legIndexes.Count == 0)
+            {
+                //weird bug here where sometimes the no legs is 1 when it should be zero
+                //haven't had time to track it down - doesn't seem to be an issue with ValidateParams
+                newRobot.NoLegs.Value -= newRobot.NoLegs.Value - i;
+                break;
+            }
+            int legIndex = legIndexes[Random.Range(0, legIndexes.Count - 1)];
+            if (newRobot.UniformBody.Value)
+            {
+                for (int spawnIndex = 0; spawnIndex < NoSpawnPoints; spawnIndex++)
+                {
+                    LegConfig newLeg = newRobot.CreateLeg(index, Mathf.FloorToInt(legIndex), spawnIndex);
+                    newRobot.AverageRestOfLegs(newLeg);
+                    i++;
+                }
+            }
+            else
+            {
+                LegConfig newLeg = newRobot.CreateLeg(index, Mathf.FloorToInt(legIndex / NoSpawnPoints), legIndex % NoSpawnPoints);
+                newRobot.AverageRestOfLegs(newLeg);
+            }
+        }
+        //are there fewer legs now?
+        for (int i = 0; i < oldRobot.NoLegs.Value - newRobot.NoLegs.Value; i++)
+        {
+            int index = oldRobot.NoLegs.Value - 1 - i;
+            ObjectConfig leg = null;
+            try { leg = newRobot.Configs.First(o => o.Type == BodyPart.Leg && o.Index == index); }
+            catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), newRobot); return; }
+            newRobot.RemoveLeg(leg);
+        }
+
+        if (newRobot.UniformBody.Value && !oldRobot.UniformBody.Value) newRobot.MakeBodyUniform();
 
         //update existing configs
         foreach (ObjectConfig item in newRobot.Configs)
         {
             if(item.Type == BodyPart.Body)
             {
-                newRobot.UpdateBodyPart(item, item.Index, BodyPart.Body);
+                newRobot.UpdateBodyPart(item, BodyPart.Body);
             }
             else if(item.Type == BodyPart.Tail)
             {
-                newRobot.UpdateBodyPart(item, 0, BodyPart.Tail);
+                newRobot.UpdateBodyPart(item, BodyPart.Tail);
+            }
+            else if(item.Type == BodyPart.Leg)
+            {
+                newRobot.UpdateBodyPart(item, BodyPart.Leg);
             }
         }
 
@@ -430,6 +515,11 @@ public static class GeneticAlgorithm : object
                 {
                     objConfig.Tail = new TailConfig();
                     objConfig.Tail.Clone(oldObjConfig.Tail);
+                }
+                else if(objConfig.Type == BodyPart.Leg)
+                {
+                    objConfig.Leg = new LegConfig(oldObjConfig.Leg.AttachedBody, (int)oldObjConfig.Leg.Position);
+                    objConfig.Leg.Clone(oldObjConfig.Leg);
                 }
                 newRobot.Configs.Add(objConfig);
             }

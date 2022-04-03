@@ -25,11 +25,10 @@ public class ImpactMonitor : MonoBehaviour
             Vector3 collisionForce = col.impulse / Time.fixedDeltaTime;
             float magnitude = collisionForce.magnitude;
 
-            if (magnitude > 500)
+            if (magnitude > 750)
             {
                 AIConfig.RobotConfigs[robotIndex].PenaltyCount++;
                 AIConfig.RobotConfigs[robotIndex].PenalisePerformance();
-                Debug.LogWarning($"Adding a penalty to robot {AIConfig.RobotConfigs[robotIndex].Object.name}");
             }
         }
     }

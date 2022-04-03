@@ -319,6 +319,7 @@
 "Assets/Scripts/Config/DebugConfig.cs"
 "Assets/Scripts/Config/DynMovConfig.cs"
 "Assets/Scripts/Config/JointConfig.cs"
+"Assets/Scripts/Config/LegConfig.cs"
 "Assets/Scripts/Config/ObjectConfig.cs"
 "Assets/Scripts/Config/RobotConfig.cs"
 "Assets/Scripts/Config/TailConfig.cs"

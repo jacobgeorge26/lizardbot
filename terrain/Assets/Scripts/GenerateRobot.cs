@@ -5,6 +5,7 @@ using Config;
 using System;
 using System.Linq;
 using Random = UnityEngine.Random;
+using UnityEditor;
 
 public class GenerateRobot : MonoBehaviour
 {
@@ -57,7 +58,8 @@ public class GenerateRobot : MonoBehaviour
 
         SetupBody(robot);
 
-        //TODO: setup legs
+        robotConfig.ValidateLegParams();
+        SetupLegs(robot);
 
         if (robotConfig.IsTailEnabled.Value)
         {
@@ -68,6 +70,8 @@ public class GenerateRobot : MonoBehaviour
         }
 
         robotConfig.SetChildLayer(layer);
+
+        if (robotConfig.UniformBody.Value) robotConfig.MakeBodyUniform();
 
         //if old robot exists - this is a respawn - then that can now be deleted
         if (oldRobot != null)
@@ -100,6 +104,45 @@ public class GenerateRobot : MonoBehaviour
             else robotConfig.CreateBody(i, body);
         }
         if (robotConfig.MaintainSerpentine.Value && oldRobot == null) robotConfig.MakeSerpentine(!AIConfig.RandomInitValues);
+    }
+
+    private void SetupLegs(GameObject robot)
+    {
+        int NoSpawnPoints = 2;
+        List<int> legIndexes = robotConfig.UniformBody.Value ? Enumerable.Range(1, (int)robotConfig.NoSections.Value - 1).ToList() : Enumerable.Range(2, (int)(robotConfig.NoSections.Value - 1) * 2).ToList();
+        //e.g. 3 sections
+        //uniform -> [1, 2]
+        //nonuniform -> [2, 3, 4, 5]
+        for (int i = 0; i < robotConfig.NoLegs.Value; i++)
+        {
+            if (legIndexes.Count == 0)
+            {
+                //weird bug here where sometimes the no legs is 1 when it should be zero
+                //haven't had time to track it down - doesn't seem to be an issue with ValidateParams
+                robotConfig.NoLegs.Value -= robotConfig.NoLegs.Value - i;
+                break;
+            }
+            int index = legIndexes[Random.Range(0, legIndexes.Count - 1)];
+            legIndexes.Remove(Random.Range(0, legIndexes.Count - 1));
+            if (robotConfig.UniformBody.Value)
+            {
+                for (int spawnIndex = 0; spawnIndex < NoSpawnPoints; spawnIndex++)
+                {
+                    ObjectConfig leg;
+                    try { leg = oldRobot.Configs.First(o => o.Type == BodyPart.Leg && o.Index == i); }
+                    catch (Exception) { leg = null; }
+                    robotConfig.CreateLeg(i, Mathf.FloorToInt(index), spawnIndex, leg); 
+                    i++;
+                }
+            }
+            else
+            {
+                ObjectConfig leg;
+                try { leg = oldRobot.Configs.First(o => o.Type == BodyPart.Leg && o.Index == i); }
+                catch (Exception) { leg = null; }
+                robotConfig.CreateLeg(i, Mathf.FloorToInt(index / NoSpawnPoints), index % NoSpawnPoints, leg);
+            }
+        }
     }
 
 

@@ -61,6 +61,7 @@
     <Compile Include="Assets\Scripts\RobotHelpers.cs" />
     <Compile Include="Assets\Scripts\retired\RobotDetection.cs" />
     <Compile Include="Assets\Scripts\retired\DivideSphere.cs" />
+    <Compile Include="Assets\Scripts\MoveLeg.cs" />
     <Compile Include="Assets\Scripts\OverviewCamPos.cs" />
     <Compile Include="Assets\Scripts\GenerateTerrain.cs" />
     <Compile Include="Assets\Scripts\retired\JointSetup.cs" />

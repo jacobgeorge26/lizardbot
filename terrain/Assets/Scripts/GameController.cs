@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using UnityEditor;
 using Debug = UnityEngine.Debug;
 using Random = UnityEngine.Random;
 
@@ -46,14 +47,13 @@ public class GameController : MonoBehaviour
                 //IMPORTANT delay needed to allow unity to stop running scripts attached to newly disabled objects
                 yield return new WaitForSeconds(5f);
                 attemptCount--;
-                ////////////////
-                //UpdateAttempt(1);
-                UpdateAttempt(0);
+                UpdateAttempt(1);
                 if (!isRespawn && DebugConfig.LogAIData) SetupAIParams();
                 generate = gameObject.AddComponent<GeneratePopulation>();
                 Debug.Log($"ATTEMPT {PlayerPrefs.GetInt("Attempt")}");
                 generate.CreatePopulation();
                 if(DebugConfig.LogAIData) StartCoroutine(SaveAttemptData(isRespawn));
+                if (!isRespawn) startTime = Time.realtimeSinceStartup;
                 yield return new WaitUntil(() => Time.realtimeSinceStartup - startTime >= AIConfig.AttemptLength);
                 DebugConfig.InitRobots.ForEach(r => { if (r.Object != null) r.Object.SetActive(false); });
                 DebugConfig.InitRobots.Clear(); //if in the middle of a respawn, scrap that
@@ -87,7 +87,6 @@ public class GameController : MonoBehaviour
     private IEnumerator SaveAttemptData(bool isRespawn)
     {
         int attempt = PlayerPrefs.GetInt("Attempt");
-        if(!isRespawn) startTime = Time.realtimeSinceStartup;
         while (PlayerPrefs.GetInt("Attempt") == attempt)
         {
             yield return new WaitForSeconds(10f);
@@ -113,11 +112,47 @@ public class GameController : MonoBehaviour
         if (DebugConfig.BestRobot == null && AIConfig.RobotConfigs.Count > 0) DebugConfig.BestRobot = AIConfig.RobotConfigs.OrderByDescending(r => r.Performance).First();
         if (DebugConfig.BestRobot != null)
         {
+            int attempt = PlayerPrefs.GetInt("Attempt");
             if (robotWriter == null) SetupRobotWriter();
-            string data = $"{ PlayerPrefs.GetInt("Attempt")}, ";
+            string data = $"{ attempt}, ";
             data += DebugConfig.GetData();
             data += DebugConfig.BestRobot.GetData();
             robotWriter.WriteLine(data);
+
+
+            //save prefab
+            try
+            {
+                GameObject robot = DebugConfig.BestRobot.Object;
+                string localPath = $"Assets/Resources/Robots/{attempt}-{robot.name}.prefab";
+                //save colour
+                if (DebugConfig.BestRobot.NoSections.Value > 1)
+                {
+                    //save material too
+                    try
+                    {
+                        List<ObjectConfig> bodies = DebugConfig.BestRobot.Configs.Where(o => o.Type == BodyPart.Body && o.Index > 0).ToList();
+                        Material material = bodies.First().gameObject.GetComponent<MeshRenderer>().material;
+                        foreach (var body in bodies)
+                        {
+                            body.gameObject.GetComponent<MeshRenderer>().material = material;
+                        }
+                        string materialPath = $"Assets/Resources/Robots/Materials/{attempt}-{robot.name}.mat";
+                        AssetDatabase.CreateAsset(material, materialPath);
+                        AssetDatabase.SaveAssets();
+                    }
+                    catch (Exception)
+                    {
+                        Debug.LogWarning($"It was not possible to save the material for the prefab of the best robot for attempt {attempt}");
+                    }
+                }
+                PrefabUtility.SaveAsPrefabAsset(robot, localPath);
+            }
+            catch (Exception)
+            {
+                Debug.LogWarning($"It was not possible to save a prefab of the best robot for attempt {attempt}");
+            }
+
         }
     }
 
@@ -162,16 +197,25 @@ public class GameController : MonoBehaviour
         }       
         robot.Object.gameObject.SetActive(false);
         ui ??= UIConfig.UIContainer.GetComponent<UIDisplay>();
+        bool pauseUI = false;
         if (ui != null)
         {
-            //move to overview cam and then disable until respawn is complete
-            ui.SelectOption(UIView.Performance);
-            ui.Disable();
+            if(ui.GetCurrentRobot() == robot.RobotIndex && AIConfig.PopulationSize > 10)
+            {
+                ui.SelectRobot("1");
+            }
+            else if(AIConfig.PopulationSize < 10)
+            {
+                //move to overview cam and then disable until respawn is complete
+                pauseUI = true;
+                ui.SelectOption(UIView.Performance);
+                ui.Disable();
+            }
         }
         DebugConfig.IsTotalRespawn = false;
         Debug.LogWarning($"Respawning robot {robot.RobotIndex + 1} in attempt {PlayerPrefs.GetInt("Attempt")}. \n {exception}");
         DebugConfig.InitRobots.Add(robot);
-        if (DebugConfig.InitRobots.Count == 1) StartCoroutine(ReenableUI()); //only needed if this is the first in a cluster of single respawns
+        if (DebugConfig.InitRobots.Count == 1 && pauseUI) StartCoroutine(ReenableUI()); //only needed if this is the first in a cluster of single respawns
         StartCoroutine(generate.RespawnRobot(robot));
     }
 

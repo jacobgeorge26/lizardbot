@@ -8,6 +8,7 @@ namespace Config
 {
     public class BodyConfig : JointConfig
     {
+        public Vector3[] LegPoints = new Vector3[2];
 
         //will this section be rotating (it can rotate AND drive if that is desirable)
         public Gene IsRotating = new Gene(true, Variable.IsRotating);
@@ -43,40 +44,6 @@ namespace Config
             DriveVelocity.Value = oldConfig.DriveVelocity.Value;
             Size.Value = oldConfig.Size.Value;
             Mass.Value = oldConfig.Mass.Value;
-        }
-
-        public void UpdateGene(Gene newGene)
-        {
-            switch (newGene.Type)
-            {
-                case Variable.AngleConstraint:
-                    AngleConstraint = newGene;
-                    break;
-                case Variable.RotationMultiplier:
-                    RotationMultiplier = newGene;
-                    break;
-                case Variable.IsRotating:
-                    IsRotating = newGene;
-                    break;
-                case Variable.UseSin:
-                    UseSin = newGene;
-                    break;
-                case Variable.IsDriving:
-                    IsDriving = newGene;
-                    break;
-                case Variable.DriveVelocity:
-                    DriveVelocity = newGene;
-                    break;
-                case Variable.Size:
-                    Size = newGene;
-                    break;
-                case Variable.Mass:
-                    Mass = newGene;
-                    break;
-                default:                    
-                    Debug.LogWarning("There was an issue updating the body config. Invalid gene type.");
-                    break;
-            }
         }
 
         internal string GetHeader()

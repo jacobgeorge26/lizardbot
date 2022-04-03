@@ -324,6 +324,7 @@
 "Assets/Scripts/GeneticAlgorithm.cs"
 "Assets/Scripts/ImpactMonitor.cs"
 "Assets/Scripts/MoveBody.cs"
+"Assets/Scripts/MoveLeg.cs"
 "Assets/Scripts/MoveTail.cs"
 "Assets/Scripts/OverviewCamPos.cs"
 "Assets/Scripts/retired/DivideSphere.cs"
