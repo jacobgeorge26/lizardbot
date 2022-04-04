@@ -645,26 +645,27 @@ public static class RobotHelpers : object
             r.UniformBody.Value == robot.UniformBody.Value &&
             r.IsEnabled).ToList();
         //remove those whose tail is very different
-        //allowed difference = (max - min) / 10 * difference
-        if (robot.IsTailEnabled.Value)
-        {
-            TailConfig tail = null;
-            try { tail = robot.Configs.First(o => o.Type == BodyPart.Tail).Tail; }
-            catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return null; }
+        //taking this out for now - don't think it's necessary now that legs have been added
+        ////allowed difference = (max - min) / 10 * difference
+        //if (robot.IsTailEnabled.Value)
+        //{
+        //    TailConfig tail = null;
+        //    try { tail = robot.Configs.First(o => o.Type == BodyPart.Tail).Tail; }
+        //    catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return null; }
             
-            float allowedDifference = (tail.TailMassMultiplier.Max - tail.TailMassMultiplier.Min) * (difference + 1) / 10;
-            for (int i = similar.Count - 1; i >= 0; i--)
-            {
-                TailConfig otherTail = null;
-                try { otherTail = similar[i].Configs.First(o => o.Type == BodyPart.Tail).Tail; }
-                catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); similar.Clear(); return null; }
+        //    float allowedDifference = (tail.TailMassMultiplier.Max - tail.TailMassMultiplier.Min) * (difference + 1) / 10;
+        //    for (int i = similar.Count - 1; i >= 0; i--)
+        //    {
+        //        TailConfig otherTail = null;
+        //        try { otherTail = similar[i].Configs.First(o => o.Type == BodyPart.Tail).Tail; }
+        //        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); similar.Clear(); return null; }
                 
-                if (Math.Abs(otherTail.TailMassMultiplier.Value - tail.TailMassMultiplier.Value) > allowedDifference)
-                {
-                    similar.RemoveAt(i);
-                }
-            }
-        }
+        //        if (Math.Abs(otherTail.TailMassMultiplier.Value - tail.TailMassMultiplier.Value) > allowedDifference)
+        //        {
+        //            similar.RemoveAt(i);
+        //        }
+        //    }
+        //}
 
         return similar;
     }
@@ -696,7 +697,6 @@ public static class RobotHelpers : object
         for (int i = similar.Count - 1; i >= 0; i--)
         {
             //how different is the drive velocity (zero if not driving, to take into account no of driving sections)
-            //how different are the rotation multipliers
             List<ObjectConfig> bodyObjects = similar[i].Configs.Where(o => o.Type == BodyPart.Body).ToList();
             List<BodyConfig> body = new List<BodyConfig>();
             bodyObjects.ForEach(o => body.Add(o.Body));

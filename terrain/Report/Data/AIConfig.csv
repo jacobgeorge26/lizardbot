@@ -41,7 +41,6 @@ ATTEMPT, PopulationSize, RandomInitValues, Sensitivity, MutationCycle, Recombina
 40,50, True,20,8,0.7977468, Any,0.3040749, Any,1, 
 41,50, True,20,6,0.5863351, Any,0.1614757, Any,3, 
 42,50, True,20,3,0.7556353, Any,0.4770094, Any,9, 
-ATTEMPT, PopulationSize, RandomInitValues, Sensitivity, MutationCycle, RecombinationRate, RecombinationType, MutationRate, MutationType, SelectionSize, 
 43,50, True,20,2,0.8194969, Any,0.2200247, Any,8, 
 44,50, True,20,8,0.7532468, Any,0.2467027, Any,7, 
 45,50, True,20,9,0.7543024, Any,0.28693, Any,9, 
