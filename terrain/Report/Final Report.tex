@@ -1,9 +1,14 @@
 \documentclass{article}
 \usepackage[english]{babel}
-\usepackage[utf8]{inputenc}
-\usepackage{fancyhdr}
+\usepackage[utf8]{inputenc}\usepackage{fancyhdr}
 \usepackage[square,numbers]{natbib}
-\bibliographystyle{apalike}
+\usepackage{multibib}
+\newcites{main}{Primary References}
+\bibliographystylemain{apalike}
+\newcites{code}{Code References}
+\bibliographystylecode{apalike}
+\newcites{soft}{Software References}
+\bibliographystylesoft{apalike}
 \usepackage{graphicx}
 \graphicspath{ {./Images/} }
 \usepackage{geometry}
@@ -110,7 +115,7 @@ Insert from interim report with more reference to code of conduct
 \newpage
 \section{Implementation}
 \subsection{Terrain}
-Three terrains were generated using Procedural Toolkit \citep{proceduralToolkit} to test the performance of the robot across various environments: rough, uneven, and smooth. These categories were inspired by the those used by the Octopus robot \citep{octopusRobot}.\\
+Three terrains were generated using Procedural Toolkit \citepsoft{proceduralToolkit} to test the performance of the robot across various environments: rough, uneven, and smooth. These categories were inspired by the those used by the Octopus robot \citepmain{octopusRobot}.\\
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.3]{smoothTerrain}
@@ -181,8 +186,14 @@ Does the AI converge on the same parameters when started with different defaults
 \section{Conclusion}
 
 \newpage
+
 \section{References}
-\bibliography{References}
+\nocitesoft{*}
+\nocitecode{*}
+
+\bibliographymain{References}
+\bibliographysoft{SoftReferences}
+\bibliographycode{CodeReferences}
 \newpage
 \section{Appendices}
 \subsection{Code of Conduct}
