@@ -5,44 +5,44 @@ Reallocating 'name_of_file' (item size: 1) to 8 items.
 The style file: apalike.bst
 Reallocating 'name_of_file' (item size: 1) to 15 items.
 Database file #1: SoftReferences.bib
-You've used 1 entry,
+You've used 2 entries,
             1935 wiz_defined-function locations,
-            478 strings with 3810 characters,
-and the built_in function-call counts, 296 in all, are:
-= -- 28
-> -- 7
-< -- 1
-+ -- 2
-- -- 2
-* -- 17
-:= -- 61
-add.period$ -- 4
-call.type$ -- 1
-change.case$ -- 6
-chr.to.int$ -- 1
-cite$ -- 1
-duplicate$ -- 13
-empty$ -- 21
-format.name$ -- 3
-if$ -- 54
+            483 strings with 3940 characters,
+and the built_in function-call counts, 575 in all, are:
+= -- 56
+> -- 14
+< -- 2
++ -- 4
+- -- 4
+* -- 34
+:= -- 115
+add.period$ -- 8
+call.type$ -- 2
+change.case$ -- 12
+chr.to.int$ -- 2
+cite$ -- 2
+duplicate$ -- 26
+empty$ -- 41
+format.name$ -- 6
+if$ -- 107
 int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 1
-newline$ -- 9
-num.names$ -- 3
-pop$ -- 4
+missing$ -- 2
+newline$ -- 15
+num.names$ -- 6
+pop$ -- 8
 preamble$ -- 1
-purify$ -- 6
+purify$ -- 12
 quote$ -- 0
-skip$ -- 12
+skip$ -- 23
 stack$ -- 0
-substring$ -- 12
-swap$ -- 1
+substring$ -- 24
+swap$ -- 2
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 6
+type$ -- 12
 warning$ -- 0
-while$ -- 2
+while$ -- 4
 width$ -- 0
-write$ -- 16
+write$ -- 30

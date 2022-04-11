@@ -1,11 +1,26 @@
 \begin{thebibliography}{}
 
+\bibitem[Rafay, 2022]{angularMomentum}
+Rafay, K. (2022).
+\newblock Angular momentum calculator.
+\newblock {\em Omni Calculator}.
+\newblock \\ \url{https://www.omnicalculator.com/physics/angular-momentum} \\
+  Accessed: 2022-04-11.
+
+\bibitem[T, 2020]{configJoints}
+T, V. (2020).
+\newblock Luna tech series: A deep dive into unity configurable joints.
+\newblock {\em Luna Labs}.
+\newblock \\
+  \url{https://medium.com/luna-labs-ltd/luna-tech-series-a-deep-dive-into-unity-configurable-joints-96c49138b9b7}
+  \\ Accessed: 2022-04-11.
+
 \bibitem[tomvds, 2008]{angleConversion}
 tomvds (2008).
 \newblock Euler, quaternions, radians, degrees... huh?
 \newblock {\em Unity Forums}.
-\newblock
-  \\https://forum.unity.com/threads/euler-quaternions-radians-degrees-huh.53407/
+\newblock \\
+  \url{https://forum.unity.com/threads/euler-quaternions-radians-degrees-huh.53407/}
   \\ Accessed: 2022-04-11.
 
 \end{thebibliography}
