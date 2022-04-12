@@ -227,9 +227,25 @@ If the relevant gene is active, the gait multiplier $g$ increases the velocity w
 The performance of the legs is analysed in section x, though it is presumed that with more work the performance could be drastically improved: currently it resembles a lot of twitching. It is possible that an alternative joint mechanism would allow for Lizardbot to stand on its legs and appear more natural. It would also be interesting to explore how the location of the legs impacts the robot as a whole. Currently the attachment points are based on lizards (indeed, most animals) and the years of evolution that have led to their structure. However, the offer of more variety in the design of the robot may offer alternative solutions to navigate the terrain. 
 
 
-
 \subsection{Performance}
-Insert from trapped algorithm log - get performance from GA
+The metric used to measure the performance of a robot can heavily influence the outcome of the genetic algorithm. As the desired outcome is a robot capable of navigating the terrain, the base measurement used is the furthest distance (by magnitude) that it has travelled in a given generation from its spawn point within the terrain. 
+\\[1\baselineskip]
+Two additional parameters are used to add context to this base measurement. 
+
+The first penalises robots that cause large collisions through a body part. Every time a body part encounters a collision it triggers a method that will measure the force that the body part has experienced. Unity's build-in physics system returns the impulse $I$ of a collision. Using this, the force can be found by dividing the impulse by time: {\Large $f = \frac{I}{t}$}. \citepcode{collisionForce}
+If the force is found to be above a threshold then the robot will be penalised by deducting 10\% from the performance. \\
+This ensures that the robot is not evolving toward a behaviour that carries it across the terrain efficiently but could be damaging to its structure in the physical world. An example of this is an iteration whereby the robots were observed ‘flicking’ their tails rapidly downward, causing the robot to be thrown into the air and across the terrain. Whilst this was effective at getting them to the edge of the terrain within seconds, this approach would shatter most robots upon collision with the terrain. This threshold can be tailored to the needs of the robot, such that robots with shielding or soft-bodies robots can be given a higher threshold to allow more risky behaviour.
+
+The second rewards robots that move quickly. The current performance is multiplied by the average speed (distance / time) of the robot since its spawn. 
+\\[1\baselineskip] 
+To provide an example of the performance metric, say Robot3 V8 has travelled from (0, 0, 0) to (10, 4, -13) in 21 seconds, and has had two above-threshold collisions. The base performance would be 16.88. Multiplied by its speed, this becomes 13.57. With a 10\% deduction for each collision, the final performance is 10.99. \\
+
+A flaw in this metric is that it does not differentiate between the routes that robots take. If one robot moved quickly but erratically, it may be rewarded equally to one that moved slowly and directly. However, this metric appears to provide a suitable balance between rewarding robots that travel the furthest, further rewarding those that move efficiently, and reducing behaviours that would damage a physical robot. \\
+
+When referring to the performance of a population, the mean performance of the highest performing 25\% is being measured. When a robot is mutated and respawned its performance returns to zero, hence it was found that analysing the entire population added too much noise to the results. 
+
+
+
 \subsection{Genetic Algorithm}
 Insert from GA log\\
 \begin{Large}\\

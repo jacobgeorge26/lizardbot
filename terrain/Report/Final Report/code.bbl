@@ -16,6 +16,14 @@ Rafay, K. (2022).
 \newblock \\ \url{https://www.omnicalculator.com/physics/angular-momentum} \\
   Accessed: 2022-04-11.
 
+\bibitem[Serlite, 2016]{collisionForce}
+Serlite (2016).
+\newblock Getting collision contact force.
+\newblock {\em StackOverflow}.
+\newblock \\
+  \url{https://stackoverflow.com/questions/36387753/getting-collision-contact-force}
+  \\ Accessed: 2022-04-12.
+
 \bibitem[T, 2020]{configJoints}
 T, V. (2020).
 \newblock Luna tech series: A deep dive into unity configurable joints.
