@@ -125,7 +125,9 @@ At one point the height of the terrain was proportional to the number of section
 Overall, the rougher the terrain, the higher and more closed in it is. Most of the development of the robot was conducted on the smooth and uneven terrains, as the rough terrain aims to provide a more extreme environment with which to test the efficacy of the AI.\\
 The smooth terrain is deliberately featureless to test the behaviour of the robot in a simple environment. Herbert Simon provided an elegant example of the importance of this consideration: an ant is observed making its way back to its nest across a beach.\\
 Its route is ‘a sequence of irregular, angular segments’ that suggests some level of complexity in the ant's behaviour. However, the beach for the ant is a much harsher environment than it is for a human. It is more likely that ‘its complexity is really a complexity in the surface of the beach, not a complexity in the ant.’ \citepmain{antsBeach} Thus, the situatedness of the robot could culminate in behaviours that are not of its own making and are instead caused by its relationship with the terrain. The smooth terrain should reduce the role of the environment and allow for emergent behaviours to be prescribed to the robot itself. It is worth noting that the robot is still being tested on three terrains with some common properties (e.g. gravity) and these factors may introduce bias in the AI. This is a reasonable situation as long as applications of the Lizardbot are further modelled on encounterable terrains to allow the AI to adapt the robot accordingly. For proof of concept the sample set of terrains is sufficient.
-\subsection{Body}
+
+\subsection{Robot}
+\subsubsection{Body}
 To create a snakelike body, each body module is attached to the previous module by a configurable joint \citepcode{configJoints} and has two methods of movement: driving and rotation. The physical design of the robot creates a fluid motion before any complex movement is applied. With the joint structure, the movement of one section is translated to those behind it - similar to dragging a piece of string along the ground. This is shown in figure x: the head rotates and, after a delay, creates the same angle in the sections behind it.\\
 The former applies a forward force as determined by the drive velocity parameter whilst the latter applies a velocity to each module using the following equation:
 \begin{center}
@@ -160,7 +162,7 @@ This central pattern generator (CPG) approach allows each module to react to the
 As each section ‘reacts’ to the previous one whilst using the opposing equation, the velocity applied is almost an inversion of its predecessor. Moving back through the body there appears to be more fluctuation in the values as more noise is introduced through each application of the equation. The advantage of using this recursive approach is the incredibly organic behaviour that it produces. The first prototypes of the project used hardcoded timings and velocities to try and mimic a serpentine motion and the rigidity of the code was evident in the behaviour. With the above equation applied, the motion of the body appears completely natural. As the Lizardbot slithers through troughs in the terrain or wriggles whilst stuck on a ridge, it is easy to forget that it has no awareness of its surroundings. It is simply reacting to the body that came before it.
 
 
-\subsection{Tail}
+\subsubsection{Tail}
 The use of a tail has the potential to counterbalance the body and provide stability as the lizardbot moves. The Agama robot used the angular momentum of the body to calculate how to calibrate the tail vertically as the robot jumped. Lizardbot implemented a similar approach in three dimensions by calculating the total momentum of the robot around its centre of gravity (COG) at each frame, and adjusting the velocity of the tail accordingly.\\ 
 \begin{figure}[H]
 \centering
@@ -191,7 +193,7 @@ Another simplified approach was considered whereby the overall velocity of the r
 
 The design of the tail assumes that nature has already selected for the optimal location by placing the tail at the back of a creature. This assumption seems intuitive. Most animals, including lizards, are symmetrical and the location of the tail maintains this property, alongside keeping the motion of the tail in the same plane as the rest of the body. For Lizardbot, this assumption could be removed in the future. Since symmetry is not a required property for non-uniform bodies, the tail could be placed anywhere that has equal mass either side of the tail - or placed randomly to see what effect this has on the robot. Who am I to say that a tail cannot be located on the head?
 
-\subsection{Legs}
+\subsubsection{Legs}
 Legs were added to Lizardbot in an attempt to match the gait of a lizard.
 As inspired by the design of the Salamandra Robotica \citepmain{salamandra}, each leg is designed to rotate in a circle in order to push the body forward. The physical design of the leg matches the elliptical shape of the tail and uses the same configuration of customisable mass and length. 
 Currently, there are only two attachment points for a leg on each body module: one each side, perpendicular to the body joints. For a uniform body, the legs are placed symmetrically along the body and given equal length and mass; they are constructed randomly for non-uniform bodies. \\
@@ -227,7 +229,10 @@ If the relevant gene is active, the gait multiplier $g$ increases the velocity w
 The performance of the legs is analysed in section x, though it is presumed that with more work the performance could be drastically improved: currently it resembles a lot of twitching. It is possible that an alternative joint mechanism would allow for Lizardbot to stand on its legs and appear more natural. It would also be interesting to explore how the location of the legs impacts the robot as a whole. Currently the attachment points are based on lizards (indeed, most animals) and the years of evolution that have led to their structure. However, the offer of more variety in the design of the robot may offer alternative solutions to navigate the terrain. 
 
 
-\subsection{Performance}
+\subsection{Artifical Intelligence}
+A population of Lizardbots can use a genetic algorithm to "evolve" over a series of generations. A genetic algorithm is a form of artificial intelligence that more closely models the characteristics of natural selection. An agent’s parameters are broken down into ‘genes’ that can be manipulated by recombination and/or mutation. The aim of this genetic algorithm (GA) is to improve the performance of the robots over time. The GA is performed when a robot is declared to be stuck by the trapped algorithm. 
+
+\subsubsection{Performance}
 The metric used to measure the performance of a robot can heavily influence the outcome of the genetic algorithm. As the desired outcome is a robot capable of navigating the terrain, the base measurement used is the furthest distance (by magnitude) that it has travelled in a given generation from its spawn point within the terrain. 
 \\[1\baselineskip]
 Two additional parameters are used to add context to this base measurement. 
@@ -242,11 +247,6 @@ To provide an example of the performance metric, say Robot3 V8 has travelled fro
 A flaw in this metric is that it does not differentiate between the routes that robots take. If one robot moved quickly but erratically, it may be rewarded equally to one that moved slowly and directly. However, this metric appears to provide a suitable balance between rewarding robots that travel the furthest, further rewarding those that move efficiently, and reducing behaviours that would damage a physical robot. \\
 
 When referring to the performance of a population, the mean performance of the highest performing 25\% is being measured. When a robot is mutated and respawned its performance returns to zero, hence it was found that analysing the entire population added too much noise to the results. 
-
-
-
-\subsection{Artifical Intelligence}
-A population of Lizardbots can use a genetic algorithm to "evolve" over a series of generations. A genetic algorithm is a form of artificial intelligence that more closely models the characteristics of natural selection. An agent’s parameters are broken down into ‘genes’ that can be manipulated by recombination and/or mutation. The aim of this genetic algorithm (GA) is to improve the performance of the robots over time. The GA is performed when a robot is declared to be stuck by the trapped algorithm. 
 
 \subsubsection{Trapped Algorithm}
 It is important for the AI to know when the robot is stuck to trigger the termination of the current generation. At this point the AI can mutate the robot before respawning it. This trapped behaviour can take many forms, from bouncing against the same point in the terrain, circling itself, or looping between the same location(s).\\
@@ -280,6 +280,11 @@ The manipulatable characteristics of a robot are distinguished by a \textit{Gene
 This class handles any erroneous situations that arise and allows boolean values to be stored as a float. If the \textit{Get} method of a boolean \textit{Gene} is called, then true will be returned for values greater than 0.5. This allows boolean genes to be mutated slowly (e.g. from 0.35 to 0.6) without having to make a single toggle from one value to the other. \\
 When a gene is mutated, if the new value lies outside the valid range then it is 'bounced' (e.g. $max=0.5, v\rightarrow0.6 \Rightarrow v=0.4$). If a value outside the max/min values is passed directly then the max/min value would be assigned instead.
 
+\subsubsection{Population}
+To avoid interaction between robots, the body parts of a robot should be capable of colliding between themselves and the terrain but should ignore those of other robots. In Unity, this can be achieved by placing all robot objects into a layer. You can then change the Physics system to ignore collisions between different robot layers.\\ 
+Unity’s layers have a limit of 25 available layers. At first, a script was added to every robot scanning around it for other robots in the same layer. Upon detection, the current robot would be moved to another layer that no robots in the vicinity were using. Given that every robot spawned in the same location this script absolutely throttled the performance of the program. With a population of 50 the frame rate would drop from ~200fps to ~20fps. This is not an acceptable impact so an alternative approach was considered. Multiple terrains are generated and 25 robots placed into each. This has the added benefit of being able to generate a population of robots being tested on all three terrain types simultaneously. 
+
+
 \subsubsection{Genetic Algorithm}
 When a gene is mutated its value, v, is adjusted as follows:
 \begin{Large}
@@ -293,8 +298,10 @@ _{R^{[0, 1]} \geq 0.5 \longrightarrow G(2)_{i}}$\\\\
 
 \end{Large}
 where R denotes a randomly generated number. G(1) refers to the input robot, whilst G(2) is the selected robot. For \textit{Triad} recombination G(2) is randomly chosen from either of the two selected robots, with equal probability.
-\subsection{Dynamic Systems}
+\subsection{Dynamic Movement}
 Insert from DST log
+
+\subsection{UI}
 
 
 \newpage

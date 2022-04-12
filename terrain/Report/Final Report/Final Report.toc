@@ -19,15 +19,18 @@
 \contentsline {section}{\numberline {5}Professional and Ethical Considerations}{8}{section.5}%
 \contentsline {section}{\numberline {6}Implementation}{9}{section.6}%
 \contentsline {subsection}{\numberline {6.1}Terrain}{9}{subsection.6.1}%
-\contentsline {subsection}{\numberline {6.2}Body}{9}{subsection.6.2}%
-\contentsline {subsection}{\numberline {6.3}Tail}{10}{subsection.6.3}%
-\contentsline {subsection}{\numberline {6.4}Legs}{11}{subsection.6.4}%
-\contentsline {subsection}{\numberline {6.5}Performance}{13}{subsection.6.5}%
-\contentsline {subsection}{\numberline {6.6}Artifical Intelligence}{13}{subsection.6.6}%
-\contentsline {subsubsection}{\numberline {6.6.1}Trapped Algorithm}{13}{subsubsection.6.6.1}%
-\contentsline {subsubsection}{\numberline {6.6.2}Genes}{15}{subsubsection.6.6.2}%
-\contentsline {subsubsection}{\numberline {6.6.3}Genetic Algorithm}{15}{subsubsection.6.6.3}%
-\contentsline {subsection}{\numberline {6.7}Dynamic Systems}{16}{subsection.6.7}%
+\contentsline {subsection}{\numberline {6.2}Robot}{9}{subsection.6.2}%
+\contentsline {subsubsection}{\numberline {6.2.1}Body}{9}{subsubsection.6.2.1}%
+\contentsline {subsubsection}{\numberline {6.2.2}Tail}{10}{subsubsection.6.2.2}%
+\contentsline {subsubsection}{\numberline {6.2.3}Legs}{12}{subsubsection.6.2.3}%
+\contentsline {subsection}{\numberline {6.3}Artifical Intelligence}{13}{subsection.6.3}%
+\contentsline {subsubsection}{\numberline {6.3.1}Performance}{13}{subsubsection.6.3.1}%
+\contentsline {subsubsection}{\numberline {6.3.2}Trapped Algorithm}{14}{subsubsection.6.3.2}%
+\contentsline {subsubsection}{\numberline {6.3.3}Genes}{15}{subsubsection.6.3.3}%
+\contentsline {subsubsection}{\numberline {6.3.4}Population}{15}{subsubsection.6.3.4}%
+\contentsline {subsubsection}{\numberline {6.3.5}Genetic Algorithm}{16}{subsubsection.6.3.5}%
+\contentsline {subsection}{\numberline {6.4}Dynamic Movement}{16}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5}UI}{16}{subsection.6.5}%
 \contentsline {section}{\numberline {7}Results}{17}{section.7}%
 \contentsline {section}{\numberline {8}Conclusion}{18}{section.8}%
 \contentsline {section}{\numberline {9}References}{19}{section.9}%

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 21.12) (preloaded format=pdflatex 2022.4.11)  12 APR 2022 15:26
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 21.12) (preloaded format=pdflatex 2022.4.11)  12 APR 2022 15:34
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -448,17 +448,17 @@ Underfull \hbox (badness 10000) in paragraph at lines 92--93
  []
 
 [4] [5] [6] [7] [8]
-<./Images//smoothTerrain.png, id=218, 301.125pt x 271.0125pt>
+<./Images//smoothTerrain.png, id=233, 301.125pt x 271.0125pt>
 File: ./Images//smoothTerrain.png Graphic file (type png)
 <use ./Images//smoothTerrain.png>
 Package pdftex.def Info: ./Images//smoothTerrain.png  used on input line 119.
 (pdftex.def)             Requested size: 90.33818pt x 81.30437pt.
-<./Images//unevenTerrain.png, id=219, 301.125pt x 271.0125pt>
+<./Images//unevenTerrain.png, id=234, 301.125pt x 271.0125pt>
 File: ./Images//unevenTerrain.png Graphic file (type png)
 <use ./Images//unevenTerrain.png>
 Package pdftex.def Info: ./Images//unevenTerrain.png  used on input line 120.
 (pdftex.def)             Requested size: 90.33818pt x 81.30437pt.
-<./Images//roughTerrain.png, id=220, 301.125pt x 271.0125pt>
+<./Images//roughTerrain.png, id=235, 301.125pt x 271.0125pt>
 File: ./Images//roughTerrain.png Graphic file (type png)
 <use ./Images//roughTerrain.png>
 Package pdftex.def Info: ./Images//roughTerrain.png  used on input line 121.
@@ -469,9 +469,9 @@ Underfull \hbox (badness 10000) in paragraph at lines 116--123
  []
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <14.4> on input line 133.
+(Font)              <14.4> on input line 135.
 
-Underfull \hbox (badness 10000) in paragraph at lines 136--137
+Underfull \hbox (badness 10000) in paragraph at lines 138--139
 
  []
 
@@ -480,31 +480,30 @@ pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.141 $
-       C: \overrightarrow{w} = cos\overrightarrow{\theta_{i-1}} + cos\overri...
- <./Images//smoothTerrain.png> <./Images//unevenTerrain.png> <./Images//roughTe
-rrain.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 144--145
+l.139 \begin{center}
+                     <./Images//smoothTerrain.png> <./Images//unevenTerrain.png
+> <./Images//roughTerrain.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 146--147
 
  []
 
-<./Images//cpgMirroring.png, id=240, 475.7775pt x 513.92pt>
+<./Images//cpgMirroring.png, id=255, 475.7775pt x 513.92pt>
 File: ./Images//cpgMirroring.png Graphic file (type png)
 <use ./Images//cpgMirroring.png>
-Package pdftex.def Info: ./Images//cpgMirroring.png  used on input line 149.
+Package pdftex.def Info: ./Images//cpgMirroring.png  used on input line 151.
 (pdftex.def)             Requested size: 169.00642pt x 182.55658pt.
-<./Images//cpgSerpentine.png, id=241, 342.5297pt x 293.59688pt>
+<./Images//cpgSerpentine.png, id=256, 342.5297pt x 293.59688pt>
 File: ./Images//cpgSerpentine.png Graphic file (type png)
 <use ./Images//cpgSerpentine.png>
-Package pdftex.def Info: ./Images//cpgSerpentine.png  used on input line 155.
+Package pdftex.def Info: ./Images//cpgSerpentine.png  used on input line 157.
 (pdftex.def)             Requested size: 211.26126pt x 181.08739pt.
-<./Images//tailMomentum.png, id=242, 513.92pt x 308.15125pt>
+<./Images//tailMomentum.png, id=257, 513.92pt x 308.15125pt>
 File: ./Images//tailMomentum.png Graphic file (type png)
 <use ./Images//tailMomentum.png>
-Package pdftex.def Info: ./Images//tailMomentum.png  used on input line 167.
+Package pdftex.def Info: ./Images//tailMomentum.png  used on input line 169.
 (pdftex.def)             Requested size: 308.35437pt x 184.89217pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 164--169
+Underfull \hbox (badness 10000) in paragraph at lines 166--171
 
  []
 
@@ -513,20 +512,20 @@ pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.170 
-      
+l.171 \end{figure}
+                  
 pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.170 
-       <./Images//cpgMirroring.png> <./Images//cpgSerpentine.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 190--191
+l.171 \end{figure}
+                   <./Images//cpgMirroring.png> <./Images//cpgSerpentine.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 192--193
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 195--198
+Underfull \hbox (badness 10000) in paragraph at lines 197--200
 
  []
 
@@ -535,26 +534,26 @@ pdfTeX warning (ext4): destination with the same identifier (name{figure.4}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.198 
+l.200 
        <./Images//tailMomentum.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 199--200
+Underfull \hbox (badness 10000) in paragraph at lines 201--202
 
  []
 
-<./Images//legCircleDiagram.png, id=268, 370.38374pt x 400.49625pt>
+<./Images//legCircleDiagram.png, id=282, 370.38374pt x 400.49625pt>
 File: ./Images//legCircleDiagram.png Graphic file (type png)
 <use ./Images//legCircleDiagram.png>
-Package pdftex.def Info: ./Images//legCircleDiagram.png  used on input line 203
+Package pdftex.def Info: ./Images//legCircleDiagram.png  used on input line 205
 .
 (pdftex.def)             Requested size: 211.26126pt x 228.438pt.
-<./Images//legCircleExample.png, id=270, 513.92pt x 392.46625pt>
+<./Images//legCircleExample.png, id=284, 513.92pt x 392.46625pt>
 File: ./Images//legCircleExample.png Graphic file (type png)
 <use ./Images//legCircleExample.png>
-Package pdftex.def Info: ./Images//legCircleExample.png  used on input line 204
+Package pdftex.def Info: ./Images//legCircleExample.png  used on input line 206
 .
 (pdftex.def)             Requested size: 169.00642pt x 129.06511pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 225--226
+Underfull \hbox (badness 10000) in paragraph at lines 227--228
 
  []
 
@@ -563,9 +562,9 @@ pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.228 
+l.230 
        <./Images//legCircleDiagram.png> <./Images//legCircleExample.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 239--243
+Underfull \hbox (badness 10000) in paragraph at lines 244--248
 
  []
 
@@ -575,7 +574,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 252--253
  []
 
 [13]
-<./Images//trappedAlgorithm.png, id=289, 296.307pt x 304.7385pt>
+<./Images//trappedAlgorithm.png, id=304, 296.307pt x 304.7385pt>
 File: ./Images//trappedAlgorithm.png Graphic file (type png)
 <use ./Images//trappedAlgorithm.png>
 Package pdftex.def Info: ./Images//trappedAlgorithm.png  used on input line 259
@@ -586,22 +585,22 @@ Underfull \hbox (badness 10000) in paragraph at lines 254--261
 
  []
 
-<./Images//trappedSmooth.png, id=290, 263.48438pt x 248.42813pt>
+<./Images//trappedSmooth.png, id=305, 263.48438pt x 248.42813pt>
 File: ./Images//trappedSmooth.png Graphic file (type png)
 <use ./Images//trappedSmooth.png>
 Package pdftex.def Info: ./Images//trappedSmooth.png  used on input line 267.
 (pdftex.def)             Requested size: 84.5032pt x 79.67299pt.
-<./Images//trappedUneven.png, id=291, 263.48438pt x 248.42813pt>
+<./Images//trappedUneven.png, id=306, 263.48438pt x 248.42813pt>
 File: ./Images//trappedUneven.png Graphic file (type png)
 <use ./Images//trappedUneven.png>
 Package pdftex.def Info: ./Images//trappedUneven.png  used on input line 268.
 (pdftex.def)             Requested size: 84.5032pt x 79.67299pt.
-<./Images//trappedRough.png, id=292, 263.48438pt x 248.42813pt>
+<./Images//trappedRough.png, id=307, 263.48438pt x 248.42813pt>
 File: ./Images//trappedRough.png Graphic file (type png)
 <use ./Images//trappedRough.png>
 Package pdftex.def Info: ./Images//trappedRough.png  used on input line 269.
 (pdftex.def)             Requested size: 84.5032pt x 79.67299pt.
-<./Images//trappedFlat.png, id=293, 263.48438pt x 248.42813pt>
+<./Images//trappedFlat.png, id=308, 263.48438pt x 248.42813pt>
 File: ./Images//trappedFlat.png Graphic file (type png)
 <use ./Images//trappedFlat.png>
 Package pdftex.def Info: ./Images//trappedFlat.png  used on input line 270.
@@ -615,21 +614,21 @@ l.275 T
        he red points in figure x align with behaviours that can reasonably b...
  <./Images//trappedAlgorithm.png>]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <17.28> on input line 290.
+(Font)              <17.28> on input line 295.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 290.
+(Font)              <12> on input line 295.
 
-Underfull \hbox (badness 10000) in paragraph at lines 284--293
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 284--293
+Underfull \hbox (badness 10000) in paragraph at lines 289--298
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 284--293
+Underfull \hbox (badness 10000) in paragraph at lines 289--298
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 289--298
 
  []
 
@@ -638,10 +637,10 @@ pdfTeX warning (ext4): destination with the same identifier (name{figure.7}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.300 \newpage
-               <./Images//trappedSmooth.png> <./Images//trappedUneven.png> <./I
-mages//trappedRough.png> <./Images//trappedFlat.png>] [16]
-Underfull \hbox (badness 10000) in paragraph at lines 302--309
+l.298 
+       <./Images//trappedSmooth.png> <./Images//trappedUneven.png> <./Images//t
+rappedRough.png> <./Images//trappedFlat.png>] [16]
+Underfull \hbox (badness 10000) in paragraph at lines 309--316
 
  []
 
@@ -667,16 +666,16 @@ Overfull \hbox (144.72269pt too wide) in paragraph at lines 28--34
 
 ) [19] [20] (Final Report.aux)
 Package rerunfilecheck Info: File `"Final Report".out' has not changed.
-(rerunfilecheck)             Checksum: DA7001F5927DBE94E9467344EBAEF0F8;4152.
+(rerunfilecheck)             Checksum: 18D6F9984E0398E54A315BF534A4E459;4466.
  ) 
 Here is how much of TeX's memory you used:
- 10564 strings out of 478659
- 171652 string characters out of 2845920
- 492430 words of memory out of 3000000
- 28458 multiletter control sequences out of 15000+600000
+ 10570 strings out of 478659
+ 171792 string characters out of 2845920
+ 492433 words of memory out of 3000000
+ 28461 multiletter control sequences out of 15000+600000
  408519 words of font info for 44 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 60i,12n,63p,1083b,443s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,12n,63p,1083b,393s stack positions out of 5000i,500n,10000p,200000b,80000s
 <C:/Users/Molly/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
 cmbx10.pfb><C:/Users/Molly/AppData/Local/Programs/MiKTeX/fonts/type1/public/ams
 fonts/cm/cmbx12.pfb><C:/Users/Molly/AppData/Local/Programs/MiKTeX/fonts/type1/p
@@ -691,9 +690,9 @@ s/Molly/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb
 msy7.pfb><C:/Users/Molly/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfo
 nts/cm/cmti10.pfb><C:/Users/Molly/AppData/Local/Programs/MiKTeX/fonts/type1/pub
 lic/amsfonts/cm/cmtt10.pfb>
-Output written on "Final Report.pdf" (20 pages, 1497451 bytes).
+Output written on "Final Report.pdf" (20 pages, 1500989 bytes).
 PDF statistics:
- 414 PDF objects out of 1000 (max. 8388607)
- 80 named destinations out of 1000 (max. 500000)
- 338 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 429 PDF objects out of 1000 (max. 8388607)
+ 83 named destinations out of 1000 (max. 500000)
+ 362 words of extra memory for PDF output out of 10000 (max. 10000000)
 
