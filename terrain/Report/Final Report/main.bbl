@@ -9,6 +9,14 @@ Cianchetti, M. (2015).
   \url{https://iopscience.iop.org/article/10.1088/1748-3190/10/3/035003} \\
   Accessed: 2022-04-10.
 
+\bibitem[Crespi et~al., 2013]{salamandra}
+Crespi, A., Karakasiliotis, K., Guignard, A., and Ijspeert, A.~J. (2013).
+\newblock Salamandra robotica ii: An amphibious robot to study salamander-like
+  swimming and walking gaits.
+\newblock {\em IEEE}.
+\newblock \\ \url{https://ieeexplore.ieee.org/document/6416074} \\ Accessed:
+  2022-04-12.
+
 \bibitem[Dear et~al., 2020]{cpgRobot}
 Dear, T., Buchanon, B., and Abrajan-Guerrero, R. (2020).
 \newblock Locomotion of a multi-link non-holonomic snake robot with passive
