@@ -1,0 +1,28 @@
+\begin{thebibliography}{}
+
+\bibitem[Cianchetti, 2015]{octopusRobot}
+Cianchetti, M. (2015).
+\newblock Bioinspired locomotion and grasping in water: the soft eight-arm
+  octopus robot.
+\newblock {\em Bioinspiration \& Biomimetics}.
+\newblock \\
+  \url{https://iopscience.iop.org/article/10.1088/1748-3190/10/3/035003} \\
+  Accessed: 2022-04-10.
+
+\bibitem[Dear et~al., 2020]{cpgRobot}
+Dear, T., Buchanon, B., and Abrajan-Guerrero, R. (2020).
+\newblock Locomotion of a multi-link non-holonomic snake robot with passive
+  joints.
+\newblock {\em The International Journal of Robotics Research}.
+\newblock \\ \url{http://dx.doi.org/10.1177/0278364919898503} \\ Accessed:
+  2022-04-11.
+
+\bibitem[Herbert, 1996]{antsBeach}
+Herbert, S. (1996).
+\newblock The sciences of the artificial.
+\newblock {\em MIT Press}, page~51.
+\newblock \\
+  \url{https://monoskop.org/images/9/9c/Simon_Herbert_A_The_Sciences_of_the_Artificial_3rd_ed.pdf}
+  \\ Accessed: 2022-04-11.
+
+\end{thebibliography}
