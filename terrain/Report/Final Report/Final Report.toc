@@ -28,10 +28,10 @@
 \contentsline {subsubsection}{\numberline {6.3.3}Genes}{14}{subsubsection.6.3.3}%
 \contentsline {subsubsection}{\numberline {6.3.4}Population}{14}{subsubsection.6.3.4}%
 \contentsline {subsubsection}{\numberline {6.3.5}Genetic Algorithm}{15}{subsubsection.6.3.5}%
-\contentsline {subsection}{\numberline {6.4}Dynamic Movement}{18}{subsection.6.4}%
-\contentsline {subsection}{\numberline {6.5}UI}{20}{subsection.6.5}%
-\contentsline {section}{\numberline {7}Results}{22}{section.7}%
-\contentsline {section}{\numberline {8}Conclusion}{23}{section.8}%
-\contentsline {section}{\numberline {9}References}{24}{section.9}%
-\contentsline {section}{\numberline {10}Appendices}{26}{section.10}%
-\contentsline {subsection}{\numberline {10.1}Code of Conduct}{26}{subsection.10.1}%
+\contentsline {subsection}{\numberline {6.4}Dynamic Movement}{17}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5}UI}{19}{subsection.6.5}%
+\contentsline {section}{\numberline {7}Results}{21}{section.7}%
+\contentsline {section}{\numberline {8}Conclusion}{22}{section.8}%
+\contentsline {section}{\numberline {9}References}{23}{section.9}%
+\contentsline {section}{\numberline {10}Appendices}{27}{section.10}%
+\contentsline {subsection}{\numberline {10.1}Code of Conduct}{27}{subsection.10.1}%

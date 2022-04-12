@@ -1,6 +1,7 @@
 \documentclass{article}
 \usepackage[english]{babel}
-\usepackage[utf8]{inputenc}\usepackage{fancyhdr}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
 \usepackage[square]{natbib}
 \usepackage{multibib}
 \newcites{main}{Primary References}
@@ -16,8 +17,8 @@
 \setlength{\abovecaptionskip}{7pt plus 3pt minus 2pt}
 \usepackage{geometry}
 \geometry{a4paper,left=30mm,top=30mm}
-\usepackage{hyperref}
 \usepackage{float}
+\usepackage{hyperref}
 
 %Titlepage
 \thispagestyle{fancy}
@@ -57,7 +58,12 @@ Insert abstract here
 %Report
 \newpage
 \section{Introduction}
-Add in the intro pretty much directly from the interim report here
+Nature can often inspire elegant and efficient solutions to non-natural problems. The tunnel-building behaviours of ants can be used to generate algorithms to manage traffic flow in a city for example. This can be much more efficient than deploying a group of developers to design an elaborate network to structure how the population navigates the city. Alternatively, the nests of ants could be studied and their tunnel-building algorithm applied to the problem. \citepmain{antCars} \\
+In this project, the characteristics of various reptiles will be applied to a model of a robot - “Lizardbot” - to optimise the physical design and algorithm it uses to navigate rough terrain. For robots used in applications such as bomb disposal or interplanetary exploration, the environments that they face can be highly unpredictable. The margin for error is often low to nonexistent, as there can be little physical access to the robot to fix any issues. These robots require a design and an algorithm optimised to enable them to traverse any landscape they are presented with. \\
+
+On a climbing trip to the Isle of Portland I took a break from repeatedly falling off the cliff to watch a lizard. It was attempting to jump from the path onto a nearby rock. Every time it failed it paused, then tried again with its tail in a completely different position. It was naturally using its tail to counterbalance its body as it jumped, and learning from previous attempts. The addition of a tail to a robot can produce an efficient jumping robot with the application of relatively simple maths. A prime example of this is shown in the \textit{‘UC Berkeley Leaping Lizard \& Robot}’ video.\\ \citepmain{agamaVideo} This behaviour can be observed elsewhere in nature; when a praying mantis jumps it swings its body and abdomen to ensure it hits its target, \citepmain{prayingMantis}  or when cats twist their bodies to reorient themselves to land on their feet. \citepmain{catsLanding}
+The lizard’s stabilising tail, alongside other reptilian characteristics, could provide a nature-inspired solution for a robot targeting rough terrain. Since I lack the resources required to test this by building a physical robot, the popular gaming engine Unity \citepsoft{unity} will be used to create a virtual model of the robot instead. The Unity engine has built-in physics, collision, and terrain features that bring complex interactions within scope.
+
 
 \newpage
 \section{Project Aims}

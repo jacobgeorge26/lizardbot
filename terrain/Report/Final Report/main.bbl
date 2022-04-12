@@ -1,5 +1,13 @@
 \begin{thebibliography}{}
 
+\bibitem[Burrows et~al., 2015]{prayingMantis}
+Burrows, M., Cullen, D., Dorosenko, M., and Sutton, G. (2015).
+\newblock Mantises exchange angular momentum between three rotating body parts
+  to jump precisely to targets.
+\newblock {\em Current Biology}.
+\newblock \\ \url{https://doi.org/10.1016/j.cub.2015.01.054} \\ Accessed:
+  2022-04-12.
+
 \bibitem[Cianchetti, 2015]{octopusRobot}
 Cianchetti, M. (2015).
 \newblock Bioinspired locomotion and grasping in water: the soft eight-arm
@@ -25,6 +33,12 @@ Dear, T., Buchanon, B., and Abrajan-Guerrero, R. (2020).
 \newblock \\ \url{http://dx.doi.org/10.1177/0278364919898503} \\ Accessed:
   2022-04-11.
 
+\bibitem[Diamond, 1988]{catsLanding}
+Diamond, J. (1988).
+\newblock Why cats have nine lives.
+\newblock {\em nature}.
+\newblock \\ \url{http://dx.doi.org/10.1038/332586a0} \\ Accessed: 2022-04-12.
+
 \bibitem[Herbert, 1996]{antsBeach}
 Herbert, S. (1996).
 \newblock The sciences of the artificial.
@@ -32,6 +46,14 @@ Herbert, S. (1996).
 \newblock \\
   \url{https://monoskop.org/images/9/9c/Simon_Herbert_A_The_Sciences_of_the_Artificial_3rd_ed.pdf}
   \\ Accessed: 2022-04-11.
+
+\bibitem[{Plataforma SINC}, 2008]{antCars}
+{Plataforma SINC} (2008).
+\newblock Self-steering vehicle designed to mimic movements of ants.
+\newblock {\em ScienceDaily}.
+\newblock \\
+  \url{https://www.sciencedaily.com/releases/2008/09/080917074130.htm} \\
+  Accessed: 2022-04-12.
 
 \bibitem[Roberts, 2020]{fibonacci}
 Roberts, M. (2020).
@@ -41,5 +63,12 @@ Roberts, M. (2020).
 \newblock \\
   \url{http://extremelearning.com.au/how-to-evenly-distribute-points-on-a-sphere-more-effectively-than-the-canonical-fibonacci-lattice/}
   \\ Accessed: 2022-04-12.
+
+\bibitem[{UC Berkeley}, 2012]{agamaVideo}
+{UC Berkeley} (2012).
+\newblock Uc berkeley leaping lizard \& robot.
+\newblock {\em YouTube}.
+\newblock \\ \url{https://www.youtube.com/watch?v=jOUAIRbrv6s} \\ Accessed:
+  2022-04-12.
 
 \end{thebibliography}

@@ -1,11 +1,89 @@
 \begin{thebibliography}{}
 
+\bibitem[aldonaletto, 2013]{rotateVectorAroundPoint}
+aldonaletto (2013).
+\newblock Rotate a vector around a certain point.
+\newblock {\em Unity Forums}.
+\newblock \\
+  \url{https://answers.unity.com/questions/532297/rotate-a-vector-around-a-certain-point.html}
+  \\ Accessed: 2022-04-12.
+
 \bibitem[Arycama, 2015]{randomRepeating}
 Arycama (2015).
 \newblock Random.range always generates the exact same numbers in start().
 \newblock {\em Unity Forums}.
 \newblock \\
   \url{https://answers.unity.com/questions/1072318/randomrange-always-generates-the-exact-same-number.html}
+  \\ Accessed: 2022-04-12.
+
+\bibitem[Brackeys, 2017a]{generateTerrain}
+Brackeys (2017a).
+\newblock Generating terrain in unity - procedural generation tutorial.
+\newblock {\em YouTube}.
+\newblock \\ \url{https://www.youtube.com/watch?v=vFvwyu_ZKfU} \\ Accessed:
+  2022-04-12.
+
+\bibitem[Brackeys, 2017b]{uiIntro}
+Brackeys (2017b).
+\newblock Start menu in unity.
+\newblock {\em YouTube}.
+\newblock \\ \url{https://www.youtube.com/watch?v=zc8ac_qUXQY} \\ Accessed:
+  2022-04-12.
+
+\bibitem[\c{C}etin, 2015]{staticVariables}
+\c{C}etin, S.~T. (2015).
+\newblock What is the proper way to handle data between scenes?
+\newblock {\em Game Development}.
+\newblock \\
+  \url{https://gamedev.stackexchange.com/questions/110958/what-is-the-proper-way-to-handle-data-between-scenes}
+  \\ Accessed: 2022-04-12.
+
+\bibitem[cjddmut, 2015]{hsvColor}
+cjddmut (2015).
+\newblock Colorhsv.
+\newblock {\em GitHub}.
+\newblock \\ \url{https://gist.github.com/cjddmut/fefe5dac35cccfceabec} \\
+  Accessed: 2022-04-12.
+
+\bibitem[damien\_oconnell, 2009]{dragCamera}
+damien\_oconnell (2009).
+\newblock Click$+$drag camera movement.
+\newblock {\em Unity Forums}.
+\newblock \\
+  \url{https://forum.unity.com/threads/click-drag-camera-movement.39513/} \\
+  Accessed: 2022-04-12.
+
+\bibitem[{David K}, 2018]{circlePoints}
+{David K} (2018).
+\newblock Plot points around circumference of circle in 3d space given 3
+  points.
+\newblock {\em StackExchange}.
+\newblock \\
+  \url{https://math.stackexchange.com/questions/3007243/plot-points-around-circumference-of-circle-in-3d-space-given-3-points}
+  \\ Accessed: 2022-04-12.
+
+\bibitem[DitzelGames, 2018]{hingesExplained}
+DitzelGames (2018).
+\newblock Fixed, spring, hinge, character \& configurable joint explained -
+  unity tutorial.
+\newblock {\em YouTube}.
+\newblock \\ \url{https://www.youtube.com/watch?v=MElbAwhMvTc} \\ Accessed:
+  2022-04-12.
+
+\bibitem[{Draco18s no longer trusts SE}, 2018]{layerMethod}
+{Draco18s no longer trusts SE} (2018).
+\newblock unity - how two objects with rigidbody can pass through each other?
+\newblock {\em StackOverflow}.
+\newblock \\
+  \url{https://stackoverflow.com/questions/48461267/unity-how-two-objects-with-rigidbody-can-pass-through-each-other}
+  \\ Accessed: 2022-04-12.
+
+\bibitem[FK22, 2017]{csv}
+FK22 (2017).
+\newblock Write data from list to csv file.
+\newblock {\em Unity Forums}.
+\newblock \\
+  \url{https://forum.unity.com/threads/write-data-from-list-to-csv-file.643561/}
   \\ Accessed: 2022-04-12.
 
 \bibitem[Fnord, 2014]{spherePoints}
@@ -16,21 +94,36 @@ Fnord (2014).
   \url{https://stackoverflow.com/questions/9600801/evenly-distributing-n-points-on-a-sphere}
   \\ Accessed: 2022-04-12.
 
-\bibitem[K, 2018]{circlePoints}
-K, D. (2018).
-\newblock Plot points around circumference of circle in 3d space given 3
-  points.
-\newblock {\em StackExchange}.
-\newblock \\
-  \url{https://math.stackexchange.com/questions/3007243/plot-points-around-circumference-of-circle-in-3d-space-given-3-points}
-  \\ Accessed: 2022-04-12.
-
-\bibitem[no~longer~trusts SE, 2018]{layerMethod}
-no~longer~trusts SE, D. (2018).
-\newblock unity - how two objects with rigidbody can pass through each other?
+\bibitem[Goodacre, 2016]{changeLayer}
+Goodacre, A. (2016).
+\newblock How to change object's layer at runtime in unity?
 \newblock {\em StackOverflow}.
 \newblock \\
-  \url{https://stackoverflow.com/questions/48461267/unity-how-two-objects-with-rigidbody-can-pass-through-each-other}
+  \url{https://stackoverflow.com/questions/40869566/how-to-change-objects-layer-at-runtime-in-unity}
+  \\ Accessed: 2022-04-12.
+
+\bibitem[Halvarsson, 2021]{pointLeftRight}
+Halvarsson, K. (2021).
+\newblock Unity3d check if a point is to the left or right of a vector.
+\newblock {\em StackOverflow}.
+\newblock \\
+  \url{https://stackoverflow.com/questions/65794490/unity3d-check-if-a-point-is-to-the-left-or-right-of-a-vector}
+  \\ Accessed: 2022-04-12.
+
+\bibitem[M\"{o}rk, 2011]{listVariables}
+M\"{o}rk, F. (2011).
+\newblock How to list all variables of class.
+\newblock {\em StackOverflow}.
+\newblock \\
+  \url{https://stackoverflow.com/questions/6536163/how-to-list-all-variables-of-class}
+  \\ Accessed: 2022-04-12.
+
+\bibitem[nobizzle, 2019]{updateFixedUpdate}
+nobizzle (2019).
+\newblock Update() vs. fixedupdate() for object rotation.
+\newblock {\em Unity Forums}.
+\newblock \\
+  \url{https://answers.unity.com/questions/1677930/update-vs-fixedupdate-for-object-rotation.html}
   \\ Accessed: 2022-04-12.
 
 \bibitem[Rafay, 2022]{angularMomentum}
@@ -48,13 +141,21 @@ Serlite (2016).
   \url{https://stackoverflow.com/questions/36387753/getting-collision-contact-force}
   \\ Accessed: 2022-04-12.
 
-\bibitem[T, 2020]{configJoints}
-T, V. (2020).
-\newblock Luna tech series: A deep dive into unity configurable joints.
-\newblock {\em Luna Labs}.
+\bibitem[slandau, 2011]{whitespace}
+slandau (2011).
+\newblock Efficient way to remove all whitespace from string?
+\newblock {\em StackOverflow}.
 \newblock \\
-  \url{https://medium.com/luna-labs-ltd/luna-tech-series-a-deep-dive-into-unity-configurable-joints-96c49138b9b7}
-  \\ Accessed: 2022-04-11.
+  \url{https://stackoverflow.com/questions/6219454/efficient-way-to-remove-all-whitespace-from-string}
+  \\ Accessed: 2022-04-12.
+
+\bibitem[superpig, 2012]{saveMaterial}
+superpig (2012).
+\newblock How to save a material at run time?
+\newblock {\em Unity Forums}.
+\newblock \\
+  \url{https://forum.unity.com/threads/how-to-save-a-material-at-run-time.138318/}
+  \\ Accessed: 2022-04-12.
 
 \bibitem[tomvds, 2008]{angleConversion}
 tomvds (2008).
@@ -62,6 +163,34 @@ tomvds (2008).
 \newblock {\em Unity Forums}.
 \newblock \\
   \url{https://forum.unity.com/threads/euler-quaternions-radians-degrees-huh.53407/}
+  \\ Accessed: 2022-04-11.
+
+\bibitem[Unity, 2019]{jointsDocs}
+Unity (2019).
+\newblock Joints.
+\newblock {\em Unity Documentation}.
+\newblock \\ \url{https://docs.unity3d.com/Manual/Joints.html} \\ Accessed:
+  2022-04-12.
+
+\bibitem[Unity, 2022a]{prefab}
+Unity (2022a).
+\newblock Prefab utility.
+\newblock {\em Unity Documentation}.
+\newblock \\ \url{https://docs.unity3d.com/ScriptReference/PrefabUtility.html}
+  \\ Accessed: 2022-04-12.
+
+\bibitem[Unity, 2022b]{docs}
+Unity (2022b).
+\newblock Unity documentation.
+\newblock {\em Unity Technologies}.
+\newblock \\ \url{https://docs.unity.com/} \\ Accessed: 2022-04-12.
+
+\bibitem[{Vladimir T}, 2020]{configJoints}
+{Vladimir T} (2020).
+\newblock Luna tech series: A deep dive into unity configurable joints.
+\newblock {\em Luna Labs}.
+\newblock \\
+  \url{https://medium.com/luna-labs-ltd/luna-tech-series-a-deep-dive-into-unity-configurable-joints-96c49138b9b7}
   \\ Accessed: 2022-04-11.
 
 \end{thebibliography}
