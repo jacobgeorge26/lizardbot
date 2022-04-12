@@ -33,5 +33,5 @@
 \contentsline {section}{\numberline {7}Results}{21}{section.7}%
 \contentsline {section}{\numberline {8}Conclusion}{22}{section.8}%
 \contentsline {section}{\numberline {9}References}{23}{section.9}%
-\contentsline {section}{\numberline {10}Appendices}{27}{section.10}%
-\contentsline {subsection}{\numberline {10.1}Code of Conduct}{27}{subsection.10.1}%
+\contentsline {section}{\numberline {10}Appendices}{28}{section.10}%
+\contentsline {subsection}{\numberline {10.1}Code of Conduct}{28}{subsection.10.1}%
