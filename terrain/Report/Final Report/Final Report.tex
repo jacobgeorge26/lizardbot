@@ -12,6 +12,8 @@
 \bibliographystylesoft{apalike}
 \usepackage{graphicx}
 \graphicspath{ {./Images/} }
+\usepackage{wrapfig}
+\setlength{\abovecaptionskip}{7pt plus 3pt minus 2pt}
 \usepackage{geometry}
 \geometry{a4paper,left=30mm,top=30mm}
 \usepackage{hyperref}
@@ -77,8 +79,10 @@ Dynamic systems theory\\
 Damage minimisation\\
 How do I want the AI to manipulate the relationship between the body and movement?\\
 Why do I want there to be a relationship between the two? - article Simon sent\\
-How am I going to test the relationship?\\
-How will the robot be measured?\\
+How will the GA avoid minimas?\\
+Explain triad recombination - what examples are there of this in nature?\\
+Explain about the red robots - why might these be attractive?\\
+
 
 \subsection{Extension Objectives}
 \subsubsection{Vision}
@@ -86,8 +90,6 @@ How would a rudimentary visual system reduce damage to the robot?\\
 How would this move the AI from a reactive to proactive mechanism?\\
 \subsubsection{Terrain Friction}
 How do snakes work with different frictions?\\
-\subsubsection{UI}
-How could a UI help lower the threshold to the project and make it easier to 'work with' the AI?\\
 \subsubsection{Flexible Tail}
 What are the advantages of having a flexible tail?\\
 
@@ -119,7 +121,7 @@ Three terrains were generated using Procedural Toolkit \citepsoft{proceduralTool
 \includegraphics[scale=0.3]{smoothTerrain}
 \includegraphics[scale=0.3]{unevenTerrain}
 \includegraphics[scale=0.3]{roughTerrain}
-\caption{Examples of the three terrain types. From left to right: Smooth, Uneven, Rough.}
+\caption{Examples of the three terrain types. (From left to right) Smooth, Uneven, Rough.}
 \end{figure}
 At one point the height of the terrain was proportional to the number of sections of the robot, a similar method to that of the Octopus robot. However, as the terrain is a control variable the heights were switched to a static value: $Smooth=8, Uneven=16, Rough=24$.\\
 Overall, the rougher the terrain, the higher and more closed in it is. Most of the development of the robot was conducted on the smooth and uneven terrains, as the rough terrain aims to provide a more extreme environment with which to test the efficacy of the AI.\\
@@ -128,13 +130,14 @@ Its route is ‘a sequence of irregular, angular segments’ that suggests some 
 
 \subsection{Robot}
 \subsubsection{Body}
-To create a snakelike body, each body module is attached to the previous module by a configurable joint \citepcode{configJoints} and has two methods of movement: driving and rotation. The physical design of the robot creates a fluid motion before any complex movement is applied. With the joint structure, the movement of one section is translated to those behind it - similar to dragging a piece of string along the ground. This is shown in figure x: the head rotates and, after a delay, creates the same angle in the sections behind it.\\
+To create a snakelike body, each body module is attached to the previous module by a configurable joint \citepcode{configJoints} and has two methods of movement: driving and rotation. The physical design of the robot creates a fluid motion before any complex movement is applied. With the joint structure, the movement of one section is translated to those behind it - similar to dragging a piece of string along the ground. This is shown in figure TODO: the head rotates and, after a delay, creates the same angle in the sections behind it.\\
 The former applies a forward force as determined by the drive velocity parameter whilst the latter applies a velocity to each module using the following equation:
 \begin{center}
 \begin{Large}
 $\overrightarrow{v_{i}} = \overrightarrow{v_{i-1}} + \frac{m}{2}\overrightarrow{w} $
 \end{Large}
 \end{center}
+
 For rotating sections $i = 0, ..., m$, where $m \leq n$, the value of $w$ will be calculated using $S$ or $C$ as specified.\\
 \begin{center}
 \begin{Large}
@@ -146,13 +149,13 @@ $C: \overrightarrow{w} = cos\overrightarrow{\theta_{i-1}} + cos\overrightarrow{\
 This central pattern generator (CPG) approach allows each module to react to the velocity and angle of the previous section. The equation for the CPG originated in Tony Dear’s multi-link snake robot: a robot with a similar modular design with passive joints connecting the modules. \citepmain{cpgRobot} Lizardbot utilises the same math to calculate the velocity with one distinction: Dear’s robot split the velocity vector into its axes, using cos for the x axis and sin for the y. Lizardbot instead calculates the vector as a whole and alternates the rotating sections between sin and cos to produce the serpentine motion. For robots with serpentine motion disabled, $S$ and $C$ will be assigned randomly to the rotating modules.\\
 
 \begin{figure}[H]
-\begin{minipage}[b]{.4\textwidth}
+\begin{minipage}[t]{.4\textwidth}
 \centering
 \includegraphics[width=1\textwidth]{cpgMirroring}
 \caption{Demonstration of body motion with a single rotating section at the head of the body.}
 \end{minipage}
 \hfill
-\begin{minipage}[b]{.5\textwidth}
+\begin{minipage}[t]{.5\textwidth}
 \centering
 \includegraphics[width=1\textwidth]{cpgSerpentine}
 \caption{The output velocities generated by each body module with serpentine motion enabled. Modules using $S$ are shown in black, $C$ in blue.}
@@ -176,12 +179,14 @@ For all body parts $i = 0, ..., n$, the radius of the path of motion is the dist
 $r = |x_{i} - \frac{1}{n}\sum_{i}^{n}m_{i}x_{i}|$
 \end{Large}
 \end{center}
+
 The total angular momentum $L$ of the robot is calculated using the above values of $r$, the mass $m$ and the velocity $v$ of each body part. \citepcode{angularMomentum}
 \begin{center}
 \begin{Large}
 $L = \sum^{n}_{i} r_{i}m_{i}v_{i}$
 \end{Large}
 \end{center}
+
 To conserve momentum, the velocity of the tail is calculated by inverting $L$ and dividing it by the tail's mass and distance from the overall COG.
 \begin{center}
 \begin{Large}
@@ -198,24 +203,25 @@ Legs were added to Lizardbot in an attempt to match the gait of a lizard.
 As inspired by the design of the Salamandra Robotica \citepmain{salamandra}, each leg is designed to rotate in a circle in order to push the body forward. The physical design of the leg matches the elliptical shape of the tail and uses the same configuration of customisable mass and length. 
 Currently, there are only two attachment points for a leg on each body module: one each side, perpendicular to the body joints. For a uniform body, the legs are placed symmetrically along the body and given equal length and mass; they are constructed randomly for non-uniform bodies. \\
 
-The leg rotates around an axis perpendicular to the body section it is attached to, as shown in figure x. The size of the circle it follows is determined by the angle it is offset by when attached to the body ($\alpha$). \\
+The leg rotates around an axis perpendicular to the body section it is attached to, as shown in figure TODO. The size of the circle it follows is determined by the angle it is offset by when attached to the body ($\alpha$). \\
 
 \begin{figure}[H]
 \centering
 $\vcenter{\hbox{\includegraphics[width=0.5\textwidth]{legCircleDiagram}}}$
 $\vcenter{\hbox{\includegraphics[width=0.4\textwidth]{legCircleExample}}}$
-\caption{\\Left: An illustration of the rotation of a leg around an axis of rotation. Only one attachment point is shown - another would be available on the other side of the body along the $x$ axis.\\
-Right: A leg following its path of motion.}
+\caption{(Left) An illustration of the rotation of a leg around an axis of rotation. Only one attachment point is shown - another would be available on the other side of the body along the $x$ axis. Diagram created using CalcPlot3D \citep{diagrams}\\
+(Right) A leg following its path of motion.}
 \end{figure}
 
 
 
-The rotation of the leg follows a series of conceptual points spaced $30^\circ$ apart around the point $D$ (shown by the red point along the axis of rotation in figure x). These points are generated using the following equation:
+The rotation of the leg follows a series of conceptual points spaced $30^\circ$ apart around the point $D$ (shown by the red point along the axis of rotation in figure TODO). These points are generated using the following equation:
 \begin{center}
 \begin{Large}
 $P = D + Vcos\theta + Ucos\theta$\\
 \end{Large}
 \end{center}
+
 Where $V$ and $U$ are two vectors perpendicular to each other in a plane through $D$ and the target circle, and $0\leq\theta<360$. \citepcode{circlePoints}
  
 To calculate the desired velocity of the leg, the point $P_i$ closest to the current position of the leg is found. From this, the new velocity can be calculated using the vector to the next point on the circle.   
@@ -224,9 +230,10 @@ To calculate the desired velocity of the leg, the point $P_i$ closest to the cur
 $v_{i} = g(P_{i + 1} - P_{i})$
 \end{Large}
 \end{center}
+
 If the relevant gene is active, the gait multiplier $g$ increases the velocity when the body is turning away from the leg, decreasing it if the body is turning toward the leg.\\
 
-The performance of the legs is analysed in section x, though it is presumed that with more work the performance could be drastically improved: currently it resembles a lot of twitching. It is possible that an alternative joint mechanism would allow for Lizardbot to stand on its legs and appear more natural. It would also be interesting to explore how the location of the legs impacts the robot as a whole. Currently the attachment points are based on lizards (indeed, most animals) and the years of evolution that have led to their structure. However, the offer of more variety in the design of the robot may offer alternative solutions to navigate the terrain. 
+The performance of the legs is analysed in section TODO, though it is presumed that with more work the performance could be drastically improved: currently it resembles a lot of twitching. It is possible that an alternative joint mechanism would allow for Lizardbot to stand on its legs and appear more natural. It would also be interesting to explore how the location of the legs impacts the robot as a whole. Currently the attachment points are based on lizards (indeed, most animals) and the years of evolution that have led to their structure. However, the offer of more variety in the design of the robot may offer alternative solutions to navigate the terrain. 
 
 
 \subsection{Artifical Intelligence}
@@ -257,7 +264,7 @@ The algorithm finds the minimum and maximum values for each axis to draw a conce
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.7]{trappedAlgorithm}
-\caption{A representation of the cube constructed around the last 20 locations a robot has visited (captured twice a second).}
+\caption{A representation of the cube constructed around the last 20 locations a robot has visited (captured twice a second). Diagram created using CalcPlot3D \citep{diagrams}}
 \end{figure}
 
 Finally, the sensitivitiy of the algorithm needed to be determined by adjusting the value of $t$. The results showed that too low a value of $t$ produced false positives due to it not allowing the robot enough time to turn around. In contrast, if $t$ was too high it took longer for the algorithm to identify when the robot was stuck. This would waste time continuing for an extra few seconds each generation, or could potentially miss instances when the robot became trapped but was able to free itself. A sensitivity of $t=20$ appeared to provide a balanced value across all three terrains.
@@ -270,36 +277,139 @@ Finally, the sensitivitiy of the algorithm needed to be determined by adjusting 
 \includegraphics[width=0.2\textwidth]{trappedFlat}
 \caption{A demonstration of the trapped algorithm using the same robot and $t=20$ on each terrain.\\
 Each blue point represents the location of the robot being captured. Red indicates that the robot is trapped (and would normally have been disabled and passed to the genetic algorithm).\\ 
-From left to right: Smooth, Uneven, Rough, Flat. The latter used a robot with rotation disabled to ensure that a robot travelling in a straight line would not be flagged.}
+(From left to right) Smooth, Uneven, Rough, Flat. The latter used a robot with rotation disabled to ensure that a robot travelling in a straight line would not be flagged.}
 \end{figure}
-The red points in figure x align with behaviours that can reasonably be classed as ‘trapped’, however it is important to note that this algorithm was implemented with some bias toward certain behaviours (e.g. looping). For this project, the identification of a trapped robot appears sufficient and is expected to produce an AI that will train away from continually exploring the same area for too long. The algorithm has other potential applications in finding looping patterns in any problem that can be assigned a world space. For example, a neural network could be analysed with this algorithm to determine when it is ‘stuck’ whilst performing a task, or a search algorithm could implement it to avoid excessively exploring within a section of the graph. 
+The red points in figure TODO align with behaviours that can reasonably be classed as ‘trapped’, however it is important to note that this algorithm was implemented with some bias toward certain behaviours (e.g. looping). For this project, the identification of a trapped robot appears sufficient and is expected to produce an AI that will train away from continually exploring the same area for too long. The algorithm has other potential applications in finding looping patterns in any problem that can be assigned a world space. For example, a neural network could be analysed with this algorithm to determine when it is ‘stuck’ whilst performing a task, or a search algorithm could implement it to avoid excessively exploring within a section of the graph. 
 
 
 \subsubsection{Genes}
-The manipulatable characteristics of a robot are distinguished by a \textit{Gene} class. Each variable is instantiated with a default, minimum, and maximum value. Additionally, they are given a type (established in the enum class \textit{Variable} whereby negative enum values are physical properties and positive are movement) to ensure that the recombination covered in section x is combining the same genes with each other. \\
+The manipulatable characteristics of a robot are distinguished by a \textit{Gene} class. Each variable is instantiated with a default, minimum, and maximum value. Additionally, they are given a type (established in the enum class \textit{Variable} whereby negative enum values are physical properties and positive are movement) to ensure that the recombination covered in section TODO is combining the same genes with each other. \\
 This class handles any erroneous situations that arise and allows boolean values to be stored as a float. If the \textit{Get} method of a boolean \textit{Gene} is called, then true will be returned for values greater than 0.5. This allows boolean genes to be mutated slowly (e.g. from 0.35 to 0.6) without having to make a single toggle from one value to the other. \\
 When a gene is mutated, if the new value lies outside the valid range then it is 'bounced' (e.g. $max=0.5, v\rightarrow0.6 \Rightarrow v=0.4$). If a value outside the max/min values is passed directly then the max/min value would be assigned instead.
 
 \subsubsection{Population}
-To avoid interaction between robots, the body parts of a robot should be capable of colliding between themselves and the terrain but should ignore those of other robots. In Unity, this can be achieved by placing all robot objects into a layer. You can then change the Physics system to ignore collisions between different robot layers.\\ 
+To avoid interaction between robots, the body parts of a robot should be capable of colliding between themselves and the terrain but should ignore those of other robots. In Unity, this can be achieved by placing all robot objects into a layer. \citepcode{layerMethod} You can then change the Physics system to ignore collisions between different robot layers.\\ 
 Unity’s layers have a limit of 25 available layers. At first, a script was added to every robot scanning around it for other robots in the same layer. Upon detection, the current robot would be moved to another layer that no robots in the vicinity were using. Given that every robot spawned in the same location this script absolutely throttled the performance of the program. With a population of 50 the frame rate would drop from ~200fps to ~20fps. This is not an acceptable impact so an alternative approach was considered. Multiple terrains are generated and 25 robots placed into each. This has the added benefit of being able to generate a population of robots being tested on all three terrain types simultaneously. 
 
 
 \subsubsection{Genetic Algorithm}
-When a gene is mutated its value, v, is adjusted as follows:
+When the trapped algorithm determines that a robot is stuck it is disabled and passed to the genetic algorithm (GA).\\
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{gaProcess}
+\caption{The process followed by the genetic algorithm. Diagram created using draw.io \citep{drawio}}
+\end{figure}
+The GA first selects which robot should be used as the input for the rest of the process. The default input is the stuck robot, however when a mutatio cycle has been completed this may be overruled. The mutation cycle, exemplified in figure TODO, of a robot refers to how many evolutions should take place before the resultant robot is compared to the robot it initially branched from. When a mutation cycle is complete, the highest performing of the two is selected as the input for the GA. The reasoning behind this is to allow a robot to mutate to a lower performing robot temporarily, as this may allow it to evolve into a more successful robot a few generations later. If the mutation cycle is set to 1 then any single evolution that reduces the performance will be rejected.\\
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{mutationCycle}
+\caption{Examples of potential evolutions of a robot. From the top row downwards, the mutation cycle is set to 1, 2, and 3 respectively. Diagram created using draw.io \citep{drawio}}
+\end{figure}
+
+Once the input robot has been determined, this robot is then recombined. There are several methods of recombination available but the overall process is: select $k$ robots using a given method and "breed" the genes of one robot in this pool with those of the input robot.\\
+The available recombination methods are:
+\begin{enumerate}
+  \item Physical\\
+The selection pool consists of robots that are physically similar to the input robot. The acceptable margin of difference is increased until k robots are found. This method aims to return robots from the population that have a similar number of each body part, and are matching the input robot as to whether to maintain a uniform body.  bullet.
+  \item Movement\\
+The selection pool consists of robots that are moving in a similar way to that of the input robot. As above, the acceptable margin of difference is incrementally widened if necessary. The selected robots will be following the same rules for maintaining serpentine motion and the gait of the legs. Additionally, they will have a similar ratio of drive velocity to the number of sections to provide an overview for how powerful the robot is. It allows for differences in the rotation of the body as it is hard to implement a sufficient comparison between them. 
+	\item Triad\\
+This approach is more artificial than others. Two robots are selected: one each from the physical and movement methods. The genes of these two robots are then recombined with the input robot. As discussed in section TODO, nature does demonstrate examples of more than two agents mating.
+	\item Lizard\\
+This method aims to mimic a more lizardlike breeding process. A characteristic with no direct bearing on the performance is used to select robots that are nearby the input robot, ignoring those in the population on the other side of the terrain. \textit{Nearby} is relative to the spawn point of the robot, and limited to those in the same terrain type. \\
+The colour of the body was chosen as the desirable trait; Lizardbot loves blue.\\
+In theory, this method should create local ‘ecosystems’ in the population over time as robots that explore the same area of the terrain each iteration will always interact with the same selection pool. 
+	\item Random\\
+A random robot is selected from the population, to act as a control method.
+	\item Any\\
+Methods 1-4 make an assumption that using the same method for every generation is optimal. This method instead randomly selects one of the above methods for a single generation.
+\end{enumerate}
+Each of the input robot's $n$ genes is recombined as follows:
+\begin{center}
 \begin{Large}
-$G_{i} = R^{[0, 1]} < m \longrightarrow 
-(max(G_{i}) - min(G_{i})) R^{[0.01, 0.1]}  G_{i}$\\\\
 $G(1)_{i} = R^{[0, 1]} < r \longrightarrow$ 
 \begin{LARGE}
 $^{R^{[0, 1]} < 0.5\longrightarrow G(1)_{i}} 
-_{R^{[0, 1]} \geq 0.5 \longrightarrow G(2)_{i}}$\\\\
+_{R^{[0, 1]} \geq 0.5 \longrightarrow G(2)_{i}}$
 \end{LARGE}
-
 \end{Large}
-where R denotes a randomly generated number. G(1) refers to the input robot, whilst G(2) is the selected robot. For \textit{Triad} recombination G(2) is randomly chosen from either of the two selected robots, with equal probability.
+\end{center}
+
+Where $i = 0, ..., n$. R denotes a randomly generated number in the range $[a, b]$. G(1) refers to the input robot, whilst G(2) is the selected robot. For \textit{Triad} recombination G(2) is randomly chosen from either of the two selected robots, with equal probability.
+\\[1\baselineskip]
+The recombined robot is then mutated. The genes are divided into physical or movement properties to allow the mutation to be limited to one or the other, or both. As with the recombination, there is also the option for Any mutation, whereby one of the three options is randomly selected every generation. 
+The mutation rate, m, is used to avoid mutating every single gene.\\
+When a gene is mutated its value is adjusted as follows:
+\begin{center}
+\begin{Large}
+$G_{i} = R^{[0, 1]} < m \longrightarrow $
+$(max(G_{i}) - min(G_{i})) R^{[0.01, 0.1]}  G_{i}$\\[1\baselineskip]
+\end{Large}
+\end{center}
+The GA contains four major parameters that influence its function: recombination rate, mutation rate, selection size, and mutation cycle. To determine the optimal values for these, 47 iterations were run with randomly generated values and the performance of the population measured. Each iteration contained 50 robots running for 600 seconds.
+The desired outcome was a performance curve that sloped upwards over time. Peaks and troughs were expected as the successful robots returned to the spawn point; the overall pattern of the performance was key. 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.45\textwidth]{gaPatternIterations}
+\includegraphics[width=0.45\textwidth]{gafilteredIterations}
+\caption{(Left) All iterations demonstrating a promising upward trend.\\
+(Right) Iterations from the left graph filtered to those that reached a performance $>20$.\\
+Graphs created using Colab, \citep{colab} Pandas, \citep{pd} MatPlotLib, \citep{plt} NumPy. \citep{np}}
+\end{figure}
+
+Upon analysing the four values being used for the highest performing upward-trending iterations it appeared that successful values had been found through an issue in the code. When generating random values, Unity cycles through the same values if not provided with a seed. \citepcode{randomRepeating} As the four values were consistently the first four values generated they had been repeatedly set as $[2, 0.77, 0.31, 9]$. Of the 8 iterations that showed an upwards trend and performed well, 7 were these values. Additionally, there was only a single iteration using these values that did not perform well. Given the apparent success of these GA values, these were selected as the default parameters. \\
+
 \subsection{Dynamic Movement}
-Insert from DST log
+As outlined in TODO, a dynamic approach uses the historical movement of the robot to ‘learn’ how to move in a given direction again. Rather than providing rigid rules about how the robot should move, the robot explores how to move in a direction through trial and error. 
+Take a robot that moves left by rolling over. Due to the reactive nature of the algorithms used for movement, it can be assumed that applying the same velocities from the start of the roll would produce another leftward motion. The dynamic movement algorithm saves these velocities for use when a robot needs to move left again. \\
+\begin{wrapfigure}[14]{r}{0.25\textwidth}
+    \centering
+    \vspace*{-5mm}
+    \includegraphics[width=0.25\textwidth]{spherePoints}
+    \vspace*{-7mm}
+    \caption{A sphere created using a Fibonacci lattice ($n=50$) around a centre point shown in blue.}
+\end{wrapfigure}
+To achieve this, the worldspace around a robot is divided. “The Fibonacci lattice is a simple way to very evenly distribute points [on the] surface of a sphere”. \citepmain{fibonacci} Using the implementation of the Fibonacci sphere provided by Fnord, \citepcode{spherePoints} a series of $n$ points were constructed in a sphere around the robot. It was necessary to strike a balance between too low a value of $n$ producing inaccurate results, which could cause the robot to veer off to one side of the intended direction. Meanwhile, too high a value of $n$ would be unnecessarily expensive and result in the majority of the points containing $null$ values. $n=50$ was selected as an appropriate granularity.\\
+
+The sphere points are relative to the centre of the sphere, thus acting as vectors in the direction of the point. To track how the robot moved in a direction, every $t$ seconds the velocities of each body part are stored. A conceptual sphere is constructed around the initial position of the robot and rotated to match the rotation of the robot. This way, a point directly to the left of the robot rotated $30°$ around an axis will be in the same relative location to the robot at $120°$. \\
+Given another interval of $t$, a vector is calculated from the initial position to the resultant position. The sphere point closest to this vector is found by comparing the angle between the vector and the points. 
+If there are already values stored for this point then the set of values that moved the robot the furthest distance in the time interval are saved. This process of saving the velocities used to move toward a point is illustrated in figure TODO. 
+\begin{figure}[H]
+\begin{minipage}[t]{0.3\textwidth}
+\centering
+\includegraphics[width=1\textwidth]{storingVelocities}
+\vspace*{-7mm}
+\caption{Each blue point represents a set of stored velocities for a robot that moved left before turning right and moving downward.}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.65\textwidth}
+\centering
+\includegraphics[width=0.4\textwidth]{dstFiltered}
+\includegraphics[width=0.55\textwidth]{dstFilteredMissing}
+\vspace*{-3mm}
+\caption{(Left) A wedge of points that would take the robot away from its spawn point. Those shown in red are those remaining after filtering for the height of the terrain.\\
+(Right) An example of the terrain height filtering missing a point.} 
+\end{minipage}
+\end{figure}
+
+\noindent There are two situations in which the motion of the robot is adjusted:
+\begin{enumerate}
+\item Routine adjustment\\
+The goal of this adjustment is to keep the robot moving away from its spawn point. Every $x$ seconds the vector between the spawn point and the current position of the robot is calculated. The sphere around the robot is filtered using this vector to output a vertical wedge of points moving away from the origin. Applying any of the velocities saved at these points would theoretically direct the robot further across the terrain. \\
+The points are further filtered by removing those that have not had any velocities stored yet and those that would move the robot below the level of the terrain. Due to the varying height of the terrain, three measurements are taken at incremental distances from the robot. If the direction of the point at this distance would take it below the height of the terrain then it is removed from the selection. This method aims to take a snapshot of the rough height in a given direction and is liable to miss points that should be eliminated if the peak is between the snapshots. \\
+From the filtered points, a single one is selected and the velocities applied to the robot. \\
+Frequent adjustment may affect the ability of the robots to explore new means of movement. To reduce this, the regular adjustment is only enacted if the robot is not already moving toward any of the points in the initial wedge. 
+\item Scaled adjustment\\
+This adjustment is used when the robot is found to be stuck by the trapped algorithm.\\
+At this point it is worth mentioning how the activation of the velocities is implemented. For the routine adjustment the applied velocities will be multiplied by a static activation rate. When a robot is trapped, this activation function is increased exponentially in an attempt to free the robot. Failing that, it is mutated and respawned. 
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.8]{activationFunction}
+\caption{The activation multiplier used for each attempt at scaled adjustment. The static activation rate is shown as $\alpha$. Graph created using Desmos. \citep{graphs}}
+\end{figure}
+\end{enumerate}
+
+It is expected that the dynamic movement algorithm will favour robots that are already performing well. All stored velocities are cleared when the robot is mutated, thus the robots will begin “learning” from scratch every time they become trapped. For robots with sufficient data about their movement, the scaled activation will theoretically enable them to progress in the terrain more often, thus reducing the mutation frequency. As they spend longer in the terrain, less successful robots will have longer to recombine with them. It is predicted that the dynamic movement will both improve the performance of any individual robot, and increase the rate of improvement across a population. \\
 
 \subsection{UI}
 
@@ -313,6 +423,17 @@ What happens when the body is set as static?\\
 What is the outcome when the legs are out of sync from the body?\\
 Starting with defaults, what parameters does the AI mutate to? What is the corresponding behaviour for this?\\
 Does the AI converge on the same parameters when started with different defaults?\\
+
+%GA report
+Whilst the GA demonstrates promising results, there are still some fundamental issues with it. A major issue is that not all genes have equal weight. If the gene that determines whether a uniform body is maintained mutates from false to true then this has a significant effect on the robot. The physical properties of almost all body and leg parts will be adjusted, resulting in a much larger adjustment to the robot than those caused by mutating other genes. To mitigate this, it would be useful to apply weights to each gene. Thus, the mutation range could be scaled accordingly, or the genes categorised such that a change to a heavily weighted gene would limit any changes to other genes. This would allow an isolated analysis of the effect that such a large mutation has on the performance.\\
+It would be useful to have different GA parameter values tailored to each combination of the recombination and mutation methods. Currently, effective values have been found whilst the Any option was selected for both in an attempt to find parameters suitable for all permutations. However, this may favour certain combinations more than others and there is currently no data on this. Rather, these base values are assumed to be appropriate and the effectiveness of the methods themselves judged relative to them. Ideally, there would be a set of values for each combination, or the ability for the GA parameters to themselves be mutated. \\
+There is an assumption that asynchronous evolution is superior to synchronous evolution. The alternative would be to allow every robot to operate for x seconds before mutating a percentage of the population in parallel. This would ensure that every robot experiences the same number of generations and remove any assumptions in the algorithm used to declare a robot as trapped. \\
+Intuitively, the current approach is more appropriate as it does not leave unsuccessful robots continuing past the point where they have been identified as trapped. It is also more natural: we do not wait for a person’s 30th birthday before allowing them to have children based on how successful they have been thus far in their lives. Certainly it is more efficient, as waiting for every robot to be declared stuck before mutating a portion of the population would be extremely time consuming. However, it would be useful to gather results of the alternative approach to support this intuition. \\
+TODO anecdotal evidence of complex behaviour emerging\\
+
+
+%DST report
+The dynamic movement could be further improved by performing a more comprehensive analysis of the entire terrain around the robot and making a more informed decision about the direction the robot should move in. This could further prevent the robot from becoming trapped as it avoids higher ground or uses a larger activation to “jump” onto higher ground.\\ Additionally, the algorithm currently makes assumptions about the knowledge the robot has about the world around it. It is assumed that there are sensors capable of detecting the rotation, relative position from the origin, velocities of each body part, and of detecting the height of the terrain. It is not immediately obvious how to offer this functionality without the use of these measurements but an exploration into alternative methods may be valuable if the program were to be applied to a physical robot. \\
 
 
 

@@ -1,5 +1,45 @@
 \begin{thebibliography}{}
 
+\bibitem[Desmos, 2022]{graphs}
+Desmos (2022).
+\newblock Graphing calculator - desmos.
+\newblock {\em Desmos}.
+\newblock \\ \url{https://www.desmos.com/calculator} \\ Accessed: 2022-04-12.
+
+\bibitem[Google, 2022]{colab}
+Google (2022).
+\newblock Colaboratory.
+\newblock {\em Google}.
+\newblock \\ \url{https://colab.research.google.com/?utm_source=scs-index} \\
+  Accessed: 2022-04-12.
+
+\bibitem[jgraph, 2022]{drawio}
+jgraph (2022).
+\newblock drawio-desktop.
+\newblock {\em GitHub}.
+\newblock \\
+  \url{https://github.com/jgraph/drawio-desktop/releases/tag/v17.4.2} \\
+  Accessed: 2022-04-12.
+
+\bibitem[matplotlib, 2021]{plt}
+matplotlib (2021).
+\newblock Matplotlib 3.5.1.
+\newblock {\em matplotlib}.
+\newblock \\ \url{https://matplotlib.org/stable/index.html} \\ Accessed:
+  2022-04-12.
+
+\bibitem[NumPy, 2021]{np}
+NumPy (2021).
+\newblock Numpy 1.22.0.
+\newblock {\em NumPy}.
+\newblock \\ \url{https://numpy.org/} \\ Accessed: 2022-04-12.
+
+\bibitem[pandas, 2022]{pd}
+pandas (2022).
+\newblock Pandas 1.4.2.
+\newblock {\em pandas}.
+\newblock \\ \url{https://pandas.pydata.org/} \\ Accessed: 2022-04-12.
+
 \bibitem[Seeburger, 2021]{diagrams}
 Seeburger, P. (2021).
 \newblock Calcplot3d.

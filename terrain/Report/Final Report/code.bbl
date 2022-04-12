@@ -1,5 +1,21 @@
 \begin{thebibliography}{}
 
+\bibitem[Arycama, 2015]{randomRepeating}
+Arycama (2015).
+\newblock Random.range always generates the exact same numbers in start().
+\newblock {\em Unity Forums}.
+\newblock \\
+  \url{https://answers.unity.com/questions/1072318/randomrange-always-generates-the-exact-same-number.html}
+  \\ Accessed: 2022-04-12.
+
+\bibitem[Fnord, 2014]{spherePoints}
+Fnord (2014).
+\newblock Evenly distributing n points on a sphere.
+\newblock {\em StackOverflow}.
+\newblock \\
+  \url{https://stackoverflow.com/questions/9600801/evenly-distributing-n-points-on-a-sphere}
+  \\ Accessed: 2022-04-12.
+
 \bibitem[K, 2018]{circlePoints}
 K, D. (2018).
 \newblock Plot points around circumference of circle in 3d space given 3
@@ -7,6 +23,14 @@ K, D. (2018).
 \newblock {\em StackExchange}.
 \newblock \\
   \url{https://math.stackexchange.com/questions/3007243/plot-points-around-circumference-of-circle-in-3d-space-given-3-points}
+  \\ Accessed: 2022-04-12.
+
+\bibitem[no~longer~trusts SE, 2018]{layerMethod}
+no~longer~trusts SE, D. (2018).
+\newblock unity - how two objects with rigidbody can pass through each other?
+\newblock {\em StackOverflow}.
+\newblock \\
+  \url{https://stackoverflow.com/questions/48461267/unity-how-two-objects-with-rigidbody-can-pass-through-each-other}
   \\ Accessed: 2022-04-12.
 
 \bibitem[Rafay, 2022]{angularMomentum}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 21.12) (preloaded format=pdflatex 2022.4.11)  12 APR 2022 15:34
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 21.12) (preloaded format=pdflatex 2022.4.11)  12 APR 2022 22:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -114,28 +114,33 @@ File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
 ))
 \Gin@req@height=\dimen140
 \Gin@req@width=\dimen141
-)
-(C:\Users\Molly\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.sty
+) (C:\Users\Molly\AppData\Local\Programs\MiKTeX\tex/latex/wrapfig\wrapfig.sty
+\wrapoverhang=\dimen142
+\WF@size=\dimen143
+\c@WF@wrappedlines=\count195
+\WF@box=\box50
+\WF@everypar=\toks19
+Package: wrapfig 2003/01/31  v 3.6
+) (C:\Users\Molly\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.sty
 Package: geometry 2020/01/02 v5.9 Page Geometry
-
 (C:\Users\Molly\AppData\Local\Programs\MiKTeX\tex/generic/iftex\ifvtex.sty
 Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 
 (C:\Users\Molly\AppData\Local\Programs\MiKTeX\tex/generic/iftex\iftex.sty
 Package: iftex 2020/03/06 v1.0d TeX engine tests
 ))
-\Gm@cnth=\count195
-\Gm@cntv=\count196
-\c@Gm@tempcnt=\count197
-\Gm@bindingoffset=\dimen142
-\Gm@wd@mp=\dimen143
-\Gm@odd@mp=\dimen144
-\Gm@even@mp=\dimen145
-\Gm@layoutwidth=\dimen146
-\Gm@layoutheight=\dimen147
-\Gm@layouthoffset=\dimen148
-\Gm@layoutvoffset=\dimen149
-\Gm@dimlist=\toks19
+\Gm@cnth=\count196
+\Gm@cntv=\count197
+\c@Gm@tempcnt=\count198
+\Gm@bindingoffset=\dimen144
+\Gm@wd@mp=\dimen145
+\Gm@odd@mp=\dimen146
+\Gm@even@mp=\dimen147
+\Gm@layoutwidth=\dimen148
+\Gm@layoutheight=\dimen149
+\Gm@layouthoffset=\dimen150
+\Gm@layoutvoffset=\dimen151
+\Gm@dimlist=\toks20
 
 (C:\Users\Molly\AppData\Local\Programs\MiKTeX\tex/latex/geometry\geometry.cfg))
 (C:\Users\Molly\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hyperref.sty
@@ -181,9 +186,9 @@ Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
 (C:\Users\Molly\AppData\Local\Programs\MiKTeX\tex/latex/kvoptions\kvoptions.sty
 Package: kvoptions 2020-10-07 v3.14 Key value format for package options (HO)
 )
-\@linkdim=\dimen150
-\Hy@linkcounter=\count198
-\Hy@pagecounter=\count199
+\@linkdim=\dimen152
+\Hy@linkcounter=\count199
+\Hy@pagecounter=\count266
  (C:\Users\Molly\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\pd1enc.def
 File: pd1enc.def 2021-06-07 v7.00m Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
@@ -200,7 +205,7 @@ Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 (C:\Users\Molly\AppData\Local\Programs\MiKTeX\tex/generic/etexcmds\etexcmds.sty
 Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
 )
-\Hy@SavedSpaceFactor=\count266
+\Hy@SavedSpaceFactor=\count267
  (C:\Users\Molly\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\puenc.def
 File: puenc.def 2021-06-07 v7.00m Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
@@ -213,14 +218,14 @@ Package hyperref Info: Plain pages OFF on input line 4207.
 Package hyperref Info: Backreferencing OFF on input line 4212.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4445.
-\c@Hy@tempcnt=\count267
+\c@Hy@tempcnt=\count268
 
 (C:\Users\Molly\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty
 \Urlmuskip=\muskip16
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 4804.
-\XeTeXLinkMargin=\dimen151
+\XeTeXLinkMargin=\dimen153
 
 (C:\Users\Molly\AppData\Local\Programs\MiKTeX\tex/generic/bitset\bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
@@ -230,9 +235,9 @@ Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
 Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
 )
 ))
-\Fld@menulength=\count268
-\Field@Width=\dimen152
-\Fld@charsize=\dimen153
+\Fld@menulength=\count269
+\Field@Width=\dimen154
+\Fld@charsize=\dimen155
 Package hyperref Info: Hyper figures OFF on input line 6076.
 Package hyperref Info: Link nesting OFF on input line 6081.
 Package hyperref Info: Hyper index ON on input line 6084.
@@ -247,9 +252,9 @@ LaTeX Info: Redefining \pageref on input line 6150.
 Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
 package with kernel methods
 )
-\Hy@abspage=\count269
-\c@Item=\count270
-\c@Hfootnote=\count271
+\Hy@abspage=\count270
+\c@Item=\count271
+\c@Hfootnote=\count272
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
 (C:\Users\Molly\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hpdftex.def
@@ -260,8 +265,8 @@ Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend pac
 kage
 with kernel methods
 )
-\Fld@listcount=\count272
-\c@bookmark@seq@number=\count273
+\Fld@listcount=\count273
+\c@bookmark@seq@number=\count274
 
 (C:\Users\Molly\AppData\Local\Programs\MiKTeX\tex/latex/rerunfilecheck\rerunfil
 echeck.sty
@@ -278,53 +283,53 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 (C:\Users\Molly\AppData\Local\Programs\MiKTeX\tex/latex/float\float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count274
-\float@exts=\toks20
-\float@box=\box50
-\@float@everytoks=\toks21
-\@floatcapt=\box51
+\c@float@type=\count275
+\float@exts=\toks21
+\float@box=\box51
+\@float@everytoks=\toks22
+\@floatcapt=\box52
 )
 (C:\Users\Molly\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
 tex.def
 File: l3backend-pdftex.def 2021-10-18 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count275
-\l__pdf_internal_box=\box52
+\l__color_backend_stack_int=\count276
+\l__pdf_internal_box=\box53
 ) (Final Report.aux)
 \openout1 = `"Final Report.aux"'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
 
 (C:\Users\Molly\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
 ii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count276
-\scratchdimen=\dimen154
-\scratchbox=\box53
-\nofMPsegments=\count277
-\nofMParguments=\count278
-\everyMPshowfont=\toks22
-\MPscratchCnt=\count279
-\MPscratchDim=\dimen155
-\MPnumerator=\count280
-\makeMPintoPDFobject=\count281
-\everyMPtoPDFconversion=\toks23
+\scratchcounter=\count277
+\scratchdimen=\dimen156
+\scratchbox=\box54
+\nofMPsegments=\count278
+\nofMParguments=\count279
+\everyMPshowfont=\toks23
+\MPscratchCnt=\count280
+\MPscratchDim=\dimen157
+\MPnumerator=\count281
+\makeMPintoPDFobject=\count282
+\everyMPtoPDFconversion=\toks24
 )
 (C:\Users\Molly\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-b
 ase.sty
@@ -370,7 +375,7 @@ File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package hyperref Info: Link coloring OFF on input line 33.
+Package hyperref Info: Link coloring OFF on input line 35.
 (C:\Users\Molly\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
 
@@ -381,17 +386,17 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 lestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count282
+\c@section@level=\count283
 )
-LaTeX Info: Redefining \ref on input line 33.
-LaTeX Info: Redefining \pageref on input line 33.
-LaTeX Info: Redefining \nameref on input line 33.
+LaTeX Info: Redefining \ref on input line 35.
+LaTeX Info: Redefining \pageref on input line 35.
+LaTeX Info: Redefining \nameref on input line 35.
  (Final Report.out) (Final Report.out)
 \@outlinefile=\write6
 \openout6 = `"Final Report.out"'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 37--37
+Underfull \hbox (badness 10000) in paragraph at lines 39--39
 
  []
 
@@ -408,37 +413,27 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 \openout7 = `"Final Report.toc"'.
 
  [2] [3]
-Underfull \hbox (badness 10000) in paragraph at lines 62--64
+Underfull \hbox (badness 10000) in paragraph at lines 64--66
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 68--70
+Underfull \hbox (badness 10000) in paragraph at lines 70--72
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 71--74
+Underfull \hbox (badness 10000) in paragraph at lines 73--76
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 75--82
+Underfull \hbox (badness 10000) in paragraph at lines 77--85
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 85--87
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 88--89
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 90--91
+Underfull \hbox (badness 10000) in paragraph at lines 89--91
 
  []
 
@@ -447,235 +442,491 @@ Underfull \hbox (badness 10000) in paragraph at lines 92--93
 
  []
 
-[4] [5] [6] [7] [8]
-<./Images//smoothTerrain.png, id=233, 301.125pt x 271.0125pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 94--95
+
+ []
+
+[4] [5] [6] [7]
+<./Images//smoothTerrain.png, id=224, 301.125pt x 271.0125pt>
 File: ./Images//smoothTerrain.png Graphic file (type png)
 <use ./Images//smoothTerrain.png>
-Package pdftex.def Info: ./Images//smoothTerrain.png  used on input line 119.
+Package pdftex.def Info: ./Images//smoothTerrain.png  used on input line 121.
 (pdftex.def)             Requested size: 90.33818pt x 81.30437pt.
-<./Images//unevenTerrain.png, id=234, 301.125pt x 271.0125pt>
+<./Images//unevenTerrain.png, id=225, 301.125pt x 271.0125pt>
 File: ./Images//unevenTerrain.png Graphic file (type png)
 <use ./Images//unevenTerrain.png>
-Package pdftex.def Info: ./Images//unevenTerrain.png  used on input line 120.
+Package pdftex.def Info: ./Images//unevenTerrain.png  used on input line 122.
 (pdftex.def)             Requested size: 90.33818pt x 81.30437pt.
-<./Images//roughTerrain.png, id=235, 301.125pt x 271.0125pt>
+<./Images//roughTerrain.png, id=226, 301.125pt x 271.0125pt>
 File: ./Images//roughTerrain.png Graphic file (type png)
 <use ./Images//roughTerrain.png>
-Package pdftex.def Info: ./Images//roughTerrain.png  used on input line 121.
+Package pdftex.def Info: ./Images//roughTerrain.png  used on input line 123.
 (pdftex.def)             Requested size: 90.33818pt x 81.30437pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 116--123
+Underfull \hbox (badness 10000) in paragraph at lines 118--125
 
  []
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <14.4> on input line 135.
+(Font)              <14.4> on input line 137.
 
-Underfull \hbox (badness 10000) in paragraph at lines 138--139
+Underfull \hbox (badness 10000) in paragraph at lines 141--142
 
  []
 
-[9
+[8
 pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.139 \begin{center}
-                     <./Images//smoothTerrain.png> <./Images//unevenTerrain.png
-> <./Images//roughTerrain.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 146--147
+l.146 $
+       C: \overrightarrow{w} = cos\overrightarrow{\theta_{i-1}} + cos\overri...
+ <./Images//smoothTerrain.png> <./Images//unevenTerrain.png> <./Images//roughTe
+rrain.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 149--150
 
  []
 
-<./Images//cpgMirroring.png, id=255, 475.7775pt x 513.92pt>
+<./Images//cpgMirroring.png, id=246, 475.7775pt x 513.92pt>
 File: ./Images//cpgMirroring.png Graphic file (type png)
 <use ./Images//cpgMirroring.png>
-Package pdftex.def Info: ./Images//cpgMirroring.png  used on input line 151.
+Package pdftex.def Info: ./Images//cpgMirroring.png  used on input line 154.
 (pdftex.def)             Requested size: 169.00642pt x 182.55658pt.
-<./Images//cpgSerpentine.png, id=256, 342.5297pt x 293.59688pt>
+<./Images//cpgSerpentine.png, id=247, 342.5297pt x 293.59688pt>
 File: ./Images//cpgSerpentine.png Graphic file (type png)
 <use ./Images//cpgSerpentine.png>
-Package pdftex.def Info: ./Images//cpgSerpentine.png  used on input line 157.
+Package pdftex.def Info: ./Images//cpgSerpentine.png  used on input line 160.
 (pdftex.def)             Requested size: 211.26126pt x 181.08739pt.
-<./Images//tailMomentum.png, id=257, 513.92pt x 308.15125pt>
+<./Images//tailMomentum.png, id=248, 513.92pt x 308.15125pt>
 File: ./Images//tailMomentum.png Graphic file (type png)
 <use ./Images//tailMomentum.png>
-Package pdftex.def Info: ./Images//tailMomentum.png  used on input line 169.
+Package pdftex.def Info: ./Images//tailMomentum.png  used on input line 172.
 (pdftex.def)             Requested size: 308.35437pt x 184.89217pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 166--171
+Underfull \hbox (badness 10000) in paragraph at lines 169--174
 
  []
 
-[10
+[9
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.171 \end{figure}
-                  
+l.175 
+      
 pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.171 \end{figure}
-                   <./Images//cpgMirroring.png> <./Images//cpgSerpentine.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 192--193
+l.175 
+       <./Images//cpgMirroring.png> <./Images//cpgSerpentine.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 197--198
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 197--200
+Underfull \hbox (badness 10000) in paragraph at lines 202--205
 
  []
 
-[11
+[10
 pdfTeX warning (ext4): destination with the same identifier (name{figure.4}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.200 
+l.205 
        <./Images//tailMomentum.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 201--202
+Underfull \hbox (badness 10000) in paragraph at lines 206--207
 
  []
 
-<./Images//legCircleDiagram.png, id=282, 370.38374pt x 400.49625pt>
+<./Images//legCircleDiagram.png, id=274, 370.38374pt x 400.49625pt>
 File: ./Images//legCircleDiagram.png Graphic file (type png)
 <use ./Images//legCircleDiagram.png>
-Package pdftex.def Info: ./Images//legCircleDiagram.png  used on input line 205
+Package pdftex.def Info: ./Images//legCircleDiagram.png  used on input line 210
 .
 (pdftex.def)             Requested size: 211.26126pt x 228.438pt.
-<./Images//legCircleExample.png, id=284, 513.92pt x 392.46625pt>
+<./Images//legCircleExample.png, id=276, 513.92pt x 392.46625pt>
 File: ./Images//legCircleExample.png Graphic file (type png)
 <use ./Images//legCircleExample.png>
-Package pdftex.def Info: ./Images//legCircleExample.png  used on input line 206
+Package pdftex.def Info: ./Images//legCircleExample.png  used on input line 211
 .
 (pdftex.def)             Requested size: 169.00642pt x 129.06511pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 227--228
+Underfull \hbox (badness 10000) in paragraph at lines 234--235
 
  []
 
-[12
+[11
 pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.230 
+l.237 
        <./Images//legCircleDiagram.png> <./Images//legCircleExample.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 244--248
+Underfull \hbox (badness 10000) in paragraph at lines 251--255
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 252--253
+Underfull \hbox (badness 10000) in paragraph at lines 259--260
 
  []
 
-[13]
-<./Images//trappedAlgorithm.png, id=304, 296.307pt x 304.7385pt>
+[12]
+<./Images//trappedAlgorithm.png, id=298, 296.307pt x 304.7385pt>
 File: ./Images//trappedAlgorithm.png Graphic file (type png)
 <use ./Images//trappedAlgorithm.png>
-Package pdftex.def Info: ./Images//trappedAlgorithm.png  used on input line 259
+Package pdftex.def Info: ./Images//trappedAlgorithm.png  used on input line 266
 .
 (pdftex.def)             Requested size: 207.41348pt x 213.31549pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 254--261
+Underfull \hbox (badness 10000) in paragraph at lines 261--268
 
  []
 
-<./Images//trappedSmooth.png, id=305, 263.48438pt x 248.42813pt>
+<./Images//trappedSmooth.png, id=303, 263.48438pt x 248.42813pt>
 File: ./Images//trappedSmooth.png Graphic file (type png)
 <use ./Images//trappedSmooth.png>
-Package pdftex.def Info: ./Images//trappedSmooth.png  used on input line 267.
+Package pdftex.def Info: ./Images//trappedSmooth.png  used on input line 274.
 (pdftex.def)             Requested size: 84.5032pt x 79.67299pt.
-<./Images//trappedUneven.png, id=306, 263.48438pt x 248.42813pt>
+<./Images//trappedUneven.png, id=304, 263.48438pt x 248.42813pt>
 File: ./Images//trappedUneven.png Graphic file (type png)
 <use ./Images//trappedUneven.png>
-Package pdftex.def Info: ./Images//trappedUneven.png  used on input line 268.
+Package pdftex.def Info: ./Images//trappedUneven.png  used on input line 275.
 (pdftex.def)             Requested size: 84.5032pt x 79.67299pt.
-<./Images//trappedRough.png, id=307, 263.48438pt x 248.42813pt>
+<./Images//trappedRough.png, id=305, 263.48438pt x 248.42813pt>
 File: ./Images//trappedRough.png Graphic file (type png)
 <use ./Images//trappedRough.png>
-Package pdftex.def Info: ./Images//trappedRough.png  used on input line 269.
+Package pdftex.def Info: ./Images//trappedRough.png  used on input line 276.
 (pdftex.def)             Requested size: 84.5032pt x 79.67299pt.
-<./Images//trappedFlat.png, id=308, 263.48438pt x 248.42813pt>
+<./Images//trappedFlat.png, id=306, 263.48438pt x 248.42813pt>
 File: ./Images//trappedFlat.png Graphic file (type png)
 <use ./Images//trappedFlat.png>
-Package pdftex.def Info: ./Images//trappedFlat.png  used on input line 270.
+Package pdftex.def Info: ./Images//trappedFlat.png  used on input line 277.
 (pdftex.def)             Requested size: 84.5032pt x 79.67299pt.
-[14
+[13
 pdfTeX warning (ext4): destination with the same identifier (name{figure.6}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.275 T
-       he red points in figure x align with behaviours that can reasonably b...
+l.282 T
+       he red points in figure TODO align with behaviours that can reasonabl...
  <./Images//trappedAlgorithm.png>]
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <17.28> on input line 295.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 295.
+<./Images//gaProcess.png, id=316, 1004.75375pt x 223.83624pt>
+File: ./Images//gaProcess.png Graphic file (type png)
+<use ./Images//gaProcess.png>
+Package pdftex.def Info: ./Images//gaProcess.png  used on input line 299.
+(pdftex.def)             Requested size: 401.89438pt x 89.5329pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 289--298
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 289--298
+Underfull \hbox (badness 10000) in paragraph at lines 296--301
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 289--298
-
- []
-
-[15
+[14
 pdfTeX warning (ext4): destination with the same identifier (name{figure.7}) ha
 s been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.298 
-       <./Images//trappedSmooth.png> <./Images//trappedUneven.png> <./Images//t
-rappedRough.png> <./Images//trappedFlat.png>] [16]
-Underfull \hbox (badness 10000) in paragraph at lines 309--316
+l.301 \end{figure}
+                   <./Images//trappedSmooth.png> <./Images//trappedUneven.png> 
+<./Images//trappedRough.png> <./Images//trappedFlat.png>]
+<./Images//mutationCycle.png, id=328, 1085.05376pt x 733.74126pt>
+File: ./Images//mutationCycle.png Graphic file (type png)
+<use ./Images//mutationCycle.png>
+Package pdftex.def Info: ./Images//mutationCycle.png  used on input line 305.
+(pdftex.def)             Requested size: 434.01381pt x 293.4913pt.
+
+Overfull \hbox (11.49129pt too wide) in paragraph at lines 305--306
+ [][] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 302--307
 
  []
 
-[17] [18] (main.bbl
+[15
+pdfTeX warning (ext4): destination with the same identifier (name{figure.8}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.308 
+       <./Images//gaProcess.png>] [16
+pdfTeX warning (ext4): destination with the same identifier (name{figure.9}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.322 	\item R
+              andom\\ <./Images//mutationCycle.png>]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <17.28> on input line 332.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 332.
+<./Images//gaPatternIterations.png, id=350, 513.92pt x 392.46625pt>
+File: ./Images//gaPatternIterations.png Graphic file (type png)
+<use ./Images//gaPatternIterations.png>
+Package pdftex.def Info: ./Images//gaPatternIterations.png  used on input line 
+353.
+(pdftex.def)             Requested size: 190.13383pt x 145.19824pt.
+<./Images//gafilteredIterations.png, id=351, 512.91624pt x 395.4775pt>
+File: ./Images//gafilteredIterations.png Graphic file (type png)
+<use ./Images//gafilteredIterations.png>
+Package pdftex.def Info: ./Images//gafilteredIterations.png  used on input line
+ 354.
+(pdftex.def)             Requested size: 190.13383pt x 146.60196pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 360--361
+
+ []
+
+[17
+pdfTeX warning (ext4): destination with the same identifier (name{figure.10}) h
+as been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.361 
+       <./Images//gaPatternIterations.png> <./Images//gafilteredIterations.png>
+]
+<./Images//spherePoints.png, id=381, 513.92pt x 464.73625pt>
+File: ./Images//spherePoints.png Graphic file (type png)
+<use ./Images//spherePoints.png>
+Package pdftex.def Info: ./Images//spherePoints.png  used on input line 368.
+(pdftex.def)             Requested size: 105.63063pt x 95.51973pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 363--371
+
+ []
+
+
+Underfull \hbox (badness 4060) in paragraph at lines 371--373
+[]\OT1/cmr/m/n/10 To achieve this, the worldspace around a robot is di-vided.
+ []
+
+
+Underfull \hbox (badness 3514) in paragraph at lines 371--373
+\OT1/cmr/m/n/10 \The Fi-bonacci lat-tice is a sim-ple way to very evenly dis-
+ []
+
+
+Underfull \hbox (badness 1708) in paragraph at lines 371--373
+\OT1/cmr/m/n/10 tribute points [on the] sur-face of a sphere". [[]Roberts[], []
+2020[]]
+ []
+
+
+Underfull \hbox (badness 6477) in paragraph at lines 371--373
+\OT1/cmr/m/n/10 Us-ing the im-ple-men-ta-tion of the Fi-bonacci sphere pro-vide
+d
+ []
+
+
+Underfull \hbox (badness 7308) in paragraph at lines 371--373
+\OT1/cmr/m/n/10 by Fnord, [[]Fnord[], []2014[]] a se-ries of $\OML/cmm/m/it/10 
+n$ \OT1/cmr/m/n/10 points were con-
+ []
+
+
+Underfull \hbox (badness 7832) in paragraph at lines 371--373
+\OT1/cmr/m/n/10 structed in a sphere around the robot. It was nec-es-
+ []
+
+
+Underfull \hbox (badness 2027) in paragraph at lines 371--373
+\OT1/cmr/m/n/10 sary to strike a bal-ance be-tween too low a value of $\OML/cmm
+/m/it/10 n$ \OT1/cmr/m/n/10 pro-
+ []
+
+
+Underfull \hbox (badness 6978) in paragraph at lines 371--373
+\OT1/cmr/m/n/10 duc-ing in-ac-cu-rate re-sults, which could cause the robot to
+ []
+
+
+Underfull \hbox (badness 7814) in paragraph at lines 371--373
+\OT1/cmr/m/n/10 veer off to one side of the in-tended di-rec-tion. Mean-
+ []
+
+
+Underfull \hbox (badness 2617) in paragraph at lines 371--373
+\OT1/cmr/m/n/10 while, too high a value of $\OML/cmm/m/it/10 n$ \OT1/cmr/m/n/10
+ would be un-nec-es-sar-ily ex-pen-
+ []
+
+
+Underfull \hbox (badness 1960) in paragraph at lines 371--373
+\OT1/cmr/m/n/10 sive and re-sult in the ma-jor-ity of the points con-tain-ing $
+\OML/cmm/m/it/10 null$
+ []
+
+
+Underfull \hbox (badness 3039) in paragraph at lines 371--373
+\OT1/cmr/m/n/10 val-ues. $\OML/cmm/m/it/10 n \OT1/cmr/m/n/10 = 50$ was se-lecte
+d as an ap-pro-pri-ate gran-u-lar-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 371--373
+
+ []
+
+
+LaTeX Warning: Command \textdegree invalid in math mode on input line 374.
+
+
+LaTeX Warning: Command \textdegree invalid in math mode on input line 374.
+
+Missing character: There is no ° in font cmr10!
+
+LaTeX Warning: Command \textdegree invalid in math mode on input line 374.
+
+
+LaTeX Warning: Command \textdegree invalid in math mode on input line 374.
+
+Missing character: There is no ° in font cmr10!
+<./Images//storingVelocities.png, id=386, 245.41687pt x 253.69781pt>
+File: ./Images//storingVelocities.png Graphic file (type png)
+<use ./Images//storingVelocities.png>
+Package pdftex.def Info: ./Images//storingVelocities.png  used on input line 38
+0.
+(pdftex.def)             Requested size: 126.75804pt x 131.03326pt.
+
+Underfull \hbox (badness 1824) in paragraph at lines 382--382
+\OT1/cmr/m/n/10 rep-re-sents a set of stored
+ []
+
+
+Underfull \hbox (badness 1067) in paragraph at lines 382--382
+\OT1/cmr/m/n/10 ve-loc-i-ties for a robot that
+ []
+
+
+Underfull \hbox (badness 3029) in paragraph at lines 382--382
+\OT1/cmr/m/n/10 moved left be-fore turn-ing
+ []
+
+<./Images//dstFiltered.png, id=387, 303.38344pt x 391.4625pt>
+File: ./Images//dstFiltered.png Graphic file (type png)
+<use ./Images//dstFiltered.png>
+Package pdftex.def Info: ./Images//dstFiltered.png  used on input line 387.
+(pdftex.def)             Requested size: 109.85313pt x 141.74472pt.
+<./Images//dstFilteredMissing.png, id=388, 306.39468pt x 286.06876pt>
+File: ./Images//dstFilteredMissing.png Graphic file (type png)
+<use ./Images//dstFilteredMissing.png>
+Package pdftex.def Info: ./Images//dstFilteredMissing.png  used on input line 3
+88.
+(pdftex.def)             Requested size: 151.05121pt x 141.03046pt.
+[18
+pdfTeX warning (ext4): destination with the same identifier (name{figure.11}) h
+as been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.394 
+       <./Images//spherePoints.png>]
+<./Images//activationFunction.png, id=397, 495.0495pt x 342.078pt>
+File: ./Images//activationFunction.png Graphic file (type png)
+<use ./Images//activationFunction.png>
+Package pdftex.def Info: ./Images//activationFunction.png  used on input line 4
+07.
+(pdftex.def)             Requested size: 396.04013pt x 273.66275pt.
+ [19
+pdfTeX warning (ext4): destination with the same identifier (name{figure.12}) h
+as been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.410 \end{enumerate}
+                     
+pdfTeX warning (ext4): destination with the same identifier (name{figure.13}) h
+as been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.410 \end{enumerate}
+                      <./Images//storingVelocities.png> <./Images//dstFiltered.
+png> <./Images//dstFilteredMissing.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 412--413
+
+ []
+
+[20
+pdfTeX warning (ext4): destination with the same identifier (name{figure.14}) h
+as been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.417 \newpage
+               <./Images//activationFunction.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 419--426
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 428--433
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 436--437
+
+ []
+
+[21] [22] (main.bbl
 Underfull \hbox (badness 10000) in paragraph at lines 29--35
 []$\OT1/cmtt/m/n/10 https : / / monoskop . org / images / 9 / 9c / Simon _ Herb
 ert _ A _ The _ Sciences _ of _ the _
  []
 
-) (soft.bbl) (code.bbl
-Overfull \hbox (212.47209pt too wide) in paragraph at lines 4--11
+
+Overfull \hbox (266.47163pt too wide) in paragraph at lines 37--44
+[]$\OT1/cmtt/m/n/10 http : / / extremelearning . com . au / how-[]to-[]evenly-[
+]distribute-[]points-[]on-[]a-[]sphere-[]more-[]effectively-[]than-[]the-[]cano
+nical-[]fibonacci-[]lattice/$[] 
+ []
+
+) (soft.bbl [23]) (code.bbl
+Overfull \hbox (89.22314pt too wide) in paragraph at lines 4--10
+[]$\OT1/cmtt/m/n/10 https : / / answers . unity . com / questions / 1072318 / r
+andomrange-[]always-[]generates-[]the-[]exact-[]same-[]number .
+ []
+
+
+Overfull \hbox (31.47365pt too wide) in paragraph at lines 12--18
+[]$\OT1/cmtt/m/n/10 https : / / stackoverflow . com / questions / 9600801 / eve
+nly-[]distributing-[]n-[]points-[]on-[]a-[]sphere$[] 
+ []
+
+
+Overfull \hbox (212.47209pt too wide) in paragraph at lines 20--27
 []$\OT1/cmtt/m/n/10 https : / / math . stackexchange . com / questions / 300724
 3 / plot-[]points-[]around-[]circumference-[]of-[]circle-[]in-[]3d-[]space-[]gi
 ven-[]3-[]points$[] 
  []
 
 
-Overfull \hbox (144.72269pt too wide) in paragraph at lines 28--34
+Overfull \hbox (164.7225pt too wide) in paragraph at lines 29--35
+[]$\OT1/cmtt/m/n/10 https : / / stackoverflow . com / questions / 48461267 / un
+ity-[]how-[]two-[]objects-[]with-[]rigidbody-[]can-[]pass-[]through-[]each-[]ot
+her$[] 
+ []
+
+
+Overfull \hbox (144.72269pt too wide) in paragraph at lines 52--58
 []$\OT1/cmtt/m/n/10 https : / / medium . com / luna-[]labs-[]ltd / luna-[]tech-
 []series-[]a-[]deep-[]dive-[]into-[]unity-[]configurable-[]joints-[]96c49138b9b
 7$[] 
  []
 
-) [19] [20] (Final Report.aux)
+) [24] [25] (Final Report.aux)
 Package rerunfilecheck Info: File `"Final Report".out' has not changed.
-(rerunfilecheck)             Checksum: 18D6F9984E0398E54A315BF534A4E459;4466.
+(rerunfilecheck)             Checksum: 586772E18DDBB6A5D192C315E3C924F3;4388.
  ) 
 Here is how much of TeX's memory you used:
- 10570 strings out of 478659
- 171792 string characters out of 2845920
- 492433 words of memory out of 3000000
- 28461 multiletter control sequences out of 15000+600000
- 408519 words of font info for 44 fonts, out of 8000000 for 9000
+ 10808 strings out of 478659
+ 176842 string characters out of 2845920
+ 493945 words of memory out of 3000000
+ 28665 multiletter control sequences out of 15000+600000
+ 408854 words of font info for 45 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 60i,12n,63p,1083b,393s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,12n,63p,1083b,496s stack positions out of 5000i,500n,10000p,200000b,80000s
 <C:/Users/Molly/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
 cmbx10.pfb><C:/Users/Molly/AppData/Local/Programs/MiKTeX/fonts/type1/public/ams
 fonts/cm/cmbx12.pfb><C:/Users/Molly/AppData/Local/Programs/MiKTeX/fonts/type1/p
@@ -690,9 +941,9 @@ s/Molly/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb
 msy7.pfb><C:/Users/Molly/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfo
 nts/cm/cmti10.pfb><C:/Users/Molly/AppData/Local/Programs/MiKTeX/fonts/type1/pub
 lic/amsfonts/cm/cmtt10.pfb>
-Output written on "Final Report.pdf" (20 pages, 1500989 bytes).
+Output written on "Final Report.pdf" (25 pages, 2405933 bytes).
 PDF statistics:
- 429 PDF objects out of 1000 (max. 8388607)
- 83 named destinations out of 1000 (max. 500000)
- 362 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 543 PDF objects out of 1000 (max. 8388607)
+ 112 named destinations out of 1000 (max. 500000)
+ 399 words of extra memory for PDF output out of 10000 (max. 10000000)
 
