@@ -114,13 +114,13 @@ Insert from interim report with more reference to code of conduct
 \section{Implementation}
 \subsection{Terrain}
 Three terrains were generated using Procedural Toolkit \citepsoft{proceduralToolkit} to test the performance of the robot across various environments: rough, uneven, and smooth. These categories were inspired by the those used by the Octopus robot \citepmain{octopusRobot}.\\
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \includegraphics[scale=0.3]{smoothTerrain}
 \includegraphics[scale=0.3]{unevenTerrain}
 \includegraphics[scale=0.3]{roughTerrain}
 \caption{Examples of the three terrain types. From left to right: Smooth, Uneven, Rough.}
-\end{figure}\\
+\end{figure}
 At one point the height of the terrain was proportional to the number of sections of the robot, a similar method to that of the Octopus robot. However, as the terrain is a control variable the heights were switched to a static value: $Smooth=8, Uneven=16, Rough=24$.\\
 Overall, the rougher the terrain, the higher and more closed in it is. Most of the development of the robot was conducted on the smooth and uneven terrains, as the rough terrain aims to provide a more extreme environment with which to test the efficacy of the AI.\\
 The smooth terrain is deliberately featureless to test the behaviour of the robot in a simple environment. Herbert Simon provided an elegant example of the importance of this consideration: an ant is observed making its way back to its nest across a beach.\\
@@ -143,7 +143,7 @@ $C: \overrightarrow{w} = cos\overrightarrow{\theta_{i-1}} + cos\overrightarrow{\
 \end{center}
 This central pattern generator (CPG) approach allows each module to react to the velocity and angle of the previous section. The equation for the CPG originated in Tony Dear’s multi-link snake robot: a robot with a similar modular design with passive joints connecting the modules. \citepmain{cpgRobot} Lizardbot utilises the same math to calculate the velocity with one distinction: Dear’s robot split the velocity vector into its axes, using cos for the x axis and sin for the y. Lizardbot instead calculates the vector as a whole and alternates the rotating sections between sin and cos to produce the serpentine motion. For robots with serpentine motion disabled, $S$ and $C$ will be assigned randomly to the rotating modules.\\
 
-\begin{figure}[h]
+\begin{figure}[H]
 \begin{minipage}[b]{.4\textwidth}
 \centering
 \includegraphics[width=1\textwidth]{cpgMirroring}
@@ -162,7 +162,7 @@ As each section ‘reacts’ to the previous one whilst using the opposing equat
 
 \subsection{Tail}
 The use of a tail has the potential to counterbalance the body and provide stability as the lizardbot moves. The Agama robot used the angular momentum of the body to calculate how to calibrate the tail vertically as the robot jumped. Lizardbot implemented a similar approach in three dimensions by calculating the total momentum of the robot around its centre of gravity (COG) at each frame, and adjusting the velocity of the tail accordingly.\\ 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 \includegraphics[scale=0.6]{tailMomentum}
 \caption{A representation of the tail being adjusted to conserve the angular momentum of a robot. Diagram created using CalcPlot3D \citep{diagrams}}
@@ -198,7 +198,7 @@ Currently, there are only two attachment points for a leg on each body module: o
 
 The leg rotates around an axis perpendicular to the body section it is attached to, as shown in figure x. The size of the circle it follows is determined by the angle it is offset by when attached to the body ($\alpha$). \\
 
-\begin{figure}[h]
+\begin{figure}[H]
 \centering
 $\vcenter{\hbox{\includegraphics[width=0.5\textwidth]{legCircleDiagram}}}$
 $\vcenter{\hbox{\includegraphics[width=0.4\textwidth]{legCircleExample}}}$
@@ -239,16 +239,50 @@ This ensures that the robot is not evolving toward a behaviour that carries it a
 The second rewards robots that move quickly. The current performance is multiplied by the average speed (distance / time) of the robot since its spawn. 
 \\[1\baselineskip] 
 To provide an example of the performance metric, say Robot3 V8 has travelled from (0, 0, 0) to (10, 4, -13) in 21 seconds, and has had two above-threshold collisions. The base performance would be 16.88. Multiplied by its speed, this becomes 13.57. With a 10\% deduction for each collision, the final performance is 10.99. \\
-
 A flaw in this metric is that it does not differentiate between the routes that robots take. If one robot moved quickly but erratically, it may be rewarded equally to one that moved slowly and directly. However, this metric appears to provide a suitable balance between rewarding robots that travel the furthest, further rewarding those that move efficiently, and reducing behaviours that would damage a physical robot. \\
 
 When referring to the performance of a population, the mean performance of the highest performing 25\% is being measured. When a robot is mutated and respawned its performance returns to zero, hence it was found that analysing the entire population added too much noise to the results. 
 
 
 
-\subsection{Genetic Algorithm}
-Insert from GA log\\
-\begin{Large}\\
+\subsection{Artifical Intelligence}
+A population of Lizardbots can use a genetic algorithm to "evolve" over a series of generations. A genetic algorithm is a form of artificial intelligence that more closely models the characteristics of natural selection. An agent’s parameters are broken down into ‘genes’ that can be manipulated by recombination and/or mutation. The aim of this genetic algorithm (GA) is to improve the performance of the robots over time. The GA is performed when a robot is declared to be stuck by the trapped algorithm. 
+
+\subsubsection{Trapped Algorithm}
+It is important for the AI to know when the robot is stuck to trigger the termination of the current generation. At this point the AI can mutate the robot before respawning it. This trapped behaviour can take many forms, from bouncing against the same point in the terrain, circling itself, or looping between the same location(s).\\
+
+Initially, the maximum - minimum of the baseline performance metric (magnitude of the distance from the origin) over the last $t$ seconds was used. This approach was heavily flawed as it reduced the data set to a single dimension. \\
+Instead, the entire data set over the last $t$ seconds was analysed. The robot was declared stuck when the variance of the robot’s 3D coordinates over $t$ seconds converged to 0. This approach correctly identified the robot as stuck but had one major flaw: travelling in a straight line outputs a variance of 0. This behaviour is highly efficient and, whilst it is not something that the AI will train for, is a behaviour that the AI should absolutely not be training against. These false positives prompted a third approach. \\
+The algorithm finds the minimum and maximum values for each axis to draw a conceptual cube around the points the robot has visited in the last $t$ seconds. These cubes depict the  worldspace the robot has recently explored. The variance of the data set is calculated for the volume of the cube rather than the coordinates themselves. If the variance of the volumes of the cubes rounds to zero then the robot is considered to be trapped. \\
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.7]{trappedAlgorithm}
+\caption{A representation of the cube constructed around the last 20 locations a robot has visited (captured twice a second).}
+\end{figure}
+
+Finally, the sensitivitiy of the algorithm needed to be determined by adjusting the value of $t$. The results showed that too low a value of $t$ produced false positives due to it not allowing the robot enough time to turn around. In contrast, if $t$ was too high it took longer for the algorithm to identify when the robot was stuck. This would waste time continuing for an extra few seconds each generation, or could potentially miss instances when the robot became trapped but was able to free itself. A sensitivity of $t=20$ appeared to provide a balanced value across all three terrains.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.2\textwidth]{trappedSmooth}
+\includegraphics[width=0.2\textwidth]{trappedUneven}
+\includegraphics[width=0.2\textwidth]{trappedRough}
+\includegraphics[width=0.2\textwidth]{trappedFlat}
+\caption{A demonstration of the trapped algorithm using the same robot and $t=20$ on each terrain.\\
+Each blue point represents the location of the robot being captured. Red indicates that the robot is trapped (and would normally have been disabled and passed to the genetic algorithm).\\ 
+From left to right: Smooth, Uneven, Rough, Flat. The latter used a robot with rotation disabled to ensure that a robot travelling in a straight line would not be flagged.}
+\end{figure}
+The red points in figure x align with behaviours that can reasonably be classed as ‘trapped’, however it is important to note that this algorithm was implemented with some bias toward certain behaviours (e.g. looping). For this project, the identification of a trapped robot appears sufficient and is expected to produce an AI that will train away from continually exploring the same area for too long. The algorithm has other potential applications in finding looping patterns in any problem that can be assigned a world space. For example, a neural network could be analysed with this algorithm to determine when it is ‘stuck’ whilst performing a task, or a search algorithm could implement it to avoid excessively exploring within a section of the graph. 
+
+
+\subsubsection{Genes}
+The manipulatable characteristics of a robot are distinguished by a \textit{Gene} class. Each variable is instantiated with a default, minimum, and maximum value. Additionally, they are given a type (established in the enum class \textit{Variable} whereby negative enum values are physical properties and positive are movement) to ensure that the recombination covered in section x is combining the same genes with each other. \\
+This class handles any erroneous situations that arise and allows boolean values to be stored as a float. If the \textit{Get} method of a boolean \textit{Gene} is called, then true will be returned for values greater than 0.5. This allows boolean genes to be mutated slowly (e.g. from 0.35 to 0.6) without having to make a single toggle from one value to the other. \\
+When a gene is mutated, if the new value lies outside the valid range then it is 'bounced' (e.g. $max=0.5, v\rightarrow0.6 \Rightarrow v=0.4$). If a value outside the max/min values is passed directly then the max/min value would be assigned instead.
+
+\subsubsection{Genetic Algorithm}
+When a gene is mutated its value, v, is adjusted as follows:
+\begin{Large}
 $G_{i} = R^{[0, 1]} < m \longrightarrow 
 (max(G_{i}) - min(G_{i})) R^{[0.01, 0.1]}  G_{i}$\\\\
 $G(1)_{i} = R^{[0, 1]} < r \longrightarrow$ 
