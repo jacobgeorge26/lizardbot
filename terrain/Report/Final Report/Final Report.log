@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 21.12) (preloaded format=pdflatex 2022.4.11)  12 APR 2022 22:10
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 21.12) (preloaded format=pdflatex 2022.4.11)  12 APR 2022 22:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -848,28 +848,40 @@ Underfull \hbox (badness 10000) in paragraph at lines 412--413
 
  []
 
+<./Images//ui.png, id=411, 513.92pt x 323.2075pt>
+File: ./Images//ui.png Graphic file (type png)
+<use ./Images//ui.png>
+Package pdftex.def Info: ./Images//ui.png  used on input line 419.
+(pdftex.def)             Requested size: 411.13655pt x 258.56635pt.
 [20
 pdfTeX warning (ext4): destination with the same identifier (name{figure.14}) h
 as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.417 \newpage
-               <./Images//activationFunction.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 419--426
+l.422 T
+       he UI could be extended to offer a better UX and to offer a view of t...
+ <./Images//activationFunction.png>] [21
+pdfTeX warning (ext4): destination with the same identifier (name{figure.15}) h
+as been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.424 \newpage
+               <./Images//ui.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 426--433
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 428--433
+Underfull \hbox (badness 10000) in paragraph at lines 435--440
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 436--437
+Underfull \hbox (badness 10000) in paragraph at lines 443--444
 
  []
 
-[21] [22] (main.bbl
+[22] [23] (main.bbl
 Underfull \hbox (badness 10000) in paragraph at lines 29--35
 []$\OT1/cmtt/m/n/10 https : / / monoskop . org / images / 9 / 9c / Simon _ Herb
 ert _ A _ The _ Sciences _ of _ the _
@@ -882,7 +894,7 @@ Overfull \hbox (266.47163pt too wide) in paragraph at lines 37--44
 nical-[]fibonacci-[]lattice/$[] 
  []
 
-) (soft.bbl [23]) (code.bbl
+) (soft.bbl [24]) (code.bbl
 Overfull \hbox (89.22314pt too wide) in paragraph at lines 4--10
 []$\OT1/cmtt/m/n/10 https : / / answers . unity . com / questions / 1072318 / r
 andomrange-[]always-[]generates-[]the-[]exact-[]same-[]number .
@@ -915,15 +927,15 @@ Overfull \hbox (144.72269pt too wide) in paragraph at lines 52--58
 7$[] 
  []
 
-) [24] [25] (Final Report.aux)
+) [25] [26] (Final Report.aux)
 Package rerunfilecheck Info: File `"Final Report".out' has not changed.
 (rerunfilecheck)             Checksum: 586772E18DDBB6A5D192C315E3C924F3;4388.
  ) 
 Here is how much of TeX's memory you used:
- 10808 strings out of 478659
- 176842 string characters out of 2845920
+ 10821 strings out of 478659
+ 177047 string characters out of 2845920
  493945 words of memory out of 3000000
- 28665 multiletter control sequences out of 15000+600000
+ 28676 multiletter control sequences out of 15000+600000
  408854 words of font info for 45 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  60i,12n,63p,1083b,496s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -941,9 +953,9 @@ s/Molly/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb
 msy7.pfb><C:/Users/Molly/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfo
 nts/cm/cmti10.pfb><C:/Users/Molly/AppData/Local/Programs/MiKTeX/fonts/type1/pub
 lic/amsfonts/cm/cmtt10.pfb>
-Output written on "Final Report.pdf" (25 pages, 2405933 bytes).
+Output written on "Final Report.pdf" (26 pages, 2533800 bytes).
 PDF statistics:
- 543 PDF objects out of 1000 (max. 8388607)
- 112 named destinations out of 1000 (max. 500000)
- 399 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 549 PDF objects out of 1000 (max. 8388607)
+ 114 named destinations out of 1000 (max. 500000)
+ 404 words of extra memory for PDF output out of 10000 (max. 10000000)
 

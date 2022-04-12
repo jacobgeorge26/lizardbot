@@ -412,7 +412,14 @@ At this point it is worth mentioning how the activation of the velocities is imp
 It is expected that the dynamic movement algorithm will favour robots that are already performing well. All stored velocities are cleared when the robot is mutated, thus the robots will begin “learning” from scratch every time they become trapped. For robots with sufficient data about their movement, the scaled activation will theoretically enable them to progress in the terrain more often, thus reducing the mutation frequency. As they spend longer in the terrain, less successful robots will have longer to recombine with them. It is predicted that the dynamic movement will both improve the performance of any individual robot, and increase the rate of improvement across a population. \\
 
 \subsection{UI}
-
+A basic UI was added to make it easier to follow the progress of a robot. Whilst the UI itself adds little to the project and the values shown are not particularly self-explanatory, it did uncover a series of bugs in the code that otherwise would have gone unnoticed until the final data collection. It also provided some visibility as to what the code is doing as it mutates the robot, and to the performance of a given robot.\\
+It offers two options: \textit{Overview} to watch the population from above, or \textit{Robot} to follow a specified robot. Expanding the \textit{Robot} view reveals a rough view of the values being used. Due to the amount of data being shown without much explanation, it is more of a debugging tool than it is a polished UI. For its purpose it has proven extremely useful. 
+\begin{figure}[H]
+\centering
+\centerline{\includegraphics[scale=0.8]{ui} }
+\caption{An example of the \textit{Robot} UI view, and an explanation of what each value represents. }
+\end{figure}
+The UI could be extended to offer a better UX and to offer a view of the performance at runtime. The introduction of a settings page would enable a user to provide constraints for the robots being generated and for the genetic algorithm itself. Currently these constraints can be provided within the various \textit{Config} classes, but a customised menu would lower the threshold to the project as the user would no longer require Unity experience to interact with it. 
 
 \newpage
 \section{Results}
