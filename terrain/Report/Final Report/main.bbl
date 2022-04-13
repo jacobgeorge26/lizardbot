@@ -96,6 +96,14 @@ Kim, J., Kim, H., Kim, Y., Park, J., Seo, T., Kim, H.~S., and Kim, J. (2019).
 \newblock \\ \url{https://ieeexplore.ieee.org/document/8902059} \\ Accessed:
   2022-04-13.
 
+\bibitem[Lee, 1976]{timeToCollision}
+Lee, D. (1976).
+\newblock A theory of visual control of braking based on information about
+  time-to-collision.
+\newblock {\em Perception}.
+\newblock \\ \url{https://journals.sagepub.com/doi/10.1068/p050437} \\
+  Accessed: 2022-04-13.
+
 \bibitem[Libby et~al., 2012]{agama}
 Libby, T., Moore, T., Chang-Siu, E., Li, D., Cohen, D., Jusufi, A., and Full,
   R. (2012).
@@ -134,6 +142,14 @@ Roberts, M. (2020).
 \newblock \\
   \url{http://extremelearning.com.au/how-to-evenly-distribute-points-on-a-sphere-more-effectively-than-the-canonical-fibonacci-lattice/}
   \\ Accessed: 2022-04-12.
+
+\bibitem[Schiff, 1965]{animalCollisionResponse}
+Schiff, W. (1965).
+\newblock Perception of impending collision: A study of visually directed
+  avoidant behavior.
+\newblock {\em Psychological Monographs}.
+\newblock \\ \url{https://doi.apa.org/doiLanding?doi=10.1037%2Fh0093887} \\
+  Accessed: 2022-04-13.
 
 \bibitem[Thelan and Smith, 1994]{babyStepping}
 Thelan, E. and Smith, L. (1994).

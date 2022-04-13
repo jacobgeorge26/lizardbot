@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 21.12) (preloaded format=pdflatex 2022.4.11)  13 APR 2022 17:01
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 21.12) (preloaded format=pdflatex 2022.4.11)  13 APR 2022 23:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -518,353 +518,359 @@ Underfull \hbox (badness 10000) in paragraph at lines 176--178
 
  []
 
+[8] [9]
 
-Underfull \hbox (badness 10000) in paragraph at lines 185--186
+Package natbib Warning: Citation `modularRobotBackground' on page 10 undefined 
+on input line 193.
+
+<./Images//salamandraTurning.png, id=355, 308.352pt x 171.64125pt>
+File: ./Images//salamandraTurning.png Graphic file (type png)
+<use ./Images//salamandraTurning.png>
+Package pdftex.def Info: ./Images//salamandraTurning.png  used on input line 20
+4.
+(pdftex.def)             Requested size: 215.84492pt x 120.14804pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 200--206
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 187--188
-
- []
-
-[8] [9] [10] [11]
-<./Images//smoothTerrain.png, id=355, 301.125pt x 271.0125pt>
+[10] [11 <./Images//salamandraTurning.png>] [12] [13]
+<./Images//smoothTerrain.png, id=379, 301.125pt x 271.0125pt>
 File: ./Images//smoothTerrain.png Graphic file (type png)
 <use ./Images//smoothTerrain.png>
-Package pdftex.def Info: ./Images//smoothTerrain.png  used on input line 214.
+Package pdftex.def Info: ./Images//smoothTerrain.png  used on input line 227.
 (pdftex.def)             Requested size: 90.33818pt x 81.30437pt.
-<./Images//unevenTerrain.png, id=356, 301.125pt x 271.0125pt>
+<./Images//unevenTerrain.png, id=380, 301.125pt x 271.0125pt>
 File: ./Images//unevenTerrain.png Graphic file (type png)
 <use ./Images//unevenTerrain.png>
-Package pdftex.def Info: ./Images//unevenTerrain.png  used on input line 215.
+Package pdftex.def Info: ./Images//unevenTerrain.png  used on input line 228.
 (pdftex.def)             Requested size: 90.33818pt x 81.30437pt.
-<./Images//roughTerrain.png, id=357, 301.125pt x 271.0125pt>
+<./Images//roughTerrain.png, id=381, 301.125pt x 271.0125pt>
 File: ./Images//roughTerrain.png Graphic file (type png)
 <use ./Images//roughTerrain.png>
-Package pdftex.def Info: ./Images//roughTerrain.png  used on input line 216.
+Package pdftex.def Info: ./Images//roughTerrain.png  used on input line 229.
 (pdftex.def)             Requested size: 90.33818pt x 81.30437pt.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <14.4> on input line 229.
+(Font)              <14.4> on input line 242.
 
-Underfull \hbox (badness 10000) in paragraph at lines 233--234
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 245--246
+Underfull \hbox (badness 10000) in paragraph at lines 246--247
 
  []
 
-[12 <./Images//smoothTerrain.png> <./Images//unevenTerrain.png> <./Images//roug
+
+Underfull \hbox (badness 10000) in paragraph at lines 258--259
+
+ []
+
+[14 <./Images//smoothTerrain.png> <./Images//unevenTerrain.png> <./Images//roug
 hTerrain.png>]
-<./Images//cpgMirroring.png, id=373, 475.7775pt x 513.92pt>
+<./Images//cpgMirroring.png, id=397, 475.7775pt x 513.92pt>
 File: ./Images//cpgMirroring.png Graphic file (type png)
 <use ./Images//cpgMirroring.png>
-Package pdftex.def Info: ./Images//cpgMirroring.png  used on input line 250.
+Package pdftex.def Info: ./Images//cpgMirroring.png  used on input line 263.
 (pdftex.def)             Requested size: 169.00642pt x 182.55658pt.
-<./Images//cpgSerpentine.png, id=374, 342.5297pt x 293.59688pt>
+<./Images//cpgSerpentine.png, id=398, 342.5297pt x 293.59688pt>
 File: ./Images//cpgSerpentine.png Graphic file (type png)
 <use ./Images//cpgSerpentine.png>
-Package pdftex.def Info: ./Images//cpgSerpentine.png  used on input line 256.
+Package pdftex.def Info: ./Images//cpgSerpentine.png  used on input line 269.
 (pdftex.def)             Requested size: 211.26126pt x 181.08739pt.
-<./Images//tailMomentum.png, id=375, 513.92pt x 308.15125pt>
+<./Images//tailMomentum.png, id=399, 513.92pt x 308.15125pt>
 File: ./Images//tailMomentum.png Graphic file (type png)
 <use ./Images//tailMomentum.png>
-Package pdftex.def Info: ./Images//tailMomentum.png  used on input line 268.
+Package pdftex.def Info: ./Images//tailMomentum.png  used on input line 281.
 (pdftex.def)             Requested size: 308.35437pt x 184.89217pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 265--270
+Underfull \hbox (badness 10000) in paragraph at lines 278--283
 
  []
 
-[13 <./Images//cpgMirroring.png> <./Images//cpgSerpentine.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 293--294
+[15 <./Images//cpgMirroring.png> <./Images//cpgSerpentine.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 306--307
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 298--301
+Underfull \hbox (badness 10000) in paragraph at lines 311--314
 
  []
 
-[14 <./Images//tailMomentum.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 302--303
+[16 <./Images//tailMomentum.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 315--316
 
  []
 
-<./Images//legCircleDiagram.png, id=400, 370.38374pt x 400.49625pt>
+<./Images//legCircleDiagram.png, id=423, 370.38374pt x 400.49625pt>
 File: ./Images//legCircleDiagram.png Graphic file (type png)
 <use ./Images//legCircleDiagram.png>
-Package pdftex.def Info: ./Images//legCircleDiagram.png  used on input line 306
+Package pdftex.def Info: ./Images//legCircleDiagram.png  used on input line 319
 .
 (pdftex.def)             Requested size: 211.26126pt x 228.438pt.
-<./Images//legCircleExample.png, id=401, 513.92pt x 392.46625pt>
+<./Images//legCircleExample.png, id=424, 513.92pt x 392.46625pt>
 File: ./Images//legCircleExample.png Graphic file (type png)
 <use ./Images//legCircleExample.png>
-Package pdftex.def Info: ./Images//legCircleExample.png  used on input line 307
+Package pdftex.def Info: ./Images//legCircleExample.png  used on input line 320
 .
 (pdftex.def)             Requested size: 169.00642pt x 129.06511pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 330--331
+Underfull \hbox (badness 10000) in paragraph at lines 343--344
 
  []
 
-[15 <./Images//legCircleDiagram.png> <./Images//legCircleExample.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 347--351
+[17 <./Images//legCircleDiagram.png> <./Images//legCircleExample.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 360--364
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 355--356
+Underfull \hbox (badness 10000) in paragraph at lines 368--369
 
  []
 
-[16]
-<./Images//trappedAlgorithm.png, id=422, 296.307pt x 304.7385pt>
+[18]
+<./Images//trappedAlgorithm.png, id=445, 296.307pt x 304.7385pt>
 File: ./Images//trappedAlgorithm.png Graphic file (type png)
 <use ./Images//trappedAlgorithm.png>
-Package pdftex.def Info: ./Images//trappedAlgorithm.png  used on input line 362
+Package pdftex.def Info: ./Images//trappedAlgorithm.png  used on input line 375
 .
 (pdftex.def)             Requested size: 207.41348pt x 213.31549pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 357--364
+Underfull \hbox (badness 10000) in paragraph at lines 370--377
 
  []
 
-<./Images//trappedSmooth.png, id=427, 263.48438pt x 248.42813pt>
+<./Images//trappedSmooth.png, id=450, 263.48438pt x 248.42813pt>
 File: ./Images//trappedSmooth.png Graphic file (type png)
 <use ./Images//trappedSmooth.png>
-Package pdftex.def Info: ./Images//trappedSmooth.png  used on input line 370.
+Package pdftex.def Info: ./Images//trappedSmooth.png  used on input line 383.
 (pdftex.def)             Requested size: 84.5032pt x 79.67299pt.
-<./Images//trappedUneven.png, id=428, 263.48438pt x 248.42813pt>
+<./Images//trappedUneven.png, id=451, 263.48438pt x 248.42813pt>
 File: ./Images//trappedUneven.png Graphic file (type png)
 <use ./Images//trappedUneven.png>
-Package pdftex.def Info: ./Images//trappedUneven.png  used on input line 371.
+Package pdftex.def Info: ./Images//trappedUneven.png  used on input line 384.
 (pdftex.def)             Requested size: 84.5032pt x 79.67299pt.
-<./Images//trappedRough.png, id=429, 263.48438pt x 248.42813pt>
+<./Images//trappedRough.png, id=452, 263.48438pt x 248.42813pt>
 File: ./Images//trappedRough.png Graphic file (type png)
 <use ./Images//trappedRough.png>
-Package pdftex.def Info: ./Images//trappedRough.png  used on input line 372.
+Package pdftex.def Info: ./Images//trappedRough.png  used on input line 385.
 (pdftex.def)             Requested size: 84.5032pt x 79.67299pt.
-<./Images//trappedFlat.png, id=430, 263.48438pt x 248.42813pt>
+<./Images//trappedFlat.png, id=453, 263.48438pt x 248.42813pt>
 File: ./Images//trappedFlat.png Graphic file (type png)
 <use ./Images//trappedFlat.png>
-Package pdftex.def Info: ./Images//trappedFlat.png  used on input line 373.
+Package pdftex.def Info: ./Images//trappedFlat.png  used on input line 386.
 (pdftex.def)             Requested size: 84.5032pt x 79.67299pt.
-[17 <./Images//trappedAlgorithm.png>]
-<./Images//gaProcess.png, id=439, 1004.75375pt x 223.83624pt>
+[19 <./Images//trappedAlgorithm.png>]
+<./Images//gaProcess.png, id=463, 1004.75375pt x 223.83624pt>
 File: ./Images//gaProcess.png Graphic file (type png)
 <use ./Images//gaProcess.png>
-Package pdftex.def Info: ./Images//gaProcess.png  used on input line 395.
+Package pdftex.def Info: ./Images//gaProcess.png  used on input line 408.
 (pdftex.def)             Requested size: 401.89438pt x 89.5329pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 392--397
+Underfull \hbox (badness 10000) in paragraph at lines 405--410
 
  []
 
-[18 <./Images//trappedSmooth.png> <./Images//trappedUneven.png> <./Images//trap
+[20 <./Images//trappedSmooth.png> <./Images//trappedUneven.png> <./Images//trap
 pedRough.png> <./Images//trappedFlat.png>]
-<./Images//mutationCycle.png, id=450, 1085.05376pt x 733.74126pt>
+<./Images//mutationCycle.png, id=474, 1085.05376pt x 733.74126pt>
 File: ./Images//mutationCycle.png Graphic file (type png)
 <use ./Images//mutationCycle.png>
-Package pdftex.def Info: ./Images//mutationCycle.png  used on input line 401.
+Package pdftex.def Info: ./Images//mutationCycle.png  used on input line 414.
 (pdftex.def)             Requested size: 434.01381pt x 293.4913pt.
 
-Overfull \hbox (11.49129pt too wide) in paragraph at lines 401--402
+Overfull \hbox (11.49129pt too wide) in paragraph at lines 414--415
  [][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 398--403
+Underfull \hbox (badness 10000) in paragraph at lines 411--416
 
  []
 
-[19 <./Images//gaProcess.png> <./Images//mutationCycle.png>]
+[21 <./Images//gaProcess.png> <./Images//mutationCycle.png>]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <17.28> on input line 428.
+(Font)              <17.28> on input line 441.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 428.
-<./Images//gaPatternIterations.png, id=465, 513.92pt x 392.46625pt>
+(Font)              <12> on input line 441.
+<./Images//gaPatternIterations.png, id=488, 513.92pt x 392.46625pt>
 File: ./Images//gaPatternIterations.png Graphic file (type png)
 <use ./Images//gaPatternIterations.png>
 Package pdftex.def Info: ./Images//gaPatternIterations.png  used on input line 
-449.
+462.
 (pdftex.def)             Requested size: 190.13383pt x 145.19824pt.
-<./Images//gafilteredIterations.png, id=466, 512.91624pt x 395.4775pt>
+<./Images//gafilteredIterations.png, id=489, 512.91624pt x 395.4775pt>
 File: ./Images//gafilteredIterations.png Graphic file (type png)
 <use ./Images//gafilteredIterations.png>
 Package pdftex.def Info: ./Images//gafilteredIterations.png  used on input line
- 450.
+ 463.
 (pdftex.def)             Requested size: 190.13383pt x 146.60196pt.
- [20]
-Underfull \hbox (badness 10000) in paragraph at lines 456--457
+ [22]
+Underfull \hbox (badness 10000) in paragraph at lines 469--470
 
  []
 
-<./Images//spherePoints.png, id=495, 513.92pt x 464.73625pt>
+<./Images//spherePoints.png, id=518, 513.92pt x 464.73625pt>
 File: ./Images//spherePoints.png Graphic file (type png)
 <use ./Images//spherePoints.png>
-Package pdftex.def Info: ./Images//spherePoints.png  used on input line 464.
+Package pdftex.def Info: ./Images//spherePoints.png  used on input line 477.
 (pdftex.def)             Requested size: 105.63063pt x 95.51973pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 459--467
+Underfull \hbox (badness 10000) in paragraph at lines 472--480
 
  []
 
 
-Underfull \hbox (badness 4060) in paragraph at lines 467--469
+Underfull \hbox (badness 4060) in paragraph at lines 480--482
 []\OT1/cmr/m/n/10 To achieve this, the worldspace around a robot is di-vided.
  []
 
 
-Underfull \hbox (badness 4832) in paragraph at lines 467--469
+Underfull \hbox (badness 4832) in paragraph at lines 480--482
 \OT1/cmr/m/it/10 \The Fi-bonacci lat-tice is a sim-ple way to very evenly dis-
  []
 
 
-Underfull \hbox (badness 2119) in paragraph at lines 467--469
+Underfull \hbox (badness 2119) in paragraph at lines 480--482
 \OT1/cmr/m/it/10 tribute points [on the] sur-face of a sphere"\OT1/cmr/m/n/10 .
  [[]Roberts[], []2020[]]
  []
 
 
-Underfull \hbox (badness 6477) in paragraph at lines 467--469
+Underfull \hbox (badness 6477) in paragraph at lines 480--482
 \OT1/cmr/m/n/10 Us-ing the im-ple-men-ta-tion of the Fi-bonacci sphere pro-vide
 d
  []
 
 
-Underfull \hbox (badness 7308) in paragraph at lines 467--469
+Underfull \hbox (badness 7308) in paragraph at lines 480--482
 \OT1/cmr/m/n/10 by Fnord, [[]Fnord[], []2014[]] a se-ries of $\OML/cmm/m/it/10 
 n$ \OT1/cmr/m/n/10 points were con-
  []
 
 
-Underfull \hbox (badness 7832) in paragraph at lines 467--469
+Underfull \hbox (badness 7832) in paragraph at lines 480--482
 \OT1/cmr/m/n/10 structed in a sphere around the robot. It was nec-es-
  []
 
 
-Underfull \hbox (badness 2027) in paragraph at lines 467--469
+Underfull \hbox (badness 2027) in paragraph at lines 480--482
 \OT1/cmr/m/n/10 sary to strike a bal-ance be-tween too low a value of $\OML/cmm
 /m/it/10 n$ \OT1/cmr/m/n/10 pro-
  []
 
 
-Underfull \hbox (badness 6978) in paragraph at lines 467--469
+Underfull \hbox (badness 6978) in paragraph at lines 480--482
 \OT1/cmr/m/n/10 duc-ing in-ac-cu-rate re-sults, which could cause the robot to
  []
 
 
-Underfull \hbox (badness 7814) in paragraph at lines 467--469
+Underfull \hbox (badness 7814) in paragraph at lines 480--482
 \OT1/cmr/m/n/10 veer off to one side of the in-tended di-rec-tion. Mean-
  []
 
 
-Underfull \hbox (badness 2617) in paragraph at lines 467--469
+Underfull \hbox (badness 2617) in paragraph at lines 480--482
 \OT1/cmr/m/n/10 while, too high a value of $\OML/cmm/m/it/10 n$ \OT1/cmr/m/n/10
  would be un-nec-es-sar-ily ex-pen-
  []
 
 
-Underfull \hbox (badness 1960) in paragraph at lines 467--469
+Underfull \hbox (badness 1960) in paragraph at lines 480--482
 \OT1/cmr/m/n/10 sive and re-sult in the ma-jor-ity of the points con-tain-ing $
 \OML/cmm/m/it/10 null$
  []
 
 
-Underfull \hbox (badness 3039) in paragraph at lines 467--469
+Underfull \hbox (badness 3039) in paragraph at lines 480--482
 \OT1/cmr/m/n/10 val-ues. $\OML/cmm/m/it/10 n \OT1/cmr/m/n/10 = 50$ was se-lecte
 d as an ap-pro-pri-ate gran-u-lar-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 467--469
+Underfull \hbox (badness 10000) in paragraph at lines 480--482
 
  []
 
-[21 <./Images//gaPatternIterations.png> <./Images//gafilteredIterations.png> <.
+[23 <./Images//gaPatternIterations.png> <./Images//gafilteredIterations.png> <.
 /Images//spherePoints.png>]
 
-LaTeX Warning: Command \textdegree invalid in math mode on input line 470.
+LaTeX Warning: Command \textdegree invalid in math mode on input line 483.
 
 
-LaTeX Warning: Command \textdegree invalid in math mode on input line 470.
-
-Missing character: There is no ° in font cmr10!
-
-LaTeX Warning: Command \textdegree invalid in math mode on input line 470.
-
-
-LaTeX Warning: Command \textdegree invalid in math mode on input line 470.
+LaTeX Warning: Command \textdegree invalid in math mode on input line 483.
 
 Missing character: There is no ° in font cmr10!
-<./Images//storingVelocities.png, id=513, 245.41687pt x 253.69781pt>
+
+LaTeX Warning: Command \textdegree invalid in math mode on input line 483.
+
+
+LaTeX Warning: Command \textdegree invalid in math mode on input line 483.
+
+Missing character: There is no ° in font cmr10!
+<./Images//storingVelocities.png, id=536, 245.41687pt x 253.69781pt>
 File: ./Images//storingVelocities.png Graphic file (type png)
 <use ./Images//storingVelocities.png>
-Package pdftex.def Info: ./Images//storingVelocities.png  used on input line 47
-6.
+Package pdftex.def Info: ./Images//storingVelocities.png  used on input line 48
+9.
 (pdftex.def)             Requested size: 126.75804pt x 131.03326pt.
 
-Underfull \hbox (badness 1824) in paragraph at lines 478--478
+Underfull \hbox (badness 1824) in paragraph at lines 491--491
 \OT1/cmr/m/n/10 rep-re-sents a set of stored
  []
 
 
-Underfull \hbox (badness 1067) in paragraph at lines 478--478
+Underfull \hbox (badness 1067) in paragraph at lines 491--491
 \OT1/cmr/m/n/10 ve-loc-i-ties for a robot that
  []
 
 
-Underfull \hbox (badness 3029) in paragraph at lines 478--478
+Underfull \hbox (badness 3029) in paragraph at lines 491--491
 \OT1/cmr/m/n/10 moved left be-fore turn-ing
  []
 
-<./Images//dstFiltered.png, id=514, 303.38344pt x 391.4625pt>
+<./Images//dstFiltered.png, id=537, 303.38344pt x 391.4625pt>
 File: ./Images//dstFiltered.png Graphic file (type png)
 <use ./Images//dstFiltered.png>
-Package pdftex.def Info: ./Images//dstFiltered.png  used on input line 483.
+Package pdftex.def Info: ./Images//dstFiltered.png  used on input line 496.
 (pdftex.def)             Requested size: 109.85313pt x 141.74472pt.
-<./Images//dstFilteredMissing.png, id=515, 306.39468pt x 286.06876pt>
+<./Images//dstFilteredMissing.png, id=538, 306.39468pt x 286.06876pt>
 File: ./Images//dstFilteredMissing.png Graphic file (type png)
 <use ./Images//dstFilteredMissing.png>
 Package pdftex.def Info: ./Images//dstFilteredMissing.png  used on input line 4
-84.
+97.
 (pdftex.def)             Requested size: 151.05121pt x 141.03046pt.
-<./Images//activationFunction.png, id=516, 495.0495pt x 342.078pt>
+<./Images//activationFunction.png, id=539, 495.0495pt x 342.078pt>
 File: ./Images//activationFunction.png Graphic file (type png)
 <use ./Images//activationFunction.png>
 Package pdftex.def Info: ./Images//activationFunction.png  used on input line 5
-03.
+16.
 (pdftex.def)             Requested size: 396.04013pt x 273.66275pt.
-[22 <./Images//storingVelocities.png> <./Images//dstFiltered.png> <./Images//ds
+[24 <./Images//storingVelocities.png> <./Images//dstFiltered.png> <./Images//ds
 tFilteredMissing.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 508--509
+Underfull \hbox (badness 10000) in paragraph at lines 521--522
 
  []
 
-<./Images//ui.png, id=529, 513.92pt x 323.2075pt>
+<./Images//ui.png, id=552, 513.92pt x 323.2075pt>
 File: ./Images//ui.png Graphic file (type png)
 <use ./Images//ui.png>
-Package pdftex.def Info: ./Images//ui.png  used on input line 515.
+Package pdftex.def Info: ./Images//ui.png  used on input line 528.
 (pdftex.def)             Requested size: 411.13655pt x 258.56635pt.
-[23 <./Images//activationFunction.png>] [24 <./Images//ui.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 522--529
+[25 <./Images//activationFunction.png>] [26 <./Images//ui.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 535--542
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 531--536
+Underfull \hbox (badness 10000) in paragraph at lines 544--549
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 539--541
+Underfull \hbox (badness 10000) in paragraph at lines 552--554
 
  []
 
-[25] [26] (main.bbl
+[27] [28] [29] (main.bbl
 Underfull \hbox (badness 10000) in paragraph at lines 4--10
 []$\OT1/cmtt/m/n/10 https : / / www . thebhs . org / publications / the-[]herpe
 tological-[]bulletin /
@@ -882,14 +888,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 77--83
 ert _ A _ The _ Sciences _ of _ the _
  []
 
-[27]
-Overfull \hbox (266.47163pt too wide) in paragraph at lines 130--137
+[30]
+Overfull \hbox (266.47163pt too wide) in paragraph at lines 138--145
 []$\OT1/cmtt/m/n/10 http : / / extremelearning . com . au / how-[]to-[]evenly-[
 ]distribute-[]points-[]on-[]a-[]sphere-[]more-[]effectively-[]than-[]the-[]cano
 nical-[]fibonacci-[]lattice/$[] 
  []
 
-) (soft.bbl [28]
+) (soft.bbl [31]
 Underfull \hbox (badness 10000) in paragraph at lines 57--63
 []$\OT1/cmtt/m/n/10 https : / / assetstore . unity . com / packages / tools / u
 tilities /
@@ -913,7 +919,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 124--130
  / releases / 2019 / release-[]notes-[]v16 .
  []
 
-
+[32]
 Underfull \hbox (badness 10000) in paragraph at lines 132--138
 []$\OT1/cmtt/m/n/10 https : / / assetstore . unity . com / packages / 2d / text
 ures-[]materials / metals /
@@ -925,7 +931,7 @@ Overfull \hbox (20.97374pt too wide) in paragraph at lines 4--10
 tate-[]a-[]vector-[]around-[]a-[]certain-[]point .
  []
 
-[29]
+
 Overfull \hbox (89.22314pt too wide) in paragraph at lines 12--18
 []$\OT1/cmtt/m/n/10 https : / / answers . unity . com / questions / 1072318 / r
 andomrange-[]always-[]generates-[]the-[]exact-[]same-[]number .
@@ -952,7 +958,7 @@ ity-[]how-[]two-[]objects-[]with-[]rigidbody-[]can-[]pass-[]through-[]each-[]ot
 her$[] 
  []
 
-
+[33]
 Overfull \hbox (31.47365pt too wide) in paragraph at lines 90--96
 []$\OT1/cmtt/m/n/10 https : / / stackoverflow . com / questions / 9600801 / eve
 nly-[]distributing-[]n-[]points-[]on-[]a-[]sphere$[] 
@@ -971,7 +977,7 @@ ity3d-[]check-[]if-[]a-[]point-[]is-[]to-[]the-[]left-[]or-[]right-[]of-[]a-[]v
 ector$[] 
  []
 
-[30]
+
 Overfull \hbox (41.47356pt too wide) in paragraph at lines 122--128
 []$\OT1/cmtt/m/n/10 https : / / answers . unity . com / questions / 1677930 / u
 pdate-[]vs-[]fixedupdate-[]for-[]object-[]rotation .
@@ -990,18 +996,22 @@ Overfull \hbox (144.72269pt too wide) in paragraph at lines 189--195
 7$[] 
  []
 
-) [31] [32] (Final Report.aux)
+) [34]
+
+Package natbib Warning: There were undefined citations.
+
+[35] (Final Report.aux)
 Package rerunfilecheck Info: File `"Final Report".out' has not changed.
-(rerunfilecheck)             Checksum: 267D9D2B090DD07D323700B1630E47A6;4879.
+(rerunfilecheck)             Checksum: 7A1E9919BAA7F4232137BC9DE2EC0238;4887.
  ) 
 Here is how much of TeX's memory you used:
- 11090 strings out of 478659
- 182590 string characters out of 2845920
- 500232 words of memory out of 3000000
- 28886 multiletter control sequences out of 15000+600000
+ 11113 strings out of 478659
+ 183174 string characters out of 2845920
+ 501281 words of memory out of 3000000
+ 28903 multiletter control sequences out of 15000+600000
  408854 words of font info for 45 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 60i,12n,63p,1032b,512s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,12n,63p,1032b,518s stack positions out of 5000i,500n,10000p,200000b,80000s
  <C:\Users\Molly\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm
 1000.pk><C:/Users/Molly/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
 ts/cm/cmbx10.pfb><C:/Users/Molly/AppData/Local/Programs/MiKTeX/fonts/type1/publ
@@ -1017,9 +1027,9 @@ Molly/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C
 s/cm/cmsy7.pfb><C:/Users/Molly/AppData/Local/Programs/MiKTeX/fonts/type1/public
 /amsfonts/cm/cmti10.pfb><C:/Users/Molly/AppData/Local/Programs/MiKTeX/fonts/typ
 e1/public/amsfonts/cm/cmtt10.pfb>
-Output written on "Final Report.pdf" (32 pages, 3595311 bytes).
+Output written on "Final Report.pdf" (35 pages, 3661791 bytes).
 PDF statistics:
- 771 PDF objects out of 1000 (max. 8388607)
- 173 named destinations out of 1000 (max. 500000)
- 463 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 801 PDF objects out of 1000 (max. 8388607)
+ 179 named destinations out of 1000 (max. 500000)
+ 468 words of extra memory for PDF output out of 10000 (max. 10000000)
 

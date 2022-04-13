@@ -180,19 +180,34 @@ Its route is ‘a sequence of irregular, angular segments’ that suggests some 
 \subsubsection{Vision}
 Thus far the Lizardbot has focused on finding the ideal parameters for the overall form and movement of the robot, with additional thought for a dynamic system to allow the robot to react to its situation. There has been little focus on a preemptive approach, which has the potential to reduce the risk of damage to a real robot. When a robot becomes stuck it will likely find itself bouncing against the nearby terrain, forcing the prioritisation of durability in the design of the robot. If the robot were given a rudimentary visual system it could instead anticipate collisions and adjust its course to avoid them.\\
 To achieve vision, a camera could be placed in the head of the robot. Unity’s built-in functionality would provide feedback on objects within the range of the camera. This knowledge, when combined with the dynamic systems element of the AI, would allow the robot to make informed ‘decisions’ about how it should approach the terrain it is aware of. \\
-This feature would reduce the risk of damage to a physical robot by avoiding collisions with the terrain. David Lee investigated the factors affecting the specific moment in which an agent will begin reacting to an impending collision.
+This feature would reduce the risk of damage to a physical robot by avoiding collisions with the terrain. David Lee investigated the factors affecting the specific moment in which an agent will begin reacting to an impending collision. He found that for an agent approaching a stationary object, the relative location of the obstacle in the agent’s visual field could be used to deduce the time-to-collision. \citepmain{timeToCollision} The use of this time-to-collision would directly relate to the brief of the project as it applies an algorithm derived from nature to a design problem (in this case collision detection and avoidance). \textit{”Most animals respond avoidantly and directionally to the abstract visual stimulus ... which specifies the approach of an object and impending collision.”} \citepmain{animalCollisionResponse}\\
+Implementing a visual system to the Lizardbot could unlock a variety of more complex - \textbf{and proactive} - behaviours.
 \subsubsection{Flexible Tail}
-What are the advantages of having a flexible tail?\\
-
+%TODO ADD explanation of why a flexible tail would be advantageous
 
 \newpage
 \section{Project Relevance}
-\subsection{Salamandra Robotica II}
-Insert from interim report
+Lizardbot will incorporate various elements of each of the following projects: from the modular body design to the counterbalancing tail. The modular snake robot had the same goal as this project: to design a robot that could tackle obstacles in rough terrain. Meanwhile the Agama robot was exploring the behaviour of lizards as a stabilisation mechanism.\\
+This project will combine the use of a tail for stabilisation, the snakelike motion of the body as the legs move, and the modular design to produce a lizardlike motion. It will not be constrained by the limits of a physical robot, thus evolving the body of the robot in a manner that these example projects were unable to. The AI will add an element of reactivity to a wider array of situations than these robots, as the model will not be seeking a specific behaviour. Rather, it will determine how the behaviour that it is producing influences its success and absorb this knowledge as it navigates the terrain.
+\subsection{Modular Snake Robot}
+The work of Ye et al. \citepmain{modularRobotBackground} found that a modular snake robot was \textit{“more efficient to get into complicated environments”}. Their aim was to test the abilities of such a robot in environments too harsh for humans. Each module operated independently in a manner similar to the body movement algorithm covered in the project aims. Each module was attached to the adjacent modules via a joint that rotated to create a wave through the body, while a servo drove the module forward. Their robot used a cosine function to manoeuvre the body, whereas the Lizardbot will make use of an approach closer to that of a central pattern generator. \\
+The modular snake robot successfully navigated any obstacles with a height less than the height of a module. It also demonstrated the constraints that a physical robot can face (e.g. the error rate in the servos increased with amplitudes over 4cm). Lizardbot aims to explore similar methods of movement to improve \textit{environmental adaptivity}, without the physical limits faced by the modular robot. The addition of legs and a tail to the modular design is intended to enable the robot to overcome more complex obstacles in an environment. Meanwhile the AI will, theoretically, allow the Lizardbot to adapt to its situation more than the modular snake robot was able to.
+
 \subsection{Agama Robot}
-Insert from interim report
+The tail-assisted pitch control used to build the Agama lizard-inspired robot will heavily influence the tail motion of the Lizardbot. \citepmain{agama} It will constantly assess the momentum of the robot and adjust the motion of the tail to counterbalance this force. Applying this research may reduce the risk of the robot overbalancing, a situation that could damage a physical robot. The Agama study found that \textit{“the robot with PD feedback tail control maintained a nearly constant body angle by swinging its tail upward and incurred 72\% less rotation after a perturbation than did the robot without tail control”.} This is a promising result for stabilising the Lizardbot.
+
+\subsection{Salamandra Robotica II}
+The relevant goal of the Salamandra Robotica II \citepmain{salamandra} was to \textit{“advance robotics design for bimodal and efficient locomotion”}. The design of this robot heavily inspired various elements of the design of the Lizardbot: the full rotation of the legs and the CPG-inspired oscillation of the body. \\
+One of the key differences between the Salamandra and the Lizardbot is the method for turning. The former used calculated asymmetric oscillations to produce a curving trajectory (see figure TODO) while the latter will dynamically derive an activation function for a turn. \\
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.7]{salamandraTurning}
+\caption{The results of various curved trajectories of the Salamandra. \citep{salamandra}}
+\end{figure}
+Another difference was the Salamandra’s passive tail. The tail fin was only used to test its effect on speed whilst swimming; removing it decreased the speed by 63\%. The rigidity of the tail will be matched by this project but, as previously discussed, it will rotate to counterbalance the motion of the rest of the body.
+
 \subsection{tbc}
-Find a team that have modelled a robot vs building one
+%TODO Find a team that have modelled a robot vs building one - how about that paper Simon sent
 
 \newpage
 \section{Requirements Analysis}
@@ -536,6 +551,10 @@ TODO anecdotal evidence of complex behaviour emerging\\
 %DST report
 The dynamic movement could be further improved by performing a more comprehensive analysis of the entire terrain around the robot and making a more informed decision about the direction the robot should move in. This could further prevent the robot from becoming trapped as it avoids higher ground or uses a larger activation to “jump” onto higher ground.\\ Additionally, the algorithm currently makes assumptions about the knowledge the robot has about the world around it. It is assumed that there are sensors capable of detecting the rotation, relative position from the origin, velocities of each body part, and of detecting the height of the terrain. It is not immediately obvious how to offer this functionality without the use of these measurements but an exploration into alternative methods may be valuable if the program were to be applied to a physical robot. \\
 %TODO add explanation here from mindware about how perception is irrelevant - the outcome is more important. Relationship between \theta and v
+
+
+%Vision extension report
+Adding a rudimentary vision system would enable the AI to make decisions, as opposed to using the successor function to learn entirely from hindsight. By analysing its surroundings it could preemptively determine which route would have the highest odds of success from previous experience. I anticipate that this feedback loop would drastically increase the distance that the model achieves. 
 
 
 
