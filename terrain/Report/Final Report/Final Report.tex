@@ -39,13 +39,14 @@ Project Supervisor - Simon Bowes\\
 }
 \part*{
 \begin{center}
-{ \Huge "Lizardbot"}
+{ \Huge ``Lizardbot"}
 \\[1\baselineskip]
 {\Large A reptile-inspired model of robots optimised to navigate rough terrain}
 \end{center}
 }
 \paragraph*{Abstract\\}
 Insert abstract here
+%TODO ADD abstract\\
 \vspace*{\fill}
 \newpage
 \pagestyle{fancy}
@@ -67,28 +68,98 @@ The lizard’s stabilising tail, alongside other reptilian characteristics, coul
 
 \newpage
 \section{Project Aims}
-Why is the robot being modelled instead of physically built?\\
-Why did I choose to use Unity?\\
+The project can be divided into three areas: the structure of the model, the movement algorithm, and the generation of the terrain. \\
+
+%TODO ADD explanation of why the robot is being modelled instead of physically built\\
+
+%TODO ADD explanation of why Unity was chosen
 \subsection{Primary Objectives}
 \subsubsection{Robot Design}
-Get from interim report - explain overall design and why those decisions were made e.g. simplistic design
-\subsubsection{Robot Movement}
-Basic overview of why each component will move the way it does. Tie each point back to how they are founded (or not founded) in natural algorithms.\\ 
-Include jumping here\\
+This project will focus on determining how various reptilian characteristics influence the success of the model as it navigates an example terrain. The objective is to explore the ‘ideal’ design of a robot, and the relationship between this body and its navigation of a randomly generated terrain. The basic performance metric will be how far it successfully moves across the terrain (in a straight line from the origin) before it gets stuck. This final state may be bouncing back and forth between two points or hitting a section of the terrain that it cannot progress past; the algorithm to determine if the robot is trapped will consider both of these possibilities. \\
+Within this bigger picture goal there will be several smaller experiments into how various features / approaches influence the outcome. \\
+
+The body of the robot will emulate that of a snake such that it will be constructed of a series of independent modules / sections located linearly behind the head. This design \textit{"provides the ability of traversing in irregular environments, something that surpasses the mobility of the conventional wheeled, tracked and legged types of robots"}. \citepmain{modularDesign}\\
+Legs will be added at random positions perpendicular to the body and rotate 360° to push the body forward. A tail, added behind the body, will rotate to counterbalance the motion of the body. Every joint will have a constraint defining how far it is capable of rotating around each axis. \\
+
+There will be an option to generate robots with random parameters, from the number of body modules and legs, to the force with which they drive. Additionally, a boolean option will determine if the robot is constructed 'uniformly' - i.e. asserting whether it be symmetrical with all legs / body modules of equal size and mass to each other. The ideal parameters for both the physical design and movement of a robot will be explored.\\
+
+To simplify the model of the robot it will be constructed of basic shapes. The body will be a string of spheres, whilst the legs and tail will be spheroids. The decision against cubes/cuboids is to prevent the shapes from ‘catching’ on any other Rigidbodies that they interact with, as this could interfere with the results. Of course, with a physical robot there will be this interaction to contend with; for the purpose of the model it has been assumed that each surface is uniform and can be smoothed for simplicity. \\
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{robotDesign}
+\caption{An example of a randomly generated robot (viewed from the side).}
+\end{figure}
+
+
+\subsubsection{Body Movement}
+The fundamental movement pattern of the body sections will mimic the serpentine motion of a snake, as shown in figure TODO.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.8]{snakeMovement}
+\caption{Diagram of different motions snakes use to move. \citep{snakeMovement} }
+\end{figure}
+\nocitemain{snakeMovement}
+To achieve this, each module will have the ability to drive forward and/or rotate and will have its own set of parameters (e.g. speed). To improve the fluidity of the motion a central pattern generator (CPG) approach. A CPG \textit{"can produce rhythmic motor patterns ... in the absence of sensory or descending inputs that carry specific timing information."} \citepmain{cpgDefinition} It is worth noting that the body will not implement a true CPG: the algorithm will utilise a similar approach that avoids any sensory understanding of its worldspace or timing.\\
+
+There will be an option to maintain serpentine motion by alternating the direction of rotation between the rotating sections, and evenly spacing these sections across the body (see figure TODO). The algorithm will not be constrained to this serpentine motion so may move away from this behaviour as it mutates. Nonetheless, due to the embodiment of the robot it is expected that the motion will remain snakelike.\\
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.6]{serpentineDiagram}
+\caption{The driving \& rotation values used to maintain a serpentine motion.}
+\end{figure}
+
+The decision to have the body oscillate as opposed to remaining static whilst the legs provide the entirety of the motion is supported by Jeongryul Kim. Due to a lack of degrees of freedom in legged robots a robot may struggle to maintain its posture and direction of movement. \textit{"A possible solution to such lack of DOFs caused by underactuation may be additional motions of the body"}. \citepmain{bodyOscillation} 
+It is important to note that the referenced study was analysing bipedal robots when this conclusion was drawn. To test the assumption that moving the body with the legs improves performance, another experiment will be conducted to explore the impact of the body remaining static. \\
+An alternative solution could be to add additional joints for the legs to increase the DOFs. This idea is explored in more detail in TODO. To summarise, whilst considering the positioning of leg joints, a form that mimicked the structure of a lizard was prioritised. The offer of freedom in the leg placement remains as a project limitation. \\
+Regardless, other projects have adopted a similar approach with promising results. The Salamandra Robotica II used - and inspired - the combination of leg rotation and body oscillation. \citepmain{salamandra} The Salamandra is covered in more depth later in this report.
+
+\subsubsection{Tail Movement}
+The motion of the tail will mirror that of the ‘Agama robot’ whereby the tail flicks up quickly in the opposite direction of the trajectory of the body. \citepmain{agama} The focus of this study was for stabilising a robot as it jumped but it is expected that this counterbalancing of the motion of the body will improve the success of the robot. To test this, an experiment will be performed with and without a tail to determine how it impacts the distance the robot is able to cover. 
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.6]{agamaJump}
+\caption{An Agama lizard compared to the Agama robot whilst jumping \citep{agama}}
+\end{figure}
+
+\subsubsection{Leg Movement}
+The approach to the fundamental movement of the legs is inspired by the Salamandra Robotica II. \citepmain{salamandra} Rotating each leg $360^\circ$ in its joint is a simpler mechanism to push the body forward than a biological folding limb. Though the design is somewhat detached from a biological leg, it is hoped that the implementation of a gait will restore a lizardlike motion.\\
+To replicate a lizard's gait, diagonally opposite legs will be accelerated in rhythm with the motion of the body. 
+\begin{figure}[H]
+\begin{minipage}[t]{.4\textwidth}
+\centering
+\includegraphics[width=1\textwidth]{salamandraLegSpin}
+\caption{The $360^\circ$ leg rotation used by the Salamandra Robotica II \citep{salamandra}}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{.55\textwidth}
+\centering
+\includegraphics[width=1\textwidth]{lizardGait}
+\caption{A representation of the relationship between a lizard's gait and its body oscillation. \citep{reptileLocomotion}}
+\end{minipage}
+\end{figure}
+\nocitemain{reptileLocomotion}
+
+\subsubsection{Genetic Algorithm}
+%TODO ADD explanation about why a genetic algorithm was chosen
+%TODO ADD research about why the recombination and mutation approach is suited
+%TODO ADD explanation about how this approach creates a relationship between the body and movement
+%TODO ADD explanation about why I want a relationship between them - article Simon sent
+%TODO ADD explain triad recombination - what examples are there of this in nature?
+%TODO ADD explain about the red robots - why might these be attractive?
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{gaProcess}
+\caption{The process the genetic algorithm will follow. Diagram created using draw.io \citep{drawio}}
+\end{figure}
+
+\subsubsection{Dynamic Movement}
+
+
 \subsubsection{Terrain Generation}
 The terrain will be static - why?\\
 Why will I have three separate terrains? - Octopus\\
 What is the importance of having a smooth terrain?\\
-\subsubsection{AI}
-How will the AI work? Genetic algorithm outline\\
-Dynamic systems theory\\
-Damage minimisation\\
-How do I want the AI to manipulate the relationship between the body and movement?\\
-Why do I want there to be a relationship between the two? - article Simon sent\\
-How will the GA avoid minimas?\\
-Explain triad recombination - what examples are there of this in nature?\\
-Explain about the red robots - why might these be attractive?\\
-
 
 \subsection{Extension Objectives}
 \subsubsection{Vision}
@@ -152,6 +223,10 @@ $S: \overrightarrow{w} = sin\overrightarrow{\theta_{i-1}} + sin\overrightarrow{\
 $C: \overrightarrow{w} = cos\overrightarrow{\theta_{i-1}} + cos\overrightarrow{\theta_{i}}$\\
 \end{Large}
 \end{center}
+%TODO ADD explanation about rotation multiplier
+
+%TODO ADD comparison with Salamandra Robotica oscillations
+
 This central pattern generator (CPG) approach allows each module to react to the velocity and angle of the previous section. The equation for the CPG originated in Tony Dear’s multi-link snake robot: a robot with a similar modular design with passive joints connecting the modules. \citepmain{cpgRobot} Lizardbot utilises the same math to calculate the velocity with one distinction: Dear’s robot split the velocity vector into its axes, using cos for the x axis and sin for the y. Lizardbot instead calculates the vector as a whole and alternates the rotating sections between sin and cos to produce the serpentine motion. For robots with serpentine motion disabled, $S$ and $C$ will be assigned randomly to the rotating modules.\\
 
 \begin{figure}[H]
@@ -300,11 +375,6 @@ Unity’s layers have a limit of 25 available layers. At first, a script was add
 
 \subsubsection{Genetic Algorithm}
 When the trapped algorithm determines that a robot is stuck it is disabled and passed to the genetic algorithm (GA).\\
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.4]{gaProcess}
-\caption{The process followed by the genetic algorithm. Diagram created using draw.io \citep{drawio}}
-\end{figure}
 The GA first selects which robot should be used as the input for the rest of the process. The default input is the stuck robot, however when a mutatio cycle has been completed this may be overruled. The mutation cycle, exemplified in figure TODO, of a robot refers to how many evolutions should take place before the resultant robot is compared to the robot it initially branched from. When a mutation cycle is complete, the highest performing of the two is selected as the input for the GA. The reasoning behind this is to allow a robot to mutate to a lower performing robot temporarily, as this may allow it to evolve into a more successful robot a few generations later. If the mutation cycle is set to 1 then any single evolution that reduces the performance will be rejected.\\
 \begin{figure}[H]
 \centering
@@ -375,7 +445,7 @@ Take a robot that moves left by rolling over. Due to the reactive nature of the 
     \vspace*{-7mm}
     \caption{A sphere created using a Fibonacci lattice ($n=50$) around a centre point shown in blue.}
 \end{wrapfigure}
-To achieve this, the worldspace around a robot is divided. “The Fibonacci lattice is a simple way to very evenly distribute points [on the] surface of a sphere”. \citepmain{fibonacci} Using the implementation of the Fibonacci sphere provided by Fnord, \citepcode{spherePoints} a series of $n$ points were constructed in a sphere around the robot. It was necessary to strike a balance between too low a value of $n$ producing inaccurate results, which could cause the robot to veer off to one side of the intended direction. Meanwhile, too high a value of $n$ would be unnecessarily expensive and result in the majority of the points containing $null$ values. $n=50$ was selected as an appropriate granularity.\\
+To achieve this, the worldspace around a robot is divided. \textit{“The Fibonacci lattice is a simple way to very evenly distribute points [on the] surface of a sphere”}. \citepmain{fibonacci} Using the implementation of the Fibonacci sphere provided by Fnord, \citepcode{spherePoints} a series of $n$ points were constructed in a sphere around the robot. It was necessary to strike a balance between too low a value of $n$ producing inaccurate results, which could cause the robot to veer off to one side of the intended direction. Meanwhile, too high a value of $n$ would be unnecessarily expensive and result in the majority of the points containing $null$ values. $n=50$ was selected as an appropriate granularity.\\
 
 The sphere points are relative to the centre of the sphere, thus acting as vectors in the direction of the point. To track how the robot moved in a direction, every $t$ seconds the velocities of each body part are stored. A conceptual sphere is constructed around the initial position of the robot and rotated to match the rotation of the robot. This way, a point directly to the left of the robot rotated $30°$ around an axis will be in the same relative location to the robot at $120°$. \\
 Given another interval of $t$, a vector is calculated from the initial position to the resultant position. The sphere point closest to this vector is found by comparing the angle between the vector and the points. 

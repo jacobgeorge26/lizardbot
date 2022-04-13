@@ -4,6 +4,9 @@ The top-level auxiliary file: Final Report.aux
 Reallocating 'name_of_file' (item size: 1) to 8 items.
 The style file: apalike.bst
 I found no \bibdata command---while reading file Final Report.aux
+Warning--I didn't find a database entry for "snakeMovement"
+Warning--I didn't find a database entry for "salamandra"
+Warning--I didn't find a database entry for "reptileLocomotion"
 Warning--I didn't find a database entry for "diagrams"
 Warning--I didn't find a database entry for "drawio"
 Warning--I didn't find a database entry for "colab"
@@ -13,7 +16,7 @@ Warning--I didn't find a database entry for "np"
 Warning--I didn't find a database entry for "graphs"
 You've used 0 entries,
             1935 wiz_defined-function locations,
-            477 strings with 3708 characters,
+            482 strings with 3778 characters,
 and the built_in function-call counts, 17 in all, are:
 = -- 0
 > -- 0

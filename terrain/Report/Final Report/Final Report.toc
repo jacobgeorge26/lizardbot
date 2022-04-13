@@ -3,35 +3,37 @@
 \contentsline {section}{\numberline {2}Project Aims}{4}{section.2}%
 \contentsline {subsection}{\numberline {2.1}Primary Objectives}{4}{subsection.2.1}%
 \contentsline {subsubsection}{\numberline {2.1.1}Robot Design}{4}{subsubsection.2.1.1}%
-\contentsline {subsubsection}{\numberline {2.1.2}Robot Movement}{4}{subsubsection.2.1.2}%
-\contentsline {subsubsection}{\numberline {2.1.3}Terrain Generation}{4}{subsubsection.2.1.3}%
-\contentsline {subsubsection}{\numberline {2.1.4}AI}{4}{subsubsection.2.1.4}%
-\contentsline {subsection}{\numberline {2.2}Extension Objectives}{4}{subsection.2.2}%
-\contentsline {subsubsection}{\numberline {2.2.1}Vision}{4}{subsubsection.2.2.1}%
-\contentsline {subsubsection}{\numberline {2.2.2}Terrain Friction}{4}{subsubsection.2.2.2}%
-\contentsline {subsubsection}{\numberline {2.2.3}Flexible Tail}{4}{subsubsection.2.2.3}%
-\contentsline {section}{\numberline {3}Project Relevance}{5}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Salamandra Robotica II}{5}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}Agama Robot}{5}{subsection.3.2}%
-\contentsline {subsection}{\numberline {3.3}tbc}{5}{subsection.3.3}%
-\contentsline {section}{\numberline {4}Requirements Analysis}{6}{section.4}%
-\contentsline {section}{\numberline {5}Professional and Ethical Considerations}{7}{section.5}%
-\contentsline {section}{\numberline {6}Implementation}{8}{section.6}%
-\contentsline {subsection}{\numberline {6.1}Terrain}{8}{subsection.6.1}%
-\contentsline {subsection}{\numberline {6.2}Robot}{8}{subsection.6.2}%
-\contentsline {subsubsection}{\numberline {6.2.1}Body}{8}{subsubsection.6.2.1}%
-\contentsline {subsubsection}{\numberline {6.2.2}Tail}{9}{subsubsection.6.2.2}%
-\contentsline {subsubsection}{\numberline {6.2.3}Legs}{10}{subsubsection.6.2.3}%
-\contentsline {subsection}{\numberline {6.3}Artifical Intelligence}{12}{subsection.6.3}%
-\contentsline {subsubsection}{\numberline {6.3.1}Performance}{12}{subsubsection.6.3.1}%
-\contentsline {subsubsection}{\numberline {6.3.2}Trapped Algorithm}{12}{subsubsection.6.3.2}%
-\contentsline {subsubsection}{\numberline {6.3.3}Genes}{14}{subsubsection.6.3.3}%
-\contentsline {subsubsection}{\numberline {6.3.4}Population}{14}{subsubsection.6.3.4}%
-\contentsline {subsubsection}{\numberline {6.3.5}Genetic Algorithm}{15}{subsubsection.6.3.5}%
-\contentsline {subsection}{\numberline {6.4}Dynamic Movement}{17}{subsection.6.4}%
-\contentsline {subsection}{\numberline {6.5}UI}{19}{subsection.6.5}%
-\contentsline {section}{\numberline {7}Results}{21}{section.7}%
-\contentsline {section}{\numberline {8}Conclusion}{22}{section.8}%
-\contentsline {section}{\numberline {9}References}{23}{section.9}%
-\contentsline {section}{\numberline {10}Appendices}{28}{section.10}%
-\contentsline {subsection}{\numberline {10.1}Code of Conduct}{28}{subsection.10.1}%
+\contentsline {subsubsection}{\numberline {2.1.2}Body Movement}{4}{subsubsection.2.1.2}%
+\contentsline {subsubsection}{\numberline {2.1.3}Tail Movement}{6}{subsubsection.2.1.3}%
+\contentsline {subsubsection}{\numberline {2.1.4}Leg Movement}{6}{subsubsection.2.1.4}%
+\contentsline {subsubsection}{\numberline {2.1.5}AI}{7}{subsubsection.2.1.5}%
+\contentsline {subsubsection}{\numberline {2.1.6}Terrain Generation}{7}{subsubsection.2.1.6}%
+\contentsline {subsection}{\numberline {2.2}Extension Objectives}{7}{subsection.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.1}Vision}{7}{subsubsection.2.2.1}%
+\contentsline {subsubsection}{\numberline {2.2.2}Terrain Friction}{8}{subsubsection.2.2.2}%
+\contentsline {subsubsection}{\numberline {2.2.3}Flexible Tail}{8}{subsubsection.2.2.3}%
+\contentsline {section}{\numberline {3}Project Relevance}{9}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Salamandra Robotica II}{9}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Agama Robot}{9}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}tbc}{9}{subsection.3.3}%
+\contentsline {section}{\numberline {4}Requirements Analysis}{10}{section.4}%
+\contentsline {section}{\numberline {5}Professional and Ethical Considerations}{11}{section.5}%
+\contentsline {section}{\numberline {6}Implementation}{12}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Terrain}{12}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Robot}{12}{subsection.6.2}%
+\contentsline {subsubsection}{\numberline {6.2.1}Body}{12}{subsubsection.6.2.1}%
+\contentsline {subsubsection}{\numberline {6.2.2}Tail}{13}{subsubsection.6.2.2}%
+\contentsline {subsubsection}{\numberline {6.2.3}Legs}{14}{subsubsection.6.2.3}%
+\contentsline {subsection}{\numberline {6.3}Artifical Intelligence}{16}{subsection.6.3}%
+\contentsline {subsubsection}{\numberline {6.3.1}Performance}{16}{subsubsection.6.3.1}%
+\contentsline {subsubsection}{\numberline {6.3.2}Trapped Algorithm}{16}{subsubsection.6.3.2}%
+\contentsline {subsubsection}{\numberline {6.3.3}Genes}{18}{subsubsection.6.3.3}%
+\contentsline {subsubsection}{\numberline {6.3.4}Population}{18}{subsubsection.6.3.4}%
+\contentsline {subsubsection}{\numberline {6.3.5}Genetic Algorithm}{19}{subsubsection.6.3.5}%
+\contentsline {subsection}{\numberline {6.4}Dynamic Movement}{21}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5}UI}{23}{subsection.6.5}%
+\contentsline {section}{\numberline {7}Results}{25}{section.7}%
+\contentsline {section}{\numberline {8}Conclusion}{26}{section.8}%
+\contentsline {section}{\numberline {9}References}{27}{section.9}%
+\contentsline {section}{\numberline {10}Appendices}{32}{section.10}%
+\contentsline {subsection}{\numberline {10.1}Code of Conduct}{32}{subsection.10.1}%
