@@ -147,13 +147,23 @@ To replicate a lizard's gait, diagonally opposite legs will be accelerated in rh
 %TODO ADD explanation about why I want a relationship between them - article Simon sent
 %TODO ADD explain triad recombination - what examples are there of this in nature?
 %TODO ADD explain about the red robots - why might these be attractive?
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.4]{gaProcess}
-\caption{The process the genetic algorithm will follow. Diagram created using draw.io \citep{drawio}}
-\end{figure}
+
 
 \subsubsection{Dynamic Movement}
+The genetic algorithm aims to optimise the parameters of Lizardbot and, once an optimal robot has been found, could be removed from the project. It has no impact on the behaviour of the robot mid-generation in reaction to specific circumstances.\\
+\begin{wrapfigure}{r}{0.3\textwidth}
+    \centering
+    \vspace*{-5mm}
+    \includegraphics[width=0.3\textwidth]{activationExample}
+    \caption{An example of a movement being activated: weakly at first, then again with a stronger activation to produce a greater movement. \citep{dft}}
+\end{wrapfigure}
+\nocitemain{dft}
+Dynamic systems theory uses the causal webs of an environment to determine the \textit{"sequences of states that could take the system from one location in state space to another"}. \citepmain{mindware}
+Rather than providing rigid rules about how the robot should move, the robot explores how to move in a direction through trial and error. Essentially, it will 'collect' behaviours. If a specific set of parameters produced a desired behaviour (e.g. move left) then this can be activated with increasing force (see figure TODO) to steer the robot left across the terrain. This approach would produce a behaviour-based approach to navigating the terrain. Thelan and Smith explored the behaviour of babies taking steps on a treadmill and concluded that there was a complex relationship between the body, environment and behaviour. \citepmain{babyStepping} This relationship can be argued as both advantageous for Lizardbot, and a potential constraint to the performance that dynamic movement can offer.\\
+The adaptive behaviour can result in emergent complex behaviours that would otherwise have been a mammoth of a task to implement as a set of instructions. On the flipside, dynamic movement relies on assumptions about the relationship between a robot's body, movement, and terrain. It is not feasible to store every factor that culminated in a behaviour and thus the system must be reduced to a select few control parameters. The assumptions that this requires render the dynamic approach unsuitable as the primary movement mechanism. However, it may still complement the movement algorithms discussed in TODO. Andy Clark discusses the idea of "partial programs" \citepmain{partialPrograms} - \textit{"minimal instruction sets that maximally exploit the inherent (bodily and environmental) dynamics of a controlled system"}. \citepmain{mindware} As long as Lizardbot's adaptive behaviour can work alongside other causal influences then dynamic movement is expected to improve its performance.
+ 
+
+
 
 
 \subsubsection{Terrain Generation}
@@ -375,6 +385,11 @@ Unity’s layers have a limit of 25 available layers. At first, a script was add
 
 \subsubsection{Genetic Algorithm}
 When the trapped algorithm determines that a robot is stuck it is disabled and passed to the genetic algorithm (GA).\\
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{gaProcess}
+\caption{The process the genetic algorithm will follow. Diagram created using draw.io \citep{drawio}}
+\end{figure}
 The GA first selects which robot should be used as the input for the rest of the process. The default input is the stuck robot, however when a mutatio cycle has been completed this may be overruled. The mutation cycle, exemplified in figure TODO, of a robot refers to how many evolutions should take place before the resultant robot is compared to the robot it initially branched from. When a mutation cycle is complete, the highest performing of the two is selected as the input for the GA. The reasoning behind this is to allow a robot to mutate to a lower performing robot temporarily, as this may allow it to evolve into a more successful robot a few generations later. If the mutation cycle is set to 1 then any single evolution that reduces the performance will be rejected.\\
 \begin{figure}[H]
 \centering
@@ -436,7 +451,7 @@ Graphs created using Colab, \citep{colab} Pandas, \citep{pd} MatPlotLib, \citep{
 Upon analysing the four values being used for the highest performing upward-trending iterations it appeared that successful values had been found through an issue in the code. When generating random values, Unity cycles through the same values if not provided with a seed. \citepcode{randomRepeating} As the four values were consistently the first four values generated they had been repeatedly set as $[2, 0.77, 0.31, 9]$. Of the 8 iterations that showed an upwards trend and performed well, 7 were these values. Additionally, there was only a single iteration using these values that did not perform well. Given the apparent success of these GA values, these were selected as the default parameters. \\
 
 \subsection{Dynamic Movement}
-As outlined in TODO, a dynamic approach uses the historical movement of the robot to ‘learn’ how to move in a given direction again. Rather than providing rigid rules about how the robot should move, the robot explores how to move in a direction through trial and error. 
+As outlined in TODO, a dynamic approach uses the historical movement of the robot to ‘learn’ how to move in a given direction again. 
 Take a robot that moves left by rolling over. Due to the reactive nature of the algorithms used for movement, it can be assumed that applying the same velocities from the start of the roll would produce another leftward motion. The dynamic movement algorithm saves these velocities for use when a robot needs to move left again. \\
 \begin{wrapfigure}[14]{r}{0.25\textwidth}
     \centering
@@ -517,6 +532,7 @@ TODO anecdotal evidence of complex behaviour emerging\\
 
 %DST report
 The dynamic movement could be further improved by performing a more comprehensive analysis of the entire terrain around the robot and making a more informed decision about the direction the robot should move in. This could further prevent the robot from becoming trapped as it avoids higher ground or uses a larger activation to “jump” onto higher ground.\\ Additionally, the algorithm currently makes assumptions about the knowledge the robot has about the world around it. It is assumed that there are sensors capable of detecting the rotation, relative position from the origin, velocities of each body part, and of detecting the height of the terrain. It is not immediately obvious how to offer this functionality without the use of these measurements but an exploration into alternative methods may be valuable if the program were to be applied to a physical robot. \\
+%TODO add explanation here from mindware about how perception is irrelevant - the outcome is more important. Relationship between \theta and v
 
 
 

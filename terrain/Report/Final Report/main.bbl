@@ -25,6 +25,16 @@ Cianchetti, M. (2015).
   \url{https://iopscience.iop.org/article/10.1088/1748-3190/10/3/035003} \\
   Accessed: 2022-04-10.
 
+\bibitem[Clark, 1997]{partialPrograms}
+Clark, A. (1997).
+\newblock Being there: Putting brain, body and world together again.
+\newblock {\em MIT Press}.
+
+\bibitem[Clark, 2001]{mindware}
+Clark, A. (2001).
+\newblock Mindware: An introduction to the philosophy of cognitive science.
+\newblock {\em Oxford University Press}, pages 120--139.
+
 \bibitem[Crespi et~al., 2013]{salamandra}
 Crespi, A., Karakasiliotis, K., Guignard, A., and Ijspeert, A.~J. (2013).
 \newblock Salamandra robotica ii: An amphibious robot to study salamander-like
@@ -47,6 +57,14 @@ Diamond, J. (1988).
 \newblock {\em nature}.
 \newblock \\ \url{https://www.nature.com/articles/332586a0} \\ Accessed:
   2022-04-12.
+
+\bibitem[Erlhagen and Sch\"{o}ner, 2002]{dft}
+Erlhagen, W. and Sch\"{o}ner, G. (2002).
+\newblock Dynamic field theory of movement preparation.
+\newblock {\em Psychological Review}.
+\newblock \\
+  \url{https://www.researchgate.net/publication/11287764_Dynamic_field_theory_of_movement_preparation}
+  \\ Accessed: 2022-04-13.
 
 \bibitem[Herbert, 1996]{antsBeach}
 Herbert, S. (1996).
@@ -109,6 +127,12 @@ Roberts, M. (2020).
 \newblock \\
   \url{http://extremelearning.com.au/how-to-evenly-distribute-points-on-a-sphere-more-effectively-than-the-canonical-fibonacci-lattice/}
   \\ Accessed: 2022-04-12.
+
+\bibitem[Thelan and Smith, 1994]{babyStepping}
+Thelan, E. and Smith, L. (1994).
+\newblock A dynamic systems approach to the development of cognition and
+  action.
+\newblock {\em MIT Press}, pages 263--266.
 
 \bibitem[{UC Berkeley}, 2012]{agamaVideo}
 {UC Berkeley} (2012).
