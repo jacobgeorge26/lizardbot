@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 21.12) (preloaded format=pdflatex 2022.4.11)  13 APR 2022 16:42
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 21.12) (preloaded format=pdflatex 2022.4.11)  13 APR 2022 16:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -502,48 +502,38 @@ Underfull \hbox (badness 10000) in paragraph at lines 153--159
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 170--173
-
- []
-
 [7 <./Images//salamandraLegSpin.png> <./Images//lizardGait.png> <./Images//acti
 vationExample.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 176--178
+Underfull \hbox (badness 10000) in paragraph at lines 177--179
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 179--180
+Underfull \hbox (badness 10000) in paragraph at lines 180--181
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 181--182
+Underfull \hbox (badness 10000) in paragraph at lines 182--183
 
  []
 
 [8] [9] [10] [11]
-<./Images//smoothTerrain.png, id=345, 301.125pt x 271.0125pt>
+<./Images//smoothTerrain.png, id=350, 301.125pt x 271.0125pt>
 File: ./Images//smoothTerrain.png Graphic file (type png)
 <use ./Images//smoothTerrain.png>
-Package pdftex.def Info: ./Images//smoothTerrain.png  used on input line 208.
+Package pdftex.def Info: ./Images//smoothTerrain.png  used on input line 209.
 (pdftex.def)             Requested size: 90.33818pt x 81.30437pt.
-<./Images//unevenTerrain.png, id=346, 301.125pt x 271.0125pt>
+<./Images//unevenTerrain.png, id=351, 301.125pt x 271.0125pt>
 File: ./Images//unevenTerrain.png Graphic file (type png)
 <use ./Images//unevenTerrain.png>
-Package pdftex.def Info: ./Images//unevenTerrain.png  used on input line 209.
+Package pdftex.def Info: ./Images//unevenTerrain.png  used on input line 210.
 (pdftex.def)             Requested size: 90.33818pt x 81.30437pt.
-<./Images//roughTerrain.png, id=347, 301.125pt x 271.0125pt>
+<./Images//roughTerrain.png, id=352, 301.125pt x 271.0125pt>
 File: ./Images//roughTerrain.png Graphic file (type png)
 <use ./Images//roughTerrain.png>
-Package pdftex.def Info: ./Images//roughTerrain.png  used on input line 210.
+Package pdftex.def Info: ./Images//roughTerrain.png  used on input line 211.
 (pdftex.def)             Requested size: 90.33818pt x 81.30437pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 205--212
-
- []
-
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <14.4> on input line 224.
 
@@ -551,23 +541,24 @@ Underfull \hbox (badness 10000) in paragraph at lines 228--229
 
  []
 
-[12 <./Images//smoothTerrain.png> <./Images//unevenTerrain.png> <./Images//roug
-hTerrain.png>]
+
 Underfull \hbox (badness 10000) in paragraph at lines 240--241
 
  []
 
-<./Images//cpgMirroring.png, id=367, 475.7775pt x 513.92pt>
+[12 <./Images//smoothTerrain.png> <./Images//unevenTerrain.png> <./Images//roug
+hTerrain.png>]
+<./Images//cpgMirroring.png, id=368, 475.7775pt x 513.92pt>
 File: ./Images//cpgMirroring.png Graphic file (type png)
 <use ./Images//cpgMirroring.png>
 Package pdftex.def Info: ./Images//cpgMirroring.png  used on input line 245.
 (pdftex.def)             Requested size: 169.00642pt x 182.55658pt.
-<./Images//cpgSerpentine.png, id=368, 342.5297pt x 293.59688pt>
+<./Images//cpgSerpentine.png, id=369, 342.5297pt x 293.59688pt>
 File: ./Images//cpgSerpentine.png Graphic file (type png)
 <use ./Images//cpgSerpentine.png>
 Package pdftex.def Info: ./Images//cpgSerpentine.png  used on input line 251.
 (pdftex.def)             Requested size: 211.26126pt x 181.08739pt.
-<./Images//tailMomentum.png, id=369, 513.92pt x 308.15125pt>
+<./Images//tailMomentum.png, id=370, 513.92pt x 308.15125pt>
 File: ./Images//tailMomentum.png Graphic file (type png)
 <use ./Images//tailMomentum.png>
 Package pdftex.def Info: ./Images//tailMomentum.png  used on input line 263.
@@ -1000,7 +991,7 @@ Here is how much of TeX's memory you used:
  28883 multiletter control sequences out of 15000+600000
  408854 words of font info for 45 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 60i,12n,63p,1083b,512s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,12n,63p,1032b,512s stack positions out of 5000i,500n,10000p,200000b,80000s
  <C:\Users\Molly\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm
 1000.pk><C:/Users/Molly/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
 ts/cm/cmbx10.pfb><C:/Users/Molly/AppData/Local/Programs/MiKTeX/fonts/type1/publ
@@ -1016,7 +1007,7 @@ Molly/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C
 s/cm/cmsy7.pfb><C:/Users/Molly/AppData/Local/Programs/MiKTeX/fonts/type1/public
 /amsfonts/cm/cmti10.pfb><C:/Users/Molly/AppData/Local/Programs/MiKTeX/fonts/typ
 e1/public/amsfonts/cm/cmtt10.pfb>
-Output written on "Final Report.pdf" (32 pages, 3592351 bytes).
+Output written on "Final Report.pdf" (32 pages, 3592420 bytes).
 PDF statistics:
  765 PDF objects out of 1000 (max. 8388607)
  172 named destinations out of 1000 (max. 500000)
