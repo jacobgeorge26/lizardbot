@@ -167,17 +167,20 @@ The adaptive behaviour can result in emergent complex behaviours that would othe
 
 
 \subsubsection{Terrain Generation}
-Three terrains will be generated to test the robot in increasingly difficult environments. The terrains will be randomly generated once and then stored and used as a control variable in experiments. \\
+Three terrains will be generated to test the robot in increasingly difficult environments. The terrains will be randomly generated once and then stored and used as a control variable in experiments.\\ 
 The terrain types $[Smooth, Uneven, Rough]$ to be created are inspired by those used to test the Octopus robot \citepmain{octopusRobot}.\\
-The smooth terrain will be deliberately featureless to test the behaviour of the robot in a simple environment. Herbert Simon provided an elegant example of the importance of this consideration: an ant is observed making its way back to its nest across a beach.\\
-Its route is ‘a sequence of irregular, angular segments’ that suggests some level of complexity in the ant's behaviour. However, the beach for the ant is a much harsher environment than it is for a human. It is more likely that ‘its complexity is really a complexity in the surface of the beach, not a complexity in the ant.’ \citepmain{antsBeach} Thus, the situatedness of the robot could culminate in behaviours that are not of its own making and are instead caused by its relationship with the terrain. The smooth terrain should reduce the role of the environment and allow for emergent behaviours to be prescribed to the robot itself.
+
+It is important to consider the situatedness of the Lizardbot. The environment that it is presented with will influence the outcome of its cognition. Specifically, it will influence its situated dynamical cognition. This is defined as “cognition [emerging] from a real-time, continuous and strictly coupled sensorimotor interaction between an unstable subjective experience and an unstable objective world.” \citepmain{situatedness}
+It is not feasible to test the interaction between the Lizardbot and every terrain that a robot could encounter. It is, however, possible to expand the terrain to include common properties. It is known that “the friction between the snake robot and the ground, affects significantly its motion” \citepmain{modularDesign}, hence an experiment will be conducted by returning a high-performing group of robots to the terrain with the coefficient of friction adjusted. By varying the texture of surfaces within the environment the Lizardbot may produce different behaviour. \\
+
+Additionally, the smooth terrain will be deliberately featureless to test the behaviour of the robot in a simple environment. Herbert Simon provided an elegant example of the importance of this consideration: an ant is observed making its way back to its nest across a beach.\\
+Its route is ‘a sequence of irregular, angular segments’ that suggests some level of complexity in the ant's behaviour. However, the beach for the ant is a much harsher environment than it is for a human. It is more likely that ‘its complexity is really a complexity in the surface of the beach, not a complexity in the ant.’ \citepmain{antsBeach} Thus, the situatedness of the robot could culminate in behaviours that are not of its own making and are instead caused by its relationship with the terrain. The smooth terrain should reduce the role of the environment and allow for emergent behaviours to be prescribed to the robot itself.\\
 
 \subsection{Extension Objectives}
 \subsubsection{Vision}
-How would a rudimentary visual system reduce damage to the robot?\\
-How would this move the AI from a reactive to proactive mechanism?\\
-\subsubsection{Terrain Friction}
-How do snakes work with different frictions?\\
+Thus far the Lizardbot has focused on finding the ideal parameters for the overall form and movement of the robot, with additional thought for a dynamic system to allow the robot to react to its situation. There has been little focus on a preemptive approach, which has the potential to reduce the risk of damage to a real robot. When a robot becomes stuck it will likely find itself bouncing against the nearby terrain, forcing the prioritisation of durability in the design of the robot. If the robot were given a rudimentary visual system it could instead anticipate collisions and adjust its course to avoid them.\\
+To achieve vision, a camera could be placed in the head of the robot. Unity’s built-in functionality would provide feedback on objects within the range of the camera. This knowledge, when combined with the dynamic systems element of the AI, would allow the robot to make informed ‘decisions’ about how it should approach the terrain it is aware of. \\
+This feature would reduce the risk of damage to a physical robot by avoiding collisions with the terrain. David Lee investigated the factors affecting the specific moment in which an agent will begin reacting to an impending collision.
 \subsubsection{Flexible Tail}
 What are the advantages of having a flexible tail?\\
 
