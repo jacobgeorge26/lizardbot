@@ -532,13 +532,37 @@ The UI could be extended to offer a better UX and to offer a view of the perform
 
 \newpage
 \section{Results}
-How does mutating the body / movement independently work?\\
-How does the addition of the tail help?\\
-How does initiating the body with a serpentine motion established affect the outcome?\\
-What happens when the body is set as static?\\
-What is the outcome when the legs are out of sync from the body?\\
-Starting with defaults, what parameters does the AI mutate to? What is the corresponding behaviour for this?\\
-Does the AI converge on the same parameters when started with different defaults?\\
+
+\subsection{Evolved Robots}
+%TODO when left to it - what do the eventual robots look like? What is the corresponding behaviour?
+
+\subsection{Recombination Methods}
+%what impact do the various methods have on performance?
+
+\subsection{Oscillating vs Static Body}
+%TODO what happens when the body rotation is turned off?
+
+\subsection{Serpentine Motion}
+%TODO what happens when the serpentine motion is fixed to on/off?
+
+\subsection{Counterbalancing Tail}
+%TODO does removing the tail help?
+
+\subsection{Leg Gait}
+%TODO does removing the legs help? How does the lizard gait impact performance?
+
+\subsection{Uniform vs Non-uniform Robot}
+%TODO what happens when uniform body is fixed to on/off?
+
+\subsection{Dynamic Movement}
+%TODO what impact does the dynamic movement have on the performance?
+
+\subsection{Terrain Friction}
+%TODO what happens to the performance when the same robots are placed on terrains with different frictions?
+
+\subsection{Physical vs Movement Evolution}
+%TODO what happens when the mutation & recombination are limited to either physical or movement, or both
+
 
 %GA report
 Whilst the GA demonstrates promising results, there are still some fundamental issues with it. A major issue is that not all genes have equal weight. If the gene that determines whether a uniform body is maintained mutates from false to true then this has a significant effect on the robot. The physical properties of almost all body and leg parts will be adjusted, resulting in a much larger adjustment to the robot than those caused by mutating other genes. To mitigate this, it would be useful to apply weights to each gene. Thus, the mutation range could be scaled accordingly, or the genes categorised such that a change to a heavily weighted gene would limit any changes to other genes. This would allow an isolated analysis of the effect that such a large mutation has on the performance.\\
@@ -572,9 +596,12 @@ Adding a rudimentary vision system would enable the AI to make decisions, as opp
 \bibliographycode{References/CodeReferences}
 \newpage
 \section{Appendices}
+\subsection{Progress Logs}
+%TODO add progress logs links
 \subsection{Code of Conduct}
-
-
+%TODO add code of conduct
+\subsection{Project Proposal}
+%TODO add project proposal
 
 
 

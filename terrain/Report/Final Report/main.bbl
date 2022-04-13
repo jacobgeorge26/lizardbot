@@ -164,4 +164,11 @@ Thelan, E. and Smith, L. (1994).
 \newblock \\ \url{https://www.youtube.com/watch?v=jOUAIRbrv6s} \\ Accessed:
   2022-04-12.
 
+\bibitem[Ye et~al., 2010]{modularRobotBackground}
+Ye, X., Niu, Y., Wang, H., and Meng, T. (2010).
+\newblock Locomotion control for a modular snake robot over rough terrain.
+\newblock {\em IEEE}.
+\newblock \\ \url{https://ieeexplore.ieee.org/document/5567368} \\ Accessed:
+  2022-04-13.
+
 \end{thebibliography}
