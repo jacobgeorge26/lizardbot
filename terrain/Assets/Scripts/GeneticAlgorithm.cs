@@ -483,7 +483,7 @@ public static class GeneticAlgorithm : object
 
     private static RobotConfig Init(RobotConfig newRobot, RobotConfig oldRobot, int newVersion)
     {
-        newRobot.FreshCopy(oldRobot, newVersion);
+        newRobot.FreshCopy(oldRobot, newVersion, oldRobot.RobotIndex);
         //setup ready to respawn
         newRobot.Object.name = $"Robot {newRobot.RobotIndex + 1} V {newRobot.Version}";
         newRobot.Object.transform.parent = oldRobot.Object.transform.parent;

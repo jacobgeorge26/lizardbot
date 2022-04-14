@@ -156,10 +156,10 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private string robotPath = "../terrain/Report/Data/BestRobots.csv";
     private StreamWriter SetupRobotWriter()
     {
-        string filePath = "../terrain/Report/Data/BestRobots.csv";
-        robotWriter = File.Exists(filePath) ? File.AppendText(filePath) : File.CreateText(filePath);
+        robotWriter = File.Exists(robotPath) ? File.AppendText(robotPath) : File.CreateText(robotPath);
         robotWriter.WriteLine();
         string header = "ATTEMPT, ";
         header += DebugConfig.GetHeader();
@@ -208,7 +208,7 @@ public class GameController : MonoBehaviour
             {
                 //move to overview cam and then disable until respawn is complete
                 pauseUI = true;
-                ui.SelectOption(UIView.Performance);
+                ui.SelectOption(UIView.Overview);
                 ui.Disable();
             }
         }
@@ -235,7 +235,7 @@ public class GameController : MonoBehaviour
         if(ui != null)
         {
             //move to overview cam and then disable until respawn is complete
-            ui.SelectOption(UIView.Performance);
+            ui.SelectOption(UIView.Overview);
             ui.Disable();
         }
         Destroy(CameraConfig.RobotCamera);
@@ -267,6 +267,11 @@ public class GameController : MonoBehaviour
         if (aiPerformanceWriter != null) aiPerformanceWriter.Close();
         if (aiWriter != null) aiWriter.Close();
         if(robotWriter != null) robotWriter.Close();
+    }
+
+    internal string GetRobotPath()
+    {
+        return robotPath;
     }
 
 }

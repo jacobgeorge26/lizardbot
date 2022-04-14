@@ -52,7 +52,7 @@ public class UIDisplay : MonoBehaviour
                 CameraConfig.OverviewCamera.SetActive(false);
                 CameraConfig.Hat.SetActive(true);
                 break;
-            case UIView.Performance:
+            case UIView.Overview:
                 if (!UIE.IsCollapsed)
                 {
                     ToggleUI(true);

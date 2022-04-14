@@ -36,9 +36,22 @@ namespace Config
             line += $"0, ";
             line += $"{Regex.Replace(AngleConstraint.Value.ToString(), @",\s", " - ")}, ";
             line += $"{Regex.Replace(RotationMultiplier.Value.ToString(), @",\s", " - ")}, ";
-            line += $"\"{TailMassMultiplier.Value}\", ";
+            line += $"{TailMassMultiplier.Value}, ";
             line += $"{Length.Value}, ";
             return line;
+        }
+
+        internal void SetData(List<string> values)
+        {
+            values.RemoveAt(0); //index
+            AngleConstraint.Value = GetVectorFromData(values[0]);
+            values.RemoveAt(0); //angle constraint
+            RotationMultiplier.Value = GetVectorFromData(values[0]);
+            values.RemoveAt(0); //rotation multiplier
+            TailMassMultiplier.Value = (float)Convert.ToDouble(values[0]);
+            values.RemoveAt(0); //tail mass multiplier
+            Length.Value = (float)Convert.ToDouble(values[0]);
+            values.RemoveAt(0); //length
         }
 
         internal string GetEmptyData()

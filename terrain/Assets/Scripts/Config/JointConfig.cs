@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 namespace Config
@@ -28,6 +29,18 @@ namespace Config
 
         //store the initial velocity - used to see if this movement was more efficient than a previous
         public Vector3 CurrentVelocity = Vector3.zero;
+
+        protected Vector3 GetVectorFromData(string value)
+        {
+            string[] values = value.Split('-');
+            Vector3 vector = new Vector3();
+            for (int i = 0; i < 3; i++)
+            {
+                string x = Regex.Match(values[i], @"-*\d+\.*\d*").Value;
+                vector[i] = float.Parse(x);
+            }
+            return vector;
+        }
 
     }
 }

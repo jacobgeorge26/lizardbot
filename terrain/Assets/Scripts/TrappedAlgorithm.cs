@@ -113,7 +113,7 @@ public class TrappedAlgorithm : MonoBehaviour
                             dynMov.MakeAdjustment(true, activation);
                         }
                     }
-                    if(declareStuck)
+                    if(declareStuck && !DebugConfig.UseBestRobots)
                     {
   
                         IsEnabled = false;

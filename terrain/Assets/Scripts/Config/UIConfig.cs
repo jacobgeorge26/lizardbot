@@ -16,7 +16,7 @@ namespace Config
         //UI options
         public static bool IsUIEnabled = true;
         [HideInInspector]
-        public UIView DefaultView = UIView.Performance;
+        public UIView DefaultView = UIView.Overview;
         [HideInInspector]
         public bool IsCollapsed = true;
         [HideInInspector]

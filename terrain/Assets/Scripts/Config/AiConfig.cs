@@ -11,7 +11,7 @@ namespace Config
 
         //there is a hard limit of 25 layers available
         //to work within this the population will be split to 25 per terrain
-        public static int PopulationSize = 5;
+        public static int PopulationSize = 1;
 
         public static int NoAttempts = 1;
 

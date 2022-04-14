@@ -20,7 +20,8 @@ public static class RobotHelpers : object
 
         //setup BodyConfig for MoveBody script
         BodyConfig config = new BodyConfig();
-        if (existingBody != null) config.Clone(existingBody.Body);
+        bool x = existingBody is null;
+        if (!(existingBody is null)) config.Clone(existingBody.Body);
 
         ObjectConfig objConfig = head.GetComponent<ObjectConfig>();
         if (objConfig == null) objConfig = head.AddComponent<ObjectConfig>();
@@ -44,7 +45,7 @@ public static class RobotHelpers : object
 
         //setup BodyConfig for MoveBody script
         BodyConfig config = new BodyConfig();
-        if (existingBody != null) config.Clone(existingBody.Body);
+        if (!(existingBody is null)) config.Clone(existingBody.Body);
 
         ObjectConfig objConfig = body.GetComponent<ObjectConfig>();
         if (objConfig == null) objConfig = body.AddComponent<ObjectConfig>();
@@ -75,7 +76,7 @@ public static class RobotHelpers : object
 
         //setup LegConfig for MoveLeg script
         LegConfig config = new LegConfig(prevObj.Index, spawnIndex);
-        if (existingLeg != null) config.Clone(existingLeg.Leg);
+        if (!(existingLeg is null)) config.Clone(existingLeg.Leg);
 
         //setup position & rotation
         robot.SetLegPosition(leg, config, prevBody, prevObj.Body.LegPoints[spawnIndex]);
@@ -111,7 +112,7 @@ public static class RobotHelpers : object
         tail.transform.localPosition = new Vector3(0, 0, robot.GetZPos(lastSection, tail));
 
         TailConfig config = new TailConfig();
-        if (existingTail != null) config.Clone(existingTail.Tail);
+        if (!(existingTail is null)) config.Clone(existingTail.Tail);
 
         //setup config - different defaults for tail
         if (!AIConfig.RandomInitValues)

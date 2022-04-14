@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -63,6 +64,38 @@ namespace Config
             line += $"{AngleOffset.Value}, ";
             line += $"{GaitMultiplier.Value}, ";
             return line;
+        }
+
+        internal void SetData(List<string> values)
+        {
+            values.RemoveAt(0); //index
+            values.RemoveAt(0); //attached body
+            values.RemoveAt(0); //position
+            AngleConstraint.Value = GetVectorFromData(values[0]);
+            values.RemoveAt(0); //angle constraint
+            RotationMultiplier.Value = GetVectorFromData(values[0]);
+            values.RemoveAt(0); //rotation multiplier
+            Length.Value = (float)Convert.ToDouble(values[0]);
+            values.RemoveAt(0); //length
+            Mass.Value = (float)Convert.ToDouble(values[0]);
+            values.RemoveAt(0); //mass
+            AngleOffset.Value = (float)Convert.ToDouble(values[0]);
+            values.RemoveAt(0); //angle offset
+            GaitMultiplier.Value = (float)Convert.ToDouble(values[0]);
+            values.RemoveAt(0); //gait multiplier
+        }
+
+        internal void SetEmptyData(List<string> values)
+        {
+            values.RemoveAt(0); //index
+            values.RemoveAt(0); //attached body
+            values.RemoveAt(0); //position
+            values.RemoveAt(0); //angle constraint
+            values.RemoveAt(0); //rotation multiplier
+            values.RemoveAt(0); //length
+            values.RemoveAt(0); //mass
+            values.RemoveAt(0); //angle offset
+            values.RemoveAt(0); //gait multiplier
         }
 
         internal string GetEmptyData(int index)

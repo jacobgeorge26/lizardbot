@@ -12,5 +12,5 @@ public enum Mutation
 
 public enum UIView
 {
-    Robot = 0, Performance = 1
+    Robot = 0, Overview = 1
 }
