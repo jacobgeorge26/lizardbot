@@ -391,9 +391,12 @@ public static class RobotHelpers : object
         List<ObjectConfig> Legs = robot.Configs.Where(o => o.Type == BodyPart.Leg).ToList();
         foreach (ObjectConfig objConfig in  Legs)
         {
-            //TODO ERROR HERE
-            if(objConfig.Index > 0) objConfig.Leg.Length.Value = firstLeg.Length.Value;
-            if(objConfig.Index > 0) objConfig.Leg.Mass.Value = firstLeg.Mass.Value;
+            try
+            {
+                if (objConfig.Index > 0) objConfig.Leg.Length.Value = firstLeg.Length.Value;
+                if (objConfig.Index > 0) objConfig.Leg.Mass.Value = firstLeg.Mass.Value;
+            }
+            catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
         }
         robot.MakeLegsSymmetrical(Legs);
     }
@@ -717,10 +720,10 @@ public static class RobotHelpers : object
     //uses the distance the robot has travelled from the spawn
     //multiplied by the speed of the robot
     //subtract any penalties
-    internal static float SetPerformance(this RobotConfig robot)
+    internal static float SetPerformance(this RobotConfig robot, Transform transform)
     {
         //get current location and spawn point
-        Vector3 currentLocation = robot.Object.transform.position;
+        Vector3 currentLocation = transform.position;
         Vector3 spawnPoint = TerrainConfig.GetSpawnPoint(robot.RobotIndex);
         //how far has the robot travelled (magnitude)
         float currentPerformance = Vector3.Distance(currentLocation, spawnPoint);

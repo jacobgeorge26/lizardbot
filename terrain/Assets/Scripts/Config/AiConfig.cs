@@ -13,7 +13,7 @@ namespace Config
         //to work within this the population will be split to 25 per terrain
         public static int PopulationSize = 75;
 
-        public static int NoAttempts = 5;
+        public static int NoAttempts = 1;
 
         public static int AttemptLength = 600;
 
@@ -45,7 +45,7 @@ namespace Config
         public static float MutationRate = 0.31f;
 
         //options for which genes will be mutated
-        public static Mutation MutationType = Mutation.Movement;
+        public static Mutation MutationType = Mutation.Physical;
 
         //value for k - how many should be considered in the recombination?
         public static int SelectionSize = 9;

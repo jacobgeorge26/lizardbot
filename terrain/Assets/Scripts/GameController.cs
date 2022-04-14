@@ -25,7 +25,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
         /////////////////////////////////////
-        PlayerPrefs.SetInt("Attempt", 0);
+        PlayerPrefs.SetInt("Attempt", 9);
         Controller = this;
         attemptCount = AIConfig.NoAttempts;
         //setup writers with headers
@@ -76,19 +76,19 @@ public class GameController : MonoBehaviour
         int attempt = PlayerPrefs.GetInt("Attempt");
         switch (attempt)
         {
-            case 1:
+            case 6:
                 AIConfig.RecombinationType = Recombination.PhysicalLikeness;
                 break;
-            case 2:
+            case 7:
                 AIConfig.RecombinationType = Recombination.MovementLikeness;
                 break;
-            case 3:
+            case 8:
                 AIConfig.RecombinationType = Recombination.Triad;
                 break;
-            case 4:
+            case 9:
                 AIConfig.RecombinationType = Recombination.Lizard;
                 break;
-            case 5:
+            case 10:
                 AIConfig.RecombinationType = Recombination.Random;
                 break;
             default:
@@ -216,7 +216,7 @@ public class GameController : MonoBehaviour
     internal void SingleRespawn(string exception, RobotConfig robot)
     {
         //stop execution for this robot - an error has occurred
-        if(robot.Object == null || AIConfig.PopulationSize == DebugConfig.InitRobots.Count - 1)
+        if(robot == null || robot.Object == null || AIConfig.PopulationSize == DebugConfig.InitRobots.Count - 1)
         {
             //if there is an issue getting the associated robot objects, or all the robots are malfunctioning
             //do a total respawn instead

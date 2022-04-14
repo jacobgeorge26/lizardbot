@@ -58,6 +58,11 @@ public class MoveBody : MonoBehaviour
     //rotate this body section
     private void Rotate()
     {
+        if(robotConfig == null)
+        {
+            try { robotConfig = AIConfig.RobotConfigs.First(c => c.RobotIndex.Equals(objectConfig.RobotIndex)); }
+            catch (Exception ex) { GameController.Controller.TotalRespawn(ex.ToString()); return; }
+        }
         Vector3 currentAngle = GetRelativeAngle(false);
         Vector3 angleVelocity = new Vector3();
         Vector3 prevSecAngle = new Vector3();
@@ -98,7 +103,8 @@ public class MoveBody : MonoBehaviour
 
     private Vector3 GetVelocity()
     {
-        return body.velocity;
+        try { return body.velocity; }
+        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robotConfig); return new Vector3(); } 
     }
 
     //drive this body section forward
@@ -115,8 +121,9 @@ public class MoveBody : MonoBehaviour
     //rounds to int by default as common use of this method is validation about whether to continue turning. 
     public Vector3 GetRelativeAngle(bool round = true)
     {
-        //TODO: investigate occasional error here
-        Vector3 angle = body.rotation.eulerAngles;
+        Vector3 angle = new Vector3();
+        try { angle = body.rotation.eulerAngles; }
+        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robotConfig); return new Vector3(); }
 
         //update for range -180 - 180
         angle.x -= Math.Round(angle.x, 0) > 180 ? 360 : 0;

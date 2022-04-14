@@ -135,7 +135,7 @@ public class TrappedAlgorithm : MonoBehaviour
 
         }
         //important - update robot with its performance metric for AI to use
-        float currentPerformance = robotConfig.SetPerformance();
+        float currentPerformance = robotConfig.SetPerformance(GetComponent<Transform>());
         //update performance in UI
         if (UIConfig.IsUIEnabled) ui.UpdatePerformance(robotConfig.RobotIndex, currentPerformance, robotConfig.Performance);
     }

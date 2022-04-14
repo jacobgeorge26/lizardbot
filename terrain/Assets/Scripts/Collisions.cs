@@ -39,7 +39,7 @@ public class Collisions : MonoBehaviour
         {
             finished[robotIndex] = true;
             RobotConfig robot = AIConfig.RobotConfigs[robotIndex];
-            robot.SetPerformance();
+            robot.SetPerformance(GetComponent<Transform>());
             robot.RobotIsStuck(true);
             Destroy(this);
         }

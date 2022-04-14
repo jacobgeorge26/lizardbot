@@ -51,9 +51,12 @@ public static class GeneticAlgorithm : object
         if (stuckRobot.RobotIndex == CameraConfig.CamFollow) CameraConfig.Hat.transform.parent = CameraConfig.RobotCamera.transform; //avoid the hat being cloned too
 
         ObjectConfig firstObjConfig = null;
-        try { firstObjConfig = oldRobot.Configs.First(); }
-        catch (Exception ex) { GameController.Controller.TotalRespawn(ex.ToString()); return stuckRobot; }
-        GameObject newRobotObj = firstObjConfig.Clone(oldRobot.Object);
+        GameObject newRobotObj;
+        try { 
+            firstObjConfig = oldRobot.Configs.First();
+            newRobotObj = firstObjConfig.Clone(oldRobot.Object);
+        }
+        catch (Exception ex) { GameController.Controller.TotalRespawn(ex.ToString()); return stuckRobot; }     
         RobotConfig newRobot = new RobotConfig(oldRobot.RobotIndex, newRobotObj);
         newRobot = Init(newRobot, oldRobot, newVersion);
 
