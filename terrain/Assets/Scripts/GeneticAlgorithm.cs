@@ -58,13 +58,16 @@ public static class GeneticAlgorithm : object
         newRobot = Init(newRobot, oldRobot, newVersion);
 
         //mutate
+        Mutation type = AIConfig.MutationType == Mutation.Any
+            ? (Mutation)Enum.GetValues(typeof(Mutation)).GetValue((int)Random.Range(0, Enum.GetValues(typeof(Mutation)).Length - 1))
+            : AIConfig.MutationType;
         List<Gene> genes = new List<Gene>();
-        if (AIConfig.RecombinationRate > 0 && AIConfig.PopulationSize > 1) genes = Recombine(newRobot, oldRobot);
+        if (AIConfig.RecombinationRate > 0 && AIConfig.PopulationSize > 1) genes = Recombine(newRobot, oldRobot, type);
         else
         {
             genes = GetGenes(newRobot, true);
         }
-        if (AIConfig.MutationRate > 0) Mutate(genes);
+        if (AIConfig.MutationRate > 0) Mutate(genes, type);
 
         UpdateBody(oldRobot, newRobot);
         if (stuckRobot.MutationCount != AIConfig.MutationCycle && stuckRobot.Version != 0)
@@ -88,7 +91,7 @@ public static class GeneticAlgorithm : object
         return newRobot;
     }
 
-    private static List<Gene> Recombine(RobotConfig robot, RobotConfig old)
+    private static List<Gene> Recombine(RobotConfig robot, RobotConfig old, Mutation mutationType)
     {
         Recombination type = AIConfig.RecombinationType == Recombination.Any
             ? (Recombination)Enum.GetValues(typeof(Recombination)).GetValue((int)Random.Range(0, Enum.GetValues(typeof(Recombination)).Length - 1))
@@ -118,8 +121,22 @@ public static class GeneticAlgorithm : object
             catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), best1); return new List<Gene>(); }
             try { body2 = best2 != null && best2.NoSections.Value > i ? best2.Configs.First(o => o.Type == BodyPart.Body && o.Index == i) : null; }
             catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), best2); return new List<Gene>(); }
-
-            CombineGenes(GetGenes(robot, body), GetGenes(best1, body1), GetGenes(best2, body2), ref newRobotGenes);
+            List<Gene> robotGenes = GetGenes(robot, body);
+            //trim list if physical / movement limited
+            robotGenes = mutationType == Mutation.Physical ? robotGenes.Where(g => g.Type < 0).ToList() :
+                mutationType == Mutation.Movement ? robotGenes.Where(g => g.Type > 0).ToList() :
+                    robotGenes;
+            List<Gene> best1Genes = GetGenes(best1, body1);
+            //trim list if physical / movement limited
+            best1Genes = mutationType == Mutation.Physical ? best1Genes.Where(g => g.Type < 0).ToList() :
+                mutationType == Mutation.Movement ? best1Genes.Where(g => g.Type > 0).ToList() :
+                    best1Genes;
+            List<Gene> best2Genes = GetGenes(best2, body2);
+            //trim list if physical / movement limited
+            best2Genes = mutationType == Mutation.Physical ? best2Genes.Where(g => g.Type < 0).ToList() :
+                mutationType == Mutation.Movement ? best2Genes.Where(g => g.Type > 0).ToList() :
+                    best2Genes;
+            CombineGenes(robotGenes, best1Genes, best2Genes, ref newRobotGenes);
         }
         //tail
         //there are some unnecessary calls to CreateTail in here
@@ -203,11 +220,8 @@ public static class GeneticAlgorithm : object
         }
     }
 
-    private static void Mutate(List<Gene> allGenes)
+    private static void Mutate(List<Gene> allGenes, Mutation type)
     {
-        Mutation type = AIConfig.MutationType == Mutation.Any
-            ? (Mutation)Enum.GetValues(typeof(Mutation)).GetValue((int)Random.Range(0, Enum.GetValues(typeof(Mutation)).Length - 1))
-            : AIConfig.MutationType;
         //trim list if physical / movement limited
         List<Gene> genes = type == Mutation.Physical ? allGenes.Where(g => g.Type < 0).ToList() :
             type == Mutation.Movement ? allGenes.Where(g => g.Type > 0).ToList() :
