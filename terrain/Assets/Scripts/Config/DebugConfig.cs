@@ -32,11 +32,11 @@ namespace Config
 
         public static bool LogRobotData = true;
 
-        public static bool LogAIData = false;
+        public static bool LogAIData = true;
 
         public static RobotConfig BestRobot;
 
-        public static bool UseBestRobots = true;
+        public static bool UseBestRobots = false;
 
         public static List<RobotConfig> StoredRobots = new List<RobotConfig>();
 

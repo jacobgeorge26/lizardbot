@@ -110,6 +110,14 @@ Halvarsson, K. (2021).
   \url{https://stackoverflow.com/questions/65794490/unity3d-check-if-a-point-is-to-the-left-or-right-of-a-vector}
   \\ Accessed: 2022-04-12.
 
+\bibitem[Microsoft, 2022]{streamReader}
+Microsoft (2022).
+\newblock Streamreader class.
+\newblock {\em Microsoft Documentation}.
+\newblock \\
+  \url{https://docs.microsoft.com/en-us/dotnet/api/system.io.streamreader?view=net-6.0}
+  \\ Accessed: 2022-04-14.
+
 \bibitem[M\"{o}rk, 2011]{listVariables}
 M\"{o}rk, F. (2011).
 \newblock How to list all variables of class.
@@ -117,6 +125,14 @@ M\"{o}rk, F. (2011).
 \newblock \\
   \url{https://stackoverflow.com/questions/6536163/how-to-list-all-variables-of-class}
   \\ Accessed: 2022-04-12.
+
+\bibitem[mqp, 2009]{tryParse}
+mqp (2009).
+\newblock Identify if a string is a number.
+\newblock {\em StackOverflow}.
+\newblock \\
+  \url{https://stackoverflow.com/questions/894263/identify-if-a-string-is-a-number}
+  \\ Accessed: 2022-04-14.
 
 \bibitem[nobizzle, 2019]{updateFixedUpdate}
 nobizzle (2019).

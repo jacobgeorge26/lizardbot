@@ -391,6 +391,7 @@ public static class RobotHelpers : object
         List<ObjectConfig> Legs = robot.Configs.Where(o => o.Type == BodyPart.Leg).ToList();
         foreach (ObjectConfig objConfig in  Legs)
         {
+            //TODO ERROR HERE
             if(objConfig.Index > 0) objConfig.Leg.Length.Value = firstLeg.Length.Value;
             if(objConfig.Index > 0) objConfig.Leg.Mass.Value = firstLeg.Mass.Value;
         }

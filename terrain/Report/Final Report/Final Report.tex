@@ -210,8 +210,35 @@ Another difference was the Salamandra’s passive tail. The tail fin was only us
 
 \newpage
 \section{Requirements Analysis}
-Insert from interim report - needs some work\\
-Add section on the constraints of this project
+It is difficult to predict what the specific applications of this project would be and what their range of possible constraints they could have. Are elements of the physical design restricted? What kind of terrain is the robot going to be placed in? Are there other factors that need to be accounted for, e.g. gravity, bodies of water? This project is designed to be broad such that it can be adapted for a narrower use case. It lays the groundwork for research tailored to creating a robot for bomb disposal, planet exploration, or even a robot hoover that can handle stairs!
+The features that a target system would include are outlined here, split into functional and non-functional elements.
+
+\subsection{Functional Requirements}
+\subsubsection{Realistic physics interactions}
+To achieve a suitable successor function, the robot will need to interact realistically with the terrain around it. If it were to remain on a ledge in a precarious position that any physical robot would have immediately fallen off then this is not a realistic model. 
+This need was a significant factor in the decision to use Unity, as opposed to other modelling software such as MSC Adams. \citepmain{mscAdams} It is expected that collisions and gravity will be accurately modelled, with credit to Unity.
+
+
+\subsubsection{Robot design is directly transferable}
+It would be beneficial for the target user if there were a direct correlation between the design of the model and the physical structure of a robot based on the model. Lizardbot has a vague shape but the underlying structure would be transferable to a blueprint for a robot. The model will deliberately use realistic constraints to avoid outcomes that cannot be replicated (e.g. the maximum degrees of freedom will be bound).
+
+\subsubsection{Reduction of risk to robot}
+Regardless of the purpose of the robot, any user will want their robot to avoid behaviour that risks damage. This function can be somewhat achieved by having the AI predict the upcoming terrain and proactively decide how it will navigate it. The AI will introduce a bias toward robots that minimise their collision force: by avoiding collisions and falls, the largest risks can be reduced. \\
+Additionally, the model could approach this objective via the proactive decision-making that has been established as a possible extension to the AI.
+
+\subsubsection{AI evolves high performing robots}
+
+\subsubsection{Dynamic movement improves performance}
+
+\subsubsection{Robots perform well across multiple terrains}
+
+\subsection{Non-functional Requirements}
+\subsubsection{Testing conducted with a physical robot}
+
+\subsubsection{Customisable design of the robot}
+
+\subsubsection{Customisable terrain}
+
 
 \newpage
 \section{Professional and Ethical Considerations}

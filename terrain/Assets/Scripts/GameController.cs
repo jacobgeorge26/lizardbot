@@ -48,9 +48,11 @@ public class GameController : MonoBehaviour
                 yield return new WaitForSeconds(5f);
                 attemptCount--;
                 UpdateAttempt(1);
-                if (!isRespawn && DebugConfig.LogAIData) SetupAIParams();
+                //if (!isRespawn && DebugConfig.LogAIData) SetupAIParams(); //used to test which AI params work best
+                ////////////
+                SetupTempAIParams();
                 generate = gameObject.AddComponent<GeneratePopulation>();
-                Debug.Log($"ATTEMPT {PlayerPrefs.GetInt("Attempt")}");
+                Debug.Log($"ATTEMPT {PlayerPrefs.GetInt("Attempt")}    {AIConfig.RecombinationType}");
                 generate.CreatePopulation();
                 if(DebugConfig.LogAIData) StartCoroutine(SaveAttemptData(isRespawn));
                 if (!isRespawn) startTime = Time.realtimeSinceStartup;
@@ -66,6 +68,32 @@ public class GameController : MonoBehaviour
                 //as all coroutines have been stopped - dodgy recursion but avoids issue if in middle of respawn
                 StartCoroutine(GenerateAttempt(false)); 
             }
+        }
+    }
+
+    private void SetupTempAIParams()
+    {
+        int attempt = PlayerPrefs.GetInt("Attempt");
+        switch (attempt)
+        {
+            case 1:
+                AIConfig.RecombinationType = Recombination.PhysicalLikeness;
+                break;
+            case 2:
+                AIConfig.RecombinationType = Recombination.MovementLikeness;
+                break;
+            case 3:
+                AIConfig.RecombinationType = Recombination.Triad;
+                break;
+            case 4:
+                AIConfig.RecombinationType = Recombination.Lizard;
+                break;
+            case 5:
+                AIConfig.RecombinationType = Recombination.Random;
+                break;
+            default:
+                AIConfig.RecombinationType = Recombination.Any;
+                break;
         }
     }
 
