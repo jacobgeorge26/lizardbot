@@ -174,7 +174,7 @@ namespace Config
             values.RemoveAt(0); //nolegs
             IsTailEnabled.Value = Convert.ToBoolean(values[0]);
             values.RemoveAt(0); //is tail enabled
-            BodyColour.Value = Convert.ToInt32(values[0]);
+            BodyColour.Value = (float)Convert.ToDouble(values[0]);
             values.RemoveAt(0); //body colour
             MaintainSerpentine.Value = Convert.ToBoolean(values[0]);
             values.RemoveAt(0); //maintain serpentine

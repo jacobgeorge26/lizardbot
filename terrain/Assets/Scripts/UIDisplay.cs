@@ -433,7 +433,7 @@ public class UIDisplay : MonoBehaviour
 
     public int GetCurrentRobot()
     {
-        return Robot.RobotIndex;
+        return Robot == null ? 0 : Robot.RobotIndex;
     }
 
 
