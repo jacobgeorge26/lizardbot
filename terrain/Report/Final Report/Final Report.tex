@@ -147,10 +147,9 @@ To replicate a lizard's gait, diagonally opposite legs will be accelerated in rh
 %TODO ADD explanation about why I want a relationship between them - article Simon sent
 %TODO ADD explain triad recombination - what examples are there of this in nature?
 %TODO ADD explain about the red robots - why might these be attractive?
-
+The genetic algorithm aims to optimise the parameters of Lizardbot and, once an optimal robot has been found, could be removed from the project. It has no impact on the behaviour of the robot mid-generation in reaction to specific circumstances.\\
 
 \subsubsection{Dynamic Movement}
-The genetic algorithm aims to optimise the parameters of Lizardbot and, once an optimal robot has been found, could be removed from the project. It has no impact on the behaviour of the robot mid-generation in reaction to specific circumstances.\\
 \begin{wrapfigure}{r}{0.3\textwidth}
     \centering
     \vspace*{-5mm}
@@ -467,6 +466,10 @@ Graphs created using Colab, \citep{colab} Pandas, \citep{pd} MatPlotLib, \citep{
 \end{figure}
 
 Upon analysing the four values being used for the highest performing upward-trending iterations it appeared that successful values had been found through an issue in the code. When generating random values, Unity cycles through the same values if not provided with a seed. \citepcode{randomRepeating} As the four values were consistently the first four values generated they had been repeatedly set as $[2, 0.77, 0.31, 9]$. Of the 8 iterations that showed an upwards trend and performed well, 7 were these values. Additionally, there was only a single iteration using these values that did not perform well. Given the apparent success of these GA values, these were selected as the default parameters. \\
+It would be useful to have different GA parameter values tailored to each combination of the recombination and mutation methods. Currently, effective values have been found whilst the Any option was selected for both in an attempt to find parameters suitable for all permutations. However, this may favour certain combinations more than others and there is currently no data on this. Rather, these base values are assumed to be appropriate and the effectiveness of the methods themselves judged relative to them. Ideally, there would be a set of values for each combination, or the ability for the GA parameters to themselves be mutated. \\
+
+There is an assumption that asynchronous evolution is superior to synchronous evolution. The alternative would be to allow every robot to operate for $x$ seconds before mutating a percentage of the population in parallel. This would ensure that every robot experiences the same number of generations and remove any assumptions in the algorithm used to declare a robot as trapped. \\
+Intuitively, the current approach is more appropriate as it does not leave unsuccessful robots continuing past the point where they have been identified as trapped. It is also more natural: we do not wait for a person’s 30th birthday before allowing them to have children based on how successful they have been thus far in their lives. Certainly it is more efficient, as waiting for every robot to be declared stuck before mutating a portion of the population would be extremely time consuming. However, it would be useful to gather results of the alternative approach to support this intuition. \\
 
 \subsection{Dynamic Movement}
 As outlined in TODO, a dynamic approach uses the historical movement of the robot to ‘learn’ how to move in a given direction again. 
@@ -533,7 +536,7 @@ The UI could be extended to offer a better UX and to offer a view of the perform
 \newpage
 \section{Results}
 
-\subsection{Evolved Robots}
+\subsection{Evolved Lizardbot}
 %TODO when left to it - what do the eventual robots look like? What is the corresponding behaviour?
 
 \subsection{Recombination Methods}
@@ -566,9 +569,8 @@ The UI could be extended to offer a better UX and to offer a view of the perform
 
 %GA report
 Whilst the GA demonstrates promising results, there are still some fundamental issues with it. A major issue is that not all genes have equal weight. If the gene that determines whether a uniform body is maintained mutates from false to true then this has a significant effect on the robot. The physical properties of almost all body and leg parts will be adjusted, resulting in a much larger adjustment to the robot than those caused by mutating other genes. To mitigate this, it would be useful to apply weights to each gene. Thus, the mutation range could be scaled accordingly, or the genes categorised such that a change to a heavily weighted gene would limit any changes to other genes. This would allow an isolated analysis of the effect that such a large mutation has on the performance.\\
-It would be useful to have different GA parameter values tailored to each combination of the recombination and mutation methods. Currently, effective values have been found whilst the Any option was selected for both in an attempt to find parameters suitable for all permutations. However, this may favour certain combinations more than others and there is currently no data on this. Rather, these base values are assumed to be appropriate and the effectiveness of the methods themselves judged relative to them. Ideally, there would be a set of values for each combination, or the ability for the GA parameters to themselves be mutated. \\
-There is an assumption that asynchronous evolution is superior to synchronous evolution. The alternative would be to allow every robot to operate for x seconds before mutating a percentage of the population in parallel. This would ensure that every robot experiences the same number of generations and remove any assumptions in the algorithm used to declare a robot as trapped. \\
-Intuitively, the current approach is more appropriate as it does not leave unsuccessful robots continuing past the point where they have been identified as trapped. It is also more natural: we do not wait for a person’s 30th birthday before allowing them to have children based on how successful they have been thus far in their lives. Certainly it is more efficient, as waiting for every robot to be declared stuck before mutating a portion of the population would be extremely time consuming. However, it would be useful to gather results of the alternative approach to support this intuition. \\
+
+
 TODO anecdotal evidence of complex behaviour emerging\\
 
 

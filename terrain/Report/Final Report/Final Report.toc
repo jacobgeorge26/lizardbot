@@ -8,7 +8,7 @@
 \contentsline {subsubsection}{\numberline {2.1.4}Leg Movement}{7}{subsubsection.2.1.4}%
 \contentsline {subsubsection}{\numberline {2.1.5}Genetic Algorithm}{8}{subsubsection.2.1.5}%
 \contentsline {subsubsection}{\numberline {2.1.6}Dynamic Movement}{8}{subsubsection.2.1.6}%
-\contentsline {subsubsection}{\numberline {2.1.7}Terrain Generation}{8}{subsubsection.2.1.7}%
+\contentsline {subsubsection}{\numberline {2.1.7}Terrain Generation}{9}{subsubsection.2.1.7}%
 \contentsline {subsection}{\numberline {2.2}Extension Objectives}{9}{subsection.2.2}%
 \contentsline {subsubsection}{\numberline {2.2.1}Vision}{9}{subsubsection.2.2.1}%
 \contentsline {subsubsection}{\numberline {2.2.2}Flexible Tail}{10}{subsubsection.2.2.2}%
@@ -31,10 +31,10 @@
 \contentsline {subsubsection}{\numberline {6.3.3}Genes}{21}{subsubsection.6.3.3}%
 \contentsline {subsubsection}{\numberline {6.3.4}Population}{21}{subsubsection.6.3.4}%
 \contentsline {subsubsection}{\numberline {6.3.5}Genetic Algorithm}{22}{subsubsection.6.3.5}%
-\contentsline {subsection}{\numberline {6.4}Dynamic Movement}{24}{subsection.6.4}%
-\contentsline {subsection}{\numberline {6.5}UI}{26}{subsection.6.5}%
+\contentsline {subsection}{\numberline {6.4}Dynamic Movement}{25}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5}UI}{27}{subsection.6.5}%
 \contentsline {section}{\numberline {7}Results}{28}{section.7}%
-\contentsline {subsection}{\numberline {7.1}Evolved Robots}{28}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.1}Evolved Lizardbot}{28}{subsection.7.1}%
 \contentsline {subsection}{\numberline {7.2}Recombination Methods}{28}{subsection.7.2}%
 \contentsline {subsection}{\numberline {7.3}Oscillating vs Static Body}{28}{subsection.7.3}%
 \contentsline {subsection}{\numberline {7.4}Serpentine Motion}{28}{subsection.7.4}%
@@ -44,9 +44,9 @@
 \contentsline {subsection}{\numberline {7.8}Dynamic Movement}{28}{subsection.7.8}%
 \contentsline {subsection}{\numberline {7.9}Terrain Friction}{28}{subsection.7.9}%
 \contentsline {subsection}{\numberline {7.10}Physical vs Movement Evolution}{28}{subsection.7.10}%
-\contentsline {section}{\numberline {8}Conclusion}{30}{section.8}%
-\contentsline {section}{\numberline {9}References}{31}{section.9}%
-\contentsline {section}{\numberline {10}Appendices}{37}{section.10}%
-\contentsline {subsection}{\numberline {10.1}Progress Logs}{37}{subsection.10.1}%
-\contentsline {subsection}{\numberline {10.2}Code of Conduct}{37}{subsection.10.2}%
-\contentsline {subsection}{\numberline {10.3}Project Proposal}{37}{subsection.10.3}%
+\contentsline {section}{\numberline {8}Conclusion}{29}{section.8}%
+\contentsline {section}{\numberline {9}References}{30}{section.9}%
+\contentsline {section}{\numberline {10}Appendices}{36}{section.10}%
+\contentsline {subsection}{\numberline {10.1}Progress Logs}{36}{subsection.10.1}%
+\contentsline {subsection}{\numberline {10.2}Code of Conduct}{36}{subsection.10.2}%
+\contentsline {subsection}{\numberline {10.3}Project Proposal}{36}{subsection.10.3}%

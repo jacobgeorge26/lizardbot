@@ -123,7 +123,7 @@ public class GenerateRobot : MonoBehaviour
                 break;
             }
             int index = legIndexes[Random.Range(0, legIndexes.Count - 1)];
-            legIndexes.Remove(Random.Range(0, legIndexes.Count - 1));
+            legIndexes.Remove(index);
             if (robotConfig.UniformBody.Value)
             {
                 for (int spawnIndex = 0; spawnIndex < NoSpawnPoints; spawnIndex++)
