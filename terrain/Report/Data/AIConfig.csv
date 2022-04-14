@@ -72,3 +72,5 @@ ATTEMPT, PopulationSize, RandomInitValues, Sensitivity, MutationCycle, Recombina
 ATTEMPT, PopulationSize, RandomInitValues, Sensitivity, MutationCycle, RecombinationRate, RecombinationType, MutationRate, MutationType, SelectionSize, 
 ATTEMPT, PopulationSize, RandomInitValues, Sensitivity, MutationCycle, RecombinationRate, RecombinationType, MutationRate, MutationType, SelectionSize, 
 ATTEMPT, PopulationSize, RandomInitValues, Sensitivity, MutationCycle, RecombinationRate, RecombinationType, MutationRate, MutationType, SelectionSize, 
+ATTEMPT, PopulationSize, RandomInitValues, Sensitivity, MutationCycle, RecombinationRate, RecombinationType, MutationRate, MutationType, SelectionSize, 
+ATTEMPT, PopulationSize, RandomInitValues, Sensitivity, MutationCycle, RecombinationRate, RecombinationType, MutationRate, MutationType, SelectionSize, 

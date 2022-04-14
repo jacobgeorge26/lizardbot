@@ -56,7 +56,7 @@ public static class GeneticAlgorithm : object
             firstObjConfig = oldRobot.Configs.First();
             newRobotObj = firstObjConfig.Clone(oldRobot.Object);
         }
-        catch (Exception ex) { GameController.Controller.TotalRespawn(ex.ToString()); return stuckRobot; }     
+        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), stuckRobot); return stuckRobot; }     
         RobotConfig newRobot = new RobotConfig(oldRobot.RobotIndex, newRobotObj);
         newRobot = Init(newRobot, oldRobot, newVersion);
 

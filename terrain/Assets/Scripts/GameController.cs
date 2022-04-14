@@ -25,7 +25,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
         /////////////////////////////////////
-        PlayerPrefs.SetInt("Attempt", 9);
+        PlayerPrefs.SetInt("Attempt", 10);
         Controller = this;
         attemptCount = AIConfig.NoAttempts;
         //setup writers with headers
@@ -76,19 +76,19 @@ public class GameController : MonoBehaviour
         int attempt = PlayerPrefs.GetInt("Attempt");
         switch (attempt)
         {
-            case 6:
+            case 11:
                 AIConfig.RecombinationType = Recombination.PhysicalLikeness;
                 break;
-            case 7:
+            case 12:
                 AIConfig.RecombinationType = Recombination.MovementLikeness;
                 break;
-            case 8:
+            case 13:
                 AIConfig.RecombinationType = Recombination.Triad;
                 break;
-            case 9:
+            case 14:
                 AIConfig.RecombinationType = Recombination.Lizard;
                 break;
-            case 10:
+            case 15:
                 AIConfig.RecombinationType = Recombination.Random;
                 break;
             default:
