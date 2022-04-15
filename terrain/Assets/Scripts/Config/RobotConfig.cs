@@ -108,7 +108,7 @@ namespace Config
             line += $"{nameof(Version)}, ";
             line += $"{nameof(Performance)}, ";
             line += $"Terrain, ";
-            line += $"{nameof(RobotIndex)}, ";
+            line += $"Robot No, ";
             line += $"{nameof(NoSections)}, ";
             line += $"{nameof(NoLegs)}, ";
             line += $"{nameof(IsTailEnabled)}, ";
@@ -137,7 +137,7 @@ namespace Config
             line += $"{Version}, ";
             line += $"{Performance}, ";
             line += $"{TerrainConfig.GetTerrainType(RobotIndex)}, ";
-            line += $"{RobotIndex}, ";
+            line += $"{RobotIndex + 1}, ";
             line += $"{NoSections.Value}, ";
             line += $"{NoLegs.Value}, ";
             line += $"{IsTailEnabled.Value}, ";
