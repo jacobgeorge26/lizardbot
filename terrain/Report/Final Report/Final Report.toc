@@ -11,12 +11,11 @@
 \contentsline {subsubsection}{\numberline {2.1.7}Terrain Generation}{9}{subsubsection.2.1.7}%
 \contentsline {subsection}{\numberline {2.2}Extension Objectives}{10}{subsection.2.2}%
 \contentsline {subsubsection}{\numberline {2.2.1}Vision}{10}{subsubsection.2.2.1}%
-\contentsline {subsubsection}{\numberline {2.2.2}Flexible Tail}{10}{subsubsection.2.2.2}%
 \contentsline {section}{\numberline {3}Project Relevance}{11}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Modular Snake Robot}{11}{subsection.3.1}%
 \contentsline {subsection}{\numberline {3.2}Agama Robot}{11}{subsection.3.2}%
 \contentsline {subsection}{\numberline {3.3}Salamandra Robotica II}{11}{subsection.3.3}%
-\contentsline {subsection}{\numberline {3.4}tbc}{12}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.4}Evolution Gym}{12}{subsection.3.4}%
 \contentsline {section}{\numberline {4}Requirements Analysis}{13}{section.4}%
 \contentsline {subsection}{\numberline {4.1}Functional Requirements}{13}{subsection.4.1}%
 \contentsline {subsubsection}{\numberline {4.1.1}Realistic physics interactions}{13}{subsubsection.4.1.1}%
@@ -40,9 +39,8 @@
 \contentsline {subsubsection}{\numberline {6.3.2}Trapped Algorithm}{20}{subsubsection.6.3.2}%
 \contentsline {subsubsection}{\numberline {6.3.3}Genes}{22}{subsubsection.6.3.3}%
 \contentsline {subsubsection}{\numberline {6.3.4}Population}{22}{subsubsection.6.3.4}%
-\contentsline {subsubsection}{\numberline {6.3.5}Genetic Algorithm}{23}{subsubsection.6.3.5}%
+\contentsline {subsubsection}{\numberline {6.3.5}Genetic Algorithm}{22}{subsubsection.6.3.5}%
 \contentsline {subsection}{\numberline {6.4}Dynamic Movement}{26}{subsection.6.4}%
-\contentsline {subsection}{\numberline {6.5}UI}{28}{subsection.6.5}%
 \contentsline {section}{\numberline {7}Results}{29}{section.7}%
 \contentsline {subsection}{\numberline {7.1}Evolved Lizardbot}{29}{subsection.7.1}%
 \contentsline {subsection}{\numberline {7.2}Recombination Methods}{29}{subsection.7.2}%
@@ -56,5 +54,4 @@
 \contentsline {section}{\numberline {9}References}{31}{section.9}%
 \contentsline {section}{\numberline {10}Appendices}{37}{section.10}%
 \contentsline {subsection}{\numberline {10.1}Progress Logs}{37}{subsection.10.1}%
-\contentsline {subsection}{\numberline {10.2}Code of Conduct}{37}{subsection.10.2}%
-\contentsline {subsection}{\numberline {10.3}Project Proposal}{37}{subsection.10.3}%
+\contentsline {subsection}{\numberline {10.2}Project Proposal}{37}{subsection.10.2}%

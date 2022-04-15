@@ -151,15 +151,12 @@ Genetic algorithms are formed of three main processes: selection, mutation, and 
 The mutation stage randomly adjusts a selection of the genes to allow for random variations to form in the population. Mutation can \textit{"[insure]
 the population against permanent fixation at any particular locus"} \citepmain{gaIntro}. Essentially, mutation avoids convergence within the population and encourages the formation of new solutions. 
 
-The recombination stage mimics the genetic crossover that occurs when two animals produce offspring. The 'breeding' will occur between the selected robot and another chosen either for its physical or movement similarity. Alternatively, a \textit{Triad} method breeds all three of these together. The offspring of three successful robots is expected to be more successful than the conventional two. A parallel in nature is the multiple matings found in Harvester ants, improving colony performance via \textit{"increased genetic variance within the worker population of the colony"}. \citepmain{antMating} It goes without saying that even with multiple matings there will still be the traditional two genetic inputs. However, there is a connection between the two methods and their \textbf{opportunity} for genetic diversity. The \textit{Triad} method also aims to create a relationship between the body and movement. \\
+The recombination stage mimics the genetic crossover that occurs when two animals produce offspring. The 'breeding' will occur between the selected robot and another chosen either for its physical or movement similarity. Alternatively, a \textit{Triad} method breeds all three of these together. The offspring of three successful robots is expected to be more successful than the conventional two. A parallel in nature is the multiple matings found in Harvester ants, improving colony performance via \textit{"increased genetic variance within the worker population of the colony"}. \citepmain{antMating} It goes without saying that even with multiple matings there will still be the traditional two genetic inputs. However, there is a connection between the two methods and their \textbf{opportunity} for genetic diversity. \\
+The \textit{Triad} method also aims to strengthen the relationship between body and movement. As discussed in TODO, Evolution Gym's co-design GA mutated these two mechanisms in tandem and produced higher-performing robots in most tasks being tested. \citepmain{evolutionGym}\\
+
 Another option explored is a \textit{Lizard} method whereby the mate is selected proximally using a characteristic with no direct impact on performance. Male spiny-footed lizards appear to favour redder females - a trait that appears to signal sexual maturity.  \citepmain{redLizard} For these lizards the body colour appears to signal sexual maturity, a physiological trait that can impact on the success of the population but is not as direct a causation as traits usually considered to be desirable (e.g. signs of health, fighting ability). \citepmain{lizardWeapon}\\
 For this project, the desirable trait is the body colouration; Lizardbot loves blue. In theory, this method should create local ‘ecosystems’ in the population over time as robots that explore the same area of the terrain each iteration will always interact with the same selection pool. \\
 
-
-
-
-%TODO ADD explanation about why I want a relationship between them - article Simon sent
-%TODO ADD explain about the red robots - why might these be attractive?
 The genetic algorithm aims to optimise the parameters of Lizardbot and, once an optimal robot has been found, could be removed from the project. It has no impact on the behaviour of the robot mid-generation in reaction to specific circumstances.\\
 
 \subsubsection{Dynamic Movement}
@@ -194,8 +191,6 @@ Thus far the Lizardbot has focused on finding the ideal parameters for the overa
 To achieve vision, a camera could be placed in the head of the robot. Unity’s built-in functionality would provide feedback on objects within the range of the camera. This knowledge, when combined with the dynamic systems element of the AI, would allow the robot to make informed ‘decisions’ about how it should approach the terrain it is aware of. \\
 This feature would reduce the risk of damage to a physical robot by avoiding collisions with the terrain. David Lee investigated the factors affecting the specific moment in which an agent will begin reacting to an impending collision. He found that for an agent approaching a stationary object, the relative location of the obstacle in the agent’s visual field could be used to deduce the time-to-collision. \citepmain{timeToCollision} The use of this time-to-collision would directly relate to the brief of the project as it applies an algorithm derived from nature to a design problem (in this case collision detection and avoidance). \textit{”Most animals respond avoidantly and directionally to the abstract visual stimulus ... which specifies the approach of an object and impending collision.”} \citepmain{animalCollisionResponse}\\
 Implementing a visual system to the Lizardbot could unlock a variety of more complex - \textbf{and proactive} - behaviours.
-\subsubsection{Flexible Tail}
-%TODO ADD explanation of why a flexible tail would be advantageous
 
 \newpage
 \section{Project Relevance}
@@ -218,8 +213,9 @@ One of the key differences between the Salamandra and the Lizardbot is the metho
 \end{figure}
 Another difference was the Salamandra’s passive tail. The tail fin was only used to test its effect on speed whilst swimming; removing it decreased the speed by 63\%. The rigidity of the tail will be matched by this project but, as previously discussed, it will rotate to counterbalance the motion of the rest of the body.
 
-\subsection{tbc}
-%TODO Find a team that have modelled a robot vs building one - how about that paper Simon sent
+\subsection{Evolution Gym}
+Evolution Gym, \citepmain{evolutionGym} unlike the previous works covered in this section, modelled their robots with a primitive design rather than build them. It shared a common goal with Lizardbot: optimise the movement and body together using a co-design algorithm. \\
+Evolution Gym likewise employed a (much simpler) genetic algorithm. Evolution was conducted synchronously using the top $x\%$ of the population and did not feature recombination. Other optimisation algorithms were tested against the GA on a series of both locomotion and manipulation tasks and the resultant evolved robots were compared to a hand-crafted selection. The former were able to find a balance between their structure and motion in a way that the hand-crafted robots could not. Interestingly, the autonomously generated robots resembled \textit{"existing natural creatures"} - a result that it is hoped Lizardbot will achieve too.
 
 \newpage
 \section{Requirements Analysis}
@@ -261,7 +257,24 @@ The current expectation is that the user will require some knowledge of Unity to
 
 \newpage
 \section{Professional and Ethical Considerations}
-Insert from interim report with more reference to code of conduct
+This project will be an isolated model without any user testing, personal data, vulnerable people, protected characteristics, or medical data. While it does focus on reptiles there will not be any experimentation on any animals. Referenced studies will have faced their own ethical review and will largely use videos of the animal being studied. All testing will be conducted by comparing various inputs to the code and analysing the results.\\
+With these considerations, this project has been classed as low-risk.\\
+
+This project will abide by the \textbf{BSC Code of Conduct}\footnote{\url{https://www.bcs.org/media/2211/bcs-code-of-conduct.pdf}} regarding:
+\begin{itemize}
+ \item Public Interest;
+ \item Professional Competence and Integrity;
+ \item Duty to Relevant Authority;
+ \item Duty to the Profession.
+ \end{itemize}
+
+%https://tex.stackexchange.com/questions/405195/change-the-length-of-footnote-line
+\makeatletter
+\renewcommand\footnoterule{\kern-3\p@\hrule\@width\ifodd\value{page}6in\else6in\fi\kern2.6\p@}
+\makeatother 
+    
+
+
 
 \newpage
 \section{Implementation}
@@ -442,8 +455,7 @@ This class handles any erroneous situations that arise and allows boolean values
 When a gene is mutated, if the new value lies outside the valid range then it is 'bounced' (e.g. $max=0.5, v\rightarrow0.6 \Rightarrow v=0.4$). If a value outside the max/min values is passed directly then the max/min value would be assigned instead.
 
 \subsubsection{Population}
-To avoid interaction between robots, the body parts of a robot should be capable of colliding between themselves and the terrain but should ignore those of other robots. In Unity, this can be achieved by placing all robot objects into a layer. \citepcode{layerMethod} You can then change the Physics system to ignore collisions between different robot layers.\\ 
-Unity’s layers have a limit of 25 available layers. At first, a script was added to every robot scanning around it for other robots in the same layer. Upon detection, the current robot would be moved to another layer that no robots in the vicinity were using. Given that every robot spawned in the same location this script absolutely throttled the performance of the program. With a population of 50 the frame rate would drop from ~200fps to ~20fps. This is not an acceptable impact so an alternative approach was considered. Multiple terrains are generated and 25 robots placed into each. This has the added benefit of being able to generate a population of robots being tested on all three terrain types simultaneously. 
+To avoid interaction between robots, the body parts of a robot should be capable of colliding between themselves and the terrain but should ignore those of other robots. In Unity, this can be achieved by placing all robot objects into a layer per robot - with 25 layers available. \citepcode{layerMethod} Multiple terrains are generated and 25 robots placed into each. This has the added benefit of being able to generate a population of robots being tested on all three terrain types simultaneously. 
 
 
 \subsubsection{Genetic Algorithm}
@@ -569,16 +581,6 @@ At this point it is worth mentioning how the activation of the velocities is imp
 
 It is expected that the dynamic movement algorithm will favour robots that are already performing well. All stored velocities are cleared when the robot is mutated, thus the robots will begin “learning” from scratch every time they become trapped. For robots with sufficient data about their movement, the scaled activation will theoretically enable them to progress in the terrain more often, thus reducing the mutation frequency. As they spend longer in the terrain, less successful robots will have longer to recombine with them. It is predicted that the dynamic movement will both improve the performance of any individual robot, and increase the rate of improvement across a population. \\
 
-\subsection{UI}
-A basic UI was added to make it easier to follow the progress of a robot. Whilst the UI itself adds little to the project and the values shown are not particularly self-explanatory, it did uncover a series of bugs in the code that otherwise would have gone unnoticed until the final data collection. It also provided some visibility as to what the code is doing as it mutates the robot, and to the performance of a given robot.\\
-It offers two options: \textit{Overview} to watch the population from above, or \textit{Robot} to follow a specified robot. Expanding the \textit{Robot} view reveals a rough view of the values being used. Due to the amount of data being shown without much explanation, it is more of a debugging tool than it is a polished UI. For its purpose it has proven extremely useful. 
-\begin{figure}[H]
-\centering
-\centerline{\includegraphics[scale=0.8]{ui} }
-\caption{An example of the \textit{Robot} UI view, and an explanation of what each value represents. }
-\end{figure}
-The UI could be extended to offer a better UX and to offer a view of the performance at runtime. The introduction of a settings page would enable a user to provide constraints for the robots being generated and for the genetic algorithm itself. Currently these constraints can be provided within the various \textit{Config} classes, but a customised menu would lower the threshold to the project as the user would no longer require Unity experience to interact with it. 
-
 \newpage
 \section{Results}
 All graphs are made using Colab, \citep{colab} Pandas, \citep{pd} MatPlotLib, \citep{plt} NumPy. \citep{np}
@@ -595,16 +597,46 @@ localised breeding groups within the population. To balance the  and could benef
 \subsection{Oscillating vs Static vs Serpentine Body}
 %TODO what happens when the body rotation is turned off?
 %TODO what happens when the serpentine motion is fixed to on/off?
+%Smooth terrain
+%50 robots
+%fixed body - 10 sections
+%no legs or tail
+%300s 
+%1 - random oscillation
+%2 - serpentine
+%3 - static (none rotating)
 
 
 \subsection{Counterbalancing Tail}
 %TODO does removing the tail help?
+%TODO would making the tail flexible help?
+%Smooth terrain
+%50 robots
+%fixed body - 10 sections
+%no legs
+%300s 
+%1 - no tail
+%2 - fixed tail
 
 \subsection{Leg Gait}
 %TODO does removing the legs help? How does the lizard gait impact performance?
+%Smooth terrain
+%50 robots
+%fixed body - 10 sections
+%no tail
+%300s 
+%1 - no legs
+%2 - legs - no gait
+%3 - legs - gait
 
 \subsection{Uniform vs Non-uniform Robot}
 %TODO what happens when uniform body is fixed to on/off?
+%Smooth terrain
+%50 robots
+%random init
+%300s 
+%1 - random non-uniform robots
+%2 - same robots switched to uniform
 
 \subsection{Dynamic Movement}
 %TODO what impact does the dynamic movement have on the performance?
@@ -647,8 +679,6 @@ Adding a rudimentary vision system would enable the AI to make decisions, as opp
 \section{Appendices}
 \subsection{Progress Logs}
 %TODO add progress logs links
-\subsection{Code of Conduct}
-%TODO add code of conduct
 \subsection{Project Proposal}
 %TODO add project proposal
 

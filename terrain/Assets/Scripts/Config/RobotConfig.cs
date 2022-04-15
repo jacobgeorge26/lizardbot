@@ -56,6 +56,9 @@ namespace Config
             this.RobotIndex = _index;
             this.Object = _object;
             this.StartTime = Time.time;
+
+            ///////////////
+            UniformBody.Value = true;
         }
 
         //RESPAWN
@@ -191,7 +194,7 @@ namespace Config
                 {
                     //data exists for this section
                     body.SetData(values);
-                    ObjectConfig obj = new ObjectConfig();
+                    ObjectConfig obj = new ObjectConfig(); //will throw warning - live with it - it's bad code for testing anyway
                     obj.Init(i, BodyPart.Body, body, RobotIndex);
                     Configs.Add(obj);
                 }

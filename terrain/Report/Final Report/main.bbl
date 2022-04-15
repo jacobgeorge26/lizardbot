@@ -24,6 +24,13 @@ Belliure, J., Fresnilli, B., and Cuervo, J. (2018).
   \url{https://academic.oup.com/beheco/article/29/3/543/4839801?login=false} \\
   Accessed: 2022-04-15.
 
+\bibitem[Bhatia et~al., 2021]{evolutionGym}
+Bhatia, J.~S., Jackson, H., Tian, Y., Xu, J., and Matusik, W. (2021).
+\newblock Evolution gym: A large-scale benchmark for evolving soft robots.
+\newblock {\em NeurIPS}.
+\newblock \\ \url{https://openreview.net/pdf?id=lM2971LAwV} \\ Accessed:
+  2022-04-15.
+
 \bibitem[Burrows et~al., 2015]{prayingMantis}
 Burrows, M., Cullen, D., Dorosenko, M., and Sutton, G. (2015).
 \newblock Mantises exchange angular momentum between three rotating body parts

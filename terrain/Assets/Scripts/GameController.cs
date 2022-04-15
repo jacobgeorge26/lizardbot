@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour
 
     public static GameController Controller;
 
-    StreamWriter aiPerformanceWriter, aiWriter, robotWriter;
+    StreamWriter aiPerformanceWriter, aiWriter, bestRobotWriter, storedRobotWriter;
     GeneratePopulation generate;
     int attemptCount;
     float startTime = 0;
@@ -54,6 +54,7 @@ public class GameController : MonoBehaviour
                 if(DebugConfig.LogAIData) StartCoroutine(SaveAttemptData(isRespawn));
                 if (!isRespawn) startTime = Time.realtimeSinceStartup;
                 yield return new WaitUntil(() => Time.realtimeSinceStartup - startTime >= AIConfig.AttemptLength);
+
                 DebugConfig.InitRobots.ForEach(r => { if (r.Object != null) r.Object.SetActive(false); });
                 DebugConfig.InitRobots.Clear(); //if in the middle of a respawn, scrap that
                 AIConfig.RobotConfigs.ForEach(r => {
@@ -91,17 +92,30 @@ public class GameController : MonoBehaviour
         PlayerPrefs.SetInt("Attempt", attempt);
     }
 
+    private void SaveAllRobots(List<RobotConfig> robots)
+    {
+        int attempt = PlayerPrefs.GetInt("Attempt");
+        if (storedRobotWriter == null) SetupStoredRobotWriter();
+        foreach (RobotConfig robot in robots)
+        {
+            string data = $"{ attempt}, ";
+            data += DebugConfig.GetData();
+            data += robot.GetData();
+            storedRobotWriter.WriteLine(data);
+        }
+    }
+
     private void LogBestRobot()
     {
         if (DebugConfig.BestRobot == null && AIConfig.RobotConfigs.Count > 0) DebugConfig.BestRobot = AIConfig.RobotConfigs.OrderByDescending(r => r.Performance).First();
         if (DebugConfig.BestRobot != null)
         {
             int attempt = PlayerPrefs.GetInt("Attempt");
-            if (robotWriter == null) SetupRobotWriter();
+            if (bestRobotWriter == null) SetupBestRobotWriter();
             string data = $"{ attempt}, ";
             data += DebugConfig.GetData();
             data += DebugConfig.BestRobot.GetData();
-            robotWriter.WriteLine(data);
+            bestRobotWriter.WriteLine(data);
 
 
             //save prefab
@@ -140,16 +154,28 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private string robotPath = "../terrain/Report/Data/BestRobots.csv";
-    private StreamWriter SetupRobotWriter()
+    private string bestRobotPath = "../terrain/Report/Data/BestRobots.csv";
+    private StreamWriter SetupBestRobotWriter()
     {
-        robotWriter = File.Exists(robotPath) ? File.AppendText(robotPath) : File.CreateText(robotPath);
-        robotWriter.WriteLine();
+        bestRobotWriter = File.Exists(bestRobotPath) ? File.AppendText(bestRobotPath) : File.CreateText(bestRobotPath);
+        bestRobotWriter.WriteLine();
         string header = "ATTEMPT, ";
         header += DebugConfig.GetHeader();
         header += DebugConfig.BestRobot.GetHeader();
-        robotWriter.WriteLine(header);
-        return robotWriter;
+        bestRobotWriter.WriteLine(header);
+        return bestRobotWriter;
+    }
+
+    private string storedRobotPath = "../terrain/Report/Data/StoredRobots.csv";
+    private StreamWriter SetupStoredRobotWriter()
+    {
+        storedRobotWriter = File.Exists(storedRobotPath) ? File.AppendText(storedRobotPath) : File.CreateText(storedRobotPath);
+        storedRobotWriter.WriteLine();
+        string header = "ATTEMPT, ";
+        header += DebugConfig.GetHeader();
+        header += new RobotConfig(0, null).GetHeader();
+        storedRobotWriter.WriteLine(header);
+        return storedRobotWriter;
     }
 
     internal void TotalRespawn(string exception)
@@ -252,12 +278,18 @@ public class GameController : MonoBehaviour
     {
         if (aiPerformanceWriter != null) aiPerformanceWriter.Close();
         if (aiWriter != null) aiWriter.Close();
-        if(robotWriter != null) robotWriter.Close();
+        if (bestRobotWriter != null) bestRobotWriter.Close();
+        if (storedRobotWriter != null) storedRobotWriter.Close();
     }
 
-    internal string GetRobotPath()
+    internal string GetBestRobotPath()
     {
-        return robotPath;
+        return bestRobotPath;
+    }
+
+    internal string GetStoredRobotPath()
+    {
+        return storedRobotPath;
     }
 
 }

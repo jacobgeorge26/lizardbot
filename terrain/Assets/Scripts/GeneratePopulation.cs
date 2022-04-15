@@ -50,7 +50,7 @@ public class GeneratePopulation : MonoBehaviour
         UIDisplay ui = UIConfig.UIContainer.gameObject.GetComponent<UIDisplay>();
         if (ui != null && UIConfig.IsUIEnabled) ui.enabled = true;
         else UIConfig.UIContainer.SetActive(false);
-        if (DebugConfig.UseBestRobots)
+        if (DebugConfig.UseBestRobots || DebugConfig.UseStoredRobots)
         {
             DebugConfig.StoredRobots = GetStoredRobots();
             AIConfig.PopulationSize = DebugConfig.StoredRobots.Count;
@@ -139,7 +139,8 @@ public class GeneratePopulation : MonoBehaviour
     {
         List<RobotConfig> robots = new List<RobotConfig>();
         //TODO put into try catch
-        StreamReader reader = new StreamReader(GameController.Controller.GetRobotPath());
+        string path = DebugConfig.UseBestRobots ? GameController.Controller.GetBestRobotPath() : GameController.Controller.GetStoredRobotPath();
+        StreamReader reader = new StreamReader(path);
         string line;
         int robotCount = 0;
         while ((line = reader.ReadLine()) != null)

@@ -36,7 +36,10 @@ namespace Config
 
         public static RobotConfig BestRobot;
 
+        //either or between best or stored
         public static bool UseBestRobots = false;
+
+        public static bool UseStoredRobots = true;
 
         public static List<RobotConfig> StoredRobots = new List<RobotConfig>();
 

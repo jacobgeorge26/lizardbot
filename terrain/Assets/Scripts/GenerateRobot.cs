@@ -40,7 +40,7 @@ public class GenerateRobot : MonoBehaviour
             AIConfig.RobotConfigs[index] = robotConfig;
             DebugConfig.InitRobots.Remove(oldRobot);
         }
-        else if (DebugConfig.UseBestRobots) //using stored robots
+        else if (DebugConfig.UseBestRobots || DebugConfig.UseStoredRobots) //using stored robots
         {
             oldRobot = DebugConfig.StoredRobots[AIConfig.RobotConfigs.Count];
             robotConfig.FreshCopy(oldRobot, oldRobot.Version, AIConfig.RobotConfigs.Count);
