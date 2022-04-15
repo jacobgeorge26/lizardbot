@@ -56,6 +56,9 @@ namespace Config
             this.RobotIndex = _index;
             this.Object = _object;
             this.StartTime = Time.time;
+
+            ////////////////
+            MaintainSerpentine.Value = true;
         }
 
         //RESPAWN

@@ -380,7 +380,7 @@ public static class RobotHelpers : object
         try { head = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == 0).Body; }
         catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
         LegConfig firstLeg = null;
-        try { if(robot.NoLegs.Value > 0) firstLeg = robot.Configs.First(o => o.Type == BodyPart.Leg && o.Index == 0).Leg; }
+        try { if(robot.NoLegs.Value > 0) firstLeg = robot.Configs.First(o => o.Type == BodyPart.Leg).Leg; }
         catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
         //whole body needs adjusting
         foreach (ObjectConfig objConfig in robot.Configs.Where(o => o.Type == BodyPart.Body && o.Index > 0))
@@ -393,8 +393,8 @@ public static class RobotHelpers : object
         {
             try
             {
-                if (objConfig.Index > 0) objConfig.Leg.Length.Value = firstLeg.Length.Value;
-                if (objConfig.Index > 0) objConfig.Leg.Mass.Value = firstLeg.Mass.Value;
+                if (objConfig.Leg != firstLeg) objConfig.Leg.Length.Value = firstLeg.Length.Value;
+                if (objConfig.Leg != firstLeg) objConfig.Leg.Mass.Value = firstLeg.Mass.Value;
             }
             catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
         }

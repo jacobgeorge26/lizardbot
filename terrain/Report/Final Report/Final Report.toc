@@ -25,39 +25,38 @@
 \contentsline {subsubsection}{\numberline {4.1.4}AI evolves high performing robots}{13}{subsubsection.4.1.4}%
 \contentsline {subsubsection}{\numberline {4.1.5}Dynamic movement improves performance}{13}{subsubsection.4.1.5}%
 \contentsline {subsubsection}{\numberline {4.1.6}Robots perform well across multiple terrains}{13}{subsubsection.4.1.6}%
-\contentsline {subsection}{\numberline {4.2}Non-functional Requirements}{13}{subsection.4.2}%
-\contentsline {subsubsection}{\numberline {4.2.1}Testing conducted with a physical robot}{13}{subsubsection.4.2.1}%
-\contentsline {subsubsection}{\numberline {4.2.2}Customisable design of the robot}{13}{subsubsection.4.2.2}%
-\contentsline {subsubsection}{\numberline {4.2.3}Customisable terrain}{13}{subsubsection.4.2.3}%
-\contentsline {section}{\numberline {5}Professional and Ethical Considerations}{14}{section.5}%
-\contentsline {section}{\numberline {6}Implementation}{15}{section.6}%
-\contentsline {subsection}{\numberline {6.1}Terrain}{15}{subsection.6.1}%
-\contentsline {subsection}{\numberline {6.2}Robot}{15}{subsection.6.2}%
-\contentsline {subsubsection}{\numberline {6.2.1}Body}{15}{subsubsection.6.2.1}%
-\contentsline {subsubsection}{\numberline {6.2.2}Tail}{16}{subsubsection.6.2.2}%
-\contentsline {subsubsection}{\numberline {6.2.3}Legs}{17}{subsubsection.6.2.3}%
-\contentsline {subsection}{\numberline {6.3}Artifical Intelligence}{19}{subsection.6.3}%
-\contentsline {subsubsection}{\numberline {6.3.1}Performance}{19}{subsubsection.6.3.1}%
-\contentsline {subsubsection}{\numberline {6.3.2}Trapped Algorithm}{19}{subsubsection.6.3.2}%
-\contentsline {subsubsection}{\numberline {6.3.3}Genes}{21}{subsubsection.6.3.3}%
-\contentsline {subsubsection}{\numberline {6.3.4}Population}{21}{subsubsection.6.3.4}%
-\contentsline {subsubsection}{\numberline {6.3.5}Genetic Algorithm}{22}{subsubsection.6.3.5}%
-\contentsline {subsection}{\numberline {6.4}Dynamic Movement}{25}{subsection.6.4}%
-\contentsline {subsection}{\numberline {6.5}UI}{27}{subsection.6.5}%
-\contentsline {section}{\numberline {7}Results}{28}{section.7}%
-\contentsline {subsection}{\numberline {7.1}Evolved Lizardbot}{28}{subsection.7.1}%
-\contentsline {subsection}{\numberline {7.2}Recombination Methods}{28}{subsection.7.2}%
-\contentsline {subsection}{\numberline {7.3}Oscillating vs Static Body}{28}{subsection.7.3}%
-\contentsline {subsection}{\numberline {7.4}Serpentine Motion}{28}{subsection.7.4}%
-\contentsline {subsection}{\numberline {7.5}Counterbalancing Tail}{28}{subsection.7.5}%
-\contentsline {subsection}{\numberline {7.6}Leg Gait}{28}{subsection.7.6}%
-\contentsline {subsection}{\numberline {7.7}Uniform vs Non-uniform Robot}{28}{subsection.7.7}%
-\contentsline {subsection}{\numberline {7.8}Dynamic Movement}{28}{subsection.7.8}%
-\contentsline {subsection}{\numberline {7.9}Terrain Friction}{28}{subsection.7.9}%
-\contentsline {subsection}{\numberline {7.10}Physical vs Movement Evolution}{28}{subsection.7.10}%
-\contentsline {section}{\numberline {8}Conclusion}{29}{section.8}%
-\contentsline {section}{\numberline {9}References}{30}{section.9}%
-\contentsline {section}{\numberline {10}Appendices}{36}{section.10}%
-\contentsline {subsection}{\numberline {10.1}Progress Logs}{36}{subsection.10.1}%
-\contentsline {subsection}{\numberline {10.2}Code of Conduct}{36}{subsection.10.2}%
-\contentsline {subsection}{\numberline {10.3}Project Proposal}{36}{subsection.10.3}%
+\contentsline {subsection}{\numberline {4.2}Non-functional Requirements}{14}{subsection.4.2}%
+\contentsline {subsubsection}{\numberline {4.2.1}Testing conducted with a physical robot}{14}{subsubsection.4.2.1}%
+\contentsline {subsubsection}{\numberline {4.2.2}Customisable robot \& terrain}{14}{subsubsection.4.2.2}%
+\contentsline {subsubsection}{\numberline {4.2.3}Customisable terrain}{14}{subsubsection.4.2.3}%
+\contentsline {section}{\numberline {5}Professional and Ethical Considerations}{15}{section.5}%
+\contentsline {section}{\numberline {6}Implementation}{16}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Terrain}{16}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Robot}{16}{subsection.6.2}%
+\contentsline {subsubsection}{\numberline {6.2.1}Body}{16}{subsubsection.6.2.1}%
+\contentsline {subsubsection}{\numberline {6.2.2}Tail}{17}{subsubsection.6.2.2}%
+\contentsline {subsubsection}{\numberline {6.2.3}Legs}{18}{subsubsection.6.2.3}%
+\contentsline {subsection}{\numberline {6.3}Artifical Intelligence}{20}{subsection.6.3}%
+\contentsline {subsubsection}{\numberline {6.3.1}Performance}{20}{subsubsection.6.3.1}%
+\contentsline {subsubsection}{\numberline {6.3.2}Trapped Algorithm}{20}{subsubsection.6.3.2}%
+\contentsline {subsubsection}{\numberline {6.3.3}Genes}{22}{subsubsection.6.3.3}%
+\contentsline {subsubsection}{\numberline {6.3.4}Population}{22}{subsubsection.6.3.4}%
+\contentsline {subsubsection}{\numberline {6.3.5}Genetic Algorithm}{23}{subsubsection.6.3.5}%
+\contentsline {subsection}{\numberline {6.4}Dynamic Movement}{26}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5}UI}{28}{subsection.6.5}%
+\contentsline {section}{\numberline {7}Results}{29}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Evolved Lizardbot}{29}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Recombination Methods}{29}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}Oscillating vs Static vs Serpentine Body}{29}{subsection.7.3}%
+\contentsline {subsection}{\numberline {7.4}Counterbalancing Tail}{29}{subsection.7.4}%
+\contentsline {subsection}{\numberline {7.5}Leg Gait}{29}{subsection.7.5}%
+\contentsline {subsection}{\numberline {7.6}Uniform vs Non-uniform Robot}{29}{subsection.7.6}%
+\contentsline {subsection}{\numberline {7.7}Dynamic Movement}{29}{subsection.7.7}%
+\contentsline {subsection}{\numberline {7.8}Terrain Friction}{29}{subsection.7.8}%
+\contentsline {subsection}{\numberline {7.9}Physical vs Movement Evolution}{29}{subsection.7.9}%
+\contentsline {section}{\numberline {8}Conclusion}{30}{section.8}%
+\contentsline {section}{\numberline {9}References}{31}{section.9}%
+\contentsline {section}{\numberline {10}Appendices}{37}{section.10}%
+\contentsline {subsection}{\numberline {10.1}Progress Logs}{37}{subsection.10.1}%
+\contentsline {subsection}{\numberline {10.2}Code of Conduct}{37}{subsection.10.2}%
+\contentsline {subsection}{\numberline {10.3}Project Proposal}{37}{subsection.10.3}%

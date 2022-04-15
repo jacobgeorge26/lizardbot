@@ -227,17 +227,23 @@ Regardless of the purpose of the robot, any user will want their robot to avoid 
 Additionally, the model could approach this objective via the proactive decision-making that has been established as a possible extension to the AI.
 
 \subsubsection{AI evolves high performing robots}
+It is important that the AI is capable of evolving an input population to a higher performing one over time. The constraints placed on it may limit the success that it had; nonetheless it should display an upward trend.\\ The AI should minimise bias towards certain physical structures or behaviours to allow for more freedom in the resultant robots. 
 
 \subsubsection{Dynamic movement improves performance}
+It would be advantageous for the user if Lizardbot were able to 'learn' from prior behaviour and reactivate this to explore farther across terrains. Dynamic movement aims to address this requirement and is predicted to provide a drastic improvement on the performance of a population.
 
 \subsubsection{Robots perform well across multiple terrains}
+The robots evolved by the AI should show a similar performance when placed into a new terrain, to demonstrate that their motion is optimised for a range of environments as opposed to simply the one they were trained in.
 
 \subsection{Non-functional Requirements}
 \subsubsection{Testing conducted with a physical robot}
+A model is excellent for testing theories but can overlook the 'real physics' that becomes apparent when building a physical robot. For example, the modular snake robot needed to ensure that the robot had \textit{“enough space for installing the joint driving mechanism and the circuit modules”}. \citepmain{modularRobotBackground} \\
+Unfortunately, building a physical robot would require time and expensive resources. It will not be possible to test the model’s performance on an actual robot. This will hopefully be compensated for by having a realistic physics system and a model whose design is directly transferable to the blueprint for a robot.
 
-\subsubsection{Customisable design of the robot}
-
-\subsubsection{Customisable terrain}
+\subsubsection{Customisable robot \& terrain}
+A target user may already have known constraints of the design of their physical robot and wish to see this represented in the Lizardbot. Likewise, the ability to model a specific environment may be valuable for modelling the effectiveness of a robot in a terrain it is going to encounter.
+The parameters used by the project will be contained to \textit{Config} files that can be adjusted with minimal programming knowledge. However, it will not be possible to accomodate every criterion so a user may still need to extend the project to their needs. 
+The current expectation is that the user will require some knowledge of Unity to interact with the project. The addition of a UI may be desirable in future to lower the technological threshold. 
 
 
 \newpage
@@ -562,18 +568,19 @@ The UI could be extended to offer a better UX and to offer a view of the perform
 
 \newpage
 \section{Results}
+All graphs are made using Colab, \citep{colab} Pandas, \citep{pd} MatPlotLib, \citep{plt} NumPy. \citep{np}
 
 \subsection{Evolved Lizardbot}
 %TODO when left to it - what do the eventual robots look like? What is the corresponding behaviour?
+%TODO what does a population of uniform, serpentine, tailed, gaited robots evolve to?
 
 \subsection{Recombination Methods}
-%what impact do the various methods have on performance?
+%TODO what impact do the various methods have on performance?
 
-\subsection{Oscillating vs Static Body}
+\subsection{Oscillating vs Static vs Serpentine Body}
 %TODO what happens when the body rotation is turned off?
-
-\subsection{Serpentine Motion}
 %TODO what happens when the serpentine motion is fixed to on/off?
+
 
 \subsection{Counterbalancing Tail}
 %TODO does removing the tail help?

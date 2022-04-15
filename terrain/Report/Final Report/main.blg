@@ -5,9 +5,10 @@ Reallocating 'name_of_file' (item size: 1) to 8 items.
 The style file: apalike.bst
 Reallocating 'name_of_file' (item size: 1) to 22 items.
 Database file #1: References/References.bib
+Warning--I didn't find a database entry for "mscAdams"
 You've used 23 entries,
             1935 wiz_defined-function locations,
-            611 strings with 8632 characters,
+            613 strings with 8648 characters,
 and the built_in function-call counts, 7737 in all, are:
 = -- 755
 > -- 306
@@ -46,3 +47,4 @@ warning$ -- 0
 while$ -- 51
 width$ -- 0
 write$ -- 321
+(There was 1 warning)

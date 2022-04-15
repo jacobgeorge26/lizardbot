@@ -11,11 +11,11 @@ namespace Config
 
         //there is a hard limit of 25 layers available
         //to work within this the population will be split to 25 per terrain
-        public static int PopulationSize = 75;
+        public static int PopulationSize = 50;
 
-        public static int NoAttempts = 5;
+        public static int NoAttempts = 1;
 
-        public static int AttemptLength = 600;
+        public static int AttemptLength = 900;
 
         public static RobotConfig[] LastRobots = new RobotConfig[PopulationSize];
 
@@ -37,7 +37,7 @@ namespace Config
 
         //list of the possible recombinations that will be used
         //the recombination rate accounts for whether the robot will recombine this generation
-        public static Recombination RecombinationType = Recombination.Any;
+        public static Recombination RecombinationType = Recombination.Triad;
 
         //the mutation rate accounts for whether the robot will mutate this generation
         //for no mutation set mutation rate to 0

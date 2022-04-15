@@ -25,7 +25,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
         /////////////////////////////////////
-        PlayerPrefs.SetInt("Attempt", 10);
+        PlayerPrefs.SetInt("Attempt", 1);
         Controller = this;
         attemptCount = AIConfig.NoAttempts;
         //setup writers with headers
@@ -49,8 +49,6 @@ public class GameController : MonoBehaviour
                 attemptCount--;
                 UpdateAttempt(1);
                 //if (!isRespawn && DebugConfig.LogAIData) SetupAIParams(); //used to test which AI params work best
-                ////////////
-                SetupTempAIParams();
                 generate = gameObject.AddComponent<GeneratePopulation>();
                 Debug.Log($"ATTEMPT {PlayerPrefs.GetInt("Attempt")}    {AIConfig.RecombinationType}");
                 generate.CreatePopulation();
@@ -68,32 +66,6 @@ public class GameController : MonoBehaviour
                 //as all coroutines have been stopped - dodgy recursion but avoids issue if in middle of respawn
                 StartCoroutine(GenerateAttempt(false)); 
             }
-        }
-    }
-
-    private void SetupTempAIParams()
-    {
-        int attempt = PlayerPrefs.GetInt("Attempt");
-        switch (attempt)
-        {
-            case 11:
-                AIConfig.RecombinationType = Recombination.PhysicalLikeness;
-                break;
-            case 12:
-                AIConfig.RecombinationType = Recombination.MovementLikeness;
-                break;
-            case 13:
-                AIConfig.RecombinationType = Recombination.Triad;
-                break;
-            case 14:
-                AIConfig.RecombinationType = Recombination.Lizard;
-                break;
-            case 15:
-                AIConfig.RecombinationType = Recombination.Random;
-                break;
-            default:
-                AIConfig.RecombinationType = Recombination.Any;
-                break;
         }
     }
 
@@ -200,7 +172,8 @@ public class GameController : MonoBehaviour
     {
         //stop all execution - an error has occurred
         AIConfig.RobotConfigs.ForEach(r => {
-            r.Object.transform.parent.gameObject.SetActive(false);
+            try { r.Object.transform.parent.gameObject.SetActive(false); }
+            catch (Exception) { Debug.LogWarning($"Check that robot {r.RobotIndex + 1} has been deactivated properly"); }
         });
         Debug.LogWarning($"Respawning attempt {PlayerPrefs.GetInt("Attempt")}. \n {exception}");
         StopAllCoroutines();
@@ -273,7 +246,8 @@ public class GameController : MonoBehaviour
             r.Configs.ForEach(o => {
                 if(DebugConfig.InitRobots.Count == 0)
                 {
-                    Destroy(r.Object.transform.parent.gameObject);
+                    try { Destroy(r.Object.transform.parent.gameObject); }
+                    catch(Exception) { }
                     o.Body = null;
                     o.Tail = null;
                 }
