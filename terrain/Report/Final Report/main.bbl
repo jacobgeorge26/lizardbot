@@ -1,5 +1,12 @@
 \begin{thebibliography}{}
 
+\bibitem[Adams, 2022]{mscAdams}
+Adams, M. (2022).
+\newblock Msc adams - the multibody dynamics simulation solution.
+\newblock {\em Hexagon}.
+\newblock \\ \url{https://www.mscsoftware.com/product/adams} \\ Accessed:
+  2022-04-15.
+
 \bibitem[Alexander, 2012]{reptileLocomotion}
 Alexander, R.~M. (2012).
 \newblock Locomotion of reptiles.
@@ -8,6 +15,15 @@ Alexander, R.~M. (2012).
   \url{https://www.thebhs.org/publications/the-herpetological-bulletin/issue-number-121-autumn-2012/3-1-locomotion-in-reptiles/file}
   \\ Accessed: 2022-04-13.
 
+\bibitem[Belliure et~al., 2018]{redLizard}
+Belliure, J., Fresnilli, B., and Cuervo, J. (2018).
+\newblock Male mate choice based on female coloration in a lizard: the role of
+  a juvenile trait.
+\newblock {\em Behavioural Ecology}.
+\newblock \\
+  \url{https://academic.oup.com/beheco/article/29/3/543/4839801?login=false} \\
+  Accessed: 2022-04-15.
+
 \bibitem[Burrows et~al., 2015]{prayingMantis}
 Burrows, M., Cullen, D., Dorosenko, M., and Sutton, G. (2015).
 \newblock Mantises exchange angular momentum between three rotating body parts
@@ -15,6 +31,15 @@ Burrows, M., Cullen, D., Dorosenko, M., and Sutton, G. (2015).
 \newblock {\em Current Biology}.
 \newblock \\ \url{https://doi.org/10.1016/j.cub.2015.01.054} \\ Accessed:
   2022-04-12.
+
+\bibitem[Chopra, 2019]{gaussian}
+Chopra, P. (2019).
+\newblock Reinforcement learning without gradients: evolving agents using
+  genetic algorithms.
+\newblock {\em Towards Data Science}.
+\newblock \\
+  \url{https://towardsdatascience.com/reinforcement-learning-without-gradients-evolving-agents-using-genetic-algorithms-8685817d84f}
+  \\ Accessed: 2022-04-15.
 
 \bibitem[Cianchetti, 2015]{octopusRobot}
 Cianchetti, M. (2015).
@@ -96,6 +121,14 @@ Kim, J., Kim, H., Kim, Y., Park, J., Seo, T., Kim, H.~S., and Kim, J. (2019).
 \newblock \\ \url{https://ieeexplore.ieee.org/document/8902059} \\ Accessed:
   2022-04-13.
 
+\bibitem[Lappin and Husak, 2005]{lizardWeapon}
+Lappin, A.~K. and Husak, J. (2005).
+\newblock Weapon performance, not size, determines mating success and potential
+  reproductive output in the collared lizard (crotaphytus collaris).
+\newblock {\em The American Naturalist}.
+\newblock \\ \url{https://www.journals.uchicago.edu/doi/10.1086/432564} \\
+  Accessed: 2022-04-14.
+
 \bibitem[Lee, 1976]{timeToCollision}
 Lee, D. (1976).
 \newblock A theory of visual control of braking based on information about
@@ -118,6 +151,11 @@ Marder, E. and Bucher, D. (2001).
 \newblock {\em Current Biology}.
 \newblock \\ \url{https://pubmed.ncbi.nlm.nih.gov/11728329/} \\ Accessed:
   2022-04-13.
+
+\bibitem[Mitchell, 1998]{gaIntro}
+Mitchell, M. (1998).
+\newblock An introduction to genetic algorithms.
+\newblock {\em MIT Press}, pages 4, 8, 116.
 
 \bibitem[{Plataforma SINC}, 2008]{antCars}
 {Plataforma SINC} (2008).
@@ -163,6 +201,23 @@ Thelan, E. and Smith, L. (1994).
 \newblock {\em YouTube}.
 \newblock \\ \url{https://www.youtube.com/watch?v=jOUAIRbrv6s} \\ Accessed:
   2022-04-12.
+
+\bibitem[Wiernasz et~al., 2004]{antMating}
+Wiernasz, D., Perroni, C., and Cole, B. (2004).
+\newblock Polyandry and fitness in the western harvester ant, pogonomyrmex
+  occidentalis.
+\newblock {\em Molecular Ecology}.
+\newblock \\
+  \url{https://onlinelibrary.wiley.com/doi/10.1111/j.1365-294X.2004.02153.x} \\
+  Accessed: 2022-04-15.
+
+\bibitem[Yang, 2021]{gaProsCons}
+Yang, X.-S. (2021).
+\newblock Genetic algorithms.
+\newblock {\em Nature-Inspired Optimization Algorithms}.
+\newblock \\
+  \url{https://www.sciencedirect.com/topics/engineering/genetic-algorithm} \\
+  Accessed: 2022-04-15.
 
 \bibitem[Ye et~al., 2010]{modularRobotBackground}
 Ye, X., Niu, Y., Wang, H., and Meng, T. (2010).

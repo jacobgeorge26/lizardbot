@@ -33,9 +33,9 @@ namespace Config
 
         public RobotConfig Original;
 
-        public Gene NoSections = new Gene(5, 1, 10, Variable.NoSections);
+        public Gene NoSections = new Gene(10, 1, 10, Variable.NoSections);
 
-        public Gene NoLegs = new Gene(4, 0, 20, Variable.NoLegs);
+        public Gene NoLegs = new Gene(6, 0, 20, Variable.NoLegs);
 
         public Gene IsTailEnabled = new Gene(false, Variable.IsTailEnabled);
 
@@ -49,16 +49,13 @@ namespace Config
         public Gene MaintainGait = new Gene(true, Variable.MaintainGait);
 
         //should the size & mass be maintained across the body
-        public Gene UniformBody = new Gene(false, Variable.UniformBody);
+        public Gene UniformBody = new Gene(true, Variable.UniformBody);
 
         public RobotConfig(int _index, GameObject _object)
         {
             this.RobotIndex = _index;
             this.Object = _object;
             this.StartTime = Time.time;
-
-            ////////////////
-            MaintainSerpentine.Value = true;
         }
 
         //RESPAWN

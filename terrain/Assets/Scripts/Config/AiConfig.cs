@@ -13,15 +13,16 @@ namespace Config
         //to work within this the population will be split to 25 per terrain
         public static int PopulationSize = 50;
 
+        public static int attempt = 2;
         public static int NoAttempts = 1;
 
-        public static int AttemptLength = 900;
+        public static int AttemptLength = 300;
 
         public static RobotConfig[] LastRobots = new RobotConfig[PopulationSize];
 
         //should the robots be randomly generated
         //false uses the preset defaults
-        public static bool RandomInitValues = true;
+        public static bool RandomInitValues = false;
 
         //how many locations are analysed (2 per second)
         public static int Sensitivity = 20;

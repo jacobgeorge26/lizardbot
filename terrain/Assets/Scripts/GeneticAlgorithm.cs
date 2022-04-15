@@ -21,9 +21,6 @@ public static class GeneticAlgorithm : object
         if (!respawnOnly) newRobot = PerformGA(stuckRobot);
         else newRobot = stuckRobot;
 
-        //////////////
-        newRobot.MaintainSerpentine.Value = true;
-
         //respawn
         Reset(newRobot);
         newRobot.Object.SetActive(true);
@@ -53,13 +50,14 @@ public static class GeneticAlgorithm : object
 
         if (stuckRobot.RobotIndex == CameraConfig.CamFollow) CameraConfig.Hat.transform.parent = CameraConfig.RobotCamera.transform; //avoid the hat being cloned too
 
+        if (oldRobot.Object == null) oldRobot = stuckRobot; //the object for the old robot has been lost
         ObjectConfig firstObjConfig = null;
         GameObject newRobotObj;
-        try { 
+        try {          
             firstObjConfig = oldRobot.Configs.First();
             newRobotObj = firstObjConfig.Clone(oldRobot.Object);
         }
-        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), stuckRobot); return stuckRobot; }     
+        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), oldRobot); return oldRobot; }     
         RobotConfig newRobot = new RobotConfig(oldRobot.RobotIndex, newRobotObj);
         newRobot = Init(newRobot, oldRobot, newVersion);
 
@@ -468,6 +466,8 @@ public static class GeneticAlgorithm : object
                 newRobot.AverageRestOfLegs(newLeg);
             }
         }
+        //TODO fix this
+        //this is currently a workaround as I don't have time to debug why the legs aren't always added/removed to match NoLegs
         List<ObjectConfig> actualLegs = newRobot.Configs.Where(o => o.Type == BodyPart.Leg).ToList();
         //are there fewer legs now?
         for (int i = 0; i < actualLegs.Count() - newRobot.NoLegs.Value; i++)
@@ -480,6 +480,24 @@ public static class GeneticAlgorithm : object
             newRobot.RemoveLeg(leg);
         }
 
+        List<ObjectConfig> Legs = newRobot.Configs.Where(o => o.Type == BodyPart.Leg).ToList();
+        if (Legs.Count != newRobot.NoLegs.Value)
+        {
+            if (!newRobot.UniformBody.Value) newRobot.NoLegs.Value = Legs.Count;
+            else
+            {
+                if (Legs.Count % 2 != 0)
+                {
+                    newRobot.RemoveLeg(Legs.Last());
+                    Legs.RemoveAt(Legs.Count - 1);
+                }
+                newRobot.NoLegs.Value = Legs.Count;
+            }
+        }
+        if (Legs.Count != newRobot.NoLegs.Value)
+        {
+            Debug.LogWarning("still not working");
+        }
         if (newRobot.UniformBody.Value && !oldRobot.UniformBody.Value) newRobot.MakeBodyUniform();
 
         //update existing configs

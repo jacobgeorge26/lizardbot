@@ -25,7 +25,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
         /////////////////////////////////////
-        PlayerPrefs.SetInt("Attempt", 1);
+        PlayerPrefs.SetInt("Attempt", AIConfig.attempt);
         Controller = this;
         attemptCount = AIConfig.NoAttempts;
         //setup writers with headers
@@ -48,9 +48,8 @@ public class GameController : MonoBehaviour
                 yield return new WaitForSeconds(5f);
                 attemptCount--;
                 UpdateAttempt(1);
-                //if (!isRespawn && DebugConfig.LogAIData) SetupAIParams(); //used to test which AI params work best
                 generate = gameObject.AddComponent<GeneratePopulation>();
-                Debug.Log($"ATTEMPT {PlayerPrefs.GetInt("Attempt")}    {AIConfig.RecombinationType}");
+                Debug.Log($"ATTEMPT {PlayerPrefs.GetInt("Attempt")}");
                 generate.CreatePopulation();
                 if(DebugConfig.LogAIData) StartCoroutine(SaveAttemptData(isRespawn));
                 if (!isRespawn) startTime = Time.realtimeSinceStartup;
@@ -67,21 +66,6 @@ public class GameController : MonoBehaviour
                 StartCoroutine(GenerateAttempt(false)); 
             }
         }
-    }
-
-    private void SetupAIParams()
-    {
-        int noRandoms = (int)Random.Range(1, 5);
-        //run twice the first time because for some reason it produces the same results the first time it's run
-        for (int i = 0; i < noRandoms; i++)
-        {
-            AIConfig.MutationCycle = (int)Random.Range(0, 10);
-            AIConfig.RecombinationRate = Random.Range(0.75f, 0.85f);
-            AIConfig.MutationRate = Random.Range(0.15f, 0.35f);
-            AIConfig.SelectionSize = Random.Range(4, 10);
-        }
-        int attempt = PlayerPrefs.GetInt("Attempt");
-        aiWriter.WriteLine($"{attempt}, {DebugConfig.GetData()}");
     }
 
     private IEnumerator SaveAttemptData(bool isRespawn)

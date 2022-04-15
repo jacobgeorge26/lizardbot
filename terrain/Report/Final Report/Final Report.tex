@@ -141,11 +141,24 @@ To replicate a lizard's gait, diagonally opposite legs will be accelerated in rh
 \nocitemain{reptileLocomotion}
 
 \subsubsection{Genetic Algorithm}
-%TODO ADD explanation about why a genetic algorithm was chosen
-%TODO ADD research about why the recombination and mutation approach is suited
-%TODO ADD explanation about how this approach creates a relationship between the body and movement
+Evolution can be used as a \textit{"method for designing innovative solutions to complex problems"}. \citepmain{gaIntro} Lizardbot aims to emulate the biological evolution of lizards to find the optimal solutions among the many thousands of possible robot permutations: a mimicry of natural selection.
+Thus, a genetic algorithm (GA) was chosen as an appropriate AI approach due to their \textit{"abstraction of biological evolution".} As Xin-She Yang discusses, GAs are suited to Lizardbot's broader optimisation problem, as they are fit for independent agents operating parallel to each other and for complex problem spaces. \citepmain{gaProsCons} Additionally, Lizardbot is not searching for a global optimum - in which case a \textit{"GA will have a good chance of being competitive with or surpassing other "weak" methods"}. \citepmain{gaIntro} However, the parameter values used by the GA can undermine its success: \textit{"inappropriate choice will make it difficult for the algorithm to converge or it will simply produce meaningless results"}.
+\citepmain{gaProsCons} \\
+Overall, due to the properties of the problem space, a GA was considered to be the best option.\\
+
+Genetic algorithms are formed of three main processes: selection, mutation, and recombination (or crossover). \citepmain{gaIntro} The first of these is used slightly differently by Lizardbot. Conventionally, all agents would be considered each generation and a select few recombined/mutated. Instead, an algorithm will determine when a robot is stuck and terminate the generation of that robot in isolation - evolving the population asynchronously. \\
+
+The mutation stage randomly adjusts a selection of the genes to allow for random variations to form in the population. Mutation can \textit{"[insure]
+the population against permanent fixation at any particular locus"} \citepmain{gaIntro}. Essentially, mutation avoids convergence within the population and encourages the formation of new solutions. 
+
+The recombination stage mimics the genetic crossover that occurs when two animals produce offspring. The 'breeding' will occur between the selected robot and another chosen either for its physical or movement similarity. Alternatively, a \textit{Triad} method breeds all three of these together. The offspring of three successful robots is expected to be more successful than the conventional two. A parallel in nature is the multiple matings found in Harvester ants, improving colony performance via \textit{"increased genetic variance within the worker population of the colony"}. \citepmain{antMating} It goes without saying that even with multiple matings there will still be the traditional two genetic inputs. However, there is a connection between the two methods and their \textbf{opportunity} for genetic diversity. The \textit{Triad} method also aims to create a relationship between the body and movement. \\
+Another option explored is a \textit{Lizard} method whereby the mate is selected proximally using a characteristic with no direct impact on performance. Male spiny-footed lizards appear to favour redder females - a trait that appears to signal sexual maturity.  \citepmain{redLizard} For these lizards the body colour appears to signal sexual maturity, a physiological trait that can impact on the success of the population but is not as direct a causation as traits usually considered to be desirable (e.g. signs of health, fighting ability). \citepmain{lizardWeapon}\\
+For this project, the desirable trait is the body colouration; Lizardbot loves blue. In theory, this method should create local ‘ecosystems’ in the population over time as robots that explore the same area of the terrain each iteration will always interact with the same selection pool. \\
+
+
+
+
 %TODO ADD explanation about why I want a relationship between them - article Simon sent
-%TODO ADD explain triad recombination - what examples are there of this in nature?
 %TODO ADD explain about the red robots - why might these be attractive?
 The genetic algorithm aims to optimise the parameters of Lizardbot and, once an optimal robot has been found, could be removed from the project. It has no impact on the behaviour of the robot mid-generation in reaction to specific circumstances.\\
 
@@ -457,9 +470,7 @@ The selection pool consists of robots that are moving in a similar way to that o
 	\item Triad\\
 This approach is more artificial than others. Two robots are selected: one each from the physical and movement methods. The genes of these two robots are then recombined with the input robot. As discussed in section TODO, nature does demonstrate examples of more than two agents mating.
 	\item Lizard\\
-This method aims to mimic a more lizardlike breeding process. A characteristic with no direct bearing on the performance is used to select robots that are nearby the input robot, ignoring those in the population on the other side of the terrain. \textit{Nearby} is relative to the spawn point of the robot, and limited to those in the same terrain type. \\
-The colour of the body was chosen as the desirable trait; Lizardbot loves blue.\\
-In theory, this method should create local ‘ecosystems’ in the population over time as robots that explore the same area of the terrain each iteration will always interact with the same selection pool. 
+This method aims to mimic a more lizardlike breeding process. Those with bluer body colours are selected, ignoring those in the population on the other side of the terrain. \textit{Nearby} is relative to the spawn point of the robot, and limited to those in the same terrain type. \\
 	\item Random\\
 A random robot is selected from the population, to act as a control method.
 	\item Any\\
@@ -487,6 +498,8 @@ $G_{i} = R^{[0, 1]} < m \longrightarrow $
 $(max(G_{i}) - min(G_{i})) R^{[0.01, 0.1]}  G_{i}$\\[1\baselineskip]
 \end{Large}
 \end{center}
+The mutation could be improved by switching from an adjustment of $1-10\%$ of the gene range, to instead using Gaussian noise. \citepmain{gaussian}\\
+
 The GA contains four major parameters that influence its function: recombination rate, mutation rate, selection size, and mutation cycle. To determine the optimal values for these, 47 iterations were run with randomly generated values and the performance of the population measured. Each iteration contained 50 robots running for 600 seconds.
 The desired outcome was a performance curve that sloped upwards over time. Peaks and troughs were expected as the successful robots returned to the spawn point; the overall pattern of the performance was key. 
 \begin{figure}[H]
@@ -576,6 +589,8 @@ All graphs are made using Colab, \citep{colab} Pandas, \citep{pd} MatPlotLib, \c
 
 \subsection{Recombination Methods}
 %TODO what impact do the various methods have on performance?
+localised breeding groups within the population. To balance the  and could benefit from the implementation of incest prevention. \citepmain{gaIntro}
+%TODO what happens when the mutation & recombination are limited to either physical or movement, or both
 
 \subsection{Oscillating vs Static vs Serpentine Body}
 %TODO what happens when the body rotation is turned off?
@@ -597,8 +612,6 @@ All graphs are made using Colab, \citep{colab} Pandas, \citep{pd} MatPlotLib, \c
 \subsection{Terrain Friction}
 %TODO what happens to the performance when the same robots are placed on terrains with different frictions?
 
-\subsection{Physical vs Movement Evolution}
-%TODO what happens when the mutation & recombination are limited to either physical or movement, or both
 
 
 %GA report

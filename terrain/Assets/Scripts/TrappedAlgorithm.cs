@@ -117,7 +117,8 @@ public class TrappedAlgorithm : MonoBehaviour
                     {
   
                         IsEnabled = false;
-                        robotConfig.RobotIsStuck();
+                        /////////////
+                        //robotConfig.RobotIsStuck();
                     }  
                 }
                 else 
