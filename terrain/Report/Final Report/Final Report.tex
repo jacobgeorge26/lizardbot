@@ -31,6 +31,7 @@ Computer Science with Artificial Intelligence}
 Submission Year - 2022\\
 Candidate Number - 198732\\
 Project Supervisor - Simon Bowes\\
+\url{https://github.com/jacobgeorge26/lizardbot}
 }
 
 \begin{document}
@@ -309,11 +310,10 @@ $S: \overrightarrow{w} = sin\overrightarrow{\theta_{i-1}} + sin\overrightarrow{\
 $C: \overrightarrow{w} = cos\overrightarrow{\theta_{i-1}} + cos\overrightarrow{\theta_{i}}$\\
 \end{Large}
 \end{center}
-%TODO ADD explanation about rotation multiplier
-
-%TODO ADD comparison with Salamandra Robotica oscillations
 
 This central pattern generator (CPG) approach allows each module to react to the velocity and angle of the previous section. The equation for the CPG originated in Tony Dear’s multi-link snake robot: a robot with a similar modular design with passive joints connecting the modules. \citepmain{cpgRobot} Lizardbot utilises the same math to calculate the velocity with one distinction: Dear’s robot split the velocity vector into its axes, using cos for the x axis and sin for the y. Lizardbot instead calculates the vector as a whole and alternates the rotating sections between sin and cos to produce the serpentine motion. For robots with serpentine motion disabled, $S$ and $C$ will be assigned randomly to the rotating modules.\\
+
+It is worth noting that every velocity calculated (for a body module, leg or tail) is multiplied by a parameter that can be mutated by the AI. Mostly it affects the primary axis of rotation, which allows the path of motion to be adapted over time.
 
 \begin{figure}[H]
 \begin{minipage}[t]{.4\textwidth}
@@ -585,16 +585,16 @@ It is expected that the dynamic movement algorithm will favour robots that are a
 \section{Results}
 All graphs are made using Colab, \citep{colab} Pandas, \citep{pd} MatPlotLib, \citep{plt} NumPy. \citep{np}
 
-\subsection{Evolved Lizardbot}
-%TODO when left to it - what do the eventual robots look like? What is the corresponding behaviour?
-%TODO what does a population of uniform, serpentine, tailed, gaited robots evolve to?
+\subsection{Body Motion}
+\begin{wrapfigure}[14]{r}{0.4\textwidth}
+    \centering
+    \vspace*{-5mm}
+    \includegraphics[width=0.4\textwidth]{bodyResults}
+    \vspace*{-7mm}
+    \caption{The results of different methods of body motion.}
+\end{wrapfigure}
+Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here
 
-\subsection{Recombination Methods}
-%TODO what impact do the various methods have on performance?
-localised breeding groups within the population. To balance the  and could benefit from the implementation of incest prevention. \citepmain{gaIntro}
-%TODO what happens when the mutation & recombination are limited to either physical or movement, or both
-
-\subsection{Oscillating vs Static vs Serpentine Body}
 %TODO what happens when the body rotation is turned off?
 %TODO what happens when the serpentine motion is fixed to on/off?
 %Smooth terrain
@@ -606,8 +606,15 @@ localised breeding groups within the population. To balance the  and could benef
 %2 - serpentine
 %3 - static (none rotating)
 
-
 \subsection{Counterbalancing Tail}
+\begin{wrapfigure}[14]{l}{0.4\textwidth}
+    \centering
+    \vspace*{-5mm}
+    \includegraphics[width=0.4\textwidth]{tailResults}
+    \vspace*{-7mm}
+    \caption{The impact of tail counterbalancing.}
+\end{wrapfigure}
+Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here
 %TODO does removing the tail help?
 %TODO would making the tail flexible help?
 %Smooth terrain
@@ -619,6 +626,14 @@ localised breeding groups within the population. To balance the  and could benef
 %2 - fixed tail
 
 \subsection{Leg Gait}
+\begin{wrapfigure}[14]{r}{0.4\textwidth}
+    \centering
+    \vspace*{-5mm}
+    \includegraphics[width=0.4\textwidth]{legResults}
+    \vspace*{-7mm}
+    \caption{The impact of the addition of legs with/without a lizardlike gait.}
+\end{wrapfigure}
+Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here
 %TODO does removing the legs help? How does the lizard gait impact performance?
 %Smooth terrain
 %50 robots
@@ -630,6 +645,14 @@ localised breeding groups within the population. To balance the  and could benef
 %3 - legs - gait
 
 \subsection{Uniform vs Non-uniform Robot}
+\begin{wrapfigure}[14]{l}{0.4\textwidth}
+    \centering
+    \vspace*{-5mm}
+    \includegraphics[width=0.4\textwidth]{uniformResults}
+    \vspace*{-7mm}
+    \caption{The results of a uniform vs non-uniform body.}
+\end{wrapfigure}
+Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here
 %TODO what happens when uniform body is fixed to on/off?
 %Smooth terrain
 %50 robots
@@ -638,8 +661,27 @@ localised breeding groups within the population. To balance the  and could benef
 %1 - random non-uniform robots
 %2 - same robots switched to uniform
 
+\subsection{Physical/Movement Mutation}
+\begin{wrapfigure}[14]{r}{0.4\textwidth}
+    \centering
+    \vspace*{-5mm}
+    \includegraphics[width=0.4\textwidth]{legend}
+    \vspace*{-7mm}
+    \caption{The results of the GA constrained to physical/movement genes.}
+\end{wrapfigure}
+Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here Insert analysis here
+
+\subsection{Recombination Methods}
+%TODO what impact do the various methods have on performance?
+localised breeding groups within the population. To balance the  and could benefit from the implementation of incest prevention. \citepmain{gaIntro}
+%TODO what happens when the mutation & recombination are limited to either physical or movement, or both
+
 \subsection{Dynamic Movement}
 %TODO what impact does the dynamic movement have on the performance?
+
+\subsection{Evolved Lizardbot}
+%TODO when left to it - what do the eventual robots look like? What is the corresponding behaviour?
+%TODO what does a population of uniform, serpentine, tailed, gaited robots evolve to?
 
 \subsection{Terrain Friction}
 %TODO what happens to the performance when the same robots are placed on terrains with different frictions?
@@ -676,11 +718,21 @@ Adding a rudimentary vision system would enable the AI to make decisions, as opp
 \bibliographysoft{References/SoftReferences}
 \bibliographycode{References/CodeReferences}
 \newpage
+
+
 \section{Appendices}
 \subsection{Progress Logs}
-%TODO add progress logs links
+The status of Lizardbot was reported as the project progressed.
+The progress logs for Lizardbot can be found here:\\
+\url{https://github.com/jacobgeorge26/lizardbot/pull/10}\\
+
+\noindent The details of the discussions with the project supervisor, Simon Bowes, can be found here:\\
+\url{https://github.com/jacobgeorge26/lizardbot/pull/9}
+
+
 \subsection{Project Proposal}
-%TODO add project proposal
+The initial project proposal can be found here:\\
+\url{https://docs.google.com/document/d/17SvBZN9ctZutAxGG5i6fcNnbd7-2hrrye14ARTxWUa4/edit?usp=sharing}
 
 
 

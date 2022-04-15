@@ -201,6 +201,14 @@ Unity (2022b).
 \newblock {\em Unity Technologies}.
 \newblock \\ \url{https://docs.unity.com/} \\ Accessed: 2022-04-12.
 
+\bibitem[user91669, 2017]{footnote}
+user91669 (2017).
+\newblock Change the length of footnote line?
+\newblock {\em StackExchange}.
+\newblock \\
+  \url{https://tex.stackexchange.com/questions/405195/change-the-length-of-footnote-line}
+  \\ Accessed: 2022-04-16.
+
 \bibitem[{Vladimir T}, 2020]{configJoints}
 {Vladimir T} (2020).
 \newblock Luna tech series: A deep dive into unity configurable joints.

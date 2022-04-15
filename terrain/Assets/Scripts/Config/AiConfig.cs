@@ -46,7 +46,7 @@ namespace Config
         public static float MutationRate = 0.31f;
 
         //options for which genes will be mutated
-        public static Mutation MutationType = Mutation.Both;
+        public static Mutation MutationType = Mutation.Movement;
 
         //value for k - how many should be considered in the recombination?
         public static int SelectionSize = 9;

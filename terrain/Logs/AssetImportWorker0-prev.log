@@ -1,0 +1,1101 @@
+Using pre-set license
+Built from '2021.1/release' branch; Version is '2021.1.10f1 (b15f561b2cef) revision 11624278'; Using compiler version '192528614'; Build Type 'Release'
+OS: 'Windows 10 Home; OS build 19044.1586; Version 2009; 64bit' Language: 'en' Physical Memory: 16116 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 0
+
+ COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\2021.1.10f1\Editor\Unity.exe
+-adb2
+-batchMode
+-noUpm
+-name
+AssetImportWorker0
+-projectPath
+C:/lizardbot/terrain
+-logFile
+Logs/AssetImportWorker0.log
+-srvPort
+62871
+Successfully changed project path to: C:/lizardbot/terrain
+C:/lizardbot/terrain
+Using Asset Import Pipeline V2.
+Refreshing native plugins compatible for Editor in 62.08 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Initialize engine version: 2021.1.10f1 (b15f561b2cef)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2021.1.10f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path C:/lizardbot/terrain/Assets
+GfxDevice: creating device client; threaded=0; jobified=0
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce GTX 1050 Ti with Max-Q Design (ID=0x1c8c)
+    Vendor:   NVIDIA
+    VRAM:     4021 MB
+    Driver:   30.0.14.9649
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2021.1.10f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2021.1.10f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/2021.1.10f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56112
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.1.10f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.004244 seconds.
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 48.06 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  2.014 seconds
+Domain Reload Profiling:
+	ReloadAssembly (2014ms)
+		BeginReloadAssembly (121ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (0ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (1ms)
+		EndReloadAssembly (634ms)
+			LoadAssemblies (117ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (255ms)
+			ReleaseScriptCaches (0ms)
+			RebuildScriptCaches (51ms)
+			SetupLoadedEditorAssemblies (251ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (9ms)
+				SetLoadedEditorAssemblies (0ms)
+				RefreshPlugins (48ms)
+				BeforeProcessingInitializeOnLoad (3ms)
+				ProcessInitializeOnLoadAttributes (152ms)
+				ProcessInitializeOnLoadMethodAttributes (38ms)
+				AfterProcessingInitializeOnLoad (0ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (0ms)
+Platform modules already initialized, skipping
+Registering precompiled user dll's ...
+Registered in 0.006378 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.45 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.531 seconds
+Domain Reload Profiling:
+	ReloadAssembly (1532ms)
+		BeginReloadAssembly (226ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (6ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (26ms)
+		EndReloadAssembly (1225ms)
+			LoadAssemblies (150ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (453ms)
+			ReleaseScriptCaches (0ms)
+			RebuildScriptCaches (77ms)
+			SetupLoadedEditorAssemblies (446ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (7ms)
+				SetLoadedEditorAssemblies (1ms)
+				RefreshPlugins (1ms)
+				BeforeProcessingInitializeOnLoad (77ms)
+				ProcessInitializeOnLoadAttributes (341ms)
+				ProcessInitializeOnLoadMethodAttributes (8ms)
+				AfterProcessingInitializeOnLoad (11ms)
+				EditorAssembliesLoaded (1ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (9ms)
+Platform modules already initialized, skipping
+========================================================================
+Worker process is ready to serve import requests
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.09 seconds
+Refreshing native plugins compatible for Editor in 0.67 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1831 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 108.1 MB.
+System memory in use after: 108.2 MB.
+
+Unloading 23 unused Assets to reduce memory usage. Loaded Objects now: 2309.
+Total: 3.024600 ms (FindLiveObjects: 0.183100 ms CreateObjectMapping: 0.109900 ms MarkObjects: 2.552000 ms  DeleteObjects: 0.178500 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+========================================================================
+Received Import Request.
+  path: Assets/Resources/Robots/2-Robot 42 V 0.prefab
+  artifactKey: Guid(10def4b13850b1642a71a45bfedaf00a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/2-Robot 42 V 0.prefab using Guid(10def4b13850b1642a71a45bfedaf00a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2be52795c34fb71a7b5ecf02f24254a5') in 0.168751 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000751 seconds.
+  path: Assets/Resources/Robots/1-Robot 45 V 4.prefab
+  artifactKey: Guid(12ef0467d84c6174f86197440c717af8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 45 V 4.prefab using Guid(12ef0467d84c6174f86197440c717af8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'feda1a42d2c2327c56f03eff71a1dcb8') in 0.014421 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000320 seconds.
+  path: Assets/Resources/Robots/1-Robot 47 V 0.prefab
+  artifactKey: Guid(71e7ac359ecd30f4781e02da71ed1c0c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 47 V 0.prefab using Guid(71e7ac359ecd30f4781e02da71ed1c0c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0c3a208efe3c3d239f783d3c1e1f29e6') in 0.012847 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000331 seconds.
+  path: Assets/Resources/Robots/3-Robot 42 V 0.prefab
+  artifactKey: Guid(6eeb8a7701af68b46abee5dea35af062) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/3-Robot 42 V 0.prefab using Guid(6eeb8a7701af68b46abee5dea35af062) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0b1199cafa9270ff1645d63c253a258f') in 0.018368 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000512 seconds.
+  path: Assets/Resources/Robots/1-Robot 12 V 3.prefab
+  artifactKey: Guid(c7312f8857460784bbd7a7bb527a79b3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 12 V 3.prefab using Guid(c7312f8857460784bbd7a7bb527a79b3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '83038078af05dbc37404f1e8eb2f184c') in 0.011223 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000337 seconds.
+  path: Assets/Resources/Robots/1-Robot 11 V 19.prefab
+  artifactKey: Guid(80f971ed128284944847d4a0b6cb70d1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 11 V 19.prefab using Guid(80f971ed128284944847d4a0b6cb70d1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'be0837993906065c8150999d66788b35') in 0.011329 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000581 seconds.
+  path: Assets/Resources/Robots/2-Robot 18 V 14.prefab
+  artifactKey: Guid(ee7c3c0f711c49644871c19e6a789620) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/2-Robot 18 V 14.prefab using Guid(ee7c3c0f711c49644871c19e6a789620) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6a82a824af877859f9226a2bb0666d8d') in 0.010815 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000343 seconds.
+  path: Assets/Resources/Robots/1-Robot 1 V 0.prefab
+  artifactKey: Guid(133623f7c4f269e40ab2f94c94aeed4a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 1 V 0.prefab using Guid(133623f7c4f269e40ab2f94c94aeed4a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '554fa75dd85bd39130133a928cfa0614') in 0.013841 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000543 seconds.
+  path: Assets/Resources/Robots/1-Robot 43 V 4.prefab
+  artifactKey: Guid(72c2be7ff213b694ba80dad35711f4c9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 43 V 4.prefab using Guid(72c2be7ff213b694ba80dad35711f4c9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '66ec5d093ecf21b85cc6fdb770b247ff') in 0.012631 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000384 seconds.
+  path: Assets/Resources/Robots/3-Robot 11 V 0.prefab
+  artifactKey: Guid(6ec99164b0473b04e85b2426e883cc28) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/3-Robot 11 V 0.prefab using Guid(6ec99164b0473b04e85b2426e883cc28) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a6096eed6f42b071bfcf5bf7542ea8a8') in 0.012092 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000423 seconds.
+  path: Assets/Resources/Robots/2-Robot 14 V 8.prefab
+  artifactKey: Guid(cfe776da76be80a45b0afa046f9c27c5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/2-Robot 14 V 8.prefab using Guid(cfe776da76be80a45b0afa046f9c27c5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a5cd45f4db1dedbdbe3d0284439f10bc') in 0.011293 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000416 seconds.
+  path: Assets/Resources/Robots/2-Robot 38 V 4.prefab
+  artifactKey: Guid(d63c9b5d55f62a94cba652da346b633d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/2-Robot 38 V 4.prefab using Guid(d63c9b5d55f62a94cba652da346b633d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4ef0818ec493960fdd06fdeea2272f34') in 0.010514 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000388 seconds.
+  path: Assets/Resources/Robots/1-Robot 33 V 3.prefab
+  artifactKey: Guid(90adb0305513a7545b1eb2402e1dc33f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 33 V 3.prefab using Guid(90adb0305513a7545b1eb2402e1dc33f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4f84b1bbfa9030d4b5cc7c29d8aad967') in 0.014197 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000362 seconds.
+  path: Assets/Resources/Robots/2-Robot 25 V 12.prefab
+  artifactKey: Guid(73f244e1bbcaa484ab928c7f28e5f720) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/2-Robot 25 V 12.prefab using Guid(73f244e1bbcaa484ab928c7f28e5f720) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'aff9fa212320ad3b20c9cafc13120452') in 0.014141 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000433 seconds.
+  path: Assets/Resources/Robots/3-Robot 8 V 8.prefab
+  artifactKey: Guid(ed59c273582f37c4ca3dfe908ab0dc41) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/3-Robot 8 V 8.prefab using Guid(ed59c273582f37c4ca3dfe908ab0dc41) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4be731cdcd30291921c30f72bde07ee3') in 0.012428 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000409 seconds.
+  path: Assets/Resources/Robots/2-Robot 4 V 8.prefab
+  artifactKey: Guid(490e2442cd6f57b41b0f5fa1b73dbdc2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/2-Robot 4 V 8.prefab using Guid(490e2442cd6f57b41b0f5fa1b73dbdc2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8e360a9eca8dbef7b7e225ea6942b2c9') in 0.012288 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000362 seconds.
+  path: Assets/Resources/Robots/2-Robot 29 V 12.prefab
+  artifactKey: Guid(0667545eed762764d8cfcc3e47b893a0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/2-Robot 29 V 12.prefab using Guid(0667545eed762764d8cfcc3e47b893a0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '34691134706c7e7742805f1af1b23dbc') in 0.012739 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000369 seconds.
+  path: Assets/Resources/Robots/1-Robot 34 V 0.prefab
+  artifactKey: Guid(604963c44533f7b4895da491d1998956) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 34 V 0.prefab using Guid(604963c44533f7b4895da491d1998956) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bae8552c2b199b5538734ab36551be13') in 0.014070 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000459 seconds.
+  path: Assets/Resources/Robots/3-Robot 14 V 3.prefab
+  artifactKey: Guid(399c545c274328e469d4106de29d68a8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/3-Robot 14 V 3.prefab using Guid(399c545c274328e469d4106de29d68a8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8a83382515b2b3f32e80a85045ce40ee') in 0.010536 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000370 seconds.
+  path: Assets/Resources/Robots/2-Robot 50 V 2.prefab
+  artifactKey: Guid(8bd9fa8b9def79548ae8f8955682ffb3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/2-Robot 50 V 2.prefab using Guid(8bd9fa8b9def79548ae8f8955682ffb3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '561f3696159df72d7ac6143b6924dfb5') in 0.011443 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000445 seconds.
+  path: Assets/Resources/Robots/2-Robot 1 V 0.prefab
+  artifactKey: Guid(3d7a4b6f85aab444f867cbe7ed6e314d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/2-Robot 1 V 0.prefab using Guid(3d7a4b6f85aab444f867cbe7ed6e314d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '00ab331449a5fe837dd5be0f79b19dd0') in 0.011555 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000449 seconds.
+  path: Assets/Resources/Robots/1-Robot 48 V 1.prefab
+  artifactKey: Guid(362af8b6274adce408aabb0f3049050f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 48 V 1.prefab using Guid(362af8b6274adce408aabb0f3049050f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bcb458d3f525e990998497943bea095e') in 0.013033 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 43.843506 seconds.
+  path: Assets/Resources/Robots/11-Robot 64 V 2.prefab
+  artifactKey: Guid(0c05f86d97044e54ebdab870668cd2de) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/11-Robot 64 V 2.prefab using Guid(0c05f86d97044e54ebdab870668cd2de) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fa3aa45bfde5eef8d0c07e93f8e3e476') in 0.011669 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000297 seconds.
+  path: Assets/Resources/Robots/14-Robot 59 V 1.prefab
+  artifactKey: Guid(3c77f3ce308ca22429a09afb117c2352) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/14-Robot 59 V 1.prefab using Guid(3c77f3ce308ca22429a09afb117c2352) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ae68e702f6949028fbfa417d6e4b6e11') in 0.010469 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000541 seconds.
+  path: Assets/Resources/Robots/12-Robot 4 V 5.prefab
+  artifactKey: Guid(818fc638e9055b041982e02a4482e659) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/12-Robot 4 V 5.prefab using Guid(818fc638e9055b041982e02a4482e659) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '67b59ede4937fe9265becf468d741aa4') in 0.016544 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000510 seconds.
+  path: Assets/Resources/Robots/14-Robot 33 V 9.prefab
+  artifactKey: Guid(44cb073bdea2f9c4086ec41c6f033ac3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/14-Robot 33 V 9.prefab using Guid(44cb073bdea2f9c4086ec41c6f033ac3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9bf6bc073bbdbaff2ded6a90b6b08cd2') in 0.016394 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000515 seconds.
+  path: Assets/Resources/Robots/13-Robot 44 V 3.prefab
+  artifactKey: Guid(e04a80783f02af448bb105d835cc55e9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/13-Robot 44 V 3.prefab using Guid(e04a80783f02af448bb105d835cc55e9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '554d6fbb65a65257db2235ead19b27c6') in 0.015008 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000511 seconds.
+  path: Assets/Resources/Robots/15-Robot 29 V 7.prefab
+  artifactKey: Guid(c452a22c2160ae7459055d4f20c2f0cb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/15-Robot 29 V 7.prefab using Guid(c452a22c2160ae7459055d4f20c2f0cb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '665755f628b7ec24dbe8acd10524eb42') in 0.013262 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 87.902423 seconds.
+  path: Assets/Resources/Robots/1-Robot 1 V 0.prefab
+  artifactKey: Guid(133623f7c4f269e40ab2f94c94aeed4a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 1 V 0.prefab using Guid(133623f7c4f269e40ab2f94c94aeed4a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e137b04a9a21b7122d1a084a9b71ec1f') in 0.018778 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000344 seconds.
+  path: Assets/Resources/Robots/2-Robot 42 V 0.prefab
+  artifactKey: Guid(10def4b13850b1642a71a45bfedaf00a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/2-Robot 42 V 0.prefab using Guid(10def4b13850b1642a71a45bfedaf00a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd586266f114384d4b2c6fb821914ede3') in 0.014728 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000433 seconds.
+  path: Assets/Resources/Robots/2-Robot 8 V 0.prefab
+  artifactKey: Guid(645d8b08bd48e0e4fa4265c3b92625d1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/2-Robot 8 V 0.prefab using Guid(645d8b08bd48e0e4fa4265c3b92625d1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '75bb6b2ab81ca11b40d55e9896b5f9f1') in 0.015343 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000317 seconds.
+  path: Assets/Resources/Robots/1-Robot 45 V 4.prefab
+  artifactKey: Guid(12ef0467d84c6174f86197440c717af8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 45 V 4.prefab using Guid(12ef0467d84c6174f86197440c717af8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1f374dcdfbd6ee58d070bae3a5001f1a') in 0.015218 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000457 seconds.
+  path: Assets/Resources/Robots/1-Robot 47 V 0.prefab
+  artifactKey: Guid(71e7ac359ecd30f4781e02da71ed1c0c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 47 V 0.prefab using Guid(71e7ac359ecd30f4781e02da71ed1c0c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c113c9b02a994287c9186d441eba4d4d') in 0.015920 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000401 seconds.
+  path: Assets/Resources/Robots/1-Robot 5 V 6.prefab
+  artifactKey: Guid(deac7274ed43bcd4086c06e897466194) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 5 V 6.prefab using Guid(deac7274ed43bcd4086c06e897466194) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9c63d6c18db08602d0563cda8bda4bc1') in 0.013597 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000317 seconds.
+  path: Assets/Resources/Robots/3-Robot 42 V 0.prefab
+  artifactKey: Guid(6eeb8a7701af68b46abee5dea35af062) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/3-Robot 42 V 0.prefab using Guid(6eeb8a7701af68b46abee5dea35af062) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '918a178af2a8c543cb5156b072aebff4') in 0.016680 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000434 seconds.
+  path: Assets/Resources/Robots/5-Robot 10 V 0.prefab
+  artifactKey: Guid(e48d0ce3a358ed0479365bbd08df6f01) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/5-Robot 10 V 0.prefab using Guid(e48d0ce3a358ed0479365bbd08df6f01) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '94eeec421dea015a8f0ab497421079c3') in 0.011982 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000391 seconds.
+  path: Assets/Resources/Robots/1-Robot 12 V 3.prefab
+  artifactKey: Guid(c7312f8857460784bbd7a7bb527a79b3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 12 V 3.prefab using Guid(c7312f8857460784bbd7a7bb527a79b3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5c1d0883c53e57c6519131c5db4bbfd8') in 0.014532 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000545 seconds.
+  path: Assets/Resources/Robots/1-Robot 11 V 19.prefab
+  artifactKey: Guid(80f971ed128284944847d4a0b6cb70d1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 11 V 19.prefab using Guid(80f971ed128284944847d4a0b6cb70d1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0e2a995e013afc63ac88582dab53961b') in 0.015197 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000447 seconds.
+  path: Assets/Resources/Robots/3-Robot 2 V 0.prefab
+  artifactKey: Guid(1ccf88c1e889e7144965fb1601f69257) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/3-Robot 2 V 0.prefab using Guid(1ccf88c1e889e7144965fb1601f69257) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c3166e762120751a79e0d1b67214da53') in 0.013992 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000426 seconds.
+  path: Assets/Resources/Robots/2-Robot 18 V 14.prefab
+  artifactKey: Guid(ee7c3c0f711c49644871c19e6a789620) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/2-Robot 18 V 14.prefab using Guid(ee7c3c0f711c49644871c19e6a789620) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2429b298ad583d73cb0e4ab330ba125f') in 0.014631 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000497 seconds.
+  path: Assets/Resources/Robots/5-Robot 11 V 5.prefab
+  artifactKey: Guid(886288c3527ec994eb53ee2570358fbe) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/5-Robot 11 V 5.prefab using Guid(886288c3527ec994eb53ee2570358fbe) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '481e6225d44e8473dcaaa3de227e1939') in 0.014947 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000463 seconds.
+  path: Assets/Resources/Robots/1-Robot 34 V 4.prefab
+  artifactKey: Guid(d2918e6770e03774faf64f323bee41d7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 34 V 4.prefab using Guid(d2918e6770e03774faf64f323bee41d7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '08810b4ed16174c4203f3bf8b734d987') in 0.011893 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000371 seconds.
+  path: Assets/Resources/Robots/1-Robot 6 V 0.prefab
+  artifactKey: Guid(a77c1ce6a7b0b0844a580c349f1ee772) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 6 V 0.prefab using Guid(a77c1ce6a7b0b0844a580c349f1ee772) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '25be7426505c076d1bbad83cea72ff86') in 0.013804 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000414 seconds.
+  path: Assets/Resources/Robots/3-Robot 30 V 7.prefab
+  artifactKey: Guid(0d252475f5b9a344d8e745810df65c59) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/3-Robot 30 V 7.prefab using Guid(0d252475f5b9a344d8e745810df65c59) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b4ba068f400b03f0e11219574fa57c2d') in 0.013510 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000480 seconds.
+  path: Assets/Resources/Robots/1-Robot 43 V 4.prefab
+  artifactKey: Guid(72c2be7ff213b694ba80dad35711f4c9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 43 V 4.prefab using Guid(72c2be7ff213b694ba80dad35711f4c9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bc0d29cedde109b258c63be2c378e76e') in 0.011442 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000490 seconds.
+  path: Assets/Resources/Robots/3-Robot 11 V 0.prefab
+  artifactKey: Guid(6ec99164b0473b04e85b2426e883cc28) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/3-Robot 11 V 0.prefab using Guid(6ec99164b0473b04e85b2426e883cc28) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c977114fd5e6db381102136953092c8a') in 0.015342 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000423 seconds.
+  path: Assets/Resources/Robots/2-Robot 14 V 8.prefab
+  artifactKey: Guid(cfe776da76be80a45b0afa046f9c27c5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/2-Robot 14 V 8.prefab using Guid(cfe776da76be80a45b0afa046f9c27c5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '776c3420fb54d2ec33b262c1b7d89bb2') in 0.015646 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000442 seconds.
+  path: Assets/Resources/Robots/2-Robot 38 V 4.prefab
+  artifactKey: Guid(d63c9b5d55f62a94cba652da346b633d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/2-Robot 38 V 4.prefab using Guid(d63c9b5d55f62a94cba652da346b633d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '48d65ee7afc03bfaf089c21316fad609') in 0.018233 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000717 seconds.
+  path: Assets/Resources/Robots/6-Robot 72 V 3.prefab
+  artifactKey: Guid(0062917e2aa8b3749af28867e7796e85) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/6-Robot 72 V 3.prefab using Guid(0062917e2aa8b3749af28867e7796e85) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a6ace93c60779d0f340f17c21ba64674') in 0.013804 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000423 seconds.
+  path: Assets/Resources/Robots/1-Robot 33 V 3.prefab
+  artifactKey: Guid(90adb0305513a7545b1eb2402e1dc33f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 33 V 3.prefab using Guid(90adb0305513a7545b1eb2402e1dc33f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '50a9b0030db2ebfe62a87a6725160f23') in 0.016036 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000589 seconds.
+  path: Assets/Resources/Robots/2-Robot 25 V 12.prefab
+  artifactKey: Guid(73f244e1bbcaa484ab928c7f28e5f720) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/2-Robot 25 V 12.prefab using Guid(73f244e1bbcaa484ab928c7f28e5f720) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '23c585034743638a87f9fbc62a09c0d6') in 0.018526 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000427 seconds.
+  path: Assets/Resources/Robots/3-Robot 8 V 8.prefab
+  artifactKey: Guid(ed59c273582f37c4ca3dfe908ab0dc41) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/3-Robot 8 V 8.prefab using Guid(ed59c273582f37c4ca3dfe908ab0dc41) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f80d8133e113fe85cad00c3e97119b96') in 0.015211 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000438 seconds.
+  path: Assets/Resources/Robots/2-Robot 4 V 8.prefab
+  artifactKey: Guid(490e2442cd6f57b41b0f5fa1b73dbdc2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/2-Robot 4 V 8.prefab using Guid(490e2442cd6f57b41b0f5fa1b73dbdc2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b9f09bf9a387d1b853cfb2b74f25a87e') in 0.018905 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000481 seconds.
+  path: Assets/Resources/Robots/2-Robot 72 V 7.prefab
+  artifactKey: Guid(06c3bf366eca92f429ea317c0b4b81e4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/2-Robot 72 V 7.prefab using Guid(06c3bf366eca92f429ea317c0b4b81e4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '33b0420a6a1fcdf9302b159361efe8fe') in 0.014956 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000513 seconds.
+  path: Assets/Resources/Robots/4-Robot 39 V 3.prefab
+  artifactKey: Guid(b458f029191c10e4e99cd1b9a7a78cb5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/4-Robot 39 V 3.prefab using Guid(b458f029191c10e4e99cd1b9a7a78cb5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '53ecbc41e8aacc744d8c83ff3272d5d0') in 0.015866 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000520 seconds.
+  path: Assets/Resources/Robots/2-Robot 29 V 12.prefab
+  artifactKey: Guid(0667545eed762764d8cfcc3e47b893a0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/2-Robot 29 V 12.prefab using Guid(0667545eed762764d8cfcc3e47b893a0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9ac1647e31b56e1a93a240fd696f16bd') in 0.012703 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000366 seconds.
+  path: Assets/Resources/Robots/2-Robot 70 V 4.prefab
+  artifactKey: Guid(8e18ddc791525a045953309eafcba0cc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/2-Robot 70 V 4.prefab using Guid(8e18ddc791525a045953309eafcba0cc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '05d3b482d93e8e240878274125f28a0b') in 0.014113 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000502 seconds.
+  path: Assets/Resources/Robots/1-Robot 34 V 0.prefab
+  artifactKey: Guid(604963c44533f7b4895da491d1998956) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 34 V 0.prefab using Guid(604963c44533f7b4895da491d1998956) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5cf95d172c5f96f56b0688ed8f4b7802') in 0.014943 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000330 seconds.
+  path: Assets/Resources/Robots/3-Robot 14 V 3.prefab
+  artifactKey: Guid(399c545c274328e469d4106de29d68a8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/3-Robot 14 V 3.prefab using Guid(399c545c274328e469d4106de29d68a8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f059732f336b67a805f6b3d9cea7b415') in 0.012997 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000405 seconds.
+  path: Assets/Resources/Robots/7-Robot 52 V 3.prefab
+  artifactKey: Guid(43f91558752016048853d6b9a9d53e74) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/7-Robot 52 V 3.prefab using Guid(43f91558752016048853d6b9a9d53e74) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '034d5682d7a6a08e8878064e75405850') in 0.011904 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000298 seconds.
+  path: Assets/Resources/Robots/4-Robot 66 V 2.prefab
+  artifactKey: Guid(e3fcd20dc60ebde4ab88a1efa1195267) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/4-Robot 66 V 2.prefab using Guid(e3fcd20dc60ebde4ab88a1efa1195267) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cfa8d2c6b7f80a777340d33fbeef1638') in 0.010484 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000319 seconds.
+  path: Assets/Resources/Robots/2-Robot 50 V 2.prefab
+  artifactKey: Guid(8bd9fa8b9def79548ae8f8955682ffb3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/2-Robot 50 V 2.prefab using Guid(8bd9fa8b9def79548ae8f8955682ffb3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '19b5cbcb68890abc59b4ca690ecb5cb0') in 0.013387 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000350 seconds.
+  path: Assets/Resources/Robots/2-Robot 1 V 0.prefab
+  artifactKey: Guid(3d7a4b6f85aab444f867cbe7ed6e314d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/2-Robot 1 V 0.prefab using Guid(3d7a4b6f85aab444f867cbe7ed6e314d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e629e53d42e8d0013725f4d5999f64b7') in 0.014269 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000391 seconds.
+  path: Assets/Resources/Robots/3-Robot 51 V 1.prefab
+  artifactKey: Guid(8ea10eee9249f5349bcf0295d44ed3e3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/3-Robot 51 V 1.prefab using Guid(8ea10eee9249f5349bcf0295d44ed3e3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2ba259f9071e25b0f825e845d1d2c878') in 0.013373 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000552 seconds.
+  path: Assets/Resources/Robots/1-Robot 48 V 1.prefab
+  artifactKey: Guid(362af8b6274adce408aabb0f3049050f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 48 V 1.prefab using Guid(362af8b6274adce408aabb0f3049050f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '035ad2e5740687c0525bf3ad5e3bad9d') in 0.013831 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.612166 seconds.
+  path: Assets/Resources/Robots/7-Robot 54 V 6.prefab
+  artifactKey: Guid(41b506289ad94e54cb1718b51155abc1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/7-Robot 54 V 6.prefab using Guid(41b506289ad94e54cb1718b51155abc1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c6393e18efaf5f54685e0c0a68e82885') in 0.012313 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000503 seconds.
+  path: Assets/Resources/Robots/14-Robot 59 V 1.prefab
+  artifactKey: Guid(3c77f3ce308ca22429a09afb117c2352) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/14-Robot 59 V 1.prefab using Guid(3c77f3ce308ca22429a09afb117c2352) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ef693bfdfd63a36d82b43556655a5bf5') in 0.011135 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000381 seconds.
+  path: Assets/Resources/Robots/10-Robot 69 V 5.prefab
+  artifactKey: Guid(662a1c7d124bd424995df84c92f1fea3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/10-Robot 69 V 5.prefab using Guid(662a1c7d124bd424995df84c92f1fea3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '883a3081398cb8c07c996bb993ea5fab') in 0.008246 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000455 seconds.
+  path: Assets/Resources/Robots/12-Robot 4 V 5.prefab
+  artifactKey: Guid(818fc638e9055b041982e02a4482e659) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/12-Robot 4 V 5.prefab using Guid(818fc638e9055b041982e02a4482e659) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '988d9701c8a562bd421c95c60d1b5f2c') in 0.011880 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000448 seconds.
+  path: Assets/Resources/Robots/14-Robot 33 V 9.prefab
+  artifactKey: Guid(44cb073bdea2f9c4086ec41c6f033ac3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/14-Robot 33 V 9.prefab using Guid(44cb073bdea2f9c4086ec41c6f033ac3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3f8540197fab91d28053ecc0356cb017') in 0.011404 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000465 seconds.
+  path: Assets/Resources/Robots/8-Robot 2 V 10.prefab
+  artifactKey: Guid(e5ac759bd41a24d41a2066e77c445d10) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/8-Robot 2 V 10.prefab using Guid(e5ac759bd41a24d41a2066e77c445d10) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8e3a9774e86004a605380bfb70db3c8b') in 0.010109 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000402 seconds.
+  path: Assets/Resources/Robots/8-Robot 47 V 10.prefab
+  artifactKey: Guid(1a4b1e66315a72c4d9f7aeddbfda1cd4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/8-Robot 47 V 10.prefab using Guid(1a4b1e66315a72c4d9f7aeddbfda1cd4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6a8c5d310079095b993b9e6abfa24b00') in 0.012624 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000374 seconds.
+  path: Assets/Resources/Robots/11-Robot 64 V 2.prefab
+  artifactKey: Guid(0c05f86d97044e54ebdab870668cd2de) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/11-Robot 64 V 2.prefab using Guid(0c05f86d97044e54ebdab870668cd2de) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7225e83a59765a849688bc9ae9f7a373') in 0.009464 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000380 seconds.
+  path: Assets/Resources/Robots/13-Robot 44 V 3.prefab
+  artifactKey: Guid(e04a80783f02af448bb105d835cc55e9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/13-Robot 44 V 3.prefab using Guid(e04a80783f02af448bb105d835cc55e9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2e42313fe4840e7bdcfe55e778ebe39f') in 0.010518 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000373 seconds.
+  path: Assets/Resources/Robots/10-Robot 53 V 4.prefab
+  artifactKey: Guid(f014976f10f0d3243bd1e0cf950aea06) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/10-Robot 53 V 4.prefab using Guid(f014976f10f0d3243bd1e0cf950aea06) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e9dfd4ae142881c4a4a4b56d6539aba1') in 0.008880 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000349 seconds.
+  path: Assets/Resources/Robots/15-Robot 29 V 7.prefab
+  artifactKey: Guid(c452a22c2160ae7459055d4f20c2f0cb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/15-Robot 29 V 7.prefab using Guid(c452a22c2160ae7459055d4f20c2f0cb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6cb159ad2bb265dae095afa16a3936d9') in 0.012559 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 29.343832 seconds.
+  path: Assets/Resources/Robots/New Folder
+  artifactKey: Guid(f42f7d1cab6ae974da4513396934b872) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/New Folder using Guid(f42f7d1cab6ae974da4513396934b872) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '714f40a0be8b062abca8f8831c34893c') in 0.003318 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 3.632166 seconds.
+  path: Assets/Resources/Robots/New Folder/1-Robot 11 V 19.prefab
+  artifactKey: Guid(80f971ed128284944847d4a0b6cb70d1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/New Folder/1-Robot 11 V 19.prefab using Guid(80f971ed128284944847d4a0b6cb70d1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b388b972e091bba8541d6c2029ca4b1b') in 0.011045 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 23.354338 seconds.
+  path: Assets/Resources/Robots/New Folder/2-Robot 25 V 12.prefab
+  artifactKey: Guid(73f244e1bbcaa484ab928c7f28e5f720) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/New Folder/2-Robot 25 V 12.prefab using Guid(73f244e1bbcaa484ab928c7f28e5f720) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '87da61f406e085176664452240dedc1c') in 0.010950 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 13.562244 seconds.
+  path: Assets/Resources/Robots/New Folder/3-Robot 8 V 8.prefab
+  artifactKey: Guid(ed59c273582f37c4ca3dfe908ab0dc41) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/New Folder/3-Robot 8 V 8.prefab using Guid(ed59c273582f37c4ca3dfe908ab0dc41) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd6be7f3f47f0547ff461423b8441c400') in 0.010663 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 3.373856 seconds.
+  path: Assets/Resources/Robots/1-Robot 1 V 1.prefab
+  artifactKey: Guid(f89de99a360c995419a22c83a7c9d6a4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 1 V 1.prefab using Guid(f89de99a360c995419a22c83a7c9d6a4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9f6973cec5d519066583ea8bba6ef4e1') in 0.012891 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000388 seconds.
+  path: Assets/Resources/Robots/1-Robot 12 V 4.prefab
+  artifactKey: Guid(5a43ba080ad62e74eaa8458e4136fe77) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 12 V 4.prefab using Guid(5a43ba080ad62e74eaa8458e4136fe77) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e7f8ffa7d96c027d3cb3ec0d756419dc') in 0.011478 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000569 seconds.
+  path: Assets/Resources/Robots/1-Robot 5 V 7.prefab
+  artifactKey: Guid(9b1b4d3ad6cfc394da3edaacfae75c79) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 5 V 7.prefab using Guid(9b1b4d3ad6cfc394da3edaacfae75c79) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '23b91102de4a0692db67b5de788fe1a1') in 0.009909 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000353 seconds.
+  path: Assets/Resources/Robots/1-Robot 6 V 1.prefab
+  artifactKey: Guid(357d57e69aa600e46ae86a951f934048) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 6 V 1.prefab using Guid(357d57e69aa600e46ae86a951f934048) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1d48de923c8932f035ac8d3e8d9d0a24') in 0.013765 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000467 seconds.
+  path: Assets/Resources/Robots/1-Robot 7 V 1.prefab
+  artifactKey: Guid(577defbe345b48a49a10197d76d05410) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 7 V 1.prefab using Guid(577defbe345b48a49a10197d76d05410) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1ff74f607a4b2eaacb2e693967d5d128') in 0.010673 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 10.524934 seconds.
+  path: Assets/Resources/Robots/1-Robot 1 V 2.prefab
+  artifactKey: Guid(2985ac6c0b2e87349a9c17f4ba89593a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 1 V 2.prefab using Guid(2985ac6c0b2e87349a9c17f4ba89593a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ed4f5e5bddb5700abe071737e087cee8') in 0.013530 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000395 seconds.
+  path: Assets/Resources/Robots/1-Robot 5 V 8.prefab
+  artifactKey: Guid(527216c9873e20a47abbd487f60f3edb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 5 V 8.prefab using Guid(527216c9873e20a47abbd487f60f3edb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd8bb95c18fb6fe4446502a173c159c12') in 0.010659 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000298 seconds.
+  path: Assets/Resources/Robots/2-Robot 18 V 15.prefab
+  artifactKey: Guid(ecf4fc5ba4fbfc145bd9000d75a5814c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/2-Robot 18 V 15.prefab using Guid(ecf4fc5ba4fbfc145bd9000d75a5814c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '507bb5d79d629558e764fe0a1f9855a3') in 0.010101 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000388 seconds.
+  path: Assets/Resources/Robots/2-Robot 1 V 1.prefab
+  artifactKey: Guid(5ab722949fca96f4bac620ae50e04d71) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/2-Robot 1 V 1.prefab using Guid(5ab722949fca96f4bac620ae50e04d71) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '116a9b5b8d83427ebde5ca22995b2d61') in 0.013167 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000618 seconds.
+  path: Assets/Resources/Robots/2-Robot 8 V 1.prefab
+  artifactKey: Guid(f45b7e4d9e550584f934a17083b546ea) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/2-Robot 8 V 1.prefab using Guid(f45b7e4d9e550584f934a17083b546ea) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8bb93ac3c6ea777beadf0343d054f5b5') in 0.014262 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000352 seconds.
+  path: Assets/Resources/Robots/1-Robot 33 V 4.prefab
+  artifactKey: Guid(8ca756162158cf046adcf79849e6964d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 33 V 4.prefab using Guid(8ca756162158cf046adcf79849e6964d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b86c3ec62fb4c09e53640814315a3590') in 0.010025 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000397 seconds.
+  path: Assets/Resources/Robots/1-Robot 34 V 5.prefab
+  artifactKey: Guid(058e416d999f0d444a357dd6e1a94b1f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 34 V 5.prefab using Guid(058e416d999f0d444a357dd6e1a94b1f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f96a1c9b06478f6afccf93b4739f64ab') in 0.009566 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000351 seconds.
+  path: Assets/Resources/Robots/1-Robot 12 V 5.prefab
+  artifactKey: Guid(efa676c2137a9cc4fbd2863e96a3133d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 12 V 5.prefab using Guid(efa676c2137a9cc4fbd2863e96a3133d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6ae3234c18a304188187367cb3661475') in 0.011441 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000376 seconds.
+  path: Assets/Resources/Robots/1-Robot 34 V 1.prefab
+  artifactKey: Guid(3f593a0bb8d46df4b89b8dac26a8f6cc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 34 V 1.prefab using Guid(3f593a0bb8d46df4b89b8dac26a8f6cc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '056d49b74ce6c6907c5d64ff211239e7') in 0.013032 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000452 seconds.
+  path: Assets/Resources/Robots/2-Robot 4 V 9.prefab
+  artifactKey: Guid(47a3e624b6e9a4f419f5c6bdb1d8e471) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/2-Robot 4 V 9.prefab using Guid(47a3e624b6e9a4f419f5c6bdb1d8e471) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6744573349821f1404b54d3683e3ae32') in 0.012387 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000616 seconds.
+  path: Assets/Resources/Robots/2-Robot 14 V 9.prefab
+  artifactKey: Guid(fb1b82d977d848144b8e16a3a4cdace6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/2-Robot 14 V 9.prefab using Guid(fb1b82d977d848144b8e16a3a4cdace6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8bb12d780a2222e1ff527a283466f2dc') in 0.015736 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000437 seconds.
+  path: Assets/Resources/Robots/2-Robot 10 V 8.prefab
+  artifactKey: Guid(06fe33423af1b9c44addefcb538e3e8e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/2-Robot 10 V 8.prefab using Guid(06fe33423af1b9c44addefcb538e3e8e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '39d01910684b6571607ce848113268f5') in 0.013506 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000574 seconds.
+  path: Assets/Resources/Robots/1-Robot 7 V 2.prefab
+  artifactKey: Guid(c0689e4210deb3145a3ce1b719c672d1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 7 V 2.prefab using Guid(c0689e4210deb3145a3ce1b719c672d1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '03ab1c07c0f2a11a0d0791445d0ad7eb') in 0.012293 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000445 seconds.
+  path: Assets/Resources/Robots/1-Robot 12 V 6.prefab
+  artifactKey: Guid(1399022e9a2de1f44aa9d1e00c6fd6db) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 12 V 6.prefab using Guid(1399022e9a2de1f44aa9d1e00c6fd6db) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a3b0bfe7637e09713da1550c54717cdd') in 0.015430 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 53.036352 seconds.
+  path: Assets/Resources/Robots/Materials
+  artifactKey: Guid(ca6e6b53974b5a540850b6e9249d93a3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials using Guid(ca6e6b53974b5a540850b6e9249d93a3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '17e7bc844100ec186aaf859bb02b5d1d') in 0.004210 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.040426 seconds.
+  path: Assets/Resources/Robots/Materials/1-Robot 1 V 0.mat
+  artifactKey: Guid(e597313985a61a44ba009c0efbea6492) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/1-Robot 1 V 0.mat using Guid(e597313985a61a44ba009c0efbea6492) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8c071e85b3d4bd30301011497986073a') in 0.058738 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000444 seconds.
+  path: Assets/Resources/Robots/Materials/4-Robot 66 V 2.mat
+  artifactKey: Guid(22ab5145d1e9cf54a97dc2c5dac8a834) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/4-Robot 66 V 2.mat using Guid(22ab5145d1e9cf54a97dc2c5dac8a834) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e939ced0542b103ae4838a5e9f315d67') in 0.009562 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000348 seconds.
+  path: Assets/Resources/Robots/Materials/1-Robot 7 V 0.mat
+  artifactKey: Guid(03e931b16815e6b4ca9023fdc4038b64) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/1-Robot 7 V 0.mat using Guid(03e931b16815e6b4ca9023fdc4038b64) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '45584313aa0b777509f96cd9d18c8d91') in 0.010166 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000369 seconds.
+  path: Assets/Resources/Robots/Materials/6-Robot 72 V 3.mat
+  artifactKey: Guid(344730c2e0e0e2846811eb54d462fdfe) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/6-Robot 72 V 3.mat using Guid(344730c2e0e0e2846811eb54d462fdfe) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0e864952d025c45cec5092e322a0ea19') in 0.009181 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000446 seconds.
+  path: Assets/Resources/Robots/Materials/2-Robot 50 V 2.mat
+  artifactKey: Guid(064d85874e83d3b41afb01b7f1ec2ee0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/2-Robot 50 V 2.mat using Guid(064d85874e83d3b41afb01b7f1ec2ee0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b11a0acdecddf8a8b60f682d633e5fc2') in 0.008947 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000390 seconds.
+  path: Assets/Resources/Robots/Materials/1-Robot 11 V 19.mat
+  artifactKey: Guid(d9f62c36c6009fb46ad3470bdc4e90b3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/1-Robot 11 V 19.mat using Guid(d9f62c36c6009fb46ad3470bdc4e90b3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1b5bcdd69985ae9ed9182c07b510797d') in 0.009327 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000342 seconds.
+  path: Assets/Resources/Robots/Materials/2-Robot 8 V 0.mat
+  artifactKey: Guid(77a4694886e185c428c818f1915a43a1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/2-Robot 8 V 0.mat using Guid(77a4694886e185c428c818f1915a43a1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b251cfedb541643bc1bbf0837e3ed1ab') in 0.009281 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000442 seconds.
+  path: Assets/Resources/Robots/Materials/1-Robot 12 V 3.mat
+  artifactKey: Guid(a26367c92ad933f4993d6621f855061b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/1-Robot 12 V 3.mat using Guid(a26367c92ad933f4993d6621f855061b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4c7ae0728a6e33bcd2940326d635a8a8') in 0.009569 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000358 seconds.
+  path: Assets/Resources/Robots/Materials/1-Robot 47 V 0.mat
+  artifactKey: Guid(8bfb75239fcffbc4ca3314aa98a3ae13) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/1-Robot 47 V 0.mat using Guid(8bfb75239fcffbc4ca3314aa98a3ae13) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '54ab389c69f2259c3398f8d2018252dc') in 0.009626 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000412 seconds.
+  path: Assets/Resources/Robots/Materials/2-Robot 72 V 7.mat
+  artifactKey: Guid(764ca7c6e8e06ef43af8757aa629121f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/2-Robot 72 V 7.mat using Guid(764ca7c6e8e06ef43af8757aa629121f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '31b9eddc2d807a8f11f420094b4f929d') in 0.009756 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000463 seconds.
+  path: Assets/Resources/Robots/Materials/3-Robot 11 V 0.mat
+  artifactKey: Guid(585f436d038384049a660748148ee792) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/3-Robot 11 V 0.mat using Guid(585f436d038384049a660748148ee792) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6de688b24f20fb7a851571e51717d791') in 0.008969 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000355 seconds.
+  path: Assets/Resources/Robots/Materials/10-Robot 53 V 4.mat
+  artifactKey: Guid(87c2531efcdcfdb4f8e9cff1bfed6930) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/10-Robot 53 V 4.mat using Guid(87c2531efcdcfdb4f8e9cff1bfed6930) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '25ae797a65329de854b767b244c96694') in 0.009832 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000357 seconds.
+  path: Assets/Resources/Robots/Materials/3-Robot 30 V 7.mat
+  artifactKey: Guid(9aa03cffdd9b40245960f9fdd1004399) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/3-Robot 30 V 7.mat using Guid(9aa03cffdd9b40245960f9fdd1004399) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'db0e62030e0259812c32cb1bce1c1211') in 0.009845 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000326 seconds.
+  path: Assets/Resources/Robots/Materials/2-Robot 29 V 12.mat
+  artifactKey: Guid(8d7c7fbebc95f30449c17cc473ba4d01) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/2-Robot 29 V 12.mat using Guid(8d7c7fbebc95f30449c17cc473ba4d01) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8953a91cffb5f400a3b3d19bcc0bee9d') in 0.011103 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000383 seconds.
+  path: Assets/Resources/Robots/Materials/4-Robot 39 V 3.mat
+  artifactKey: Guid(6c52218b221327e449c4cb6c1e67a333) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/4-Robot 39 V 3.mat using Guid(6c52218b221327e449c4cb6c1e67a333) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5ca14366d67876fed22043c2ac7105e7') in 0.010413 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000549 seconds.
+  path: Assets/Resources/Robots/Materials/7-Robot 54 V 6.mat
+  artifactKey: Guid(55f325036bdadbf438f697ec583c4326) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/7-Robot 54 V 6.mat using Guid(55f325036bdadbf438f697ec583c4326) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '65d3c7ebbfc24337918da74fa198ce51') in 0.008488 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000455 seconds.
+  path: Assets/Resources/Robots/Materials/2-Robot 14 V 8.mat
+  artifactKey: Guid(ae38b03cd50b03e40841995338f1d1a1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/2-Robot 14 V 8.mat using Guid(ae38b03cd50b03e40841995338f1d1a1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fc9f5a6b2977ca808c00176a5a2fdec2') in 0.009918 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000340 seconds.
+  path: Assets/Resources/Robots/Materials/8-Robot 47 V 10.mat
+  artifactKey: Guid(013f1d48449230440b3ce0fedf079d29) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/8-Robot 47 V 10.mat using Guid(013f1d48449230440b3ce0fedf079d29) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8d298106664fce551f666de004a0a5e1') in 0.010804 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000362 seconds.
+  path: Assets/Resources/Robots/Materials/3-Robot 42 V 0.mat
+  artifactKey: Guid(8e499730d8dc6aa4b82b593cae20b3de) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/3-Robot 42 V 0.mat using Guid(8e499730d8dc6aa4b82b593cae20b3de) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '718e69544c820bef52456d28a7db99c8') in 0.009465 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000377 seconds.
+  path: Assets/Resources/Robots/Materials/1-Robot 6 V 0.mat
+  artifactKey: Guid(f2f1af28302b28d4eb7b46ff2ce845df) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/1-Robot 6 V 0.mat using Guid(f2f1af28302b28d4eb7b46ff2ce845df) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '41f1c6bfe7e4737ff3b59885f0c193de') in 0.008448 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000389 seconds.
+  path: Assets/Resources/Robots/Materials/3-Robot 8 V 8.mat
+  artifactKey: Guid(634397194fe2f1c4dac8d363b1607e0a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/3-Robot 8 V 8.mat using Guid(634397194fe2f1c4dac8d363b1607e0a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '932c8e78acc4f90e843870d982d2ac8e') in 0.008804 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000341 seconds.
+  path: Assets/Resources/Robots/Materials/12-Robot 4 V 5.mat
+  artifactKey: Guid(f543410261f781c4f9eea34fadf0b0ac) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/12-Robot 4 V 5.mat using Guid(f543410261f781c4f9eea34fadf0b0ac) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4e78fb11391a94c1b2f780b429d3fee5') in 0.010569 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000367 seconds.
+  path: Assets/Resources/Robots/Materials/1-Robot 43 V 4.mat
+  artifactKey: Guid(2c41e1d53a78e7d43a470c5137e4fe70) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/1-Robot 43 V 4.mat using Guid(2c41e1d53a78e7d43a470c5137e4fe70) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5547a26113b60162ae215391c2b8522a') in 0.009046 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000465 seconds.
+  path: Assets/Resources/Robots/Materials/2-Robot 25 V 12.mat
+  artifactKey: Guid(157f13d9667e3844b98fb8418cb91280) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/2-Robot 25 V 12.mat using Guid(157f13d9667e3844b98fb8418cb91280) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e1af6c935d2b71240423142b2691f3e6') in 0.010636 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000404 seconds.
+  path: Assets/Resources/Robots/Materials/7-Robot 52 V 3.mat
+  artifactKey: Guid(11dd3f18d4d5da1469e73078bc41be55) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/7-Robot 52 V 3.mat using Guid(11dd3f18d4d5da1469e73078bc41be55) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1ff61045ee68150ccef686754383c913') in 0.009561 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000485 seconds.
+  path: Assets/Resources/Robots/Materials/3-Robot 2 V 0.mat
+  artifactKey: Guid(735e046cd4c01e7428ffaf4d7cd56231) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/3-Robot 2 V 0.mat using Guid(735e046cd4c01e7428ffaf4d7cd56231) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7f77f24164cfd5c1b397e21e7db95ff0') in 0.009102 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000343 seconds.
+  path: Assets/Resources/Robots/Materials/1-Robot 33 V 3.mat
+  artifactKey: Guid(a5a2e0480eff7594993e769ed2487533) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/1-Robot 33 V 3.mat using Guid(a5a2e0480eff7594993e769ed2487533) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1eb4a8b01469d43ce4877c60f4136e69') in 0.011073 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000338 seconds.
+  path: Assets/Resources/Robots/Materials/1-Robot 34 V 4.mat
+  artifactKey: Guid(cc965710e22793242be14bd073779f7d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/1-Robot 34 V 4.mat using Guid(cc965710e22793242be14bd073779f7d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0c24d5c83354646a8d45f3e48685eec5') in 0.011771 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000424 seconds.
+  path: Assets/Resources/Robots/Materials/1-Robot 45 V 4.mat
+  artifactKey: Guid(cd93902f8efea37478a3c46d208a147f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/1-Robot 45 V 4.mat using Guid(cd93902f8efea37478a3c46d208a147f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '66877a0afd819d7c814742ed9178e9a4') in 0.011393 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000357 seconds.
+  path: Assets/Resources/Robots/Materials/8-Robot 2 V 10.mat
+  artifactKey: Guid(36c4cd804dd1a334ebb2fbff498121d0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/8-Robot 2 V 10.mat using Guid(36c4cd804dd1a334ebb2fbff498121d0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'de2d312fb5e46ee8d7e0cc7f6e100722') in 0.010165 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000348 seconds.
+  path: Assets/Resources/Robots/Materials/2-Robot 10 V 7.mat
+  artifactKey: Guid(6b7034a12a8c9d14b9bdee5a64e798eb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/2-Robot 10 V 7.mat using Guid(6b7034a12a8c9d14b9bdee5a64e798eb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8374b128857ef76392769143ef0015a8') in 0.009948 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000362 seconds.
+  path: Assets/Resources/Robots/Materials/5-Robot 11 V 5.mat
+  artifactKey: Guid(a3a2f8d4df2657f40bda873305dc90c5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/5-Robot 11 V 5.mat using Guid(a3a2f8d4df2657f40bda873305dc90c5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '376e6a95b3928b16b73ea02439d6f369') in 0.009446 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000626 seconds.
+  path: Assets/Resources/Robots/Materials/2-Robot 4 V 8.mat
+  artifactKey: Guid(0d7e1f3b49f428e469defcdbfcf26a53) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/2-Robot 4 V 8.mat using Guid(0d7e1f3b49f428e469defcdbfcf26a53) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '69e4fa233c6036ff77505c9ae96ef582') in 0.010731 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000442 seconds.
+  path: Assets/Resources/Robots/Materials/2-Robot 38 V 4.mat
+  artifactKey: Guid(187e5402b7554bd4fa20b247a6195021) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/2-Robot 38 V 4.mat using Guid(187e5402b7554bd4fa20b247a6195021) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c1aaf98f2c956021632bad47c00047e1') in 0.009132 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000327 seconds.
+  path: Assets/Resources/Robots/Materials/3-Robot 14 V 3.mat
+  artifactKey: Guid(0b899f80d1297fd47bff1c04155c175a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/3-Robot 14 V 3.mat using Guid(0b899f80d1297fd47bff1c04155c175a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '51731379361b31ed5e3caed481880a40') in 0.010273 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000460 seconds.
+  path: Assets/Resources/Robots/Materials/3-Robot 51 V 1.mat
+  artifactKey: Guid(3cf62aace1077914f8d7ca69863ba88a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/3-Robot 51 V 1.mat using Guid(3cf62aace1077914f8d7ca69863ba88a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f19ee35cd8fec61e516d470411fe7874') in 0.011656 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000479 seconds.
+  path: Assets/Resources/Robots/Materials/2-Robot 18 V 14.mat
+  artifactKey: Guid(e5550bb9cc25e154f99ec75b34347941) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/2-Robot 18 V 14.mat using Guid(e5550bb9cc25e154f99ec75b34347941) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '59b903ba3587f9d0dcdd43d7d611f891') in 0.012335 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000357 seconds.
+  path: Assets/Resources/Robots/Materials/1-Robot 34 V 0.mat
+  artifactKey: Guid(cb2ab0c0874f6f54a90d9f10adfa15fa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/1-Robot 34 V 0.mat using Guid(cb2ab0c0874f6f54a90d9f10adfa15fa) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f67f464baa5da5cdd8c467c799ecd6ad') in 0.011387 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000401 seconds.
+  path: Assets/Resources/Robots/Materials/2-Robot 1 V 0.mat
+  artifactKey: Guid(82a0a06c4cfafc949a284f3c1661f1d4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/2-Robot 1 V 0.mat using Guid(82a0a06c4cfafc949a284f3c1661f1d4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fcba4c81c9183306de9c39219db1945b') in 0.013180 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000535 seconds.
+  path: Assets/Resources/Robots/Materials/1-Robot 5 V 6.mat
+  artifactKey: Guid(70e8a7de2b77b4143a8733e0fb04e0c0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/1-Robot 5 V 6.mat using Guid(70e8a7de2b77b4143a8733e0fb04e0c0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f180376c1999f41e5b6861e1b98a57d8') in 0.011680 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000454 seconds.
+  path: Assets/Resources/Robots/Materials/1-Robot 48 V 1.mat
+  artifactKey: Guid(9bb6e235068454f478a0cd5186bbc65c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/1-Robot 48 V 1.mat using Guid(9bb6e235068454f478a0cd5186bbc65c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '44b17afe391b872976728e79fa2c3342') in 0.012253 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 6.515423 seconds.
+  path: Assets/Resources/Robots/Materials/New Folder
+  artifactKey: Guid(2a032d48c450447499177a936e91d4bc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/New Folder using Guid(2a032d48c450447499177a936e91d4bc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '25f7e4fe6383a54a268ef179d1307a29') in 0.002914 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 8.247220 seconds.
+  path: Assets/Resources/Robots/Materials/13-Robot 44 V 3.mat
+  artifactKey: Guid(f0b78a23b63e3054ea22b1e70f224245) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/13-Robot 44 V 3.mat using Guid(f0b78a23b63e3054ea22b1e70f224245) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'aa27fac1e5f1e36e3ab42b1ef04e9384') in 0.009369 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.601854 seconds.
+  path: Assets/Resources/Robots/Materials/14-Robot 33 V 9.mat
+  artifactKey: Guid(fa6eeaff65a7afe43aaf38c641846463) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/14-Robot 33 V 9.mat using Guid(fa6eeaff65a7afe43aaf38c641846463) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5b10c24944180632226363f249d6c798') in 0.010761 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000452 seconds.
+  path: Assets/Resources/Robots/Materials/15-Robot 29 V 7.mat
+  artifactKey: Guid(6271489121698b344bb641a5e0b08f67) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/15-Robot 29 V 7.mat using Guid(6271489121698b344bb641a5e0b08f67) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a413a40abffb38c8c060ffbec27c938a') in 0.010163 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 66.209619 seconds.
+  path: Assets/Resources/Robots/Materials/3-Robot 8 V 8.mat
+  artifactKey: Guid(634397194fe2f1c4dac8d363b1607e0a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/Materials/3-Robot 8 V 8.mat using Guid(634397194fe2f1c4dac8d363b1607e0a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c459aa1a8dd26372fb2dbb20df1b1832') in 0.015085 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 16.296209 seconds.
+  path: Assets/Resources/Robots/1-Robot 11 V 19.prefab
+  artifactKey: Guid(80f971ed128284944847d4a0b6cb70d1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 11 V 19.prefab using Guid(80f971ed128284944847d4a0b6cb70d1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd202646616d268d453f748e9176db79b') in 0.016418 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 1.157297 seconds.
+  path: Assets/Resources/Robots/1-Robot 11 V 19.prefab
+  artifactKey: Guid(80f971ed128284944847d4a0b6cb70d1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/1-Robot 11 V 19.prefab using Guid(80f971ed128284944847d4a0b6cb70d1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e5fa11cea14cb5fa1440931d5a5400c0') in 0.012580 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 4.686477 seconds.
+  path: Assets/Resources/Robots/2-Robot 25 V 12.prefab
+  artifactKey: Guid(73f244e1bbcaa484ab928c7f28e5f720) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/2-Robot 25 V 12.prefab using Guid(73f244e1bbcaa484ab928c7f28e5f720) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7db3ab74d14a279fb0061808da56d82a') in 0.014452 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 2.811897 seconds.
+  path: Assets/Resources/Robots/2-Robot 25 V 12.prefab
+  artifactKey: Guid(73f244e1bbcaa484ab928c7f28e5f720) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/2-Robot 25 V 12.prefab using Guid(73f244e1bbcaa484ab928c7f28e5f720) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '855cc14d9a34fe7a90e14cf64ca01483') in 0.012355 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 1.804764 seconds.
+  path: Assets/Resources/Robots/3-Robot 8 V 8.prefab
+  artifactKey: Guid(ed59c273582f37c4ca3dfe908ab0dc41) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/3-Robot 8 V 8.prefab using Guid(ed59c273582f37c4ca3dfe908ab0dc41) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '20090025a9f438401665909b3c6dba4e') in 0.012243 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.994967 seconds.
+  path: Assets/Resources/Robots/3-Robot 8 V 8.prefab
+  artifactKey: Guid(ed59c273582f37c4ca3dfe908ab0dc41) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Resources/Robots/3-Robot 8 V 8.prefab using Guid(ed59c273582f37c4ca3dfe908ab0dc41) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0ce79d67adb0bc729260f6ee58b0138a') in 0.012348 seconds 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.005437 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.48 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.493 seconds
+Domain Reload Profiling:
+	ReloadAssembly (1494ms)
+		BeginReloadAssembly (169ms)
+			ExecutionOrderSort (0ms)
+			DisableScriptedObjects (5ms)
+			BackupInstance (0ms)
+			ReleaseScriptingObjects (0ms)
+			CreateAndSetChildDomain (52ms)
+		EndReloadAssembly (1236ms)
+			LoadAssemblies (122ms)
+			RebuildTransferFunctionScriptingTraits (0ms)
+			SetupTypeCache (493ms)
+			ReleaseScriptCaches (1ms)
+			RebuildScriptCaches (58ms)
+			SetupLoadedEditorAssemblies (427ms)
+				LogAssemblyErrors (0ms)
+				InitializePlatformSupportModulesInManaged (7ms)
+				SetLoadedEditorAssemblies (1ms)
+				RefreshPlugins (1ms)
+				BeforeProcessingInitializeOnLoad (78ms)
+				ProcessInitializeOnLoadAttributes (324ms)
+				ProcessInitializeOnLoadMethodAttributes (6ms)
+				AfterProcessingInitializeOnLoad (10ms)
+				EditorAssembliesLoaded (0ms)
+			ExecutionOrderSort2 (0ms)
+			AwakeInstancesAfterBackupRestoration (11ms)
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.41 ms, found 5 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 1790 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 110.0 MB.
+System memory in use after: 110.1 MB.
+
+Unloading 20 unused Assets to reduce memory usage. Loaded Objects now: 2352.
+Total: 2.530600 ms (FindLiveObjects: 0.149600 ms CreateObjectMapping: 0.052500 ms MarkObjects: 2.308400 ms  DeleteObjects: 0.019400 ms)
+
+AssetImportParameters requested are different than current active one (requested -> active):
+  custom:framework-win-MediaFoundation: 216162199b28c13a410421893ffa2e32 -> 
+  custom:video-decoder-ogg-theora: a1e56fd34408186e4bbccfd4996cb3dc -> 
+  custom:container-muxer-webm: aa71ff27fc2769a1b78a27578f13a17b -> 
+  custom:container-demuxer-webm: 4f35f7cbe854078d1ac9338744f61a02 -> 
+  custom:container-demuxer-ogg: 62fdf1f143b41e24485cea50d1cbac27 -> 
+  custom:video-encoder-webm-vp8: eb34c28f22e8b96e1ab97ce403110664 -> 
+  custom:video-codec-MediaFoundation-h265: 746d11721c4dcdbdad8f713fa42b33f4 -> 
+  custom:video-decoder-webm-vp8: 9c59270c3fd7afecdb556c50c9e8de78 -> 
+  custom:audio-decoder-ogg-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+  custom:audio-encoder-webm-vorbis: bf7c407c2cedff20999df2af8eb42d56 -> 
+AssetImportWorkerClient::OnTransportError - code=2 error=End of file
