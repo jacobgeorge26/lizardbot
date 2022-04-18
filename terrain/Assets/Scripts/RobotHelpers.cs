@@ -637,6 +637,14 @@ public static class RobotHelpers : object
         return nearby;
     }
 
+    internal static List<RobotConfig> GetPerformingRobots(this RobotConfig robot)
+    {
+        List<RobotConfig> performing = AIConfig.RobotConfigs.Where(r =>
+            r.RobotIndex != robot.RobotIndex && r.Object.activeSelf && r.IsEnabled).OrderByDescending(r => r.Performance).ToList();
+        int selection = Math.Min(AIConfig.PopulationSize, AIConfig.SelectionSize);
+        return performing.Take(selection).ToList();
+    }
+
     //get all robots that are physically similar, within a set accepted range of difference
     internal static List<RobotConfig> GetPhysicallySimilarRobots(this RobotConfig robot, int difference)
     {
@@ -649,6 +657,7 @@ public static class RobotHelpers : object
             Math.Abs(r.NoLegs.Value - robot.NoLegs.Value) <= difference &&
             r.IsTailEnabled.Value == robot.IsTailEnabled.Value &&
             r.UniformBody.Value == robot.UniformBody.Value &&
+            r.Object.activeSelf &&
             r.IsEnabled).ToList();
         //remove those whose tail is very different
         //taking this out for now - don't think it's necessary now that legs have been added
@@ -686,6 +695,7 @@ public static class RobotHelpers : object
             r.RobotIndex != robot.RobotIndex &&
             r.MaintainSerpentine.Value == robot.MaintainSerpentine.Value &&
             r.MaintainGait.Value == robot.MaintainGait.Value &&
+            r.Object.activeSelf &&
             r.IsEnabled).ToList();
         float thisDriveVelocity = 0;
         if(similar.Count > 0)

@@ -13,10 +13,9 @@ namespace Config
         //to work within this the population will be split to 25 per terrain
         public static int PopulationSize = 50;
 
-        public static int attempt = 2;
         public static int NoAttempts = 1;
 
-        public static int AttemptLength = 600;
+        public static int AttemptLength = 1200;
 
         public static RobotConfig[] LastRobots = new RobotConfig[PopulationSize];
 
@@ -36,9 +35,10 @@ namespace Config
         //2 decimal places recommmended
         public static float RecombinationRate = 0.77f;
 
+        public static int attempt = 1;
         //list of the possible recombinations that will be used
         //the recombination rate accounts for whether the robot will recombine this generation
-        public static Recombination RecombinationType = Recombination.Any;
+        public static Recombination RecombinationType = Recombination.Performance;
 
         //the mutation rate accounts for whether the robot will mutate this generation
         //for no mutation set mutation rate to 0
@@ -46,7 +46,7 @@ namespace Config
         public static float MutationRate = 0.31f;
 
         //options for which genes will be mutated
-        public static Mutation MutationType = Mutation.Movement;
+        public static Mutation MutationType = Mutation.Both;
 
         //value for k - how many should be considered in the recombination?
         public static int SelectionSize = 9;

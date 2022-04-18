@@ -51,6 +51,11 @@ public class GameController : MonoBehaviour
                 generate = gameObject.AddComponent<GeneratePopulation>();
                 Debug.Log($"ATTEMPT {PlayerPrefs.GetInt("Attempt")}");
                 generate.CreatePopulation();
+
+                //////////////////////////////
+                //yield return new WaitUntil(() => AIConfig.RobotConfigs.Count == AIConfig.PopulationSize);
+                //SaveAllRobots(AIConfig.RobotConfigs);
+
                 if(DebugConfig.LogAIData) StartCoroutine(SaveAttemptData(isRespawn));
                 if (!isRespawn) startTime = Time.realtimeSinceStartup;
                 yield return new WaitUntil(() => Time.realtimeSinceStartup - startTime >= AIConfig.AttemptLength);

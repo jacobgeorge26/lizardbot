@@ -14,16 +14,20 @@ public static class GeneticAlgorithm : object
         stuckRobot.IsEnabled = false;
 
         ui ??= UIConfig.UIContainer.GetComponent<UIDisplay>();
+        bool wasActive = stuckRobot.Object.activeSelf;
         //pause stuck robot
         stuckRobot.Object.SetActive(false);
 
-        RobotConfig newRobot;
-        if (!respawnOnly) newRobot = PerformGA(stuckRobot);
-        else newRobot = stuckRobot;
+        if (wasActive)
+        {
+            RobotConfig newRobot;
+            if (!respawnOnly) newRobot = PerformGA(stuckRobot);
+            else newRobot = stuckRobot;
 
-        //respawn
-        Reset(newRobot);
-        newRobot.Object.SetActive(true);
+            //respawn
+            Reset(newRobot);
+            newRobot.Object.SetActive(true);
+        }
     }
 
     private static RobotConfig PerformGA(RobotConfig stuckRobot)
@@ -106,6 +110,7 @@ public static class GeneticAlgorithm : object
             Recombination.MovementLikeness => BestMovementRobot(robot),
             Recombination.Triad => BestPhysicalRobot(robot),
             Recombination.Lizard => BestLizardRobot(robot),
+            Recombination.Performance => BestRobot(robot),
             _ => AIConfig.RobotConfigs.Where(r => r.RobotIndex != robot.RobotIndex).ToList()[(int)Random.Range(0, AIConfig.PopulationSize - 2)]
         };
         //if using triad approach then best1 is the physical one, best2 needs to be the movement one
@@ -141,7 +146,9 @@ public static class GeneticAlgorithm : object
             try { tail = robot.Configs.First(o => o.Type == BodyPart.Tail); }
             catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return new List<Gene>(); }
             try { tail1 = best1 != null && best1.IsTailEnabled.Value ? best1.Configs.First(o => o.Type == BodyPart.Tail) : null; }
-            catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), best1); return new List<Gene>(); }
+            catch (Exception ex) {
+                GameController.Controller.SingleRespawn(ex.ToString(), best1); return new List<Gene>(); 
+            }
             try { tail2 = best2 != null && best2.IsTailEnabled.Value ? best2.Configs.First(o => o.Type == BodyPart.Tail) : null; }
             catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), best2); return new List<Gene>(); }
             List<Gene> tailGenes = FilterGenes(GetGenes(robot, tail), mutationType);
@@ -285,6 +292,12 @@ public static class GeneticAlgorithm : object
         //return robot with best body colour
         robots.OrderBy(r => r.BodyColour);
         return robots.Count > 0 ? robots.First() : null;
+    }
+
+    private static RobotConfig BestRobot(RobotConfig robot)
+    {
+        List<RobotConfig> robots = robot.GetPerformingRobots();
+        return robots.Count > 0 ? robots[(int)Random.Range(0, robots.Count - 1)] : null;
     }
 
     private static RobotConfig BestMovementRobot(RobotConfig robot)
