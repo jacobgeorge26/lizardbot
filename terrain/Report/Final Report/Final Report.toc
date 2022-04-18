@@ -18,15 +18,15 @@
 \contentsline {subsection}{\numberline {3.4}Evolution Gym}{12}{subsection.3.4}%
 \contentsline {section}{\numberline {4}Requirements Analysis}{13}{section.4}%
 \contentsline {subsection}{\numberline {4.1}Functional Requirements}{13}{subsection.4.1}%
-\contentsline {subsubsection}{\numberline {4.1.1}Realistic physics interactions}{13}{subsubsection.4.1.1}%
-\contentsline {subsubsection}{\numberline {4.1.2}Robot design is directly transferable}{13}{subsubsection.4.1.2}%
-\contentsline {subsubsection}{\numberline {4.1.3}Reduction of risk to robot}{13}{subsubsection.4.1.3}%
-\contentsline {subsubsection}{\numberline {4.1.4}AI evolves high performing robots}{13}{subsubsection.4.1.4}%
-\contentsline {subsubsection}{\numberline {4.1.5}Dynamic movement improves performance}{13}{subsubsection.4.1.5}%
-\contentsline {subsubsection}{\numberline {4.1.6}Robots perform well across multiple terrains}{13}{subsubsection.4.1.6}%
+\contentsline {subsubsection}{\numberline {4.1.1}Realistic Physics}{13}{subsubsection.4.1.1}%
+\contentsline {subsubsection}{\numberline {4.1.2}Transferable Design}{13}{subsubsection.4.1.2}%
+\contentsline {subsubsection}{\numberline {4.1.3}Risk Reduction}{13}{subsubsection.4.1.3}%
+\contentsline {subsubsection}{\numberline {4.1.4}Effective AI}{13}{subsubsection.4.1.4}%
+\contentsline {subsubsection}{\numberline {4.1.5}Dynamic Movement}{13}{subsubsection.4.1.5}%
+\contentsline {subsubsection}{\numberline {4.1.6}Multiple Terrains}{13}{subsubsection.4.1.6}%
 \contentsline {subsection}{\numberline {4.2}Non-functional Requirements}{14}{subsection.4.2}%
-\contentsline {subsubsection}{\numberline {4.2.1}Testing conducted with a physical robot}{14}{subsubsection.4.2.1}%
-\contentsline {subsubsection}{\numberline {4.2.2}Customisable robot \& terrain}{14}{subsubsection.4.2.2}%
+\contentsline {subsubsection}{\numberline {4.2.1}Physical Testing}{14}{subsubsection.4.2.1}%
+\contentsline {subsubsection}{\numberline {4.2.2}Customisable Input}{14}{subsubsection.4.2.2}%
 \contentsline {section}{\numberline {5}Professional and Ethical Considerations}{15}{section.5}%
 \contentsline {section}{\numberline {6}Implementation}{16}{section.6}%
 \contentsline {subsection}{\numberline {6.1}Terrain}{16}{subsection.6.1}%
@@ -44,15 +44,16 @@
 \contentsline {section}{\numberline {7}Results}{29}{section.7}%
 \contentsline {subsection}{\numberline {7.1}Body Motion}{29}{subsection.7.1}%
 \contentsline {subsection}{\numberline {7.2}Counterbalancing Tail}{29}{subsection.7.2}%
-\contentsline {subsection}{\numberline {7.3}Leg Gait}{29}{subsection.7.3}%
+\contentsline {subsection}{\numberline {7.3}Leg Gait}{30}{subsection.7.3}%
 \contentsline {subsection}{\numberline {7.4}Uniform vs Non-uniform Robot}{30}{subsection.7.4}%
-\contentsline {subsection}{\numberline {7.5}Physical/Movement Mutation}{30}{subsection.7.5}%
+\contentsline {subsection}{\numberline {7.5}Mutation Constraints}{30}{subsection.7.5}%
 \contentsline {subsection}{\numberline {7.6}Recombination Methods}{31}{subsection.7.6}%
 \contentsline {subsection}{\numberline {7.7}Dynamic Movement}{31}{subsection.7.7}%
 \contentsline {subsection}{\numberline {7.8}Evolved Lizardbot}{31}{subsection.7.8}%
-\contentsline {subsection}{\numberline {7.9}Terrain Friction}{31}{subsection.7.9}%
+\contentsline {subsection}{\numberline {7.9}Impact of Terrain}{31}{subsection.7.9}%
 \contentsline {section}{\numberline {8}Conclusion}{32}{section.8}%
 \contentsline {section}{\numberline {9}References}{33}{section.9}%
 \contentsline {section}{\numberline {10}Appendices}{39}{section.10}%
-\contentsline {subsection}{\numberline {10.1}Progress Logs}{39}{subsection.10.1}%
-\contentsline {subsection}{\numberline {10.2}Project Proposal}{39}{subsection.10.2}%
+\contentsline {subsection}{\numberline {10.1}Evolved Robots}{39}{subsection.10.1}%
+\contentsline {subsection}{\numberline {10.2}Progress Logs}{39}{subsection.10.2}%
+\contentsline {subsection}{\numberline {10.3}Project Proposal}{39}{subsection.10.3}%
