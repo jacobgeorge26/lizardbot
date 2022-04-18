@@ -15,7 +15,7 @@ namespace Config
 
         public static int NoAttempts = 1;
 
-        public static int AttemptLength = 1200;
+        public static int AttemptLength = 300;
 
         public static RobotConfig[] LastRobots = new RobotConfig[PopulationSize];
 
@@ -35,7 +35,7 @@ namespace Config
         //2 decimal places recommmended
         public static float RecombinationRate = 0.77f;
 
-        public static int attempt = 0;
+        public static int attempt = 2;
         //list of the possible recombinations that will be used
         //the recombination rate accounts for whether the robot will recombine this generation
         public static Recombination RecombinationType = Recombination.Performance;

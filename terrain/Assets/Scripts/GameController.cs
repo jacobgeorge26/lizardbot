@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour
 
     public static GameController Controller;
 
-    StreamWriter aiPerformanceWriter, aiWriter, bestRobotWriter, storedRobotWriter;
+    StreamWriter aiPerformanceWriter, aiWriter, bestRobotWriter, storedRobotWriter, versionWriter;
     GeneratePopulation generate;
     int attemptCount;
     float startTime = 0;
@@ -122,6 +122,13 @@ public class GameController : MonoBehaviour
             data += DebugConfig.BestRobot.GetData();
             bestRobotWriter.WriteLine(data);
 
+            //save robot versions
+            if (versionWriter == null) SetupVersionWriter();
+            foreach (RobotConfig robot in AIConfig.RobotConfigs)
+            {
+                data = $"{attempt}, {robot.RobotIndex + 1}, {robot.Version}";
+                versionWriter.WriteLine(data);
+            }
 
             //save prefab
             try
@@ -169,6 +176,16 @@ public class GameController : MonoBehaviour
         header += DebugConfig.BestRobot.GetHeader();
         bestRobotWriter.WriteLine(header);
         return bestRobotWriter;
+    }
+
+    private string robotVersionPath = "../terrain/Report/Data/RobotVersions.csv";
+    private StreamWriter SetupVersionWriter()
+    {
+        versionWriter = File.Exists(robotVersionPath) ? File.AppendText(robotVersionPath) : File.CreateText(robotVersionPath);
+        versionWriter.WriteLine();
+        string header = "ATTEMPT, Robot, Version";
+        versionWriter.WriteLine(header);
+        return versionWriter;
     }
 
     private string storedRobotPath = "../terrain/Report/Data/StoredRobots.csv";
@@ -285,6 +302,7 @@ public class GameController : MonoBehaviour
         if (aiWriter != null) aiWriter.Close();
         if (bestRobotWriter != null) bestRobotWriter.Close();
         if (storedRobotWriter != null) storedRobotWriter.Close();
+        if (versionWriter != null) versionWriter.Close();
     }
 
     internal string GetBestRobotPath()

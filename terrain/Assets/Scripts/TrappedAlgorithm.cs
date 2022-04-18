@@ -115,7 +115,6 @@ public class TrappedAlgorithm : MonoBehaviour
                     }
                     if(declareStuck && !DebugConfig.UseBestRobots)
                     {
-  
                         IsEnabled = false;
                         robotConfig.RobotIsStuck();
                     }  

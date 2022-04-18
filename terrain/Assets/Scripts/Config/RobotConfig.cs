@@ -46,19 +46,16 @@ namespace Config
         public Gene MaintainSerpentine = new Gene(true, Variable.MaintainSerpentine);
 
         //should the legs maintain a lizardlike gait
-        public Gene MaintainGait = new Gene(true, Variable.MaintainGait);
+        public Gene MaintainGait = new Gene(false, Variable.MaintainGait);
 
         //should the size & mass be maintained across the body
-        public Gene UniformBody = new Gene(true, Variable.UniformBody);
+        public Gene UniformBody = new Gene(false, Variable.UniformBody);
 
         public RobotConfig(int _index, GameObject _object)
         {
             this.RobotIndex = _index;
             this.Object = _object;
             this.StartTime = Time.time;
-
-            ///////////////
-            UniformBody.Value = true;
         }
 
         //RESPAWN

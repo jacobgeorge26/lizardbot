@@ -61,7 +61,7 @@ Insert abstract here
 \newpage
 \section{Introduction}
 \label{sec:Introduction}
-Nature can often inspire elegant and efficient solutions to non-natural problems. The tunnel-building behaviours of ants can be used to generate algorithms to manage traffic flow in a city for example. This can be much more efficient than deploying a group of developers to design an elaborate network to structure how the population navigates the city. Alternatively, the nests of ants could be studied and their tunnel-building algorithm applied to the problem. \citepmain{antCars} \\
+Nature can often inspire elegant and efficient solutions to non-natural problems. The tunnel-building behaviours of ants can be used to generate algorithms to manage traffic flow in a city for example. This can be much more efficient than deploying a group of developers to design an elaborate network to structure how the population navigates the city. Instead, the nests of ants could be studied and their tunnel-building algorithm applied to the problem. \citepmain{antCars} \\
 In this project, the characteristics of various reptiles will be applied to a model of a robot - “Lizardbot” - to optimise the physical design and algorithm it uses to navigate rough terrain. For robots used in applications such as bomb disposal or interplanetary exploration, the environments that they face can be highly unpredictable. The margin for error is often low to nonexistent, as there can be little physical access to the robot to fix any issues. These robots require a design and an algorithm optimised to enable them to traverse any landscape they are presented with. \\
 
 On a climbing trip to the Isle of Portland I took a break from repeatedly falling off the cliff to watch a lizard. It was attempting to jump from the path onto a nearby rock. Every time it failed it paused, then tried again with its tail in a completely different position. It was naturally using its tail to counterbalance its body as it jumped, and learning from previous attempts. The addition of a tail to a robot can produce an efficient jumping robot with the application of relatively simple maths. A prime example of this is shown in the \textit{‘UC Berkeley Leaping Lizard \& Robot}’ video.\\ \citepmain{agamaVideo} This behaviour can be observed elsewhere in nature; when a praying mantis jumps it swings its body and abdomen to ensure it hits its target, \citepmain{prayingMantis}  or when cats twist their bodies to reorient themselves to land on their feet. \citepmain{catsLanding}
@@ -71,24 +71,21 @@ The lizard’s stabilising tail, alongside other reptilian characteristics, coul
 \newpage
 \section{Project Aims}
 \label{sec:Project Aims}
-The project can be divided into three areas: the structure of the model, the movement algorithm, and the generation of the terrain. \\
+This project will focus on determining how various reptilian characteristics influence the success of the model as it navigates a terrain. The objective is to explore the ‘ideal’ design of a robot, and the relationship between this body and its navigation of a randomly generated terrain. The basic performance metric will be how far it successfully moves across the terrain (in a straight line from the origin) before it gets stuck. This final state may be bouncing back and forth between two points or hitting a section of the terrain that it cannot progress past; the algorithm to determine if the robot is trapped will consider both of these possibilities. \\
+Within this bigger picture goal there will be several smaller experiments into how various features / approaches influence the outcome. \\
 
-%TODO ADD explanation of why the robot is being modelled instead of physically built\\
+Lizardbot will be constructed as a model of a robot due to the resources required to build a physical robot. Having prior experience with Unity \citepsoft{unity} I was confident that its physics system would provide realistic behaviour. Given this, the free access, vast range of functionality and excellent documentation, the decision was made to proceed using Unity. \\
 
-%TODO ADD explanation of why Unity was chosen
 \subsection{Primary Objectives}
 \label{sec:Primary Objectives}
 \subsubsection{Robot Design}
 \label{sec:Robot Design}
-This project will focus on determining how various reptilian characteristics influence the success of the model as it navigates an example terrain. The objective is to explore the ‘ideal’ design of a robot, and the relationship between this body and its navigation of a randomly generated terrain. The basic performance metric will be how far it successfully moves across the terrain (in a straight line from the origin) before it gets stuck. This final state may be bouncing back and forth between two points or hitting a section of the terrain that it cannot progress past; the algorithm to determine if the robot is trapped will consider both of these possibilities. \\
-Within this bigger picture goal there will be several smaller experiments into how various features / approaches influence the outcome. \\
-
 The body of the robot will emulate that of a snake such that it will be constructed of a series of independent modules / sections located linearly behind the head. This design \textit{"provides the ability of traversing in irregular environments, something that surpasses the mobility of the conventional wheeled, tracked and legged types of robots"}. \citepmain{modularDesign}\\
-Legs will be added at random positions perpendicular to the body and rotate 360° to push the body forward. A tail, added behind the body, will rotate to counterbalance the motion of the body. Every joint will have a constraint defining how far it is capable of rotating around each axis. \\
+Legs will be added at random positions perpendicular to the body and rotate $360^\circ$ to push the body forward. A tail, added behind the body, will rotate to counterbalance the motion of the body. Every joint will have a constraint defining how far it is capable of rotating around each axis. \\
 
-There will be an option to generate robots with random parameters, from the number of body modules and legs, to the force with which they drive. Additionally, a boolean option will determine if the robot is constructed 'uniformly' - i.e. asserting whether it be symmetrical with all legs / body modules of equal size and mass to each other. The ideal parameters for both the physical design and movement of a robot will be explored.\\
+There will be an option to generate robots with random parameters, from the number of body modules and legs, to the force with which they drive. Additionally, a boolean option will determine if the robot is constructed 'uniformly' - i.e. asserting whether it must be symmetrical with all legs / body modules of equal size and mass to each other. The ideal parameters for both the physical design and movement of a robot will be explored.\\
 
-To simplify the model of the robot it will be constructed of basic shapes. The body will be a string of spheres, whilst the legs and tail will be spheroids. The decision against cubes/cuboids is to prevent the shapes from ‘catching’ on any other Rigidbodies that they interact with, as this could interfere with the results. Of course, with a physical robot there will be this interaction to contend with; for the purpose of the model it has been assumed that each surface is uniform and can be smoothed for simplicity. \\
+To simplify the model of the robot it will be constructed of basic shapes. The body will be a string of spheres, whilst the legs and tail will be spheroids. The decision against cubes/cuboids is to prevent the shapes from ‘catching’ on anything, as this could interfere with the results. Of course, with a physical robot there will be this interaction to contend with; for the purpose of the model it has been assumed that each surface is uniform and can be smoothed for simplicity. \\
 
 \begin{figure}[H]
 \centering
@@ -99,30 +96,32 @@ To simplify the model of the robot it will be constructed of basic shapes. The b
 
 \subsubsection{Body Movement}
 \label{sec:Body Movement}
-The fundamental movement pattern of the body sections will mimic the serpentine motion of a snake, as shown in figure TODO.
+The fundamental movement pattern of the body sections will mimic the serpentine motion of a snake, as shown in \autoref{fig:snakeMethods}
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.8]{snakeMovement}
 \caption{Diagram of different motions snakes use to move. \citep{snakeMovement} }
+\label{fig:snakeMethods}
 \end{figure}
 \nocitemain{snakeMovement}
-To achieve this, each module will have the ability to drive forward and/or rotate and will have its own set of parameters (e.g. speed). To improve the fluidity of the motion a central pattern generator (CPG) approach. A CPG \textit{"can produce rhythmic motor patterns ... in the absence of sensory or descending inputs that carry specific timing information."} \citepmain{cpgDefinition} It is worth noting that the body will not implement a true CPG: the algorithm will utilise a similar approach that avoids any sensory understanding of its worldspace or timing.\\
+To achieve this, each module will have the ability to drive forward and/or rotate and will have its own set of parameters (e.g. speed). To improve the fluidity of the motion a central pattern generator (CPG) approach will be taken. A CPG \textit{"can produce rhythmic motor patterns ... in the absence of sensory or descending inputs that carry specific timing information."} \citepmain{cpgDefinition} It is worth noting that the body will not implement a true CPG: the algorithm will utilise a similar approach that avoids any sensory understanding of its worldspace or timing.\\
 
-There will be an option to maintain serpentine motion by alternating the direction of rotation between the rotating sections, and evenly spacing these sections across the body (see figure TODO). The algorithm will not be constrained to this serpentine motion so may move away from this behaviour as it mutates. Nonetheless, due to the embodiment of the robot it is expected that the motion will remain snakelike.\\
+There will be an option to maintain serpentine motion by alternating the direction of rotation between the rotating sections, and evenly spacing these sections across the body (see \autoref{fig:serpentineDiagram}). The algorithm will not be constrained to this serpentine motion so may move away from this behaviour as it mutates. Nonetheless, due to the embodiment of the robot it is expected that the motion will remain snakelike.\\
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.6]{serpentineDiagram}
 \caption{The driving \& rotation values used to maintain a serpentine motion.}
+\label{fig:serpentineDiagram}
 \end{figure}
 
 The decision to have the body oscillate (as opposed to remaining static whilst the legs provide the entirety of the motion) is supported by Jeongryul Kim. Due to a lack of degrees of freedom in legged robots a robot may struggle to maintain its posture and direction of movement. \textit{"A possible solution to such lack of DOFs caused by underactuation may be additional motions of the body"}. \citepmain{bodyOscillation} 
 It is important to note that the referenced study was analysing bipedal robots when this conclusion was drawn. To test the assumption that moving the body with the legs improves performance, another experiment will be conducted to explore the impact of the body remaining static. \\
-An alternative solution could be to add additional joints for the legs to increase the DOFs. This idea is explored in more detail in TODO. To summarise, whilst considering the positioning of leg joints, a form that mimicked the structure of a lizard was prioritised. The offer of freedom in the leg placement remains as a project limitation. \\
-Regardless, other projects have adopted a similar approach with promising results. The Salamandra Robotica II used - and inspired - the combination of leg rotation and body oscillation. \citepmain{salamandra} The Salamandra is covered in more depth later in this report.
+An alternative solution could be to add additional joints for the legs to increase the DOFs. For Lizardbot, a form that mimicked the structure of a lizard was prioritised whilst considering the positioning of leg joints. The offer of freedom in the leg placement remains as a project limitation. \\
+Regardless, other projects have adopted a similar approach with promising results. The Salamandra Robotica II used - and inspired - the combination of leg rotation and body oscillation. \citepmain{salamandra} The Salamandra is covered in more depth later.
 
 \subsubsection{Tail Movement}
 \label{sec:Tail Movement}
-The motion of the tail will mirror that of the ‘Agama robot’ whereby the tail flicks up quickly in the opposite direction of the trajectory of the body. \citepmain{agama} The focus of this study was for stabilising a robot as it jumped but it is expected that this counterbalancing of the motion of the body will improve the success of the robot. To test this, an experiment will be performed with and without a tail to determine how it impacts the distance the robot is able to cover. 
+The motion of the tail will mirror that of the ‘Agama robot’ whereby the tail flicks up quickly in the opposite direction of the trajectory of the body. \citepmain{agama} The focus of this study was for stabilising a robot as it jumped but it is expected that this counterbalancing  will improve the success of the robot. To test this, an experiment will be performed with and without a tail to determine how it impacts the distance the robot is able to cover. 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.6]{agamaJump}
@@ -161,7 +160,7 @@ The mutation stage randomly adjusts a selection of the genes to allow for random
 the population against permanent fixation at any particular locus"} \citepmain{gaIntro}. Essentially, mutation avoids convergence within the population and encourages the formation of new solutions. 
 
 The recombination stage mimics the genetic crossover that occurs when two animals produce offspring. The 'breeding' will occur between the selected robot and another chosen either for its physical or movement similarity. Alternatively, a \textit{Triad} method breeds all three of these together. The offspring of three successful robots is expected to be more successful than the conventional two. A parallel in nature is the multiple matings found in Harvester ants, improving colony performance via \textit{"increased genetic variance within the worker population of the colony"}. \citepmain{antMating} It goes without saying that even with multiple matings there will still be the traditional two genetic inputs. However, there is a connection between the two methods and their \textbf{opportunity} for genetic diversity. \\
-The \textit{Triad} method also aims to strengthen the relationship between body and movement. As discussed in TODO, Evolution Gym's co-design GA mutated these two mechanisms in tandem and produced higher-performing robots in most tasks being tested. \citepmain{evolutionGym}\\
+The \textit{Triad} method also aims to strengthen the relationship between body and movement. As discussed in \ref{sec:Evolution Gym}, Evolution Gym's co-design GA mutated these two mechanisms in tandem and produced higher-performing robots in most tasks being tested. \citepmain{evolutionGym}\\
 
 Another option explored is a \textit{Lizard} method whereby the mate is selected proximally using a characteristic with no direct impact on performance. Male spiny-footed lizards appear to favour redder females - a trait that appears to signal sexual maturity.  \citepmain{redLizard} For these lizards the body colour appears to signal sexual maturity, a physiological trait that can impact on the success of the population but is not as direct a causation as traits usually considered to be desirable (e.g. signs of health, fighting ability). \citepmain{lizardWeapon}\\
 For this project, the desirable trait is the body colouration; Lizardbot loves blue. In theory, this method should create local ‘ecosystems’ in the population over time as robots that explore the same area of the terrain each iteration will always interact with the same selection pool. \\
@@ -175,11 +174,12 @@ The genetic algorithm aims to optimise the parameters of Lizardbot and, once an 
     \vspace*{-5mm}
     \includegraphics[width=0.3\textwidth]{activationExample}
     \caption{An example of a movement being activated: weakly at first, then again with a stronger activation to produce a greater movement. \citep{dft}}
+    \label{fig:activationDiagram}
 \end{wrapfigure}
 \nocitemain{dft}
 Dynamic systems theory uses the causal webs of an environment to determine the \textit{"sequences of states that could take the system from one location in state space to another"}. \citepmain{mindware}
-Rather than providing rigid rules about how the robot should move, the robot explores how to move in a direction through trial and error. Essentially, it will 'collect' behaviours. If a specific set of parameters produced a desired behaviour (e.g. move left) then this can be activated with increasing force (see figure TODO) to steer the robot left across the terrain. This approach would produce a behaviour-based approach to navigating the terrain. Thelan and Smith explored the behaviour of babies taking steps on a treadmill and concluded that there was a complex relationship between the body, environment and behaviour. \citepmain{babyStepping} This relationship can be argued as both advantageous for Lizardbot, and a potential constraint to the performance that dynamic movement can offer.\\
-The adaptive behaviour can result in emergent complex behaviours that would otherwise have been a mammoth of a task to implement as a set of instructions. On the flipside, dynamic movement relies on assumptions about the relationship between a robot's body, movement, and terrain. It is not feasible to store every factor that culminated in a behaviour and thus the system must be reduced to a select few control parameters. The assumptions that this requires render the dynamic approach unsuitable as the primary movement mechanism. However, it may still complement the movement algorithms discussed in TODO. Andy Clark discusses the idea of "partial programs" \citepmain{partialPrograms} - \textit{"minimal instruction sets that maximally exploit the inherent (bodily and environmental) dynamics of a controlled system"}. \citepmain{mindware} As long as Lizardbot's adaptive behaviour can work alongside other causal influences then dynamic movement is expected to improve its performance.
+Rather than providing rigid rules about how the robot should move, the robot explores how to move in a direction through trial and error. Essentially, it will 'collect' behaviours. If a specific set of parameters produced a desired behaviour (e.g. move left) then this can be activated with increasing force (see \autoref{fig:activationDiagram}) to steer the robot left across the terrain. This approach would produce a behaviour-based approach to navigating the terrain. Thelan and Smith explored the behaviour of babies taking steps on a treadmill and concluded that there was a complex relationship between the body, environment and behaviour. \citepmain{babyStepping} This relationship can be argued as both advantageous for Lizardbot, and a potential constraint to the performance that dynamic movement can offer.\\
+The adaptive behaviour can result in emergent complex behaviours that would otherwise have been a mammoth of a task to implement as a set of instructions. On the flipside, dynamic movement relies on assumptions about the relationship between a robot's body, movement, and terrain. It is not feasible to store every factor that culminated in a behaviour and thus the system must be reduced to a select few control parameters. The assumptions that this requires render the dynamic approach unsuitable as the primary movement mechanism. However, it may still complement the movement algorithms discussed in \autoref{sec:Project Aims}. Andy Clark discusses the idea of "partial programs" \citepmain{partialPrograms} - \textit{"minimal instruction sets that maximally exploit the inherent (bodily and environmental) dynamics of a controlled system"}. \citepmain{mindware} As long as Lizardbot's adaptive behaviour can work alongside other causal influences then dynamic movement is expected to improve its performance.
  
 
 
@@ -202,18 +202,18 @@ Its route is ‘a sequence of irregular, angular segments’ that suggests some 
 \label{sec:Vision}
 Thus far the Lizardbot has focused on finding the ideal parameters for the overall form and movement of the robot, with additional thought for a dynamic system to allow the robot to react to its situation. There has been little focus on a preemptive approach, which has the potential to reduce the risk of damage to a real robot. When a robot becomes stuck it will likely find itself bouncing against the nearby terrain, forcing the prioritisation of durability in the design of the robot. If the robot were given a rudimentary visual system it could instead anticipate collisions and adjust its course to avoid them.\\
 To achieve vision, a camera could be placed in the head of the robot. Unity’s built-in functionality would provide feedback on objects within the range of the camera. This knowledge, when combined with the dynamic systems element of the AI, would allow the robot to make informed ‘decisions’ about how it should approach the terrain it is aware of. \\
-This feature would reduce the risk of damage to a physical robot by avoiding collisions with the terrain. David Lee investigated the factors affecting the specific moment in which an agent will begin reacting to an impending collision. He found that for an agent approaching a stationary object, the relative location of the obstacle in the agent’s visual field could be used to deduce the time-to-collision. \citepmain{timeToCollision} The use of this time-to-collision would directly relate to the brief of the project as it applies an algorithm derived from nature to a design problem (in this case collision detection and avoidance). \textit{”Most animals respond avoidantly and directionally to the abstract visual stimulus ... which specifies the approach of an object and impending collision.”} \citepmain{animalCollisionResponse}\\
+This feature loop would reduce the risk of damage to a physical robot by avoiding collisions with the terrain. David Lee investigated the factors affecting the specific moment in which an agent will begin reacting to an impending collision. He found that for an agent approaching a stationary object, the relative location of the obstacle in the agent’s visual field could be used to deduce the time-to-collision. \citepmain{timeToCollision} The use of this time-to-collision would directly relate to the brief of the project as it applies an algorithm derived from nature to a design problem (in this case collision detection and avoidance). \textit{”Most animals respond avoidantly and directionally to the abstract visual stimulus ... which specifies the approach of an object and impending collision.”} \citepmain{animalCollisionResponse}\\
 Implementing a visual system to the Lizardbot could unlock a variety of more complex - \textbf{and proactive} - behaviours.
 
 \newpage
 \section{Project Relevance}
 \label{sec:Project Relevance}
-Lizardbot will incorporate various elements of each of the following projects: from the modular body design to the counterbalancing tail. The modular snake robot had the same goal as this project: to design a robot that could tackle obstacles in rough terrain. Meanwhile the Agama robot was exploring the behaviour of lizards as a stabilisation mechanism.\\
-This project will combine the use of a tail for stabilisation, the snakelike motion of the body as the legs move, and the modular design to produce a lizardlike motion. It will not be constrained by the limits of a physical robot, thus evolving the body of the robot in a manner that these example projects were unable to. The AI will add an element of reactivity to a wider array of situations than these robots, as the model will not be seeking a specific behaviour. Rather, it will determine how the behaviour that it is producing influences its success and absorb this knowledge as it navigates the terrain.
+Lizardbot incorporates various elements of each of the projects covered in this section: from the modular body design to the counterbalancing tail. The modular snake robot had the same goal as this project: to design a robot that could tackle obstacles in rough terrain. Meanwhile the Agama robot was exploring the behaviour of lizards as a stabilisation mechanism.\\
+This project will combine the use of a tail for stabilisation, the snakelike motion of the body, and a lizardlike gait. The AI will add an element of reactivity to a wider array of situations than these robots, as the model will not be seeking a specific behaviour. Rather, it will determine how the behaviour that it is producing influences its success and absorb this knowledge as it navigates the terrain.
 \subsection{Modular Snake Robot}
 \label{sec:Modular Snake Robot}
-The work of Ye et al. \citepmain{modularRobotBackground} found that a modular snake robot was \textit{“more efficient to get into complicated environments”}. Their aim was to test the abilities of such a robot in environments too harsh for humans. Each module operated independently in a manner similar to the body movement algorithm covered in the project aims. Each module was attached to the adjacent modules via a joint that rotated to create a wave through the body, while a servo drove the module forward. Their robot used a cosine function to manoeuvre the body, whereas the Lizardbot will make use of an approach closer to that of a central pattern generator. \\
-The modular snake robot successfully navigated any obstacles with a height less than the height of a module. It also demonstrated the constraints that a physical robot can face (e.g. the error rate in the servos increased with amplitudes over 4cm). Lizardbot aims to explore similar methods of movement to improve \textit{environmental adaptivity}, without the physical limits faced by the modular robot. The addition of legs and a tail to the modular design is intended to enable the robot to overcome more complex obstacles in an environment. Meanwhile the AI will, theoretically, allow the Lizardbot to adapt to its situation more than the modular snake robot was able to.
+The work of Ye et al. \citepmain{modularRobotBackground} found that a modular snake robot was \textit{“more efficient to get into complicated environments”}. Their aim was to test the abilities of such a robot in environments too harsh for humans. Each module operated independently in a manner similar to the body movement algorithm covered in \ref{sec:Body Movement}. Each module was attached to the adjacent modules via a joint that rotated to create a wave through the body, whilst a servo drove the module forward. Their robot used a cosine function to manoeuvre the body, whereas Lizardbot will make use of an approach closer to that of a central pattern generator. \\
+The modular snake robot successfully navigated any obstacles with a height less than the height of a module. It also demonstrated the constraints that a physical robot can face (e.g. the error rate in the servos increased with amplitudes over 4cm). Lizardbot aims to explore similar methods of movement to improve its environmental adaptivity, without the physical limits faced by the modular robot. The addition of legs and a tail to the modular design is intended to enable the robot to overcome more complex obstacles in its environment. Meanwhile the AI will, theoretically, allow the Lizardbot to adapt to its situation more than the modular snake robot was able to.
 
 \subsection{Agama Robot}
 \label{sec:Agama Robot}
@@ -222,30 +222,31 @@ The tail-assisted pitch control used to build the Agama lizard-inspired robot wi
 \subsection{Salamandra Robotica II}
 \label{sec:Salamandra Roboticaa II}
 The relevant goal of the Salamandra Robotica II \citepmain{salamandra} was to \textit{“advance robotics design for bimodal and efficient locomotion”}. The design of this robot heavily inspired various elements of the design of the Lizardbot: the full rotation of the legs and the CPG-inspired oscillation of the body. \\
-One of the key differences between the Salamandra and the Lizardbot is the method for turning. The former used calculated asymmetric oscillations to produce a curving trajectory (see figure TODO) while the latter will dynamically derive an activation function for a turn. \\
+One of the key differences between the Salamandra and the Lizardbot is the method for turning. The former used calculated asymmetric oscillations to produce a curving trajectory (see \autoref{fig:salamandraTurning}) while the latter will dynamically derive an activation function for a turn. \\
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.7]{salamandraTurning}
 \caption{The results of various curved trajectories of the Salamandra. \citep{salamandra}}
+\label{fig:salamandraTurning}
 \end{figure}
 Another difference was the Salamandra’s passive tail. The tail fin was only used to test its effect on speed whilst swimming; removing it decreased the speed by 63\%. The rigidity of the tail will be matched by this project but, as previously discussed, it will rotate to counterbalance the motion of the rest of the body.
 
 \subsection{Evolution Gym}
 \label{sec:Evolution Gym}
-Evolution Gym, \citepmain{evolutionGym} unlike the previous works covered in this section, modelled their robots with a primitive design rather than build them. It shared a common goal with Lizardbot: optimise the movement and body together using a co-design algorithm. \\
-Evolution Gym likewise employed a (much simpler) genetic algorithm. Evolution was conducted synchronously using the top $x\%$ of the population and did not feature recombination. Other optimisation algorithms were tested against the GA on a series of both locomotion and manipulation tasks and the resultant evolved robots were compared to a hand-crafted selection. The former were able to find a balance between their structure and motion in a way that the hand-crafted robots could not. Interestingly, the autonomously generated robots resembled \textit{"existing natural creatures"} - a result that it is hoped Lizardbot will achieve too.
+Evolution Gym, \citepmain{evolutionGym} unlike the previous works covered in this section, modelled their robots rather than build them. It shared a common goal with Lizardbot: optimise the movement and body together using a co-design algorithm. \\
+Evolution Gym likewise employed a (much simpler) genetic algorithm. Evolution was conducted synchronously using the top $x\%$ of the population and did not feature recombination. Other optimisation algorithms were tested against the GA on a series of both locomotion and manipulation tasks and the evolved robots were compared to a hand-crafted selection. The former were able to find a balance between their structure and motion in a way that the hand-crafted robots could not. Interestingly, the autonomously generated robots resembled \textit{"existing natural creatures"} - a result that it is hoped Lizardbot will achieve too.
 
 \newpage
 \section{Requirements Analysis}
 \label{sec:Requirements Analysis}
-It is difficult to predict what the specific applications of this project would be and what their range of possible constraints they could have. Are elements of the physical design restricted? What kind of terrain is the robot going to be placed in? Are there other factors that need to be accounted for, e.g. gravity, bodies of water? This project is designed to be broad such that it can be adapted for a narrower use case. It lays the groundwork for research tailored to creating a robot for bomb disposal, planet exploration, or even a robot hoover that can handle stairs!
+It is difficult to predict what the specific applications of this project would be and what range of possible constraints they may have. Are elements of the physical design restricted? What kind of terrain is the robot going to be placed in? Are there other factors that need to be accounted for, e.g. gravity, bodies of water? This project is designed to be broad such that it can be adapted for a narrower use case. It lays the groundwork for research tailored to creating a robot for bomb disposal, planet exploration, or even a robot hoover that can handle stairs!
 The features that a target system would include are outlined here, split into functional and non-functional elements.
 
 \subsection{Functional Requirements}
 \label{sec:Functional Requirements}
 \subsubsection{Realistic Physics}
 \label{sec:Realistic Physics}
-To achieve a suitable successor function, the robot will need to interact realistically with the terrain around it. If it were to remain on a ledge in a precarious position that any physical robot would have immediately fallen off then this is not a realistic model. 
+To achieve a suitable performance function, the robot will need to interact realistically with the terrain around it. If it were to remain on a ledge in a precarious position that any physical robot would have immediately fallen off then this is not a realistic model. 
 This need was a significant factor in the decision to use Unity, as opposed to other modelling software such as MSC Adams. \citepmain{mscAdams} It is expected that collisions and gravity will be accurately modelled, with credit to Unity.
 
 
@@ -255,12 +256,12 @@ It would be beneficial for the target user if there were a direct correlation be
 
 \subsubsection{Risk Reduction}
 \label{sec:Risk Reduction}
-Regardless of the purpose of the robot, any user will want their robot to avoid behaviour that risks damage. This function can be somewhat achieved by having the AI predict the upcoming terrain and proactively decide how it will navigate it. The AI will introduce a bias toward robots that minimise their collision force: by avoiding collisions and falls, the largest risks can be reduced. \\
+Regardless of its purpose, any user will want their robot to avoid behaviour that risks damage. This function can be somewhat achieved by having the AI predict the upcoming terrain and proactively decide how it will navigate it. The AI will introduce a bias toward robots that minimise their collision force: by avoiding collisions and falls, the largest risks can be reduced. \\
 Additionally, the model could approach this objective via the proactive decision-making that has been established as a possible extension to the AI.
 
 \subsubsection{Effective AI}
 \label{sec:Effective AI}
-It is important that the AI is capable of evolving an input population to a higher performing one over time. The constraints placed on it may limit the success that it had; nonetheless it should display an upward trend.\\ The AI should minimise bias towards certain physical structures or behaviours to allow for more freedom in the resultant robots. 
+It is important that the AI is capable of evolving an input population to a higher performing one over time. The constraints placed on it may limit its success; nonetheless it should display an upward trend.\\ The AI should minimise bias towards certain physical structures or behaviours to allow for more freedom in the resultant robots. 
 
 \subsubsection{Dynamic Movement}
 \label{sec:Dynamic Movement Req}
@@ -279,7 +280,7 @@ Unfortunately, building a physical robot would require time and expensive resour
 
 \subsubsection{Customisable Input}
 \label{sec:Customisable Input}
-A target user may already have known constraints of the design of their physical robot and wish to see this represented in the Lizardbot. Likewise, the ability to model a specific environment may be valuable for modelling the effectiveness of a robot in a terrain it is going to encounter.
+A target user may already have known constraints for the design of their physical robot and wish to see this represented in Lizardbot. Likewise, the ability to model a specific environment may be valuable for modelling the effectiveness of a robot in a terrain it is going to encounter.
 The parameters used by the project will be contained to \textit{Config} files that can be adjusted with minimal programming knowledge. However, it will not be possible to accomodate every criterion so a user may still need to extend the project to their needs. 
 The current expectation is that the user will require some knowledge of Unity to interact with the project. The addition of a UI may be desirable in future to lower the technological threshold. 
 
@@ -319,23 +320,24 @@ Three terrains were generated using Procedural Toolkit \citepsoft{proceduralTool
 \includegraphics[scale=0.3]{roughTerrain}
 \caption{Examples of the three terrain types. (From left to right) Smooth, Uneven, Rough.}
 \end{figure}
-At one point the height of the terrain was proportional to the number of sections of the robot, a similar method to that of the Octopus robot. However, as the terrain is a control variable the heights were switched to a static value: $Smooth=8, Uneven=16, Rough=24$.\\
+At one point the height of the terrain was proportional to the number of sections of the robot, a similar method to that of the Octopus robot. \citepmain{octopusRobot} However, as the terrain is a control variable the heights were switched to a static value: $Smooth=8, Uneven=16, Rough=24$.\\
 Overall, the rougher the terrain, the higher and more closed in it is. Most of the development of the robot was conducted on the smooth and uneven terrains, as the rough terrain aims to provide a more extreme environment with which to test the efficacy of the AI.\\
-It is worth noting that the robot is still being tested on three terrains with some common properties (e.g. gravity) and these factors may introduce bias in the AI. This is a reasonable situation as long as applications of the Lizardbot are further modelled on encounterable terrains to allow the AI to adapt the robot accordingly. For proof of concept the sample set of terrains is sufficient.
+It is worth noting that the three terrains do share some common properties (e.g. gravity) and these factors may introduce bias in the AI. This assumes that applications of Lizardbot would  execute it on terrains based on its encounterable environments to allow the AI to adapt the robot accordingly. For proof of concept the sample set of terrains is sufficient.
 
 \subsection{Robot}
 \label{sec:Robot Imp}
 \subsubsection{Body}
 \label{sec:Body Imp}
-To create a snakelike body, each body module is attached to the previous module by a configurable joint \citepcode{configJoints} and has two methods of movement: driving and rotation. The physical design of the robot creates a fluid motion before any complex movement is applied. With the joint structure, the movement of one section is translated to those behind it - similar to dragging a piece of string along the ground. This is shown in figure TODO: the head rotates and, after a delay, creates the same angle in the sections behind it.\\
-The former applies a forward force as determined by the drive velocity parameter whilst the latter applies a velocity to each module using the following equation:
+To create a snakelike body, each body module is attached to the previous module by a configurable joint \citepcode{configJoints} and has two methods of movement: driving and rotation. The physical design of the robot creates a fluid motion before any complex movement is applied. With the joint structure, the driving of one section is translated to those behind it - similar to dragging a piece of string along the ground. This is shown in \autoref{fig:drivingOutput}: the head rotates and, after a delay, creates the same angle in the sections behind it.\\
+
+Meanwhile, the rotation applies a velocity to each of module using the following equation:
 \begin{center}
 \begin{Large}
 $\overrightarrow{v_{i}} = \overrightarrow{v_{i-1}} + \frac{m}{2}\overrightarrow{w} $
 \end{Large}
 \end{center}
 
-For rotating sections $i = 0, ..., m$, where $m \leq n$, the value of $w$ will be calculated using $S$ or $C$ as specified.\\
+For rotating sections $i = 0, ..., m$, where $m \leq n$ (total number of modules), the value of $w$ will be calculated using $S$ or $C$ as specified.\\
 \begin{center}
 \begin{Large}
 $S: \overrightarrow{w} = sin\overrightarrow{\theta_{i-1}} + sin\overrightarrow{\theta_{i}}$
@@ -344,7 +346,7 @@ $C: \overrightarrow{w} = cos\overrightarrow{\theta_{i-1}} + cos\overrightarrow{\
 \end{Large}
 \end{center}
 
-This central pattern generator (CPG) approach allows each module to react to the velocity and angle of the previous section. The equation for the CPG originated in Tony Dear’s multi-link snake robot: a robot with a similar modular design with passive joints connecting the modules. \citepmain{cpgRobot} Lizardbot utilises the same math to calculate the velocity with one distinction: Dear’s robot split the velocity vector into its axes, using cos for the x axis and sin for the y. Lizardbot instead calculates the vector as a whole and alternates the rotating sections between sin and cos to produce the serpentine motion. For robots with serpentine motion disabled, $S$ and $C$ will be assigned randomly to the rotating modules.\\
+This central pattern generator (CPG) inspired approach allows each module to react to the velocity and angle of the previous section. The equation for the CPG originated in Tony Dear’s multi-link snake robot: a robot with a similar modular design with passive joints connecting the modules. \citepmain{cpgRobot} Lizardbot utilises the same math to calculate the velocity with one distinction: Dear’s robot split the velocity vector into its axes, using cos for the x axis and sin for the y. Lizardbot instead calculates the vector as a whole and alternates the rotating sections between sin and cos to produce the serpentine motion. For robots with serpentine motion disabled, $S$ and $C$ will be assigned randomly to the $m$ rotating modules.\\
 
 It is worth noting that every velocity calculated (for a body module, leg or tail) is multiplied by a parameter that can be mutated by the AI. Mostly it affects the primary axis of rotation, which allows the path of motion to be adapted over time.
 
@@ -352,29 +354,30 @@ It is worth noting that every velocity calculated (for a body module, leg or tai
 \begin{minipage}[t]{.4\textwidth}
 \centering
 \includegraphics[width=1\textwidth]{cpgMirroring}
-\caption{Demonstration of body motion with a single rotating section at the head of the body.}
+\caption{Demonstration of body motion with a single rotating section at the head of the body. \\Created using Grapher. \citep{grapher}}
+\label{fig:drivingOutput}
 \end{minipage}
 \hfill
 \begin{minipage}[t]{.5\textwidth}
 \centering
 \includegraphics[width=1\textwidth]{cpgSerpentine}
-\caption{The output velocities generated by each body module with serpentine motion enabled. Modules using $S$ are shown in black, $C$ in blue.}
+\caption{The output velocities generated by each body module with serpentine motion enabled. Modules using $S$ are shown in black, $C$ in blue. \\Created using Grapher. \citep{grapher}}
 \end{minipage}
 \end{figure}
 
-As each section ‘reacts’ to the previous one whilst using the opposing equation, the velocity applied is almost an inversion of its predecessor. Moving back through the body there appears to be more fluctuation in the values as more noise is introduced through each application of the equation. The advantage of using this recursive approach is the incredibly organic behaviour that it produces. The first prototypes of the project used hardcoded timings and velocities to try and mimic a serpentine motion and the rigidity of the code was evident in the behaviour. With the above equation applied, the motion of the body appears completely natural. As the Lizardbot slithers through troughs in the terrain or wriggles whilst stuck on a ridge, it is easy to forget that it has no awareness of its surroundings. It is simply reacting to the body that came before it.
+For serpentine motion, each section ‘reacts’ to the previous one whilst using the opposing equation to output a velocity that is almost an inversion of its predecessor. Moving back through the body there appears to be more fluctuation in the values as more noise is introduced through each application of the equation. The advantage of using this recursive approach is the incredibly organic behaviour that it produces. The first prototypes of the project used hardcoded timings and velocities to try and mimic a serpentine motion and the rigidity of the code was evident in the behaviour. With the above equation applied, the motion of the body appears completely natural. As the Lizardbot slithers through troughs in the terrain or wriggles whilst stuck on a ridge, it is easy to forget that it has no awareness of its surroundings. It is simply reacting to the body that came before it.
 
 
 \subsubsection{Tail}
 \label{sec:Tail Imp}
-The use of a tail has the potential to counterbalance the body and provide stability as the lizardbot moves. The Agama robot used the angular momentum of the body to calculate how to calibrate the tail vertically as the robot jumped. Lizardbot implemented a similar approach in three dimensions by calculating the total momentum of the robot around its centre of gravity (COG) at each frame, and adjusting the velocity of the tail accordingly.\\ 
+A tail has the potential to counterbalance the body and provide stability as the robot moves. The Agama robot used the angular momentum of the body to calculate how to calibrate the tail vertically as the robot jumped. Lizardbot implemented a similar approach in three dimensions by calculating the total momentum of the robot around its centre of gravity (COG) at each frame, and adjusting the velocity of the tail accordingly.\\ 
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.6]{tailMomentum}
 \caption{A representation of the tail being adjusted to conserve the angular momentum of a robot. Diagram created using CalcPlot3D \citep{diagrams}}
 \end{figure}
 
-For all body parts $i = 0, ..., n$, the radius of the path of motion is the distance from the individual COG $x$ to the COG of the overall robot.
+For all body parts $i = 0, ..., n$, the radius of the path of motion $r$ is the distance from the individual COG $x$ to the COG of the overall robot.
 \begin{center}
 \begin{Large}
 $r = |x_{i} - \frac{1}{n}\sum_{i}^{n}m_{i}x_{i}|$
@@ -395,17 +398,17 @@ $v_{t} = - \frac{L}{r_{t}m_{t}}$\\
 \end{Large}
 \end{center}
 
-Another simplified approach was considered whereby the overall velocity of the robot was counterbalanced instead, however this was found to create sharp changes in the velocity of the tail that could cause it to fling the entire body into the air. Whilst this showed promising behaviour for the basis of a jumping motion, it was counter-productive for a feature whose goal was to stabilise the robot. Additionally, by calculating the magnitude around the COG, any difference in mass between components is taken into consideration. Thus, the tail is able to counterbalance any body structure (assuming that the motion of the tail is not physically blocked by the position of a body part).\\
+Another simplified approach was considered whereby the overall velocity of the robot was counterbalanced instead. However, this was found to create sharp changes in the velocity of the tail that could cause it to fling the entire body into the air. Whilst this showed promising behaviour for the basis of a jumping motion, it was counter-productive for a feature whose goal was to stabilise the robot. Additionally, by accounting for the COG, any difference in mass between components is taken into consideration. Thus, the tail is able to counterbalance any body structure (assuming that the motion of the tail is not physically blocked by the position of a body part).\\
 
-The design of the tail assumes that nature has already selected for the optimal location by placing the tail at the back of a creature. This assumption seems intuitive. Most animals, including lizards, are symmetrical and the location of the tail maintains this property, alongside keeping the motion of the tail in the same plane as the rest of the body. For Lizardbot, this assumption could be removed in the future. Since symmetry is not a required property for non-uniform bodies, the tail could be placed anywhere that has equal mass either side of the tail - or placed randomly to see what effect this has on the robot. Who am I to say that a tail cannot be located on the head?
+The design of the tail assumes that nature has already selected for the optimal location by placing the tail at the back of a creature. This assumption seems intuitive: most animals, including lizards, are symmetrical. The location of the tail maintains this property whilst keeping the motion of the tail in the same plane as the rest of the body. In future, this assumption could be removed to explore how the position of the robot affects the robot. Who am I to say that a tail cannot be located on the head?
 
 \subsubsection{Legs}
 \label{sec:Legs Imp}
-Legs were added to Lizardbot in an attempt to match the gait of a lizard.
-As inspired by the design of the Salamandra Robotica \citepmain{salamandra}, each leg is designed to rotate in a circle in order to push the body forward. The physical design of the leg matches the elliptical shape of the tail and uses the same configuration of customisable mass and length. 
+Legs were added to Lizardbot in an attempt to model the gait of a lizard.
+As inspired by the design of the Salamandra Robotica, \citepmain{salamandra} each leg is designed to rotate in a circle to push the body forward. The physical design of the leg matches the elliptical shape of the tail and uses the same configuration of customisable mass and length. 
 Currently, there are only two attachment points for a leg on each body module: one each side, perpendicular to the body joints. For a uniform body, the legs are placed symmetrically along the body and given equal length and mass; they are constructed randomly for non-uniform bodies. \\
 
-The leg rotates around an axis perpendicular to the body section it is attached to, as shown in figure TODO. The size of the circle it follows is determined by the angle it is offset by when attached to the body ($\alpha$). \\
+The leg rotates around an axis perpendicular to the body section it is attached to, as shown in \autoref{fig:legRotating}. The size of the circle it follows is determined by the angle it is offset by when attached to the body ($\alpha$). \\
 
 \begin{figure}[H]
 \centering
@@ -413,11 +416,12 @@ $\vcenter{\hbox{\includegraphics[width=0.5\textwidth]{legCircleDiagram}}}$
 $\vcenter{\hbox{\includegraphics[width=0.4\textwidth]{legCircleExample}}}$
 \caption{(Left) An illustration of the rotation of a leg around an axis of rotation. Only one attachment point is shown - another would be available on the other side of the body along the $x$ axis. Diagram created using CalcPlot3D \citep{diagrams}\\
 (Right) A leg following its path of motion.}
+\label{fig:legRotating}
 \end{figure}
 
 
 
-The rotation of the leg follows a series of conceptual points spaced $30^\circ$ apart around the point $D$ (shown by the red point along the axis of rotation in figure TODO). These points are generated using the following equation:
+The rotation of the leg follows a series of conceptual points spaced $30^\circ$ apart around centre point $D$ (shown by the red point on the axis of rotation in \autoref{fig:legRotating}). These points are generated using the following equation:
 \begin{center}
 \begin{Large}
 $P = D + Vcos\theta + Ucos\theta$\\
@@ -435,12 +439,12 @@ $v_{i} = g(P_{i + 1} - P_{i})$
 
 If the relevant gene is active, the gait multiplier $g$ increases the velocity when the body is turning away from the leg, decreasing it if the body is turning toward the leg.\\
 
-The performance of the legs is analysed in section TODO, though it is presumed that with more work the performance could be drastically improved: currently it resembles a lot of twitching. It is possible that an alternative joint mechanism would allow for Lizardbot to stand on its legs and appear more natural. It would also be interesting to explore how the location of the legs impacts the robot as a whole. Currently the attachment points are based on lizards (indeed, most animals) and the years of evolution that have led to their structure. However, the offer of more variety in the design of the robot may offer alternative solutions to navigate the terrain. 
+The performance of the legs is analysed in \ref{sec:Leg Res} but to ruin the surprise - currently the leg motion resembles a lot of twitching. It is possible that an alternative joint mechanism would allow for Lizardbot to stand on its legs and appear more natural. It would also be interesting to explore how the location of the legs impacts the robot as a whole. Currently the attachment points are based on lizards (indeed, most animals) and the years of evolution that have led to their structure. However, the offer of more variety in the design of the robot may offer alternative solutions to navigate the terrain. 
 
 
 \subsection{Artifical Intelligence}
 \label{sec:AI Imp}
-A population of Lizardbots can use a genetic algorithm to "evolve" over a series of generations. A genetic algorithm is a form of artificial intelligence that more closely models the characteristics of natural selection. An agent’s parameters are broken down into ‘genes’ that can be manipulated by recombination and/or mutation. The aim of this genetic algorithm (GA) is to improve the performance of the robots over time. The GA is performed when a robot is declared to be stuck by the trapped algorithm. 
+A population of Lizardbots uses a genetic algorithm to "evolve" over a series of generations. A genetic algorithm is a form of artificial intelligence that more closely models the characteristics of natural selection. An agent’s parameters are broken down into ‘genes’ that can be manipulated by recombination and/or mutation. The aim of this genetic algorithm (GA) is to improve the performance of the robots over time. The GA is performed when a robot is declared to be stuck by the trapped algorithm. 
 
 \subsubsection{Performance}
 \label{sec:Performance Imp}
@@ -448,20 +452,20 @@ The metric used to measure the performance of a robot can heavily influence the 
 \\[1\baselineskip]
 Two additional parameters are used to add context to this base measurement. 
 
-The first penalises robots that cause large collisions through a body part. Every time a body part encounters a collision it triggers a method that will measure the force that the body part has experienced. Unity's build-in physics system returns the impulse $I$ of a collision. Using this, the force can be found by dividing the impulse by time: {\Large $f = \frac{I}{t}$}. \citepcode{collisionForce}
-If the force is found to be above a threshold then the robot will be penalised by deducting 10\% from the performance. \\
-This ensures that the robot is not evolving toward a behaviour that carries it across the terrain efficiently but could be damaging to its structure in the physical world. An example of this is an iteration whereby the robots were observed ‘flicking’ their tails rapidly downward, causing the robot to be thrown into the air and across the terrain. Whilst this was effective at getting them to the edge of the terrain within seconds, this approach would shatter most robots upon collision with the terrain. This threshold can be tailored to the needs of the robot, such that robots with shielding or soft-bodies robots can be given a higher threshold to allow more risky behaviour.
+The first rewards robots that move quickly. The current performance is multiplied by the average speed (distance / time) of the robot since it spawned.
 
-The second rewards robots that move quickly. The current performance is multiplied by the average speed (distance / time) of the robot since its spawn. 
-\\[1\baselineskip] 
-To provide an example of the performance metric, say Robot3 V8 has travelled from (0, 0, 0) to (10, 4, -13) in 21 seconds, and has had two above-threshold collisions. The base performance would be 16.88. Multiplied by its speed, this becomes 13.57. With a 10\% deduction for each collision, the final performance is 10.99. \\
-A flaw in this metric is that it does not differentiate between the routes that robots take. If one robot moved quickly but erratically, it may be rewarded equally to one that moved slowly and directly. However, this metric appears to provide a suitable balance between rewarding robots that travel the furthest, further rewarding those that move efficiently, and reducing behaviours that would damage a physical robot. \\
+The second penalises robots that cause large collisions. Every time a body part encounters a collision it triggers a method that will measure the force that the body part has experienced. Unity's built-in physics system returns the impulse $I$ of a collision. Using this, the force can be found by dividing the impulse by time: {\Large $f = \frac{I}{t}$}. \citepcode{collisionForce}
+If the force is found to be above a threshold then the robot will be penalised by deducting 10\% from the performance. 
 
-When referring to the performance of a population, the mean performance of the highest performing 25\% is being measured. When a robot is mutated and respawned its performance returns to zero, hence it was found that analysing the entire population added too much noise to the results. 
+This ensures that the robot is not evolving toward a behaviour that carries it across the terrain efficiently but would cause damage to itself in the physical world. An example of this is an iteration whereby the robots were observed ‘flicking’ their tails rapidly downward, causing the robot to be thrown into the air and across the terrain. Whilst this was effective at getting them to the edge of the terrain within seconds, this approach would shatter most robots. This threshold can be tailored to the needs of the robot, such that robots with shielding or soft bodies can be given a higher threshold to allow more risky behaviour.\\
+
+A flaw in this metric is that it does not differentiate between the routes that robots take. If one robot moved quickly but erratically, it may be rewarded equally to one that moved slowly and directly. However, this metric appears to provide a suitable balance between rewarding robots that travel the farthest, further rewarding those that move efficiently, and reducing behaviours that would damage a physical robot. \\
+
+When referring to the performance of a population, the mean performance of the top 25\% is being measured. It was found that analysing the entire population added too much noise to the results, as when a robot is mutated and respawned its performance returns to zero.
 
 \subsubsection{Trapped Algorithm}
 \label{sec:Trapped Imp}
-It is important for the AI to know when the robot is stuck to trigger the termination of the current generation. At this point the AI can mutate the robot before respawning it. This trapped behaviour can take many forms, from bouncing against the same point in the terrain, circling itself, or looping between the same location(s).\\
+It is important for the AI to know when the robot is stuck to trigger the termination of the current generation. At this point the AI can mutate the robot before respawning it. This trapped behaviour can take many forms: from bouncing against the same point in the terrain to circling itself.\\
 
 Initially, the maximum - minimum of the baseline performance metric (magnitude of the distance from the origin) over the last $t$ seconds was used. This approach was heavily flawed as it reduced the data set to a single dimension. \\
 Instead, the entire data set over the last $t$ seconds was analysed. The robot was declared stuck when the variance of the robot’s 3D coordinates over $t$ seconds converged to 0. This approach correctly identified the robot as stuck but had one major flaw: travelling in a straight line outputs a variance of 0. This behaviour is highly efficient and, whilst it is not something that the AI will train for, is a behaviour that the AI should absolutely not be training against. These false positives prompted a third approach. \\
@@ -483,15 +487,16 @@ Finally, the sensitivitiy of the algorithm needed to be determined by adjusting 
 \caption{A demonstration of the trapped algorithm using the same robot and $t=20$ on each terrain.\\
 Each blue point represents the location of the robot being captured. Red indicates that the robot is trapped (and would normally have been disabled and passed to the genetic algorithm).\\ 
 (From left to right) Smooth, Uneven, Rough, Flat. The latter used a robot with rotation disabled to ensure that a robot travelling in a straight line would not be flagged.}
+\label{fig:trappedPoints}
 \end{figure}
-The red points in figure TODO align with behaviours that can reasonably be classed as ‘trapped’, however it is important to note that this algorithm was implemented with some bias toward certain behaviours (e.g. looping). For this project, the identification of a trapped robot appears sufficient and is expected to produce an AI that will train away from continually exploring the same area for too long. The algorithm has other potential applications in finding looping patterns in any problem that can be assigned a world space. For example, a neural network could be analysed with this algorithm to determine when it is ‘stuck’ whilst performing a task, or a search algorithm could implement it to avoid excessively exploring within a section of the graph. 
+The red points in \autoref{fig:trappedPoints} align with behaviours that can reasonably be classed as ‘trapped’, however it is important to note that this algorithm was implemented with some bias toward certain behaviours (e.g. looping). For this project, the identification of a trapped robot appears sufficient and is expected to produce an AI that will train away from continually exploring the same area for too long. The algorithm has other potential applications in finding looping patterns in any problem that can be assigned a worldspace. For example, a neural network could be analysed with this algorithm to determine when it is ‘stuck’ whilst performing a task, or a search algorithm could implement it to avoid excessively exploring within a section of the graph. 
 
 
 \subsubsection{Genes}
 \label{sec:Genes Imp}
-The manipulatable characteristics of a robot are distinguished by a \textit{Gene} class. Each variable is instantiated with a default, minimum, and maximum value. Additionally, they are given a type (established in the enum class \textit{Variable} whereby negative enum values are physical properties and positive are movement) to ensure that the recombination covered in section TODO is combining the same genes with each other. \\
-This class handles any erroneous situations that arise and allows boolean values to be stored as a float. If the \textit{Get} method of a boolean \textit{Gene} is called, then true will be returned for values greater than 0.5. This allows boolean genes to be mutated slowly (e.g. from 0.35 to 0.6) without having to make a single toggle from one value to the other. \\
-When a gene is mutated, if the new value lies outside the valid range then it is 'bounced' (e.g. $max=0.5, v\rightarrow0.6 \Rightarrow v=0.4$). If a value outside the max/min values is passed directly then the max/min value would be assigned instead.
+The manipulatable characteristics of a robot are distinguished by a \textit{Gene} class. Each variable is instantiated with a default, minimum, and maximum value. Additionally, they are given a type (established in the enum class \textit{Variable} whereby negative enum values are physical properties and positive are movement). \\
+This class handles any erroneous situations that arise and allows boolean values to be stored as a float. If the \textit{Get} method of a boolean \textit{Gene} is called, then true will be returned for values greater than 0.5. This allows boolean genes to be mutated slowly (e.g. from 0.35 to 0.6) without having to make a single jump from one value to the other. \\
+When a gene is mutated, if the new value lies outside the valid range then it is 'bounced' (e.g. $max=0.5, v\rightarrow0.6 \Rightarrow v=0.4$). If a value outside the max/min values is passed directly then the boundary value would be assigned instead.
 
 \subsubsection{Population}
 \label{sec:Population Imp}
@@ -501,27 +506,24 @@ To avoid interaction between robots, the body parts of a robot should be capable
 \subsubsection{Genetic Algorithm}
 \label{sec:GA Imp}
 When the trapped algorithm determines that a robot is stuck it is disabled and passed to the genetic algorithm (GA).\\
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.4]{gaProcess}
-\caption{The process the genetic algorithm will follow. Diagram created using draw.io \citep{drawio}}
-\end{figure}
-The GA first selects which robot should be used as the input for the rest of the process. The default input is the stuck robot, however when a mutatio cycle has been completed this may be overruled. The mutation cycle, exemplified in figure TODO, of a robot refers to how many evolutions should take place before the resultant robot is compared to the robot it initially branched from. When a mutation cycle is complete, the highest performing of the two is selected as the input for the GA. The reasoning behind this is to allow a robot to mutate to a lower performing robot temporarily, as this may allow it to evolve into a more successful robot a few generations later. If the mutation cycle is set to 1 then any single evolution that reduces the performance will be rejected.\\
+
+The GA first selects which robot should be used as the input for the rest of the process. The default input is the stuck robot, however when a mutation cycle has been completed this may be overidden. The mutation cycle, exemplified in \autoref{fig:mutationCycle}, of a robot refers to how many evolutions should take place before the resultant robot is compared to the robot it initially branched from. When a mutation cycle is complete, the highest performing of the two is selected as the input for the GA. The reasoning behind this is to allow a robot to mutate to a lower performing robot temporarily, as this may allow it to evolve into a more successful robot a few generations later. If the mutation cycle is set to 1 then any single evolution that reduces the performance will be rejected.\\
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.4]{mutationCycle}
 \caption{Examples of potential evolutions of a robot. From the top row downwards, the mutation cycle is set to 1, 2, and 3 respectively. Diagram created using draw.io \citep{drawio}}
+\label{fig:mutationCycle}
 \end{figure}
 
 Once the input robot has been determined, this robot is then recombined. There are several methods of recombination available but the overall process is: select $k$ robots using a given method and "breed" the genes of one robot in this pool with those of the input robot.\\
 The available recombination methods are:
 \begin{enumerate}
   \item Physical\\
-The selection pool consists of robots that are physically similar to the input robot. The acceptable margin of difference is increased until k robots are found. This method aims to return robots from the population that have a similar number of each body part, and are matching the input robot as to whether to maintain a uniform body.  bullet.
+The selection pool consists of robots that are physically similar to the input robot. The acceptable margin of difference is increased until k robots are found. This method aims to evolve the input robot toward another that is built similarly and is outperforming its current design.
   \item Movement\\
-The selection pool consists of robots that are moving in a similar way to that of the input robot. As above, the acceptable margin of difference is incrementally widened if necessary. The selected robots will be following the same rules for maintaining serpentine motion and the gait of the legs. Additionally, they will have a similar ratio of drive velocity to the number of sections to provide an overview for how powerful the robot is. It allows for differences in the rotation of the body as it is hard to implement a sufficient comparison between them. 
+The selection pool consists of robots that are moving in a similar way to that of the input robot. As above, the acceptable margin of difference is incrementally widened if necessary. This method ignores the structure of the robot and instead evolves it towards another that is following the same movement rules but more effectively.
 	\item Triad\\
-This approach is more artificial than others. Two robots are selected: one each from the physical and movement methods. The genes of these two robots are then recombined with the input robot. As discussed in section TODO, nature does demonstrate examples of more than two agents mating.
+This approach is more artificial than others. Two robots are selected: one each from the physical and movement methods. The genes of these two robots are then recombined with the input robot. As discussed in \ref{sec:Genetic Algorithm Aims}, nature does demonstrate examples of more than two agents mating. Lizardbot here explores how multiple mating partners might be beneficial when (unlike nature) all contributers are able to input their genetics.
 	\item Lizard\\
 This method aims to mimic a more lizardlike breeding process. Those with bluer body colours are selected, ignoring those in the population on the other side of the terrain. \textit{Nearby} is relative to the spawn point of the robot, and limited to those in the same terrain type. 
 	\item Performance\\
@@ -542,10 +544,10 @@ _{R^{[0, 1]} \geq 0.5 \longrightarrow G(2)_{i}}$
 \end{Large}
 \end{center}
 
-Where $i = 0, ..., n$. R denotes a randomly generated number in the range $[a, b]$. G(1) refers to the input robot, whilst G(2) is the selected robot. For \textit{Triad} recombination G(2) is randomly chosen from either of the two selected robots, with equal probability.
-\\[1\baselineskip]
-The recombined robot is then mutated. The genes are divided into physical or movement properties to allow the mutation to be limited to one or the other, or both. As with the recombination, there is also the option for Any mutation, whereby one of the three options is randomly selected every generation. 
-The mutation rate, m, is used to avoid mutating every single gene.\\
+Where $i = 0, ..., n$. R denotes a randomly generated number in the range $[a, b]$. G(1) refers to the input robot, whilst G(2) is the selected robot. For \textit{Triad} recombination G(2) is randomly chosen from either of the two selected robots, with equal probability.\\
+
+The recombined robot is then mutated. The genes are divided into physical or movement properties to allow the mutation to be limited to one or the other, or both.
+The mutation rate $m$ is used to avoid mutating every single gene.\\
 When a gene is mutated its value is adjusted as follows:
 \begin{center}
 \begin{Large}
@@ -567,33 +569,31 @@ Graphs created using Colab, \citep{colab} Pandas, \citep{pd} MatPlotLib, \citep{
 \end{figure}
 
 Upon analysing the four values being used for the highest performing upward-trending iterations it appeared that successful values had been found through an issue in the code. When generating random values, Unity cycles through the same values if not provided with a seed. \citepcode{randomRepeating} As the four values were consistently the first four values generated they had been repeatedly set as $[2, 0.77, 0.31, 9]$. Of the 8 iterations that showed an upwards trend and performed well, 7 were these values. Additionally, there was only a single iteration using these values that did not perform well. Given the apparent success of these GA values, these were selected as the default parameters. \\
-It would be useful to have different GA parameter values tailored to each combination of the recombination and mutation methods. Currently, effective values have been found whilst the Any option was selected for both in an attempt to find parameters suitable for all permutations. However, this may favour certain combinations more than others and there is currently no data on this. Rather, these base values are assumed to be appropriate and the effectiveness of the methods themselves judged relative to them. Ideally, there would be a set of values for each combination, or the ability for the GA parameters to themselves be mutated. \\
-
-There is an assumption that asynchronous evolution is superior to synchronous evolution. The alternative would be to allow every robot to operate for $x$ seconds before mutating a percentage of the population in parallel. This would ensure that every robot experiences the same number of generations and remove any assumptions in the algorithm used to declare a robot as trapped. \\
-Intuitively, the current approach is more appropriate as it does not leave unsuccessful robots continuing past the point where they have been identified as trapped. It is also more natural: we do not wait for a person’s 30th birthday before allowing them to have children based on how successful they have been thus far in their lives. Certainly it is more efficient, as waiting for every robot to be declared stuck before mutating a portion of the population would be extremely time consuming. However, it would be useful to gather results of the alternative approach to support this intuition. \\
+It would be useful to have different GA parameter values tailored to each combination of the recombination and mutation methods. Currently, effective values have been found whilst the \textit{Any} option was selected for both in an attempt to find parameters suitable for all permutations. However, this may favour certain combinations more than others and there is currently no data on this. Rather, these base values are assumed to be appropriate and the effectiveness of the methods themselves judged relative to them. \\
 
 \subsection{Dynamic Movement}
 \label{sec:DST Imp}
-As outlined in TODO, a dynamic approach uses the historical movement of the robot to ‘learn’ how to move in a given direction again. 
+As outlined in \ref{sec:DST Aims}, a dynamic approach uses the historical movement of the robot to ‘learn’ how to move in a given direction again. 
 Take a robot that moves left by rolling over. Due to the reactive nature of the algorithms used for movement, it can be assumed that applying the same velocities from the start of the roll would produce another leftward motion. The dynamic movement algorithm saves these velocities for use when a robot needs to move left again. \\
-\begin{wrapfigure}[14]{r}{0.25\textwidth}
+\begin{wrapfigure}[14]{r}{0.3\textwidth}
     \centering
     \vspace*{-5mm}
-    \includegraphics[width=0.25\textwidth]{spherePoints}
+    \includegraphics[width=0.3\textwidth]{spherePoints}
     \vspace*{-7mm}
     \caption{A sphere created using a Fibonacci lattice ($n=50$) around a centre point shown in blue.}
 \end{wrapfigure}
 To achieve this, the worldspace around a robot is divided. \textit{“The Fibonacci lattice is a simple way to very evenly distribute points [on the] surface of a sphere”}. \citepmain{fibonacci} Using the implementation of the Fibonacci sphere provided by Fnord, \citepcode{spherePoints} a series of $n$ points were constructed in a sphere around the robot. It was necessary to strike a balance between too low a value of $n$ producing inaccurate results, which could cause the robot to veer off to one side of the intended direction. Meanwhile, too high a value of $n$ would be unnecessarily expensive and result in the majority of the points containing $null$ values. $n=50$ was selected as an appropriate granularity.\\
 
-The sphere points are relative to the centre of the sphere, thus acting as vectors in the direction of the point. To track how the robot moved in a direction, every $t$ seconds the velocities of each body part are stored. A conceptual sphere is constructed around the initial position of the robot and rotated to match the rotation of the robot. This way, a point directly to the left of the robot rotated $30°$ around an axis will be in the same relative location to the robot at $120°$. \\
+The sphere points are relative to the centre of the sphere, thus acting as vectors in the direction of the point. To track how the robot moves in a direction, every $t$ seconds the velocities of each body part are stored. A conceptual sphere is constructed around the initial position of the robot and adjusted to match its rotation. This way, a point directly to the left of the robot rotated $30^\circ$ around an axis will be in the same relative location to the robot at $120^\circ$. \\
 Given another interval of $t$, a vector is calculated from the initial position to the resultant position. The sphere point closest to this vector is found by comparing the angle between the vector and the points. 
-If there are already values stored for this point then the set of values that moved the robot the furthest distance in the time interval are saved. This process of saving the velocities used to move toward a point is illustrated in figure TODO. 
+If there are already values stored for this point then the set of values that moved the robot the furthest distance in the time interval are saved. This process of saving the velocities used to move toward a point is illustrated in \autoref{fig:storeVelocities}. 
 \begin{figure}[H]
 \begin{minipage}[t]{0.3\textwidth}
 \centering
 \includegraphics[width=1\textwidth]{storingVelocities}
 \vspace*{-7mm}
 \caption{Each blue point represents a set of stored velocities for a robot that moved left before turning right and moving downward.}
+\label{fig:storeVelocities}
 \end{minipage}
 \hfill
 \begin{minipage}[t]{0.65\textwidth}
@@ -610,7 +610,7 @@ If there are already values stored for this point then the set of values that mo
 \begin{enumerate}
 \item Routine adjustment\\
 The goal of this adjustment is to keep the robot moving away from its spawn point. Every $x$ seconds the vector between the spawn point and the current position of the robot is calculated. The sphere around the robot is filtered using this vector to output a vertical wedge of points moving away from the origin. Applying any of the velocities saved at these points would theoretically direct the robot further across the terrain. \\
-The points are further filtered by removing those that have not had any velocities stored yet and those that would move the robot below the level of the terrain. Due to the varying height of the terrain, three measurements are taken at incremental distances from the robot. If the direction of the point at this distance would take it below the height of the terrain then it is removed from the selection. This method aims to take a snapshot of the rough height in a given direction and is liable to miss points that should be eliminated if the peak is between the snapshots. \\
+The points are further filtered by removing those that have not had any velocities stored yet and those that would move the robot below the level of the terrain. Due to the varying height of the terrain, three measurements are taken at incremental distances from the robot. If the direction of the point at this distance would take it below the height then it is removed from the selection. This method aims to take a snapshot of the rough height in a given direction and is liable to miss points that should be eliminated if the peak is between the snapshots. \\
 From the filtered points, a single one is selected and the velocities applied to the robot. \\
 Frequent adjustment may affect the ability of the robots to explore new means of movement. To reduce this, the regular adjustment is only enacted if the robot is not already moving toward any of the points in the initial wedge. 
 \item Scaled adjustment\\
@@ -628,7 +628,8 @@ It is expected that the dynamic movement algorithm will favour robots that are a
 \newpage
 \section{Results}
 \label{sec:Results}
-%TODO explain about capping population to 50 - issues with laptop
+For each experiment discussed in this section the population was capped at 50 robots. This is an unfortunate constraint of the project due to technical limitations. My laptop had begun making some concerning noises and the university lab computers were incompatible with the project. As such, the data is a snapshot of what Lizardbot may be capable of at a larger scale.\\
+
 All graphs are made using Colab, \citep{colab} Pandas, \citep{pd} MatPlotLib, \citep{plt} NumPy. \citep{np}
 
 \subsection{Body Motion}
@@ -639,10 +640,11 @@ All graphs are made using Colab, \citep{colab} Pandas, \citep{pd} MatPlotLib, \c
     \includegraphics[width=0.4\textwidth]{bodyResults}
     \vspace*{-7mm}
     \caption{The results of different methods of body motion.}
+    \label{fig:bodyRes}
 \end{wrapfigure}
 To test the effectiveness of the body motion, a population of 50 robots with 10 modules (no legs or tail) were measured with three forms of motion. All experiments measuring the efficacy of body parts were conducted on smooth terrain to avoid the situatedness of the robot impacting the results.\\
 Random oscillation set random modules to rotate. Due to the embodiment of the robots this motion still resembled a coiling snake. This method outperformed a static body (driving only) which appeared to curve the body around the contours of the terrain. At the slightest gradient this caused the robot to become stuck. \\
-As figure TODO shows, the serpentine motion showed $\sim$5x the success of the random oscillation. Thus, serpentine motion became the default motion used in future experiments (supported by the replicated high performances). 
+As \autoref{fig:bodyRes} shows, the serpentine motion showed $\sim$5x the success of the random oscillation. Thus, serpentine motion became the default motion used in future experiments (supported by the replicated high performances). 
 
 \subsection{Counterbalancing Tail}
 \label{sec:Tail Res}
@@ -681,9 +683,10 @@ Interestingly, the use of a gait flatlined the performance. Given a more effecti
     \includegraphics[width=0.4\textwidth]{uniformResults}
     \vspace*{-7mm}
     \caption{The results of a uniform vs non-uniform body.}
+    \label{fig:uniformRes}
 \end{wrapfigure}
 A population of 50 non-uniform robots were created and left to execute for 300s. At this point they were toggled to become uniform, respawned and measured again. \\
-The results, shown in figure TODO, suggest that forcing a uniform body hindered the robots. There was next-to-no progress made by the uniform version of the robots after 300s. \\
+The results, shown in \autoref{fig:uniformRes}, suggest that forcing a uniform body hindered the robots. There was next-to-no progress made by the uniform version of the robots after 300s. \\
 The ability to force a uniform body was retained in the AI but, given the performance shown here, it is unlikely that this robot would remain in the population for long.
 \\[1\baselineskip]
 
@@ -698,54 +701,55 @@ The ability to force a uniform body was retained in the AI but, given the perfor
 \end{wrapfigure}
 To test the GA in \ref{sec:Mutation Res} and \ref{sec:Recombination Res}, a population of 50 randomly generated robots were stored for the input to each experiment.\\
 
-As explained in TODO, there is the option to restrict the GA to only movement or physical genes. There 18 permutations available between the mutation constraints and the recombination methods. Providing data for each would have been time-consuming (and at this point my laptop was making unhappy noises). The decision was made to instead find the most effective constraint (using the \textit{Any} recombination) and use this as the basis for testing each recombination method.\\
-As predicted, allowing the manipulation of all genes produced consistently high results. Interestinly, one iteration limited to physical genes vastly exceeded the performance of all others. However, this result was not shared by the two repeats. 
+As explained in \ref{sec:Genetic Algorithm Aims}, there is the option to restrict the GA to only movement or physical genes. There 18 permutations available between the mutation constraints and the recombination methods. Providing data for each would have been time-consuming (and at this point my laptop was making unhappy noises). The decision was made to instead find the most effective constraint (using the \textit{Any} recombination) and use this as the basis for testing each recombination method.\\
+Interestingly, one iteration limited to physical genes vastly exceeded the performance of all others. However, this result was not shared by the two repeats. As predicted, allowing the manipulation of all genes produced consistently high results.
 
 \subsection{Recombination Methods}
 \label{sec:Recombination Res}
-\begin{wrapfigure}[15]{l}{0.5\textwidth}
+\begin{wrapfigure}[18]{l}{0.5\textwidth}
     \centering
     \vspace*{-5mm}
     \includegraphics[width=0.5\textwidth]{recombinationTypes}
     \vspace*{-7mm}
-    \caption{The results of each recombination method.}
+    \caption{The results of each recombination method.\\ An outlier was excluded for a \textit{Random} iteration; a single value was recorded at 531.8821}
+    \label{fig:recombinationRes}
 \end{wrapfigure}
+The \textit{Physical, Movement, Triad} and \textit{Lizard} recombination methods all produced disappointing results. \textit{Triad} achieved a single sucessful iteration, but was rejected as a viable option given the lack of progress elsewhere. One explanation for the demise of these recombinations is that the selection methods created localised breeding groups within the population. It may be that with active incest prevention \citepmain{gaIntro} these recombination methods would show more promise.\\
+\textit{Any} recombination demonstrated a consistent (if slow) upward trend but still appeared less successful that the \textit{Random} control group.\\
+The GA demonstrated consistently high performance with \textit{Performance} recombination. \autoref{fig:recombinationRes} shows the clear success of the top 25\% of the population. Beyond this, it was observed that almost every robot was consistently reaching the edge of the uneven terrain. However, there are still some fundamental issues with it.\\
+A major issue is that not all genes have equal weight. If the gene that determines whether a uniform body is maintained mutates from false to true then this has a significant effect on the robot. The physical properties of almost all body and leg parts will be adjusted, resulting in a much larger adjustment to the robot than those caused by mutating other genes. Similar large-scale adjustments are applicable when moving to serpentine motion.\\
+To mitigate this, it would be useful to apply weights to each gene. Thus, the mutation range could be scaled accordingly, or the genes categorised such that a change to a heavily weighted gene would limit any changes to other genes. This would allow an isolated analysis of the effect that such a large mutation has on the performance.\\
 
-%TODO what impact do the various methods have on performance?
-localised breeding groups within the population. To balance the  and could benefit from the implementation of incest prevention. \citepmain{gaIntro}
-%TODO what happens when the mutation & recombination are limited to either physical or movement, or both
-%Removed outlier random - 531.8821
-
+There is an assumption within the GA that asynchronous evolution is superior to synchronous evolution. The alternative would be to allow every robot to operate for $x$ seconds before mutating a percentage of the population in parallel. This would ensure that every robot experiences the same number of generations and remove any assumptions in the algorithm used to declare a robot as trapped. \\
+Intuitively, the current approach is more appropriate as it does not leave unsuccessful robots continuing past the point where they have been identified as trapped. It is also more natural: we do not wait for a person’s 30th birthday before allowing them to have children based on how successful they have been thus far in their lives. Certainly it is more efficient, as waiting for every robot to be declared stuck before mutating a portion of the population would be extremely time consuming. However, it would be useful to gather results of the alternative approach to support this intuition. \\
 
 \subsection{Dynamic Movement}
 \label{sec:DST Res}
-%TODO what impact does the dynamic movement have on the performance?
+The addition of dynamic movement had an interesting impact on the performance graph. Seemingly, it results in a high-performing solution significantly better than those without. The exception to this (first graph in \autoref{fig:dstRes}) is suspected to be due to the GA (with dynamic movement) not having enough time to finish converging. Dynamic movement comes at a cost: it creates a delay in finding a solution and converges to a single solution with no further improvement.
+\begin{figure}[H]
+\centering
+\centerline{\includegraphics[scale=0.55]{dstResults} }
+\caption{The impact of dynamic movement on three separate randomly generated populations. Uneven terrain was used, and a GA with \textit{Performance} recombination and no mutation constraints.}
+\label{fig:dstRes}
+\end{figure}
+The dynamic movement could be further improved by performing a more comprehensive analysis of the entire terrain around the robot and making a more informed decision about the direction the robot should move in. This could further prevent the robot from becoming trapped as it avoids higher ground, or alternatively uses a larger activation to “jump” onto it.\\ Additionally, the algorithm currently makes assumptions about the knowledge the robot has about the world around it. It is assumed that there are sensors capable of detecting the rotation, relative position from the origin, velocities of each body part, and of detecting the height of the terrain. It is not immediately obvious how to offer this functionality without the use of these measurements but an exploration into alternative methods may be valuable if the program were to be applied to a physical robot. \\
 
 \subsection{Evolved Lizardbot}
 \label{sec:Robot Res}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.8]{multipleTerrains}
+\caption{The outcome of the GA (with dynamic movement) across each of the three terrains. The uneven graph that is not fully visible continues to $15946.23$ and remains within range of that value. This result was replicated and is not considered an outlier.}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\textwidth]{best-above}
+\includegraphics[width=0.55\textwidth]{best-side}
+\caption{The highest performing robots evolved by the GA. The rows correspond to each terrain: rough, uneven and smooth respectively (from top to bottom).}
+\end{figure}
 %TODO when left to it - what do the eventual robots look like? What is the corresponding behaviour?
-%TODO what does a population of uniform, serpentine, tailed, gaited robots evolve to?
-
-\subsection{Impact of Terrain}
-\label{sec:Terrain Res}
-%TODO what happens to the performance when the same robots are placed on terrains with different frictions?
-
-
-
-%GA report
-Whilst the GA demonstrates promising results, there are still some fundamental issues with it. A major issue is that not all genes have equal weight. If the gene that determines whether a uniform body is maintained mutates from false to true then this has a significant effect on the robot. The physical properties of almost all body and leg parts will be adjusted, resulting in a much larger adjustment to the robot than those caused by mutating other genes. To mitigate this, it would be useful to apply weights to each gene. Thus, the mutation range could be scaled accordingly, or the genes categorised such that a change to a heavily weighted gene would limit any changes to other genes. This would allow an isolated analysis of the effect that such a large mutation has on the performance.\\
-
-
-TODO anecdotal evidence of complex behaviour emerging\\
-
-
-%DST report
-The dynamic movement could be further improved by performing a more comprehensive analysis of the entire terrain around the robot and making a more informed decision about the direction the robot should move in. This could further prevent the robot from becoming trapped as it avoids higher ground or uses a larger activation to “jump” onto higher ground.\\ Additionally, the algorithm currently makes assumptions about the knowledge the robot has about the world around it. It is assumed that there are sensors capable of detecting the rotation, relative position from the origin, velocities of each body part, and of detecting the height of the terrain. It is not immediately obvious how to offer this functionality without the use of these measurements but an exploration into alternative methods may be valuable if the program were to be applied to a physical robot. \\
-%TODO add explanation here from mindware about how perception is irrelevant - the outcome is more important. Relationship between \theta and v
-
-
-%Vision extension report
-Adding a rudimentary vision system would enable the AI to make decisions, as opposed to using the successor function to learn entirely from hindsight. By analysing its surroundings it could preemptively determine which route would have the highest odds of success from previous experience. I anticipate that this feedback loop would drastically increase the distance that the model achieves. 
+%TODO anecdotal evidence of complex behaviour - what happened in the videos of them being placed on each terrain
 
 
 
@@ -755,7 +759,11 @@ Adding a rudimentary vision system would enable the AI to make decisions, as opp
 \begin{itemize}
 \item Serpentine good
 \item Tail bad - maybe need flexible
-\item Uniform bad
+\item Legs very bad
+\item Performance recombination good - could be explored more - different GA params
+\item testing on larger population
+\item dynamic movement improved performance but introduced minima
+\item moves away from natural evolution
 
 \end{itemize}
 \newpage
