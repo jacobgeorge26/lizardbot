@@ -49,10 +49,9 @@
 \contentsline {subsection}{\numberline {7.5}Mutation Constraints}{29}{subsection.7.5}%
 \contentsline {subsection}{\numberline {7.6}Recombination Methods}{30}{subsection.7.6}%
 \contentsline {subsection}{\numberline {7.7}Dynamic Movement}{30}{subsection.7.7}%
-\contentsline {subsection}{\numberline {7.8}Evolved Lizardbot}{32}{subsection.7.8}%
-\contentsline {section}{\numberline {8}Conclusion}{33}{section.8}%
-\contentsline {section}{\numberline {9}References}{34}{section.9}%
-\contentsline {section}{\numberline {10}Appendices}{40}{section.10}%
-\contentsline {subsection}{\numberline {10.1}Evolved Robots}{40}{subsection.10.1}%
-\contentsline {subsection}{\numberline {10.2}Progress Logs}{40}{subsection.10.2}%
-\contentsline {subsection}{\numberline {10.3}Project Proposal}{40}{subsection.10.3}%
+\contentsline {subsection}{\numberline {7.8}Evolved Lizardbot}{31}{subsection.7.8}%
+\contentsline {section}{\numberline {8}Conclusion}{34}{section.8}%
+\contentsline {section}{\numberline {9}References}{35}{section.9}%
+\contentsline {section}{\numberline {10}Appendices}{41}{section.10}%
+\contentsline {subsection}{\numberline {10.1}Progress Logs}{41}{subsection.10.1}%
+\contentsline {subsection}{\numberline {10.2}Project Proposal}{41}{subsection.10.2}%

@@ -46,7 +46,7 @@ Project Supervisor - Simon Bowes\\
 \end{center}
 }
 \paragraph*{Abstract\\}
-Insert abstract here
+Lizardbot demonstrated that a nature-inspired solution will not necessarily produce a naturalistic result.
 %TODO ADD abstract\\
 \vspace*{\fill}
 \newpage
@@ -735,6 +735,8 @@ The addition of dynamic movement had an interesting impact on the performance gr
 The dynamic movement could be further improved by performing a more comprehensive analysis of the entire terrain around the robot and making a more informed decision about the direction the robot should move in. This could further prevent the robot from becoming trapped as it avoids higher ground, or alternatively uses a larger activation to “jump” onto it.\\ Additionally, the algorithm currently makes assumptions about the knowledge the robot has about the world around it. It is assumed that there are sensors capable of detecting the rotation, relative position from the origin, velocities of each body part, and of detecting the height of the terrain. It is not immediately obvious how to offer this functionality without the use of these measurements but an exploration into alternative methods may be valuable if the program were to be applied to a physical robot. \\
 
 \subsection{Evolved Lizardbot}
+The final experiment that was conducted explored how the GA and dynamic movement performed across each of the three terrains. Much of the testing had been focussed on the smooth and uneven terrains so the use of the rough terrain would provide insight into the overall success of Lizardbot. Unsurprisingly, the performance on the two easier terrains was exemplary: one iteration on the uneven surface reached a performance of 15946.23! However, the progress was slow on the rough terrain. This suggests that Lizardbot in its current form is limited to moderate environments rather than the harsher ones it was targeting. \\
+It is possible that Lizardbot could be improved by repeating the honing of the GA parameters on the rough terrain. It was presumed that calibrating it on the uneven terrain would produce a scaleable GA; this assumption may have introduced bias towards easier environments.  
 \label{sec:Robot Res}
 \begin{figure}[H]
 \centering
@@ -742,30 +744,35 @@ The dynamic movement could be further improved by performing a more comprehensiv
 \caption{The outcome of the GA (with dynamic movement) across each of the three terrains. The uneven graph that is not fully visible continues to $15946.23$ and remains within range of that value. This result was replicated and is not considered an outlier.}
 \end{figure}
 
+Where the results get interesting is in the form of the final evolved robots. The first two terrains evolved the entire population to a single module that drove with speed between the troughs. There was no intention of producing these results but the fumbling balls were undoubtedly an optimal solution. These sped across the terrain - even 'climbing' over peaks - and consistently hit the edge of the terrain within seconds. This speed is likely the reason behind the 16k performance shown by the uneven terrain. \\
+There was a slight differentiation between the resultant robots from the smooth and uneven terrains. The latter produced heads of similar size to each other. Contrastingly, the former gave rise to robots that were both smaller and varied in size. Though a single module has been found as an optimal design, there are still variations within this structure that can tailor it to its environment. \\
+The GA on the rough terrain deviated from this rolling ball result, instead constructing a short string of modules, a tail, and symmetrical legs for 2/3 robots. It is worth taking these resultant robots with a pinch of salt due to their performance.
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.4\textwidth]{best-above}
 \includegraphics[width=0.55\textwidth]{best-side}
 \caption{The highest performing robots evolved by the GA. The rows correspond to each terrain: rough, uneven and smooth respectively (from top to bottom).}
 \end{figure}
-%TODO when left to it - what do the eventual robots look like? What is the corresponding behaviour?
-%TODO anecdotal evidence of complex behaviour - what happened in the videos of them being placed on each terrain
 
-
+A behavioural analysis was conducted by placing these 9 robots back onto each terrain (with the GA disabled). As expected, all 6 balls immediately began rolling across the smooth terrain. On uneven, only the larger ones were able to traverse the environment whilst the smaller ones (evolved on the smooth terrain) became stuck in a trough. Thus far, the bodied robots had remained still. \\
+On the rough terrain the rolling behaviour became unproductive. All six balls immediately rolled into a basin and remained there. For the others, it appeared that the tail helped the robots 'push' themselves up steep slopes and the twitching legs provided sudden boosts in velocity. It is possible that more productive legs would have greatly improved the performance here by pushing them further than the (very) short distance they achieved.
 
 \newpage
 \section{Conclusion}
 \label{sec:Conclusion}
-\begin{itemize}
-\item Serpentine good
-\item Tail bad - maybe need flexible
-\item Legs very bad
-\item Performance recombination good - could be explored more - different GA params
-\item testing on larger population
-\item dynamic movement improved performance but introduced minima
-\item moves away from natural evolution
 
-\end{itemize}
+The goal of this project was to produce a nature-inspired model of a robot that could navigate rough terrain. The majority of the inspiration was reptilian, supported by research indicating the efficient and adaptable motion of snakes and lizards. The modular body, counterbalancing tail and lizardlike gait had already been proven to be effective by works such as the Agama robot and Salamandra Robotica. \\
+
+The results of Lizardbot corroborated the efficacy of serpentine motion. However, the data suggested that the movement of the tail and legs were counterproductive to the success of the robots. Seemingly, the snakelike design had been implemented more effectively than the lizard-inspired design aspects.\\ 
+
+A genetic algorithm was used to mimic a biological evolutionary process. The GA was found to be limited regarding which terrains it could find a suitable solution for. The goal was optimisation for navigating rough terrain; the outcome was a GA that can optimise for moderate terrain. However, the reasons behind this could be overcome given more time. The parameters used were targeted at the uneven terrain - which produced phenomenal results - and as such a GA tailored to the harsher environment may yield a higher performance. Ideally, a single GA would work across any terrain.\\
+Lizardbot could further be improved by exploring the option of a flexible tail (see \ref{sec:Tail Res}) or by applying the algorithm to a larger population to reduce the formation of localised breeding groups. Additionally, the introduction of a visual system (see \ref{sec:Vision}) could provide proactive collision avoidance to complement the collision penalisation in the performance metric. \\
+
+Dynamic movement encouraged the robots to manouevre away from their spawn point. This feature was proved to improve the performance of the population at the cost of a convergence on a single solution. Whilst effective, this may have restricted Lizardbot from finding more abstract solutions. \\
+
+The evolution of the robots produced unexpected results that deviated from the natural evolution of lizards. The optimal solution was found to be a single ball rolling with speed across the terrain. Whilst the basis of the project was to produce a nature-inspired solution, an effort was deliberately made to not enforce or bias towards a naturalistic robot. Evolution does not always offer an efficient or elegant solution; the laryngeal nerve in giraffes is a prime example of this unintelligent design. This nerve connects the brain to the larynx in most mammals but diverts under the heart instead of taking the direct path through the head and neck. In giraffes this results in a highly inefficient 5m laryngeal nerve. \citepmain{giraffeNerve} Arguably, the emergence of such non-natural robots suggests the successful avoidance of bias in Lizardbot. Perhaps in thousands of years lizards too will have evolved into a rolling sphere. 
+
 \newpage
 
 \section{References}
@@ -780,9 +787,6 @@ The dynamic movement could be further improved by performing a more comprehensiv
 
 
 \section{Appendices}
-\subsection{Evolved Robots}
-\label{sec:Final Robots}
-%TODO attach images of high performing robots here
 \subsection{Progress Logs}
 The status of Lizardbot was reported as the project progressed.
 The progress logs for Lizardbot can be found here:\\
