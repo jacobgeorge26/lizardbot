@@ -43,18 +43,54 @@ Project Supervisor - Simon Bowes\\
 { \Huge ``Lizardbot"}
 \\[1\baselineskip]
 {\Large A reptile-inspired model of robots optimised to navigate rough terrain}
+\\[1\baselineskip]
 \end{center}
 }
-\paragraph*{Abstract\\}
+\section*{Abstract}
+What is lizardbot aiming to do? - 1\\
+How was this achieved? - 3\\
+What were the most significant findings? - 2\\
+What was the conclusion? - 1\\
 Lizardbot demonstrated that a nature-inspired solution will not necessarily produce a naturalistic result.
-%TODO ADD abstract\\
+This project will combine the use of a tail for stabilisation, the snakelike motion of the body, and a lizardlike gait. The AI will add an element of reactivity to a wider array of situations than these robots, as the model will not be seeking a specific behaviour. Rather, it will determine how the behaviour that it is producing influences its success and absorb this knowledge as it navigates the terrain.
+
 \vspace*{\fill}
 \newpage
 \pagestyle{fancy}
 \fancyhf{}
 \rhead{PAGE \thepage}
-\lhead{LIZARDBOT - \leftmark}
+\lhead{LIZARDBOT}
 
+\newpage
+\section*{Statement of Originality}
+This  report  is  submitted  as  part  requirement  for  the  degree  of  Computer  Science  and  Artificial 
+Intelligence at the University of Sussex. It is the product of my own labour except where indicated in 
+the text. The report may be freely copied and distributed provided the source is acknowledged. I hereby 
+give permission for a copy of this report to be loaned out to students in future years.
+
+\section*{Professional and Ethical Considerations}
+\label{sec:Ethics}
+This project will be an isolated model without any user testing, personal data, vulnerable people, protected characteristics, or medical data. While it does focus on reptiles there will not be any experimentation on any animals. Referenced studies will have faced their own ethical review and will largely use videos of the animal being studied. All testing will be conducted by comparing various inputs to the code and analysing the results.\\
+With these considerations, this project has been classed as low-risk.\\
+
+This project will abide by the \textbf{BSC Code of Conduct}\footnote{\url{https://www.bcs.org/media/2211/bcs-code-of-conduct.pdf}} regarding:
+\begin{itemize}
+ \item Public Interest;
+ \item Professional Competence and Integrity;
+ \item Duty to Relevant Authority;
+ \item Duty to the Profession.
+ \end{itemize}
+
+%https://tex.stackexchange.com/questions/405195/change-the-length-of-footnote-line
+\makeatletter
+\renewcommand\footnoterule{\kern-3\p@\hrule\@width\ifodd\value{page}6in\else6in\fi\kern2.6\p@}
+\makeatother 
+
+\newpage
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{PAGE \thepage}
+\lhead{LIZARDBOT - \leftmark}
 \tableofcontents
 
 %Report
@@ -177,8 +213,9 @@ The genetic algorithm aims to optimise the parameters of Lizardbot and, once an 
     \label{fig:activationDiagram}
 \end{wrapfigure}
 \nocitemain{dft}
-Dynamic systems theory uses the causal webs of an environment to determine the \textit{"sequences of states that could take the system from one location in state space to another"}. \citepmain{mindware}
+Dynamic systems theory uses the causal webs of an environment to determine the \textit{"sequences of states that could take the system from one location in state space to another"}. \citepmain{mindware}\\
 Rather than providing rigid rules about how the robot should move, the robot explores how to move in a direction through trial and error. Essentially, it will 'collect' behaviours. If a specific set of parameters produced a desired behaviour (e.g. move left) then this can be activated with increasing force (see \autoref{fig:activationDiagram}) to steer the robot left across the terrain. This approach would produce a behaviour-based approach to navigating the terrain. Thelan and Smith explored the behaviour of babies taking steps on a treadmill and concluded that there was a complex relationship between the body, environment and behaviour. \citepmain{babyStepping} This relationship can be argued as both advantageous for Lizardbot, and a potential constraint to the performance that dynamic movement can offer.\\
+
 The adaptive behaviour can result in emergent complex behaviours that would otherwise have been a mammoth of a task to implement as a set of instructions. On the flipside, dynamic movement relies on assumptions about the relationship between a robot's body, movement, and terrain. It is not feasible to store every factor that culminated in a behaviour and thus the system must be reduced to a select few control parameters. The assumptions that this requires render the dynamic approach unsuitable as the primary movement mechanism. However, it may still complement the movement algorithms discussed in \autoref{sec:Project Aims}. Andy Clark discusses the idea of "partial programs" \citepmain{partialPrograms} - \textit{"minimal instruction sets that maximally exploit the inherent (bodily and environmental) dynamics of a controlled system"}. \citepmain{mindware} As long as Lizardbot's adaptive behaviour can work alongside other causal influences then dynamic movement is expected to improve its performance.
  
 
@@ -190,26 +227,19 @@ The adaptive behaviour can result in emergent complex behaviours that would othe
 Three terrains will be generated to test the robot in increasingly difficult environments. The terrains will be randomly generated once and then stored and used as a control variable in experiments.\\ 
 The terrain types $[Smooth, Uneven, Rough]$ to be created are inspired by those used to test the Octopus robot \citepmain{octopusRobot}.\\
 
-It is important to consider the situatedness of the Lizardbot. The environment that it is presented with will influence the outcome of its cognition. Specifically, it will influence its situated dynamical cognition. This is defined as “cognition [emerging] from a real-time, continuous and strictly coupled sensorimotor interaction between an unstable subjective experience and an unstable objective world.” \citepmain{situatedness}
-It is not feasible to test the interaction between the Lizardbot and every terrain that a robot could encounter. It is, however, possible to expand the terrain to include common properties. It is known that “the friction between the snake robot and the ground, affects significantly its motion” \citepmain{modularDesign}, hence an experiment will be conducted by returning a high-performing group of robots to the terrain with the coefficient of friction adjusted. By varying the texture of surfaces within the environment the Lizardbot may produce different behaviour. \\
-
-Additionally, the smooth terrain will be deliberately featureless to test the behaviour of the robot in a simple environment. Herbert Simon provided an elegant example of the importance of this consideration: an ant is observed making its way back to its nest across a beach.\\
+It is important to consider the situatedness of the Lizardbot. Herbert Simon provided an elegant example of the importance of this consideration: an ant is observed making its way back to its nest across a beach.\\
 Its route is ‘a sequence of irregular, angular segments’ that suggests some level of complexity in the ant's behaviour. However, the beach for the ant is a much harsher environment than it is for a human. It is more likely that ‘its complexity is really a complexity in the surface of the beach, not a complexity in the ant.’ \citepmain{antsBeach} Thus, the situatedness of the robot could culminate in behaviours that are not of its own making and are instead caused by its relationship with the terrain. The smooth terrain should reduce the role of the environment and allow for emergent behaviours to be prescribed to the robot itself.\\
 
 \subsection{Extension Objectives}
 \label{sec:Extension Objectives}
 \subsubsection{Vision}
 \label{sec:Vision}
-Thus far the Lizardbot has focused on finding the ideal parameters for the overall form and movement of the robot, with additional thought for a dynamic system to allow the robot to react to its situation. There has been little focus on a preemptive approach, which has the potential to reduce the risk of damage to a real robot. When a robot becomes stuck it will likely find itself bouncing against the nearby terrain, forcing the prioritisation of durability in the design of the robot. If the robot were given a rudimentary visual system it could instead anticipate collisions and adjust its course to avoid them.\\
-To achieve vision, a camera could be placed in the head of the robot. Unity’s built-in functionality would provide feedback on objects within the range of the camera. This knowledge, when combined with the dynamic systems element of the AI, would allow the robot to make informed ‘decisions’ about how it should approach the terrain it is aware of. \\
-This feature loop would reduce the risk of damage to a physical robot by avoiding collisions with the terrain. David Lee investigated the factors affecting the specific moment in which an agent will begin reacting to an impending collision. He found that for an agent approaching a stationary object, the relative location of the obstacle in the agent’s visual field could be used to deduce the time-to-collision. \citepmain{timeToCollision} The use of this time-to-collision would directly relate to the brief of the project as it applies an algorithm derived from nature to a design problem (in this case collision detection and avoidance). \textit{”Most animals respond avoidantly and directionally to the abstract visual stimulus ... which specifies the approach of an object and impending collision.”} \citepmain{animalCollisionResponse}\\
+Thus far the Lizardbot has focused on finding the ideal parameters for the overall form and movement of the robot, with additional thought for a dynamic system to allow the robot to react to its situation. There has been little focus on a preemptive approach, which has the potential to reduce the risk of damage to a real robot. When a robot becomes stuck it will likely find itself bouncing against the nearby terrain, forcing the prioritisation of durability in the design of the robot. If the robot were given a rudimentary visual system it could instead anticipate collisions and adjust its course to avoid them.\\ David Lee investigated the factors affecting the specific moment in which an agent will begin reacting to an impending collision. He found that for an agent approaching a stationary object, the relative location of the obstacle in the agent’s visual field could be used to deduce the time-to-collision. \citepmain{timeToCollision} The use of this time-to-collision would directly relate to the brief of the project as it applies an algorithm derived from nature to a design problem (in this case collision detection and avoidance). \textit{”Most animals respond avoidantly and directionally to the abstract visual stimulus ... which specifies the approach of an object and impending collision.”} \citepmain{animalCollisionResponse}\\
 Implementing a visual system to the Lizardbot could unlock a variety of more complex - \textbf{and proactive} - behaviours.
 
 \newpage
 \section{Project Relevance}
 \label{sec:Project Relevance}
-Lizardbot incorporates various elements of each of the projects covered in this section: from the modular body design to the counterbalancing tail. The modular snake robot had the same goal as this project: to design a robot that could tackle obstacles in rough terrain. Meanwhile the Agama robot was exploring the behaviour of lizards as a stabilisation mechanism.\\
-This project will combine the use of a tail for stabilisation, the snakelike motion of the body, and a lizardlike gait. The AI will add an element of reactivity to a wider array of situations than these robots, as the model will not be seeking a specific behaviour. Rather, it will determine how the behaviour that it is producing influences its success and absorb this knowledge as it navigates the terrain.
 \subsection{Modular Snake Robot}
 \label{sec:Modular Snake Robot}
 The work of Ye et al. \citepmain{modularRobotBackground} found that a modular snake robot was \textit{“more efficient to get into complicated environments”}. Their aim was to test the abilities of such a robot in environments too harsh for humans. Each module operated independently in a manner similar to the body movement algorithm covered in \ref{sec:Body Movement}. Each module was attached to the adjacent modules via a joint that rotated to create a wave through the body, whilst a servo drove the module forward. Their robot used a cosine function to manoeuvre the body, whereas Lizardbot will make use of an approach closer to that of a central pattern generator. \\
@@ -219,6 +249,7 @@ The modular snake robot successfully navigated any obstacles with a height less 
 \label{sec:Agama Robot}
 The tail-assisted pitch control used to build the Agama lizard-inspired robot will heavily influence the tail motion of the Lizardbot. \citepmain{agama} It will constantly assess the momentum of the robot and adjust the motion of the tail to counterbalance this force. Applying this research may reduce the risk of the robot overbalancing, a situation that could damage a physical robot. The Agama study found that \textit{“the robot with PD feedback tail control maintained a nearly constant body angle by swinging its tail upward and incurred 72\% less rotation after a perturbation than did the robot without tail control”.} This is a promising result for stabilising the Lizardbot.
 
+\newpage
 \subsection{Salamandra Robotica II}
 \label{sec:Salamandra Roboticaa II}
 The relevant goal of the Salamandra Robotica II \citepmain{salamandra} was to \textit{“advance robotics design for bimodal and efficient locomotion”}. The design of this robot heavily inspired various elements of the design of the Lizardbot: the full rotation of the legs and the CPG-inspired oscillation of the body. \\
@@ -285,27 +316,6 @@ The parameters used by the project will be contained to \textit{Config} files th
 The current expectation is that the user will require some knowledge of Unity to interact with the project. The addition of a UI may be desirable in future to lower the technological threshold. 
 
 
-\newpage
-\section{Professional and Ethical Considerations}
-\label{sec:Ethics}
-This project will be an isolated model without any user testing, personal data, vulnerable people, protected characteristics, or medical data. While it does focus on reptiles there will not be any experimentation on any animals. Referenced studies will have faced their own ethical review and will largely use videos of the animal being studied. All testing will be conducted by comparing various inputs to the code and analysing the results.\\
-With these considerations, this project has been classed as low-risk.\\
-
-This project will abide by the \textbf{BSC Code of Conduct}\footnote{\url{https://www.bcs.org/media/2211/bcs-code-of-conduct.pdf}} regarding:
-\begin{itemize}
- \item Public Interest;
- \item Professional Competence and Integrity;
- \item Duty to Relevant Authority;
- \item Duty to the Profession.
- \end{itemize}
-
-%https://tex.stackexchange.com/questions/405195/change-the-length-of-footnote-line
-\makeatletter
-\renewcommand\footnoterule{\kern-3\p@\hrule\@width\ifodd\value{page}6in\else6in\fi\kern2.6\p@}
-\makeatother 
-    
-
-
 
 \newpage
 \section{Implementation}
@@ -322,7 +332,8 @@ Three terrains were generated using Procedural Toolkit \citepsoft{proceduralTool
 \end{figure}
 At one point the height of the terrain was proportional to the number of sections of the robot, a similar method to that of the Octopus robot. \citepmain{octopusRobot} However, as the terrain is a control variable the heights were switched to a static value: $Smooth=8, Uneven=16, Rough=24$.\\
 Overall, the rougher the terrain, the higher and more closed in it is. Most of the development of the robot was conducted on the smooth and uneven terrains, as the rough terrain aims to provide a more extreme environment with which to test the efficacy of the AI.\\
-It is worth noting that the three terrains do share some common properties (e.g. gravity) and these factors may introduce bias in the AI. This assumes that applications of Lizardbot would  execute it on terrains based on its encounterable environments to allow the AI to adapt the robot accordingly. For proof of concept the sample set of terrains is sufficient.
+It is worth noting that the three terrains do share some common properties (e.g. gravity) and these factors may introduce bias in the AI. For proof of concept the sample set of terrains is sufficient.\\
+
 
 \subsection{Robot}
 \label{sec:Robot Imp}
@@ -465,18 +476,16 @@ When referring to the performance of a population, the mean performance of the t
 
 \subsubsection{Trapped Algorithm}
 \label{sec:Trapped Imp}
-It is important for the AI to know when the robot is stuck to trigger the termination of the current generation. At this point the AI can mutate the robot before respawning it. This trapped behaviour can take many forms: from bouncing against the same point in the terrain to circling itself.\\
+It is important for the AI to know when the robot is stuck to terminate its current generation. This trapped behaviour can take many forms: from bouncing against the same point in the terrain to circling itself.\\
 
-Initially, the maximum - minimum of the baseline performance metric (magnitude of the distance from the origin) over the last $t$ seconds was used. This approach was heavily flawed as it reduced the data set to a single dimension. \\
-Instead, the entire data set over the last $t$ seconds was analysed. The robot was declared stuck when the variance of the robot’s 3D coordinates over $t$ seconds converged to 0. This approach correctly identified the robot as stuck but had one major flaw: travelling in a straight line outputs a variance of 0. This behaviour is highly efficient and, whilst it is not something that the AI will train for, is a behaviour that the AI should absolutely not be training against. These false positives prompted a third approach. \\
-The algorithm finds the minimum and maximum values for each axis to draw a conceptual cube around the points the robot has visited in the last $t$ seconds. These cubes depict the  worldspace the robot has recently explored. The variance of the data set is calculated for the volume of the cube rather than the coordinates themselves. If the variance of the volumes of the cubes rounds to zero then the robot is considered to be trapped. \\
+The locations of the robot over the last $t$ seconds are analysed. The algorithm finds the minimum and maximum values for each axis to draw a conceptual cube around the points the robot has visited in the last $t$ seconds. These cubes depict the  worldspace the robot has recently explored. The variance of the data set is calculated for the volume of the cube rather than the coordinates themselves. If the variance of the volumes of the cubes converges to zero then the robot is considered to be trapped. \\
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.7]{trappedAlgorithm}
 \caption{A representation of the cube constructed around the last 20 locations a robot has visited (captured twice a second). Diagram created using CalcPlot3D \citep{diagrams}}
 \end{figure}
 
-Finally, the sensitivitiy of the algorithm needed to be determined by adjusting the value of $t$. The results showed that too low a value of $t$ produced false positives due to it not allowing the robot enough time to turn around. In contrast, if $t$ was too high it took longer for the algorithm to identify when the robot was stuck. This would waste time continuing for an extra few seconds each generation, or could potentially miss instances when the robot became trapped but was able to free itself. A sensitivity of $t=20$ appeared to provide a balanced value across all three terrains.
+The red points in \autoref{fig:trappedPoints} align with behaviours that can reasonably be classed as ‘trapped’, however it is important to note that this algorithm was implemented with some bias toward certain behaviours (e.g. looping). For this project, the identification of a trapped robot appears sufficient and is expected to produce an AI that will train away from continually exploring the same area for too long. The algorithm has other potential applications in finding looping patterns in any problem that can be assigned a worldspace. For example, a neural network could be analysed with this algorithm to determine when it is ‘stuck’ whilst performing a task, or a search algorithm could implement it to avoid excessively exploring within a section of the graph. 
 
 \begin{figure}[H]
 \centering
@@ -489,31 +498,18 @@ Each blue point represents the location of the robot being captured. Red indicat
 (From left to right) Smooth, Uneven, Rough, Flat. The latter used a robot with rotation disabled to ensure that a robot travelling in a straight line would not be flagged.}
 \label{fig:trappedPoints}
 \end{figure}
-The red points in \autoref{fig:trappedPoints} align with behaviours that can reasonably be classed as ‘trapped’, however it is important to note that this algorithm was implemented with some bias toward certain behaviours (e.g. looping). For this project, the identification of a trapped robot appears sufficient and is expected to produce an AI that will train away from continually exploring the same area for too long. The algorithm has other potential applications in finding looping patterns in any problem that can be assigned a worldspace. For example, a neural network could be analysed with this algorithm to determine when it is ‘stuck’ whilst performing a task, or a search algorithm could implement it to avoid excessively exploring within a section of the graph. 
 
 
 \subsubsection{Genes}
 \label{sec:Genes Imp}
 The manipulatable characteristics of a robot are distinguished by a \textit{Gene} class. Each variable is instantiated with a default, minimum, and maximum value. Additionally, they are given a type (established in the enum class \textit{Variable} whereby negative enum values are physical properties and positive are movement). \\
 This class handles any erroneous situations that arise and allows boolean values to be stored as a float. If the \textit{Get} method of a boolean \textit{Gene} is called, then true will be returned for values greater than 0.5. This allows boolean genes to be mutated slowly (e.g. from 0.35 to 0.6) without having to make a single jump from one value to the other. \\
-When a gene is mutated, if the new value lies outside the valid range then it is 'bounced' (e.g. $max=0.5, v\rightarrow0.6 \Rightarrow v=0.4$). If a value outside the max/min values is passed directly then the boundary value would be assigned instead.
-
-\subsubsection{Population}
-\label{sec:Population Imp}
-To avoid interaction between robots, the body parts of a robot should be capable of colliding between themselves and the terrain but should ignore those of other robots. In Unity, this can be achieved by placing all robot objects into a layer per robot - with 25 layers available. \citepcode{layerMethod} Multiple terrains are generated and 25 robots placed into each. This has the added benefit of being able to generate a population of robots being tested on all three terrain types simultaneously. 
-
 
 \subsubsection{Genetic Algorithm}
 \label{sec:GA Imp}
 When the trapped algorithm determines that a robot is stuck it is disabled and passed to the genetic algorithm (GA).\\
 
-The GA first selects which robot should be used as the input for the rest of the process. The default input is the stuck robot, however when a mutation cycle has been completed this may be overidden. The mutation cycle, exemplified in \autoref{fig:mutationCycle}, of a robot refers to how many evolutions should take place before the resultant robot is compared to the robot it initially branched from. When a mutation cycle is complete, the highest performing of the two is selected as the input for the GA. The reasoning behind this is to allow a robot to mutate to a lower performing robot temporarily, as this may allow it to evolve into a more successful robot a few generations later. If the mutation cycle is set to 1 then any single evolution that reduces the performance will be rejected.\\
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.4]{mutationCycle}
-\caption{Examples of potential evolutions of a robot. From the top row downwards, the mutation cycle is set to 1, 2, and 3 respectively. Diagram created using draw.io \citep{drawio}}
-\label{fig:mutationCycle}
-\end{figure}
+The mutation cycle of a robot refers to how many evolutions should take place before the resultant robot is compared to the robot it initially branched from. When a mutation cycle is complete, the highest performing of the two is selected as the input for the GA. The reasoning behind this is to allow a robot to mutate to a lower performing robot temporarily, as this may allow it to evolve into a more successful robot a few generations later.\\
 
 Once the input robot has been determined, this robot is then recombined. There are several methods of recombination available but the overall process is: select $k$ robots using a given method and "breed" the genes of one robot in this pool with those of the input robot.\\
 The available recombination methods are:
@@ -659,8 +655,6 @@ The impact of a counterbalancing tail was analysed by comparing the performance 
 The first is that the physical parameters of the test tail were unsuitable. It would be useful to repeat this experiment with varying tail lengths and masses to determine if there is a tail form that complements the body. \\
 The second is that a rigid tail may be a less effective design. The tail could be observed colliding with the terrain at times which could have thrown the robot off its path of motion. The Agama robot tested a flexible robot and found that after a perturbation a rigid tail produced 72\% less impact; a flexible tail resulted in 85\% less rotation. \citepmain{agama} Given the performance of a serpentine body, applying this to a modular counterbalancing tail may render success. \\
 
-This experiment aimed to provide proof of concept for the use of a counterbalancing tail. Certainly, the tail is ineffective for this robot. It may be that the AI is able to evolve a tail design that overcomes the issues that this design faced. 
-
 \newpage
 \subsection{Leg Gait}
 \label{sec:Leg Res}
@@ -721,7 +715,7 @@ A major issue is that not all genes have equal weight. If the gene that determin
 To mitigate this, it would be useful to apply weights to each gene. Thus, the mutation range could be scaled accordingly, or the genes categorised such that a change to a heavily weighted gene would limit any changes to other genes. This would allow an isolated analysis of the effect that such a large mutation has on the performance.\\
 
 There is an assumption within the GA that asynchronous evolution is superior to synchronous evolution. The alternative would be to allow every robot to operate for $x$ seconds before mutating a percentage of the population in parallel. This would ensure that every robot experiences the same number of generations and remove any assumptions in the algorithm used to declare a robot as trapped. \\
-Intuitively, the current approach is more appropriate as it does not leave unsuccessful robots continuing past the point where they have been identified as trapped. It is also more natural: we do not wait for a person’s 30th birthday before allowing them to have children based on how successful they have been thus far in their lives. Certainly it is more efficient, as waiting for every robot to be declared stuck before mutating a portion of the population would be extremely time consuming. However, it would be useful to gather results of the alternative approach to support this intuition. \\
+Intuitively, the current approach is more appropriate as it does not leave unsuccessful robots continuing past the point where they have been identified as trapped. It is also more natural: we do not wait for a person’s 30th birthday before allowing them to have children based on how successful they have been thus far in their lives. \\
 
 \subsection{Dynamic Movement}
 \label{sec:DST Res}
@@ -732,7 +726,7 @@ The addition of dynamic movement had an interesting impact on the performance gr
 \caption{The impact of dynamic movement on three separate randomly generated populations. Uneven terrain was used, and a GA with \textit{Performance} recombination and no mutation constraints.}
 \label{fig:dstRes}
 \end{figure}
-The dynamic movement could be further improved by performing a more comprehensive analysis of the entire terrain around the robot and making a more informed decision about the direction the robot should move in. This could further prevent the robot from becoming trapped as it avoids higher ground, or alternatively uses a larger activation to “jump” onto it.\\ Additionally, the algorithm currently makes assumptions about the knowledge the robot has about the world around it. It is assumed that there are sensors capable of detecting the rotation, relative position from the origin, velocities of each body part, and of detecting the height of the terrain. It is not immediately obvious how to offer this functionality without the use of these measurements but an exploration into alternative methods may be valuable if the program were to be applied to a physical robot. \\
+The dynamic movement could be further improved by performing a more comprehensive analysis of the entire terrain around the robot and making a more informed decision about the direction the robot should move in. This could further prevent the robot from becoming trapped as it avoids higher ground, or alternatively uses a larger activation to “jump” onto it.\\
 
 \subsection{Evolved Lizardbot}
 The final experiment that was conducted explored how the GA and dynamic movement performed across each of the three terrains. Much of the testing had been focussed on the smooth and uneven terrains so the use of the rough terrain would provide insight into the overall success of Lizardbot. Unsurprisingly, the performance on the two easier terrains was exemplary: one iteration on the uneven surface reached a performance of 15946.23! However, the progress was slow on the rough terrain. This suggests that Lizardbot in its current form is limited to moderate environments rather than the harsher ones it was targeting. \\
