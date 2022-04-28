@@ -8,7 +8,7 @@
 \contentsline {subsubsection}{\numberline {2.1.4}Leg Movement}{8}{subsubsection.2.1.4}%
 \contentsline {subsubsection}{\numberline {2.1.5}Genetic Algorithm}{9}{subsubsection.2.1.5}%
 \contentsline {subsubsection}{\numberline {2.1.6}Dynamic Movement}{10}{subsubsection.2.1.6}%
-\contentsline {subsubsection}{\numberline {2.1.7}Terrain Generation}{10}{subsubsection.2.1.7}%
+\contentsline {subsubsection}{\numberline {2.1.7}Terrain Generation}{11}{subsubsection.2.1.7}%
 \contentsline {subsection}{\numberline {2.2}Extension Objectives}{11}{subsection.2.2}%
 \contentsline {subsubsection}{\numberline {2.2.1}Vision}{11}{subsubsection.2.2.1}%
 \contentsline {section}{\numberline {3}Project Relevance}{12}{section.3}%
@@ -31,12 +31,12 @@
 \contentsline {subsection}{\numberline {5.1}Terrain}{16}{subsection.5.1}%
 \contentsline {subsection}{\numberline {5.2}Robot}{16}{subsection.5.2}%
 \contentsline {subsubsection}{\numberline {5.2.1}Body}{16}{subsubsection.5.2.1}%
-\contentsline {subsubsection}{\numberline {5.2.2}Tail}{17}{subsubsection.5.2.2}%
-\contentsline {subsubsection}{\numberline {5.2.3}Legs}{18}{subsubsection.5.2.3}%
+\contentsline {subsubsection}{\numberline {5.2.2}Tail}{18}{subsubsection.5.2.2}%
+\contentsline {subsubsection}{\numberline {5.2.3}Legs}{19}{subsubsection.5.2.3}%
 \contentsline {subsection}{\numberline {5.3}Artifical Intelligence}{20}{subsection.5.3}%
 \contentsline {subsubsection}{\numberline {5.3.1}Performance}{20}{subsubsection.5.3.1}%
-\contentsline {subsubsection}{\numberline {5.3.2}Trapped Algorithm}{20}{subsubsection.5.3.2}%
-\contentsline {subsubsection}{\numberline {5.3.3}Genes}{21}{subsubsection.5.3.3}%
+\contentsline {subsubsection}{\numberline {5.3.2}Trapped Algorithm}{21}{subsubsection.5.3.2}%
+\contentsline {subsubsection}{\numberline {5.3.3}Genes}{22}{subsubsection.5.3.3}%
 \contentsline {subsubsection}{\numberline {5.3.4}Genetic Algorithm}{22}{subsubsection.5.3.4}%
 \contentsline {subsection}{\numberline {5.4}Dynamic Movement}{24}{subsection.5.4}%
 \contentsline {section}{\numberline {6}Results}{27}{section.6}%
@@ -46,8 +46,8 @@
 \contentsline {subsection}{\numberline {6.4}Uniform vs Non-uniform Robot}{28}{subsection.6.4}%
 \contentsline {subsection}{\numberline {6.5}Mutation Constraints}{28}{subsection.6.5}%
 \contentsline {subsection}{\numberline {6.6}Recombination Methods}{29}{subsection.6.6}%
-\contentsline {subsection}{\numberline {6.7}Dynamic Movement}{29}{subsection.6.7}%
-\contentsline {subsection}{\numberline {6.8}Evolved Lizardbot}{30}{subsection.6.8}%
+\contentsline {subsection}{\numberline {6.7}Dynamic Movement}{30}{subsection.6.7}%
+\contentsline {subsection}{\numberline {6.8}Evolved Robots}{30}{subsection.6.8}%
 \contentsline {section}{\numberline {7}Conclusion}{33}{section.7}%
 \contentsline {section}{\numberline {8}References}{34}{section.8}%
 \contentsline {section}{\numberline {9}Appendices}{40}{section.9}%
