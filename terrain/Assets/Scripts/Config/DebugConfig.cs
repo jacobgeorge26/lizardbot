@@ -30,9 +30,9 @@ namespace Config
         //if true then data will be extracted to csv files in the Report folder
         public static bool LogPerformanceData = false;
 
-        public static bool LogRobotData = true;
+        public static bool LogRobotData = false;
 
-        public static bool LogAIData = true;
+        public static bool LogAIData = false;
 
         public static RobotConfig BestRobot;
 
@@ -46,6 +46,7 @@ namespace Config
         //grapher
 
         //if true then data will be shown in grapher
+        //throttles framerate - don't use lightly
         public static bool IsDebugging = false;
 
         public static string GetHeader()
