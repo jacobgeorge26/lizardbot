@@ -33,9 +33,9 @@ namespace Config
 
         public RobotConfig Original;
 
-        public Gene NoSections = new Gene(5, 1, 10, Variable.NoSections);
+        public Gene NoSections = new Gene(10, 1, 10, Variable.NoSections);
 
-        public Gene NoLegs = new Gene(4, 0, 20, Variable.NoLegs);
+        public Gene NoLegs = new Gene(6, 0, 20, Variable.NoLegs);
 
         public Gene IsTailEnabled = new Gene(false, Variable.IsTailEnabled);
 
@@ -46,7 +46,7 @@ namespace Config
         public Gene MaintainSerpentine = new Gene(true, Variable.MaintainSerpentine);
 
         //should the legs maintain a lizardlike gait
-        public Gene MaintainGait = new Gene(true, Variable.MaintainGait);
+        public Gene MaintainGait = new Gene(false, Variable.MaintainGait);
 
         //should the size & mass be maintained across the body
         public Gene UniformBody = new Gene(false, Variable.UniformBody);
@@ -73,15 +73,16 @@ namespace Config
             IsTailEnabled.Value = oldRobot.IsTailEnabled.Real;
             BodyColour.Value = oldRobot.BodyColour.Value;
             MaintainSerpentine.Value = oldRobot.MaintainSerpentine.Real;
+            MaintainGait.Value = oldRobot.MaintainGait.Real;
             UniformBody.Value = oldRobot.UniformBody.Real;
         }
 
         //NEW
         //not directly a copy, a clean copy without the default / random init
         //excludes object, this should have been setup with the constructor
-        public void FreshCopy(RobotConfig robot, int version)
+        public void FreshCopy(RobotConfig robot, int version, int index)
         {
-            this.RobotIndex = robot.RobotIndex;
+            this.RobotIndex = index;
             this.Version = version;
             this.IsEnabled = false;
             this.Performance = 0;
@@ -94,6 +95,7 @@ namespace Config
             this.IsTailEnabled.Value = robot.IsTailEnabled.Value;
             this.BodyColour.Value = robot.BodyColour.Value;
             this.MaintainSerpentine.Value = robot.MaintainSerpentine.Value;
+            this.MaintainGait.Value = robot.MaintainGait.Value;
             this.UniformBody.Value = robot.UniformBody.Value;
         }
 
@@ -103,12 +105,13 @@ namespace Config
             line += $"{nameof(Version)}, ";
             line += $"{nameof(Performance)}, ";
             line += $"Terrain, ";
-            line += $"{nameof(RobotIndex)}, ";
+            line += $"Robot No, ";
             line += $"{nameof(NoSections)}, ";
             line += $"{nameof(NoLegs)}, ";
             line += $"{nameof(IsTailEnabled)}, ";
             line += $"{nameof(BodyColour)}, ";
             line += $"{nameof(MaintainSerpentine)}, ";
+            line += $"{nameof(MaintainGait)}, ";
             line += $"{nameof(UniformBody)}, ";
             BodyConfig tempBody = new BodyConfig();
             for (int i = 0; i < NoSections.Max; i++)
@@ -131,12 +134,13 @@ namespace Config
             line += $"{Version}, ";
             line += $"{Performance}, ";
             line += $"{TerrainConfig.GetTerrainType(RobotIndex)}, ";
-            line += $"{RobotIndex}, ";
+            line += $"{RobotIndex + 1}, ";
             line += $"{NoSections.Value}, ";
             line += $"{NoLegs.Value}, ";
             line += $"{IsTailEnabled.Value}, ";
             line += $"{BodyColour.Value}, ";
             line += $"{MaintainSerpentine.Value}, ";
+            line += $"{MaintainGait.Value}, ";
             line += $"{UniformBody.Value}, ";
             BodyConfig tempBody = new BodyConfig();
             for (int i = 0; i < NoSections.Max; i++)
@@ -156,6 +160,75 @@ namespace Config
             if (tail.Count != 0) line += tail.First().Tail.GetData();
             else line += new TailConfig().GetEmptyData();
             return line;
+        }
+
+        public void SetData(List<string> values)
+        {
+            values.RemoveAt(0); //version
+            values.RemoveAt(0); //performance
+            values.RemoveAt(0); //terrain type
+            values.RemoveAt(0); //robot index
+            NoSections.Value = Convert.ToInt32(values[0]);
+            values.RemoveAt(0); //no sections
+            NoLegs.Value = Convert.ToInt32(values[0]);
+            values.RemoveAt(0); //nolegs
+            IsTailEnabled.Value = Convert.ToBoolean(values[0]);
+            values.RemoveAt(0); //is tail enabled
+            BodyColour.Value = (float)Convert.ToDouble(values[0]);
+            values.RemoveAt(0); //body colour
+            MaintainSerpentine.Value = Convert.ToBoolean(values[0]);
+            values.RemoveAt(0); //maintain serpentine
+            MaintainGait.Value = Convert.ToBoolean(values[0]);
+            values.RemoveAt(0); //maintain gait
+            UniformBody.Value = Convert.ToBoolean(values[0]);
+            values.RemoveAt(0); //uniform body
+
+            //set body data
+            for (int i = 0; i < NoSections.Max; i++)
+            {
+                BodyConfig body = new BodyConfig();
+                if (values[1] != " -")
+                {
+                    //data exists for this section
+                    body.SetData(values);
+                    ObjectConfig obj = new ObjectConfig(); //will throw warning - live with it - it's bad code for testing anyway
+                    obj.Init(i, BodyPart.Body, body, RobotIndex);
+                    Configs.Add(obj);
+                }
+                else
+                {
+                    body.SetEmptyData(values);
+                }
+            }
+
+            //set leg data
+            for (int i = 0; i < NoSections.Max * 2; i++)
+            {
+                LegConfig leg = new LegConfig(0, 0);
+                if (values[1] != " -")
+                {
+                    //data exists for this section
+                    leg.SetData(values);
+                    ObjectConfig obj = new ObjectConfig();
+                    obj.Init(i, BodyPart.Leg, leg, RobotIndex);
+                    Configs.Add(obj);
+                }
+                else
+                {
+                    leg.SetEmptyData(values);
+                }
+            }
+
+            //set tail data
+            if(values[1] != " -")
+            {
+                //data exists for this section
+                TailConfig tail = new TailConfig();
+                tail.SetData(values);
+                ObjectConfig obj = new ObjectConfig();
+                obj.Init(0, BodyPart.Tail, tail, RobotIndex);
+                Configs.Add(obj);
+            }
         }
 
     }

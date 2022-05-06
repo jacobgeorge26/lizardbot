@@ -40,6 +40,12 @@ public class GenerateRobot : MonoBehaviour
             AIConfig.RobotConfigs[index] = robotConfig;
             DebugConfig.InitRobots.Remove(oldRobot);
         }
+        else if (DebugConfig.UseBestRobots || DebugConfig.UseStoredRobots) //using stored robots
+        {
+            oldRobot = DebugConfig.StoredRobots[AIConfig.RobotConfigs.Count];
+            robotConfig.FreshCopy(oldRobot, oldRobot.Version, AIConfig.RobotConfigs.Count);
+            AIConfig.RobotConfigs.Add(robotConfig);
+        }
         else //new robot
         {
             robotConfig.Original = robotConfig;
@@ -74,7 +80,7 @@ public class GenerateRobot : MonoBehaviour
         if (robotConfig.UniformBody.Value) robotConfig.MakeBodyUniform();
 
         //if old robot exists - this is a respawn - then that can now be deleted
-        if (oldRobot != null)
+        if (oldRobot != null && oldRobot.Object != null)
         {
             if (DebugConfig.IsTotalRespawn) Destroy(oldRobot.Object.transform.parent.gameObject);
             else Destroy(oldRobot.Object.gameObject);
@@ -123,7 +129,7 @@ public class GenerateRobot : MonoBehaviour
                 break;
             }
             int index = legIndexes[Random.Range(0, legIndexes.Count - 1)];
-            legIndexes.Remove(Random.Range(0, legIndexes.Count - 1));
+            legIndexes.Remove(index);
             if (robotConfig.UniformBody.Value)
             {
                 for (int spawnIndex = 0; spawnIndex < NoSpawnPoints; spawnIndex++)

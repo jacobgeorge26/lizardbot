@@ -1,7 +1,7 @@
 //recombination type
 public enum Recombination
 {
-    PhysicalLikeness = 0, MovementLikeness = 1, Triad = 2, Lizard = 3, Random = 4, Any = 5
+    PhysicalLikeness = 0, MovementLikeness = 1, Triad = 2, Lizard = 3, Random = 4, Any = 5, Performance = 6
 }
 
 //mutation type
@@ -12,5 +12,5 @@ public enum Mutation
 
 public enum UIView
 {
-    Robot = 0, Performance = 1
+    Robot = 0, Overview = 1
 }

@@ -14,16 +14,20 @@ public static class GeneticAlgorithm : object
         stuckRobot.IsEnabled = false;
 
         ui ??= UIConfig.UIContainer.GetComponent<UIDisplay>();
+        bool wasActive = stuckRobot.Object.activeSelf;
         //pause stuck robot
         stuckRobot.Object.SetActive(false);
 
-        RobotConfig newRobot;
-        if (!respawnOnly) newRobot = PerformGA(stuckRobot);
-        else newRobot = stuckRobot;
+        if (wasActive)
+        {
+            RobotConfig newRobot;
+            if (!respawnOnly) newRobot = PerformGA(stuckRobot);
+            else newRobot = stuckRobot;
 
-        //respawn
-        Reset(newRobot);
-        newRobot.Object.SetActive(true);
+            //respawn
+            Reset(newRobot);
+            newRobot.Object.SetActive(true);
+        }
     }
 
     private static RobotConfig PerformGA(RobotConfig stuckRobot)
@@ -50,21 +54,28 @@ public static class GeneticAlgorithm : object
 
         if (stuckRobot.RobotIndex == CameraConfig.CamFollow) CameraConfig.Hat.transform.parent = CameraConfig.RobotCamera.transform; //avoid the hat being cloned too
 
+        if (oldRobot.Object == null) oldRobot = stuckRobot; //the object for the old robot has been lost
         ObjectConfig firstObjConfig = null;
-        try { firstObjConfig = oldRobot.Configs.First(); }
-        catch (Exception ex) { GameController.Controller.TotalRespawn(ex.ToString()); return stuckRobot; }
-        GameObject newRobotObj = firstObjConfig.Clone(oldRobot.Object);
+        GameObject newRobotObj;
+        try {          
+            firstObjConfig = oldRobot.Configs.First();
+            newRobotObj = firstObjConfig.Clone(oldRobot.Object);
+        }
+        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), oldRobot); return oldRobot; }     
         RobotConfig newRobot = new RobotConfig(oldRobot.RobotIndex, newRobotObj);
         newRobot = Init(newRobot, oldRobot, newVersion);
 
         //mutate
+        Mutation type = AIConfig.MutationType == Mutation.Any
+            ? (Mutation)Enum.GetValues(typeof(Mutation)).GetValue((int)Random.Range(0, Enum.GetValues(typeof(Mutation)).Length - 1))
+            : AIConfig.MutationType;
         List<Gene> genes = new List<Gene>();
-        if (AIConfig.RecombinationRate > 0 && AIConfig.PopulationSize > 1) genes = Recombine(newRobot, oldRobot);
+        if (AIConfig.RecombinationRate > 0 && AIConfig.PopulationSize > 1) genes = Recombine(newRobot, oldRobot, type);
         else
         {
             genes = GetGenes(newRobot, true);
         }
-        if (AIConfig.MutationRate > 0) Mutate(genes);
+        if (AIConfig.MutationRate > 0) Mutate(genes, type);
 
         UpdateBody(oldRobot, newRobot);
         if (stuckRobot.MutationCount != AIConfig.MutationCycle && stuckRobot.Version != 0)
@@ -88,7 +99,7 @@ public static class GeneticAlgorithm : object
         return newRobot;
     }
 
-    private static List<Gene> Recombine(RobotConfig robot, RobotConfig old)
+    private static List<Gene> Recombine(RobotConfig robot, RobotConfig old, Mutation mutationType)
     {
         Recombination type = AIConfig.RecombinationType == Recombination.Any
             ? (Recombination)Enum.GetValues(typeof(Recombination)).GetValue((int)Random.Range(0, Enum.GetValues(typeof(Recombination)).Length - 1))
@@ -99,6 +110,7 @@ public static class GeneticAlgorithm : object
             Recombination.MovementLikeness => BestMovementRobot(robot),
             Recombination.Triad => BestPhysicalRobot(robot),
             Recombination.Lizard => BestLizardRobot(robot),
+            Recombination.Performance => BestRobot(robot),
             _ => AIConfig.RobotConfigs.Where(r => r.RobotIndex != robot.RobotIndex).ToList()[(int)Random.Range(0, AIConfig.PopulationSize - 2)]
         };
         //if using triad approach then best1 is the physical one, best2 needs to be the movement one
@@ -118,14 +130,15 @@ public static class GeneticAlgorithm : object
             catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), best1); return new List<Gene>(); }
             try { body2 = best2 != null && best2.NoSections.Value > i ? best2.Configs.First(o => o.Type == BodyPart.Body && o.Index == i) : null; }
             catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), best2); return new List<Gene>(); }
-
-            CombineGenes(GetGenes(robot, body), GetGenes(best1, body1), GetGenes(best2, body2), ref newRobotGenes);
+            List<Gene> bodyGenes = FilterGenes(GetGenes(robot, body), mutationType);
+            List<Gene> body1Genes = FilterGenes(GetGenes(best1, body1), mutationType);
+            List<Gene> body2Genes = FilterGenes(GetGenes(best2, body2), mutationType);
+            CombineGenes(bodyGenes, body1Genes, body2Genes, ref newRobotGenes);
         }
         //tail
-        //there are some unnecessary calls to CreateTail in here
         //for some reason very occasionally robots lose their tails
         //it's stumping me - and only crops up here
-        //I've chosen to fix the issue and skip the recombination where necessary
+        //I've chosen to respawn the robot and skip the recombination
         //not ideal, I know
         if (robot.IsTailEnabled.Value)
         {
@@ -133,16 +146,32 @@ public static class GeneticAlgorithm : object
             try { tail = robot.Configs.First(o => o.Type == BodyPart.Tail); }
             catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return new List<Gene>(); }
             try { tail1 = best1 != null && best1.IsTailEnabled.Value ? best1.Configs.First(o => o.Type == BodyPart.Tail) : null; }
-            catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), best1); return new List<Gene>(); }
+            catch (Exception ex) {
+                GameController.Controller.SingleRespawn(ex.ToString(), best1); return new List<Gene>(); 
+            }
             try { tail2 = best2 != null && best2.IsTailEnabled.Value ? best2.Configs.First(o => o.Type == BodyPart.Tail) : null; }
             catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), best2); return new List<Gene>(); }
-
-            CombineGenes(GetGenes(robot, tail), GetGenes(best1, tail1), GetGenes(best2, tail2), ref newRobotGenes);
+            List<Gene> tailGenes = FilterGenes(GetGenes(robot, tail), mutationType);
+            List<Gene> tail1Genes = FilterGenes(GetGenes(best1, tail1), mutationType);
+            List<Gene> tail2Genes = FilterGenes(GetGenes(best2, tail2), mutationType);
+            CombineGenes(tailGenes, tail1Genes, tail2Genes, ref newRobotGenes);
         }
         //robot
-        CombineGenes(GetGenes(robot, false), GetGenes(best1, false), GetGenes(best2, false), ref newRobotGenes);
-        if (type == Recombination.Lizard) CombineBodyColour(robot, best1, best2, ref newRobotGenes);
+        List<Gene> robotGenes = FilterGenes(GetGenes(robot, false), mutationType);
+        List<Gene> best1Genes = FilterGenes(GetGenes(best1, false), mutationType);
+        List<Gene> best2Genes = FilterGenes(GetGenes(best2, false), mutationType);
+        CombineGenes(robotGenes, best1Genes, best2Genes, ref newRobotGenes);
+        if (type == Recombination.Lizard && mutationType != Mutation.Movement) CombineBodyColour(robot, best1, best2, ref newRobotGenes);
         return newRobotGenes;
+    }
+
+    private static List<Gene> FilterGenes(List<Gene> genes, Mutation mutationType)
+    {
+        //trim list if physical / movement limited
+        genes = mutationType == Mutation.Physical ? genes.Where(g => g.Type < 0).ToList() :
+            mutationType == Mutation.Movement ? genes.Where(g => g.Type > 0).ToList() :
+                genes;
+        return genes;
     }
 
     private static void CombineBodyColour(RobotConfig robot, RobotConfig best1, RobotConfig best2, ref List<Gene> newRobotGenes)
@@ -203,11 +232,8 @@ public static class GeneticAlgorithm : object
         }
     }
 
-    private static void Mutate(List<Gene> allGenes)
+    private static void Mutate(List<Gene> allGenes, Mutation type)
     {
-        Mutation type = AIConfig.MutationType == Mutation.Any
-            ? (Mutation)Enum.GetValues(typeof(Mutation)).GetValue((int)Random.Range(0, Enum.GetValues(typeof(Mutation)).Length - 1))
-            : AIConfig.MutationType;
         //trim list if physical / movement limited
         List<Gene> genes = type == Mutation.Physical ? allGenes.Where(g => g.Type < 0).ToList() :
             type == Mutation.Movement ? allGenes.Where(g => g.Type > 0).ToList() :
@@ -266,6 +292,12 @@ public static class GeneticAlgorithm : object
         //return robot with best body colour
         robots.OrderBy(r => r.BodyColour);
         return robots.Count > 0 ? robots.First() : null;
+    }
+
+    private static RobotConfig BestRobot(RobotConfig robot)
+    {
+        List<RobotConfig> robots = robot.GetPerformingRobots();
+        return robots.Count > 0 ? robots[(int)Random.Range(0, robots.Count - 1)] : null;
     }
 
     private static RobotConfig BestMovementRobot(RobotConfig robot)
@@ -447,16 +479,38 @@ public static class GeneticAlgorithm : object
                 newRobot.AverageRestOfLegs(newLeg);
             }
         }
+        //TODO fix this
+        //this is currently a workaround as I don't have time to debug why the legs aren't always added/removed to match NoLegs
+        List<ObjectConfig> actualLegs = newRobot.Configs.Where(o => o.Type == BodyPart.Leg).ToList();
         //are there fewer legs now?
-        for (int i = 0; i < oldRobot.NoLegs.Value - newRobot.NoLegs.Value; i++)
+        for (int i = 0; i < actualLegs.Count() - newRobot.NoLegs.Value; i++)
         {
-            int index = oldRobot.NoLegs.Value - 1 - i;
             ObjectConfig leg = null;
-            try { leg = newRobot.Configs.First(o => o.Type == BodyPart.Leg && o.Index == index); }
-            catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), newRobot); return; }
+            try { leg = actualLegs.Last(); }
+            catch (Exception ex) { 
+                GameController.Controller.SingleRespawn(ex.ToString(), newRobot); return; 
+            }
             newRobot.RemoveLeg(leg);
         }
 
+        List<ObjectConfig> Legs = newRobot.Configs.Where(o => o.Type == BodyPart.Leg).ToList();
+        if (Legs.Count != newRobot.NoLegs.Value)
+        {
+            if (!newRobot.UniformBody.Value) newRobot.NoLegs.Value = Legs.Count;
+            else
+            {
+                if (Legs.Count % 2 != 0)
+                {
+                    newRobot.RemoveLeg(Legs.Last());
+                    Legs.RemoveAt(Legs.Count - 1);
+                }
+                newRobot.NoLegs.Value = Legs.Count;
+            }
+        }
+        if (Legs.Count != newRobot.NoLegs.Value)
+        {
+            Debug.LogWarning("still not working");
+        }
         if (newRobot.UniformBody.Value && !oldRobot.UniformBody.Value) newRobot.MakeBodyUniform();
 
         //update existing configs
@@ -483,7 +537,7 @@ public static class GeneticAlgorithm : object
 
     private static RobotConfig Init(RobotConfig newRobot, RobotConfig oldRobot, int newVersion)
     {
-        newRobot.FreshCopy(oldRobot, newVersion);
+        newRobot.FreshCopy(oldRobot, newVersion, oldRobot.RobotIndex);
         //setup ready to respawn
         newRobot.Object.name = $"Robot {newRobot.RobotIndex + 1} V {newRobot.Version}";
         newRobot.Object.transform.parent = oldRobot.Object.transform.parent;

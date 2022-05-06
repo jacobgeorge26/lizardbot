@@ -1,0 +1,139 @@
+\begin{thebibliography}{}
+
+\bibitem[Bracket, 2022]{texmaker}
+Bracket, P. (2022).
+\newblock Texmaker latex editor 5.1.2.
+\newblock {\em TexMaker}.
+\newblock \\ \url{https://www.xm1math.net/texmaker/} \\ Accessed: 2022-04-12.
+
+\bibitem[Desmos, 2022]{graphs}
+Desmos (2022).
+\newblock Graphing calculator - desmos.
+\newblock {\em Desmos}.
+\newblock \\ \url{https://www.desmos.com/calculator} \\ Accessed: 2022-04-12.
+
+\bibitem[einarro, 2020]{wordCount}
+einarro (2020).
+\newblock Texcount web service (version 3.2.0.41).
+\newblock {\em TeXcount}.
+\newblock \\ \url{https://app.uio.no/ifi/texcount/online.php} \\ Accessed:
+  2022-04-12.
+
+\bibitem[GitHub, 2022]{github}
+GitHub (2022).
+\newblock Github.
+\newblock {\em GitHub, Inc.}
+\newblock \\ \url{https://github.com/} \\ Accessed: 2022-04-12.
+
+\bibitem[Google, 2022]{colab}
+Google (2022).
+\newblock Colaboratory.
+\newblock {\em Google}.
+\newblock \\ \url{https://colab.research.google.com/?utm_source=scs-index} \\
+  Accessed: 2022-04-12.
+
+\bibitem[jgraph, 2022]{drawio}
+jgraph (2022).
+\newblock drawio-desktop.
+\newblock {\em GitHub}.
+\newblock \\
+  \url{https://github.com/jgraph/drawio-desktop/releases/tag/v17.4.2} \\
+  Accessed: 2022-04-12.
+
+\bibitem[matplotlib, 2021]{plt}
+matplotlib (2021).
+\newblock Matplotlib 3.5.1.
+\newblock {\em matplotlib}.
+\newblock \\ \url{https://matplotlib.org/stable/index.html} \\ Accessed:
+  2022-04-12.
+
+\bibitem[NumPy, 2021]{np}
+NumPy (2021).
+\newblock Numpy 1.22.0.
+\newblock {\em NumPy}.
+\newblock \\ \url{https://numpy.org/} \\ Accessed: 2022-04-12.
+
+\bibitem[{NWH Coding}, 2017]{grapher}
+{NWH Coding} (2017).
+\newblock Grapher - graph, replay, log.
+\newblock {\em Unity Asset Store}.
+\newblock \\
+  \url{https://assetstore.unity.com/packages/tools/utilities/grapher-graph-replay-log-84823#description}
+  \\ Accessed: 2022-04-12.
+
+\bibitem[pandas, 2022]{pd}
+pandas (2022).
+\newblock Pandas 1.4.2.
+\newblock {\em pandas}.
+\newblock \\ \url{https://pandas.pydata.org/} \\ Accessed: 2022-04-12.
+
+\bibitem[Seeburger, 2021]{diagrams}
+Seeburger, P. (2021).
+\newblock Calcplot3d.
+\newblock {\em LibreTexts}.
+\newblock \\ \url{https://c3d.libretexts.org/CalcPlot3D/index.html} \\
+  Accessed: 2022-04-11.
+
+\bibitem[Syomus, 2021]{proceduralToolkit}
+Syomus (2021).
+\newblock Proceduraltoolkit.
+\newblock {\em GitHub}.
+\newblock \\ \url{https://github.com/Syomus/ProceduralToolkit} \\ Accessed:
+  2022-04-10.
+
+\bibitem[Unity, 2020]{textmeshPro}
+Unity (2020).
+\newblock Textmeshpro 3.0.6.
+\newblock {\em Unity Technologies}.
+\newblock \\
+  \url{https://docs.unity3d.com/Packages/com.unity.textmeshpro@3.0/manual/index.html}
+  \\ Accessed: 2022-04-12.
+
+\bibitem[Unity, 2021a]{codeCoverage}
+Unity (2021a).
+\newblock Code coverage 1.1.1.
+\newblock {\em Unity Technologies}.
+\newblock \\
+  \url{https://docs.unity3d.com/Packages/com.unity.testtools.codecoverage@1.1/manual/index.html}
+  \\ Accessed: 2022-04-12.
+
+\bibitem[Unity, 2021b]{recorder}
+Unity (2021b).
+\newblock Recorder 2.5.7.
+\newblock {\em Unity Technologies}.
+\newblock \\
+  \url{https://docs.unity3d.com/Packages/com.unity.recorder@2.5/manual/index.html}
+  \\ Accessed: 2022-04-12.
+
+\bibitem[Unity, 2021c]{unity}
+Unity (2021c).
+\newblock Unity 2021.1.10.
+\newblock {\em Unity Technologies}.
+\newblock \\ \url{https://unity3d.com/unity/whats-new/2021.1.10} \\ Accessed:
+  2022-04-12.
+
+\bibitem[Unity, 2022]{testFramework}
+Unity (2022).
+\newblock Unity test framework 1.1.31.
+\newblock {\em Unity Technologies}.
+\newblock \\
+  \url{https://docs.unity3d.com/Packages/com.unity.test-framework@1.1/manual/index.html}
+  \\ Accessed: 2022-04-12.
+
+\bibitem[{Visual Studio}, 2021]{visualStudio}
+{Visual Studio} (2021).
+\newblock Visual studio community 2019 version 16.10.
+\newblock {\em Microsoft}.
+\newblock \\
+  \url{https://docs.microsoft.com/en-us/visualstudio/releases/2019/release-notes-v16.10}
+  \\ Accessed: 2022-04-12.
+
+\bibitem[Yughues, 2021]{metalMaterial}
+Yughues (2021).
+\newblock Yughues free metal materials.
+\newblock {\em Unity Asset Store}.
+\newblock \\
+  \url{https://assetstore.unity.com/packages/2d/textures-materials/metals/yughues-free-metal-materials-12949#description}
+  \\ Accessed: 2022-04-12.
+
+\end{thebibliography}

@@ -76,6 +76,40 @@ namespace Config
             return line;
         }
 
+        internal void SetData(List<string> values)
+        {
+            values.RemoveAt(0); //index
+            AngleConstraint.Value = GetVectorFromData(values[0]);
+            values.RemoveAt(0); //angle constraint
+            RotationMultiplier.Value = GetVectorFromData(values[0]);
+            values.RemoveAt(0); //rotation multiplier
+            IsRotating.Value = Convert.ToBoolean(values[0]);
+            values.RemoveAt(0); //is rotating
+            UseSin.Value = Convert.ToBoolean(values[0]);
+            values.RemoveAt(0); //use sin
+            IsDriving.Value = Convert.ToBoolean(values[0]);
+            values.RemoveAt(0); //is driving
+            DriveVelocity.Value = (float)Convert.ToDouble(values[0]);
+            values.RemoveAt(0); //drive velocity
+            Size.Value = (float)Convert.ToDouble(values[0]);
+            values.RemoveAt(0); //size
+            Mass.Value = (float)Convert.ToDouble(values[0]);
+            values.RemoveAt(0); //mass
+        }
+
+        internal void SetEmptyData(List<string> values)
+        {
+            values.RemoveAt(0); //index
+            values.RemoveAt(0); //angle constraint
+            values.RemoveAt(0); //rotation multiplier
+            values.RemoveAt(0); //is rotating
+            values.RemoveAt(0); //use sin
+            values.RemoveAt(0); //is driving
+            values.RemoveAt(0); //drive velocity
+            values.RemoveAt(0); //size
+            values.RemoveAt(0); //mass
+        }
+
         internal string GetEmptyData(int index)
         {
             string line = "";

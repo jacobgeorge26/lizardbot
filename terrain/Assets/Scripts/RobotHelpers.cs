@@ -20,7 +20,8 @@ public static class RobotHelpers : object
 
         //setup BodyConfig for MoveBody script
         BodyConfig config = new BodyConfig();
-        if (existingBody != null) config.Clone(existingBody.Body);
+        bool x = existingBody is null;
+        if (!(existingBody is null)) config.Clone(existingBody.Body);
 
         ObjectConfig objConfig = head.GetComponent<ObjectConfig>();
         if (objConfig == null) objConfig = head.AddComponent<ObjectConfig>();
@@ -44,7 +45,7 @@ public static class RobotHelpers : object
 
         //setup BodyConfig for MoveBody script
         BodyConfig config = new BodyConfig();
-        if (existingBody != null) config.Clone(existingBody.Body);
+        if (!(existingBody is null)) config.Clone(existingBody.Body);
 
         ObjectConfig objConfig = body.GetComponent<ObjectConfig>();
         if (objConfig == null) objConfig = body.AddComponent<ObjectConfig>();
@@ -75,7 +76,7 @@ public static class RobotHelpers : object
 
         //setup LegConfig for MoveLeg script
         LegConfig config = new LegConfig(prevObj.Index, spawnIndex);
-        if (existingLeg != null) config.Clone(existingLeg.Leg);
+        if (!(existingLeg is null)) config.Clone(existingLeg.Leg);
 
         //setup position & rotation
         robot.SetLegPosition(leg, config, prevBody, prevObj.Body.LegPoints[spawnIndex]);
@@ -111,7 +112,7 @@ public static class RobotHelpers : object
         tail.transform.localPosition = new Vector3(0, 0, robot.GetZPos(lastSection, tail));
 
         TailConfig config = new TailConfig();
-        if (existingTail != null) config.Clone(existingTail.Tail);
+        if (!(existingTail is null)) config.Clone(existingTail.Tail);
 
         //setup config - different defaults for tail
         if (!AIConfig.RandomInitValues)
@@ -378,8 +379,9 @@ public static class RobotHelpers : object
         BodyConfig head;
         try { head = robot.Configs.First(o => o.Type == BodyPart.Body && o.Index == 0).Body; }
         catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
+        List<ObjectConfig> Legs = robot.Configs.Where(o => o.Type == BodyPart.Leg).ToList();
         LegConfig firstLeg = null;
-        try { if(robot.NoLegs.Value > 0) firstLeg = robot.Configs.First(o => o.Type == BodyPart.Leg && o.Index == 0).Leg; }
+        try { if(Legs.Count > 0) firstLeg = robot.Configs.First(o => o.Type == BodyPart.Leg).Leg; }
         catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
         //whole body needs adjusting
         foreach (ObjectConfig objConfig in robot.Configs.Where(o => o.Type == BodyPart.Body && o.Index > 0))
@@ -387,11 +389,15 @@ public static class RobotHelpers : object
             objConfig.Body.Size.Value = head.Size.Value;
             objConfig.Body.Mass.Value = head.Mass.Value;
         }
-        List<ObjectConfig> Legs = robot.Configs.Where(o => o.Type == BodyPart.Leg).ToList();
+        
         foreach (ObjectConfig objConfig in  Legs)
         {
-            if(objConfig.Index > 0) objConfig.Leg.Length.Value = firstLeg.Length.Value;
-            if(objConfig.Index > 0) objConfig.Leg.Mass.Value = firstLeg.Mass.Value;
+            try
+            {
+                if (objConfig.Leg != firstLeg) objConfig.Leg.Length.Value = firstLeg.Length.Value;
+                if (objConfig.Leg != firstLeg) objConfig.Leg.Mass.Value = firstLeg.Mass.Value;
+            }
+            catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return; }
         }
         robot.MakeLegsSymmetrical(Legs);
     }
@@ -631,6 +637,14 @@ public static class RobotHelpers : object
         return nearby;
     }
 
+    internal static List<RobotConfig> GetPerformingRobots(this RobotConfig robot)
+    {
+        List<RobotConfig> performing = AIConfig.RobotConfigs.Where(r =>
+            r.RobotIndex != robot.RobotIndex && r.Object.activeSelf && r.IsEnabled).OrderByDescending(r => r.Performance).ToList();
+        int selection = Math.Min(AIConfig.PopulationSize, AIConfig.SelectionSize);
+        return performing.Take(selection).ToList();
+    }
+
     //get all robots that are physically similar, within a set accepted range of difference
     internal static List<RobotConfig> GetPhysicallySimilarRobots(this RobotConfig robot, int difference)
     {
@@ -643,28 +657,30 @@ public static class RobotHelpers : object
             Math.Abs(r.NoLegs.Value - robot.NoLegs.Value) <= difference &&
             r.IsTailEnabled.Value == robot.IsTailEnabled.Value &&
             r.UniformBody.Value == robot.UniformBody.Value &&
+            r.Object.activeSelf &&
             r.IsEnabled).ToList();
         //remove those whose tail is very different
-        //allowed difference = (max - min) / 10 * difference
-        if (robot.IsTailEnabled.Value)
-        {
-            TailConfig tail = null;
-            try { tail = robot.Configs.First(o => o.Type == BodyPart.Tail).Tail; }
-            catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return null; }
+        //taking this out for now - don't think it's necessary now that legs have been added
+        ////allowed difference = (max - min) / 10 * difference
+        //if (robot.IsTailEnabled.Value)
+        //{
+        //    TailConfig tail = null;
+        //    try { tail = robot.Configs.First(o => o.Type == BodyPart.Tail).Tail; }
+        //    catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); return null; }
             
-            float allowedDifference = (tail.TailMassMultiplier.Max - tail.TailMassMultiplier.Min) * (difference + 1) / 10;
-            for (int i = similar.Count - 1; i >= 0; i--)
-            {
-                TailConfig otherTail = null;
-                try { otherTail = similar[i].Configs.First(o => o.Type == BodyPart.Tail).Tail; }
-                catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); similar.Clear(); return null; }
+        //    float allowedDifference = (tail.TailMassMultiplier.Max - tail.TailMassMultiplier.Min) * (difference + 1) / 10;
+        //    for (int i = similar.Count - 1; i >= 0; i--)
+        //    {
+        //        TailConfig otherTail = null;
+        //        try { otherTail = similar[i].Configs.First(o => o.Type == BodyPart.Tail).Tail; }
+        //        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robot); similar.Clear(); return null; }
                 
-                if (Math.Abs(otherTail.TailMassMultiplier.Value - tail.TailMassMultiplier.Value) > allowedDifference)
-                {
-                    similar.RemoveAt(i);
-                }
-            }
-        }
+        //        if (Math.Abs(otherTail.TailMassMultiplier.Value - tail.TailMassMultiplier.Value) > allowedDifference)
+        //        {
+        //            similar.RemoveAt(i);
+        //        }
+        //    }
+        //}
 
         return similar;
     }
@@ -679,6 +695,7 @@ public static class RobotHelpers : object
             r.RobotIndex != robot.RobotIndex &&
             r.MaintainSerpentine.Value == robot.MaintainSerpentine.Value &&
             r.MaintainGait.Value == robot.MaintainGait.Value &&
+            r.Object.activeSelf &&
             r.IsEnabled).ToList();
         float thisDriveVelocity = 0;
         if(similar.Count > 0)
@@ -696,7 +713,6 @@ public static class RobotHelpers : object
         for (int i = similar.Count - 1; i >= 0; i--)
         {
             //how different is the drive velocity (zero if not driving, to take into account no of driving sections)
-            //how different are the rotation multipliers
             List<ObjectConfig> bodyObjects = similar[i].Configs.Where(o => o.Type == BodyPart.Body).ToList();
             List<BodyConfig> body = new List<BodyConfig>();
             bodyObjects.ForEach(o => body.Add(o.Body));
@@ -715,10 +731,10 @@ public static class RobotHelpers : object
     //uses the distance the robot has travelled from the spawn
     //multiplied by the speed of the robot
     //subtract any penalties
-    internal static float SetPerformance(this RobotConfig robot)
+    internal static float SetPerformance(this RobotConfig robot, Transform transform)
     {
         //get current location and spawn point
-        Vector3 currentLocation = robot.Object.transform.position;
+        Vector3 currentLocation = transform.position;
         Vector3 spawnPoint = TerrainConfig.GetSpawnPoint(robot.RobotIndex);
         //how far has the robot travelled (magnitude)
         float currentPerformance = Vector3.Distance(currentLocation, spawnPoint);

@@ -32,9 +32,16 @@ namespace Config
 
         public static bool LogRobotData = true;
 
-        public static bool LogAIData = false;
+        public static bool LogAIData = true;
 
         public static RobotConfig BestRobot;
+
+        //either or between best or stored
+        public static bool UseBestRobots = false;
+
+        public static bool UseStoredRobots = false;
+
+        public static List<RobotConfig> StoredRobots = new List<RobotConfig>();
 
         //grapher
 
@@ -69,6 +76,21 @@ namespace Config
             line += $"{AIConfig.MutationType}, ";
             line += $"{AIConfig.SelectionSize}, ";
             return line;
+        }
+
+        //can be reduced to a for loop but wanted more visibility as there isn't currently validation
+        public static void SetData(List<string> values)
+        {
+            values.RemoveAt(0); //attempt
+            values.RemoveAt(0); //population size
+            values.RemoveAt(0); //random init values
+            values.RemoveAt(0); //sensitivity
+            values.RemoveAt(0); //mutation cycle
+            values.RemoveAt(0); //recombination rate
+            values.RemoveAt(0); //recombination type
+            values.RemoveAt(0); //mutation rate
+            values.RemoveAt(0); //mutation type
+            values.RemoveAt(0); //selection size
         }
     }
 }

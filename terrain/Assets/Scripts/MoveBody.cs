@@ -58,7 +58,18 @@ public class MoveBody : MonoBehaviour
     //rotate this body section
     private void Rotate()
     {
-        Vector3 currentAngle = GetRelativeAngle(false);
+        if(robotConfig == null)
+        {
+            try { 
+                robotConfig = AIConfig.RobotConfigs.First(c => c.RobotIndex.Equals(objectConfig.RobotIndex)); 
+            }
+            catch (Exception ex) { GameController.Controller.TotalRespawn(ex.ToString()); return; }
+        }
+
+        Vector3 currentAngle;
+        try { currentAngle = GetRelativeAngle(false); }
+        catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robotConfig); return; }
+        
         Vector3 angleVelocity = new Vector3();
         Vector3 prevSecAngle = new Vector3();
         //determine initial velocity
@@ -67,8 +78,10 @@ public class MoveBody : MonoBehaviour
         {
             GameObject previousSection = prevRotating.Last().gameObject;
             MoveBody prevSecMoveBody = previousSection.GetComponent<MoveBody>();
-            prevSecAngle = prevSecMoveBody.GetRelativeAngle();
-            angleVelocity = prevSecMoveBody.GetVelocity();
+            try { prevSecAngle = prevSecMoveBody.GetRelativeAngle(); }
+            catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robotConfig); return; }
+            try { angleVelocity = prevSecMoveBody.GetVelocity(); }
+            catch (Exception ex) { GameController.Controller.SingleRespawn(ex.ToString(), robotConfig); return; }    
         }
 
         for (int i = 0; i < 3; i++)
@@ -115,8 +128,7 @@ public class MoveBody : MonoBehaviour
     //rounds to int by default as common use of this method is validation about whether to continue turning. 
     public Vector3 GetRelativeAngle(bool round = true)
     {
-        //TODO: investigate occasional error here
-        Vector3 angle = body.rotation.eulerAngles;
+        Vector3 angle = angle = body.rotation.eulerAngles;
 
         //update for range -180 - 180
         angle.x -= Math.Round(angle.x, 0) > 180 ? 360 : 0;

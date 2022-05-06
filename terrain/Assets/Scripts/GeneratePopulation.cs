@@ -50,6 +50,11 @@ public class GeneratePopulation : MonoBehaviour
         UIDisplay ui = UIConfig.UIContainer.gameObject.GetComponent<UIDisplay>();
         if (ui != null && UIConfig.IsUIEnabled) ui.enabled = true;
         else UIConfig.UIContainer.SetActive(false);
+        if (DebugConfig.UseBestRobots || DebugConfig.UseStoredRobots)
+        {
+            DebugConfig.StoredRobots = GetStoredRobots();
+            AIConfig.PopulationSize = DebugConfig.StoredRobots.Count;
+        }
         //generate population, leaving a gap between them
         for (int i = 0; i < AIConfig.PopulationSize; i++)
         {
@@ -127,6 +132,31 @@ public class GeneratePopulation : MonoBehaviour
     void OnDestroy()
     {
         if (performanceWriter != null) performanceWriter.Close();
+    }
+
+    //TODO: this is currently not validating that the values match up - improve this
+    private List<RobotConfig> GetStoredRobots()
+    {
+        List<RobotConfig> robots = new List<RobotConfig>();
+        //TODO put into try catch
+        string path = DebugConfig.UseBestRobots ? GameController.Controller.GetBestRobotPath() : GameController.Controller.GetStoredRobotPath();
+        StreamReader reader = new StreamReader(path);
+        string line;
+        int robotCount = 0;
+        while ((line = reader.ReadLine()) != null)
+        {
+            List<string> values = line.Split(',').ToList();
+            if (int.TryParse(values[0], out _))
+            {
+                DebugConfig.SetData(values);
+                RobotConfig robot = new RobotConfig(robotCount, null);
+                robot.SetData(values);
+                robots.Add(robot);
+                robotCount++;
+            }
+        }
+
+        return robots;
     }
 
 

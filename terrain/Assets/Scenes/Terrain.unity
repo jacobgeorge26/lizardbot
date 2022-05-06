@@ -2102,6 +2102,7 @@ MonoBehaviour:
   BestPerformanceText: {fileID: 0}
   Bodies: []
   Tail: {fileID: 0}
+  Legs: []
 --- !u!1 &1131579135
 GameObject:
   m_ObjectHideFlags: 0
