@@ -1,0 +1,10 @@
+Due to the size of the code project (~3GB) the code is being submitted via OneDrive instead of as a .zip folder. The shared folder can be accessed here:
+https://universityofsussex-my.sharepoint.com/:f:/g/personal/mb791_sussex_ac_uk/EnD5XoCTvwdLhchEYU6pn5sBDZisunB6ibR_r5_-7chDng?e=A9xLj3
+
+Alternatively, the GitHub repo can be accessed here:
+https://github.com/jacobgeorge26/lizardbot
+
+The project consists of a Unity project - the actual code created throughout the project can be found in the Assets/Scripts folder. 
+Within this, there is a Configs folder containing the parameters used by the scripts (e.g. the setup for the GA). These can be adjusted to test the project with an alternative population size, terrain etc.
+
+If you have any questions about the code / any issues accessing it, please do not hesitate to contact me - jacobgeorgebrown@protonmail.com
