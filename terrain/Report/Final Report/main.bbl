@@ -1,12 +1,5 @@
 \begin{thebibliography}{}
 
-\bibitem[Adams, 2022]{mscAdams}
-Adams, M. (2022).
-\newblock Msc adams - the multibody dynamics simulation solution.
-\newblock {\em Hexagon}.
-\newblock \\ \url{https://www.mscsoftware.com/product/adams} \\ Accessed:
-  2022-04-15.
-
 \bibitem[Alexander, 2012]{reptileLocomotion}
 Alexander, R.~M. (2012).
 \newblock Locomotion of reptiles.
@@ -129,14 +122,6 @@ Lappin, A.~K. and Husak, J. (2005).
 \newblock \\ \url{https://www.journals.uchicago.edu/doi/10.1086/432564} \\
   Accessed: 2022-04-14.
 
-\bibitem[Lee, 1976]{timeToCollision}
-Lee, D. (1976).
-\newblock A theory of visual control of braking based on information about
-  time-to-collision.
-\newblock {\em Perception}.
-\newblock \\ \url{https://journals.sagepub.com/doi/10.1068/p050437} \\
-  Accessed: 2022-04-13.
-
 \bibitem[Libby et~al., 2012]{agama}
 Libby, T., Moore, T., Chang-Siu, E., Li, D., Cohen, D., Jusufi, A., and Full,
   R. (2012).
@@ -194,6 +179,15 @@ Thelan, E. and Smith, L. (1994).
 \newblock {\em YouTube}.
 \newblock \\ \url{https://www.youtube.com/watch?v=jOUAIRbrv6s} \\ Accessed:
   2022-04-12.
+
+\bibitem[Wang et~al., 2013]{visualRobot}
+Wang, L., Schmidt, B., and Nee, A. (2013).
+\newblock Vision-guided active collision avoidance for human-robot
+  collaborations.
+\newblock {\em Manufacturing Letters}.
+\newblock \\
+  \url{https://www.sciencedirect.com/science/article/pii/S2213846313000023} \\
+  Accessed: 2022-05-07.
 
 \bibitem[Wedel, 2011]{giraffeNerve}
 Wedel, M. (2011).

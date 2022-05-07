@@ -135,7 +135,7 @@ To simplify the model of the robot it will be constructed of basic shapes. The b
 \end{figure}
 
 \newpage
-\subsubsection{Body Design}
+\subsubsection{Body}
 \label{sec:Body Movement}
 \begin{wrapfigure}[17]{r}{0.3\textwidth}
     \centering
@@ -163,7 +163,7 @@ An alternative solution could be to add additional joints for the legs to increa
 Regardless, other projects, such as the Salamandra Robotica II, have adopted a similar approach with promising results. The Salamandra used - and inspired - the combination of leg rotation and body oscillation \citepmain{salamandra}. The Salamandra is covered in more depth in \ref{sec:Salamandra Robotica II}.
 
 \newpage
-\subsubsection{Tail Design}
+\subsubsection{Tail}
 \label{sec:Tail Movement}
 The motion of the tail will mirror that of the ‘Agama robot’ whereby the tail flicks up quickly in the opposite direction of the trajectory of the body \citepmain{agama}. The focus of this study was for stabilising a robot as it jumped but it is expected that this counterbalancing  will improve the success of the robot. To test this, an experiment will be performed with and without a tail to determine how it impacts the distance the robot is able to cover. 
 \begin{figure}[H]
@@ -172,7 +172,7 @@ The motion of the tail will mirror that of the ‘Agama robot’ whereby the tai
 \caption{An Agama lizard compared to the Agama robot whilst jumping \citep{agama}.}
 \end{figure}
 
-\subsubsection{Leg Design}
+\subsubsection{Legs}
 \label{sec:Leg Movement}
 The approach to the fundamental movement of the legs is inspired by the Salamandra Robotica II \citepmain{salamandra}. Rotating each leg $360^\circ$ in its joint is a simpler mechanism to push the body forward than a biological folding limb. Though the design is somewhat detached from a biological leg, it is hoped that the implementation of a gait will restore a lizardlike motion.\\
 To replicate a lizard's gait, diagonally opposite legs will be accelerated in rhythm with the motion of the body. 
@@ -185,7 +185,7 @@ To replicate a lizard's gait, diagonally opposite legs will be accelerated in rh
 
 \newpage
 \subsection{AI Design}
-\subsubsection{Genetic Algorithm Design}
+\subsubsection{Genetic Algorithm}
 \label{sec:Genetic Algorithm Aims}
 Evolution can be used as a \textit{"method for designing innovative solutions to complex problems"} \citepmain[p. 4]{gaIntro}. Lizardbot aims to emulate the biological evolution of lizards to find optimal solutions among the many thousands of possible robot permutations: a mimicry of natural selection. A genetic algorithm (GA) is a form of artificial intelligence that more closely models the characteristics of natural selection. GAs can be used to \textit{"[abstract] biological evolution"} \citepmain[p. 1]{gaProsCons}, an approach that is aligned with the naturalistic approach sought by Lizardbot . As Xin-She Yang discusses, GAs are also suited to Lizardbot's broader optimisation problem, as they are fit for independent agents operating parallel to each other and for complex problem spaces \citepmain{gaProsCons}. Additionally, Lizardbot is not searching for a global optimum: not all robots in the population are expected to succeed in converging on a solution, and those that do may offer differing solutions. With this freedom, a \textit{"GA will have a good chance of being competitive with or surpassing other "weak" methods"} \citepmain[p. 116]{gaIntro}. However, the parameter values used by the GA can undermine its success: \textit{"inappropriate choice will make it difficult for the algorithm to converge or it will simply produce meaningless results"} \citepmain[p. 2]{gaProsCons}. To mitigate this, the GA will undergo hyperparameter tuning to determine suitable values.\\
 
@@ -206,7 +206,7 @@ For this project, the desirable trait is the body colouration as it is for spiny
 
 The genetic algorithm aims to optimise the parameters of Lizardbot and, once an optimal robot has been found, could be removed from the project. It has no impact on the behaviour of the robot mid-generation in reaction to specific circumstances.
 
-\subsubsection{Dynamic Movement Design}
+\subsubsection{Dynamic Movement}
 \label{sec:DST Aims}
 \begin{wrapfigure}{r}{0.3\textwidth}
     \centering
@@ -226,7 +226,7 @@ This relationship can be argued as both advantageous for Lizardbot, and a potent
 
 
 \newpage
-\subsection{Terrain Generation}
+\subsection{Terrain Design}
 \label{sec:Terrain Generation}
 Three terrains will be generated to test the robot in increasingly difficult environments. The terrains will be randomly generated once and then stored and used as a control variable in experiments. The terrain types $[Smooth, Uneven, Rough]$ are inspired by those used to test the Octopus robot \citepmain{octopusRobot}, as they demonstrate the efficacy of a robot in increasingly difficult test scenarios. For Lizardbot, they will also show how generalised evolved solutions are to new environments. \\
 
@@ -274,55 +274,43 @@ Evolution Gym likewise employed a (much simpler) genetic algorithm. Evolution wa
 \newpage
 \section{Requirements Analysis}
 \label{sec:Requirements Analysis}
-%TODO expand here. 
-%Not knowing the applications isn't necessarily a weakness
-%Requirements are about flexibility and reusability of the approach
-%
-It is difficult to predict what the specific applications of this project would be and what range of possible constraints they may have. Are elements of the physical design restricted? What kind of terrain is the robot going to be placed in? Are there other factors that need to be accounted for (gravity or bodies of water, for example)? This project is designed to be broad such that it can be adapted for a narrower use case. It lays the groundwork for research tailored to creating a robot for bomb disposal, planet exploration, or even a robot hoover that can handle stairs!
-The features that a target system would include are outlined here, split into functional and non-functional elements.
+It is difficult to predict what the specific applications of this project would be and what range of possible constraints they may have. Are elements of the physical design restricted? What kind of terrain is the robot going to be placed in? Are there other factors that need to be accounted for (gravity or bodies of water, for example)? This project is designed to be broad such that it can be adapted for a narrower use case. The requirements focus on flexibility and reusability of Lizardbot to lay the groundwork for future research. Lizardbot could be tailored to create a robot for bomb disposal, planet exploration, or even a robot hoover that can handle stairs!
+The features that a target system would include are outlined here, divided into those that are feasible and those that form a limitation of Lizardbot.
 
 \subsection{Functional Requirements}
 \label{sec:Functional Requirements}
 \subsubsection{Realistic Physics}
 \label{sec:Realistic Physics}
-%TODO refer to evolution gym here - what decisions did they make
-%TODO the point of this one is to allow the results to be translateable to the real world - such that modelling provides a realistic outcome
-To achieve a suitable performance function, the robot will need to interact realistically with the terrain around it. If it were to remain on a ledge in a precarious position that any physical robot would have immediately fallen off then this is not a realistic model. 
-This need was a significant factor in the decision to use Unity, as opposed to other modelling software such as MSC Adams \citepmain{mscAdams}. It is expected that collisions and gravity will be accurately modelled, with credit to Unity.
+The robot will need to interact realistically with the terrain around it such that the results are translateable to a real world scenario. If it were to remain on a ledge in a precarious position that any physical robot would have immediately fallen off then this is not a realistic model. Evolution Gym similarly sought a realistic physics engine to accurately represent the forces acting on their robot model \citepmain{evolutionGym}. They opted for a mass-spring dynamics system, whereas Lizardbot will adopt a rigid body dynamics system via the Unity Physics \citepcode{physics}. This is an advanced system that is expected to model collisions and gravity to a high degree of accuracy. 
 
 
 \subsubsection{Transferable Design}
 \label{sec:Transferable Design}
-%TODO which constraints did other robots face - I think my interim had a sentence along those lines
-It would be beneficial for target users applying Lizardbot to a physical robot if there were a direct correlation between the physical structure of a robot and the model it were derived from. Lizardbot has a vague shape but the underlying structure would be transferable to a blueprint for a robot. The model will deliberately use realistic constraints to avoid outcomes that cannot be replicated (for example, the maximum degrees of freedom will be bound).
+It would be beneficial for target users applying Lizardbot to a physical robot if there were a direct correlation between the physical structure of a robot and the model it were derived from.  Lizardbot has a vague shape but the underlying structure would be transferable to a blueprint for a robot. The model will deliberately use realistic constraints to avoid outcomes that cannot be replicated (for example, the maximum degrees of freedom will be bound).
 
-\subsubsection{Collision Damage Reduction}
+\subsubsection{Collision Avoidance}
 \label{sec:Risk Reduction}
-%TODO find an example of collision avoidance / visual system
-Regardless of its purpose, any user will want their robot to avoid behaviour that risks damage. This function can be somewhat achieved by having the AI predict the upcoming terrain and proactively decide how it will navigate it. The AI will introduce a bias toward robots that minimise their collision force: by avoiding collisions and falls, the largest risks can be reduced. \\
-Additionally, the model could approach this objective via the visual system that has been established as a possible extension to the AI.
+Regardless of its purpose, any user will want their robot to avoid behaviour that risks damage. This function can be somewhat achieved by having the AI predict the upcoming terrain and proactively decide how it will navigate it. The AI should introduce a bias toward robots that minimise their collision force: by avoiding collisions and falls, the largest risks can be reduced. \\
+Additionally, the model could approach this objective via the visual system that has been established as a possible extension to the AI. The work of Lihui Wang \citepmain{visualRobot} demonstrated the success of such a system: a vision sensor relayed information about potential incoming collisions such that they could be avoided. These early reactions prevented the need for more dramatic responses during active collisions.
 
-\subsubsection{Effective AI}
+\subsubsection{Functional AI}
 \label{sec:Effective AI}
-%TODO find some research into how to measure the performance of a robot
-It is important that the AI is capable of evolving an input population to a higher performing one over time. The constraints placed on it may limit its success; nonetheless it should display an upward trend.\\ The AI should minimise bias towards certain physical structures or behaviours to allow for more freedom in the resultant robots. 
+It is important that the AI is capable of evolving an input population to a higher performing one over time. The constraints placed on it may limit its success; nonetheless it should display an upward trend.\\ The AI should implement a suitable performance metric that does not introduce unnecessary bias towards certain physical structures or behaviours to allow for more freedom in the resultant robots. Over time, it should demonstrate an improved performance in the overall population, translating to robots successfully navigating further across the terrain than their predecessors. 
 
 \subsubsection{Dynamic Movement}
 \label{sec:Dynamic Movement Req}
-%TODO recycle some previous arguments here
-It would be advantageous for the user if Lizardbot were able to 'learn' from prior behaviour and reactivate this to explore farther across terrains. Dynamic movement aims to address this requirement and is predicted to provide a drastic improvement on the performance of a population.
+It would be advantageous for the user if Lizardbot were able to 'learn' from prior behaviour and reactivate this to explore farther across terrains. Dynamic movement aims to address this requirement by implementing a 'partial program' approach \citepmain{mindware} to add a dynamic element above the fundamental movement algorithms. The dynamic movement should determine which inputs resulted in a motion in a given direction, using these same inputs to progress the robot across the terrain. This is predicted to provide a drastic improvement on the performance of a population.
 
 \subsubsection{Multiple Terrains}
 \label{sec:Multiple Terrains}
-%TODO recycle some previous arguments here
-The robots evolved by the AI should show a similar performance when placed into a new terrain, to demonstrate that their motion is optimised for a range of environments as opposed to simply the one they were trained in.
+The robots evolved by the AI should show a similar performance when placed into a new terrain, to demonstrate that their motion is optimised for a range of environments as opposed to simply the one they were trained in. The importance of testing across increasingly complex surfaces was highlighted by the Octopus robot \citepmain{octopusRobot}. Additionally, the inclusion of a featureless terrain will provide insight into the role that the environment has on the emergent behaviour. 
 
 \subsection{Project Limitations}
 \label{sec:Non-functional Requirements}
 \subsubsection{Physical Testing}
 \label{sec:Physical Testing}
-A model is excellent for testing theories but can overlook the 'real physics' that becomes apparent when building a physical robot. For example, the modular snake robot needed to ensure that the robot had \textit{“enough space for installing the joint driving mechanism and the circuit modules”} \citepmain[p. 450]{modularRobotBackground}. \\
-Unfortunately, building a physical robot would require time and expensive resources. It will not be possible to test the model’s performance on an actual robot. This will hopefully be compensated for by having a realistic physics system and a model whose design is directly transferable to the blueprint for a robot.
+A model is excellent for testing theories but can overlook the 'real physics' that becomes apparent when building a physical robot. For example, the modular snake robot needed to ensure that the robot had \textit{“enough space for installing the joint driving mechanism and the circuit modules”} \citepmain[p. 450]{modularRobotBackground}.
+Unfortunately, building a physical robot would require time and expensive resources. It will not be possible to test the performance  on an actual robot. This will hopefully be compensated for by having a realistic physics system and a model whose design is directly transferable to the blueprint for a robot.
 
 \subsubsection{Customisable Input}
 \label{sec:Customisable Input}
@@ -335,7 +323,7 @@ The current expectation is that the user will require some knowledge of Unity to
 \newpage
 \section{Implementation}
 \label{sec:Implementation}
-\subsection{Terrain}
+\subsection{Terrain Generation}
 \label{sec:Terrain Imp}
 Three terrains were generated using Procedural Toolkit \citepsoft{proceduralToolkit} to test the performance of the robot across various environments: rough, uneven, and smooth. It is worth noting that the three terrains do share some common properties (gravity, for example) and these factors may introduce bias in the AI. For proof of concept the sample set of terrains is sufficient.\\
 \begin{figure}[H]
@@ -349,7 +337,7 @@ Three terrains were generated using Procedural Toolkit \citepsoft{proceduralTool
 At one point the height of the terrain was proportional to the number of sections of the robot, a similar method to that of the Octopus robot \citepmain{octopusRobot}. However, as the terrain is a control variable the heights were switched to a static value: $Smooth=8, Uneven=16, Rough=24$. Overall, the rougher the terrain, the higher and more closed in it is. Most of the development of the robot was conducted on the smooth and uneven terrains, as the rough terrain aims to provide a more extreme environment with which to test the efficacy of the AI.\\
 
 
-\subsection{Robot}
+\subsection{Robot Implementation}
 \label{sec:Robot Imp}
 \subsubsection{Body}
 \label{sec:Body Imp}
@@ -364,7 +352,7 @@ $\overrightarrow{v_{i}} = \overrightarrow{v_{i-1}} + \frac{n}{2}\overrightarrow{
 \end{center}
 
 \noindent Lizardbot utilises the same equation to calculate the velocity as the multi-link snake robot but with one distinction: Dear’s robot split the velocity vector into its axes, using cos for the x axis and sin for the y. Lizardbot instead calculates the vector as a whole and alternates the rotating sections between sin ($S$) and cos ($C$) to produce the serpentine motion. For robots with serpentine motion disabled, $S$ and $C$ will be assigned randomly to the $m$ rotating modules (where $m \leq n$).\\
-
+\newpage
 \noindent The value of $w$ will be calculated using $S$ or $C$ as specified.\\
 \begin{center}
 \begin{Large}
@@ -459,7 +447,7 @@ $v_{i} = g(P_{i + 1} - P_{i})$
 Currently the resultant leg motion is a lot of twitching. It is possible that an alternative joint mechanism would allow for Lizardbot to stand on its legs and appear more natural. It would also be interesting to explore how the location of the legs impacts the robot as a whole. Currently the attachment points are based on lizards (indeed, most animals) and the years of evolution that have led to their structure. However, the offer of more variety in the design of the robot may offer alternative solutions to navigate the terrain. 
 
 
-\subsection{Artifical Intelligence}
+\subsection{Artifical Intelligence Implementation}
 \label{sec:AI Imp}
 A population of Lizardbots uses a genetic algorithm (GA) to "evolve" over a series of generations. The aim of this GA is to improve the performance of the robots over time. The GA is performed when a robot is declared to be stuck by the trapped algorithm. 
 

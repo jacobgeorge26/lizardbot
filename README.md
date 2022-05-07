@@ -1,3 +1,3 @@
-# lizardbot
+Lizardbot aims to provide a solution derived from natural processes for robots traversing irregular environments. Unity software was used to create a model of these robots with realistic physics interaction. The design combined a serpentine motion of the body, the use of a tail for stabilisation, and a lizardlike gait. An AI sought an optimal design by evolving the robots, mutating the physical structure and movement algorithms in tandem. Lizardbot was able to find an optimisation on the less extreme terrains: a single spherical body module with emergent rolling behaviour. Lizardbot demonstrated that a nature-inspired algorithm will not necessarily produce a naturalistic result.
 
 Using Unity version 2021.1.10f1 available [here](https://unity3d.com/unity/whats-new/2021.1.10)

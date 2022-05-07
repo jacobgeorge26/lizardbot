@@ -181,6 +181,14 @@ tomvds (2008).
   \url{https://forum.unity.com/threads/euler-quaternions-radians-degrees-huh.53407/}
   \\ Accessed: 2022-04-11.
 
+\bibitem[Unity, 2018]{physics}
+Unity (2018).
+\newblock Introduction to unity physics.
+\newblock {\em Unity Documentation}.
+\newblock \\
+  \url{https://docs.unity3d.com/Packages/com.unity.physics@0.0/manual/index.html}
+  \\ Accessed: 2022-05-07.
+
 \bibitem[Unity, 2019]{jointsDocs}
 Unity (2019).
 \newblock Joints.
